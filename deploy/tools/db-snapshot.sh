@@ -20,6 +20,7 @@ release="$(psql "$url" -Atc "select release_id from active_product_release limit
     --exclude-table-data=correction_report \
     --exclude-table-data=profile_analytics_event \
     --exclude-table-data=mcp_feedback \
+    --exclude-table-data=mcp_call_note \
     --exclude-table-data=product_event \
     --exclude-table-data=agency_opt_out \
     --exclude-table-data=site_feedback \

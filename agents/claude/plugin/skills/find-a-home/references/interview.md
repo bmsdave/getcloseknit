@@ -22,7 +22,7 @@ People name places loosely: "KX", "Kings X", "TCR", "Liverpool St", "E&C", "ally
 "Shepherds Bush", "the Google office at King's Cross". Never make the user repeat a place in an
 official spelling.
 
-- Pass what they said to `search_places` first: it ignores case, apostrophes, "&"/"and",
+- Send what they said to `search_places` first: it ignores case, apostrophes, "&"/"and",
   "St"/"Saint", plural *s* and words like "station" or "tube", and knows common codes and
   nicknames (KX, TCR, LST, LBG, CHX, E&C, CW, HBI, ally pally…).
 - Still nothing? Expand it yourself and try again: spell out the abbreviation, drop the
@@ -37,7 +37,7 @@ official spelling.
 
 Ask early: "Where do you go regularly — work, a gym, school, friends? And do you need a park or
 cafés nearby?" Each answer becomes a place in `find_areas.places`: pin specific places (resolve
-them with `search_places` and pass latitude/longitude), use `category` for "any park / café /
+them with `search_places` and send latitude/longitude), use `category` for "any park / café /
 supermarket / GP". Set `max_minutes` from their words ("10 minutes' walk", "under half an hour
 by tube"), `importance` from how much they care, and `must` only for real deal-breakers. Minutes
 are straight-line estimates until door-to-door routes arrive — say "about".

@@ -26,7 +26,7 @@ LISTING = """\
 3015; 2606 283600 CONSTRAINT public property property_pkey close_knit
 """
 
-KEPT = ("property_objection", "correction_report", "profile_analytics_event", "access_invite", "mcp_feedback", "product_event",
+KEPT = ("property_objection", "correction_report", "profile_analytics_event", "access_invite", "mcp_feedback", "mcp_call_note", "product_event",
         "agency_opt_out", "site_feedback")
 
 

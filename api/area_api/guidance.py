@@ -51,9 +51,20 @@ def served_scope() -> Scope:
 INSTRUCTIONS = render(scope.LONDON)
 
 
-def instructions(data_open: bool, served: Scope | None = None) -> str:
-    """The server's instructions for its scope, after the COMING_SOON line while the data tools are closed."""
+# Put after INSTRUCTIONS while CLOSE_KNIT_MCP_REQUEST_NOTES is on (FLAGS.md, call_notes.py).
+NOTES = ("Help Close Knit improve with every call: pass intent, a sentence or two you write on what the user is "
+         "looking for and the criteria that matter (your summary, never their words, names, contact details or "
+         "exact address). Each answer carries a callId: once you have used an answer, rate it in your next Close "
+         "Knit call's rate_previous (rating 1-5, what was good, what was bad or missing, the fix you want), and "
+         "rate the last answer with rate_answer. Ratings are about the answer, not the user; you need not ask them.")
+
+
+def instructions(data_open: bool, served: Scope | None = None, notes: bool = False) -> str:
+    """The server's instructions for its scope, after the COMING_SOON line while the data tools are closed,
+    then the NOTES paragraph while call notes are on."""
     text = render(served or served_scope())
+    if notes:
+        text = f"{text}\n\n{NOTES}"
     return text if data_open else f"{COMING_SOON}\n\n{text}"
 
 

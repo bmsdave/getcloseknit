@@ -8,7 +8,7 @@ set -euo pipefail
 # opt-in analytics). The snapshot carries their definitions but never their
 # rows; once they exist on the target, a restore must not drop and recreate
 # them, or every confirmed "hide my home" request would be lost.
-PRODUCTION_ONLY_TABLES="property_objection correction_report profile_analytics_event access_invite mcp_feedback product_event agency_opt_out site_feedback"
+PRODUCTION_ONLY_TABLES="property_objection correction_report profile_analytics_event access_invite mcp_feedback mcp_call_note product_event agency_opt_out site_feedback"
 
 # filter_list <tables...>: read a `pg_restore -l` list on stdin and drop
 # extension entries plus every entry belonging to the named tables (the table,

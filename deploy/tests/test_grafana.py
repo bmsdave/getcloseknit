@@ -10,7 +10,7 @@ DEPLOY = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("grafana_dashboards", DEPLOY / "tools" / "grafana_dashboards.py")
 grafana_dashboards = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(grafana_dashboards)
-USAGE_TABLES = {"product_event", "profile_analytics_event", "mcp_feedback", "site_feedback"}
+USAGE_TABLES = {"product_event", "profile_analytics_event", "mcp_feedback", "mcp_call_note", "site_feedback"}
 # Public place names, granted by migration 052 so areas show by name.
 READABLE_TABLES = USAGE_TABLES | {"area_label"}
 
@@ -53,8 +53,9 @@ class DashboardTests(unittest.TestCase):
 class AccessTests(unittest.TestCase):
     def test_the_role_is_read_only_and_granted_the_usage_tables_only(self):
         sql = (DEPLOY / "migrations" / "050-analytics-reader.sql").read_text()
-        # Later production-only tables grant the role in their own migration (053 site_feedback).
-        later = (DEPLOY / "migrations" / "053-site-feedback.sql").read_text()
+        # Later production-only tables grant the role in their own migration (053 site_feedback, 130 mcp_call_note).
+        later = "".join((DEPLOY / "migrations" / name).read_text()
+                        for name in ("053-site-feedback.sql", "130-mcp-call-note.sql"))
         grants = re.findall(r"GRANT SELECT ON ([^;]+) TO close_knit_analytics", sql + later)
         self.assertEqual({table.strip() for grant in grants for table in grant.split(",")}, USAGE_TABLES)
         self.assertIn("default_transaction_read_only = on", sql)

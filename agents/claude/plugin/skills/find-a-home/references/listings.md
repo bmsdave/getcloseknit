@@ -18,7 +18,7 @@ public portal pages, and use Close Knit to judge them.
 4. For each promising listing with a full postcode: `assess_listing(postcode, asking_price,
    bedrooms, floor_area_sqm if stated, tenure, listing_url)`. Present a compact table: price,
    beds, postcode, verdict (below / in line / above local prices), one line of why, and the link.
-5. Pass on the `questions` from `assess_listing` for the user's favourite — those are what to ask
+5. Share the `questions` from `assess_listing` for the user's favourite — those are what to ask
    the estate agent (lease length, service charge, EWS1, EPC).
 
 ## Also check estate agents directly

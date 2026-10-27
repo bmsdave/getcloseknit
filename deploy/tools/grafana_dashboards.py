@@ -222,6 +222,14 @@ def agents() -> dict:
         table("Feedback from assistants", """SELECT created_at AS "when", kind, rating, array_to_string(tools, ', ') AS tools, client, message
               FROM mcp_feedback WHERE $__timeFilter(created_at) ORDER BY created_at DESC LIMIT 50""",
               10, 22, 14, 8, "send_feedback items: about the product, contact details removed before storing."),
+        table("Requests and ratings from agents", """SELECT created_at AS "when", tool, client, ok, intent, rating, bad, fix, good
+              FROM mcp_call_note WHERE $__timeFilter(created_at) AND (intent IS NOT NULL OR rating IS NOT NULL)
+              ORDER BY created_at DESC LIMIT 100""",
+              0, 30, 18, 10, "CLOSE_KNIT_MCP_REQUEST_NOTES: the agent's intent for a call and its rating of the answer."),
+        table("Ratings by tool", """SELECT tool, count(rating) AS rated, count(*) AS calls, round(avg(rating), 1) AS "avg rating",
+              count(*) FILTER (WHERE rating <= 2) AS "rated 1-2" FROM mcp_call_note WHERE $__timeFilter(created_at)
+              GROUP BY 1 ORDER BY calls DESC""",
+              18, 30, 6, 10, "Agents' 1-5 ratings of answers (rate_previous, rate_answer)."),
     ]
     return dashboard("close-knit-agents", "Close Knit · Claude and agents",
                      "MCP and agent API use: tools, conversations, errors, click-outs and feedback.", p, "now-30d")

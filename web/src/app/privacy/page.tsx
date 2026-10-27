@@ -161,7 +161,7 @@ export default function PrivacyPage() {
         <p>
           Property data lives as long as the data release it belongs to is served; releases are
           immutable and replaced, not edited. Objections are kept while they are active so the home
-          stays hidden across releases; hide requests never confirmed are deleted after 30 days. Correction reports are kept until resolved; feedback sent by an assistant or from the site for 12 months; usage events for 180 days. Web server and
+          stays hidden across releases; hide requests never confirmed are deleted after 30 days. Correction reports are kept until resolved; feedback sent by an assistant or from the site for 12 months; assistants' call notes and ratings for 90 days; usage events for 180 days. Web server and
           container logs hold IP addresses for up to 30 days for abuse prevention, then are
           deleted.
         </p>
@@ -224,6 +224,13 @@ export default function PrivacyPage() {
           and group one conversation&apos;s calls under a one-way tag, never its content. Listing links an
           assistant gives you pass through Close Knit&apos;s /go address, which counts the visit and opens
           the portal.
+        </p>
+        <p data-testid="privacy-agent-notes">
+          Assistants can also add a sentence or two of their own on what you are looking for with a call
+          (for example &quot;2-bed rental near King&apos;s Cross, quiet streets&quot;) and rate how useful each
+          answer was. We ask them to summarise, not to copy your words, and to leave out names, contact
+          details and exact addresses; we remove e-mail addresses, phone numbers and full postcodes before
+          storing it. We keep these notes for 90 days to improve the answers, then delete them.
         </p>
         <p data-testid="privacy-agent-feedback">
           With your agreement, an assistant such as Claude can send us feedback about how the tools

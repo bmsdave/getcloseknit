@@ -153,6 +153,8 @@ services:
       CLOSE_KNIT_SCHOOL_LINKS_LOCRATING: ${CLOSE_KNIT_SCHOOL_LINKS_LOCRATING:-}
       # Open /mcp tools answer "coming soon" unless this is "1" (never follows CLOSE_KNIT_ACCESS).
       CLOSE_KNIT_MCP_DATA: ${CLOSE_KNIT_MCP_DATA:-}
+      # "1": /mcp tools take intent + rate_previous and answers carry a callId (call_notes.py, FLAGS.md).
+      CLOSE_KNIT_MCP_REQUEST_NOTES: ${CLOSE_KNIT_MCP_REQUEST_NOTES:-}
       # RFC 8594 Sunset of the deprecated field names (YYYY-MM-DD; unset: no Sunset header). RELEASE-CHECKLIST.md 6zm.
       CLOSE_KNIT_ALIAS_SUNSET: ${CLOSE_KNIT_ALIAS_SUNSET:-}
     ports: ["127.0.0.1:8080:8080"]

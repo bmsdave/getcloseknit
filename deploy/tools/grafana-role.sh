@@ -13,4 +13,4 @@ password="$(sed -n 's/^CLOSE_KNIT_GRAFANA_DB_PASSWORD=//p' .env | tail -1)"
 printf "ALTER ROLE close_knit_analytics LOGIN PASSWORD '%s';\n" "$password" \
     | docker compose -f docker-compose.yml -f "$overlay" exec -T database \
         psql -q -v ON_ERROR_STOP=1 -U close_knit -d close_knit
-echo "grafana-role: close_knit_analytics can log in (read-only: product_event, profile_analytics_event, mcp_feedback, site_feedback)"
+echo "grafana-role: close_knit_analytics can log in (read-only: product_event, profile_analytics_event, mcp_feedback, mcp_call_note, site_feedback)"

@@ -149,6 +149,21 @@ first action. They are not analytics: people choose to send them, so they are st
 kept 12 months. Read it on the **Close Knit · Feedback** dashboard or with
 `deploy/tools/feedback.sh web list`. Design: [the spec](superpowers/specs/2026-10-14-user-feedback-design.md).
 
+## Agent call notes
+
+Behind `CLOSE_KNIT_MCP_REQUEST_NOTES` (FLAGS.md). Every `/mcp` tool except `send_feedback` takes two
+optional parameters: `intent`, the agent's own one-to-three-sentence summary of what the user wants
+from the call, and `rate_previous`, its 1-5 rating of an earlier answer by that answer's `callId`
+(with what was good, what was bad or missing and the fix it wants). `rate_answer` rates the last
+answer of a conversation; the server instructions ask agents to do both on every call, without
+asking the user, since a rating describes the answer. A bad rating never fails the call it rides on.
+Table `mcp_call_note` (migration 130), one row per call, kept 90 days; contact details and full
+postcodes are removed before storing. It has no IP or user agent, only the conversation's one-way
+`session_id`. There is no cross-conversation id: hosted clients (claude.ai, ChatGPT) call from their
+own servers, so an address or agent hash would merge their users into one. Read it on the
+**Close Knit · Claude and agents** dashboard (Requests and ratings, Ratings by tool) or with
+`python -m area_api.call_notes list --days 7`.
+
 ## Deploy
 
 Migrations 049 and 050 are schema only. On a database that already exists, back it up with

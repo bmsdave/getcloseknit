@@ -1,5 +1,6 @@
 # The usage tables, read as close_knit_analytics (migration 050: SELECT on product_event,
-# profile_analytics_event and mcp_feedback only, read-only transactions, 30 s statements).
+# profile_analytics_event and mcp_feedback only, read-only transactions, 30 s statements; 053 and
+# 130 add site_feedback and mcp_call_note).
 apiVersion: 1
 datasources:
   - name: Close Knit analytics

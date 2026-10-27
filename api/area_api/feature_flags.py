@@ -54,6 +54,12 @@ def mcp_data() -> bool:
     return os.environ.get("CLOSE_KNIT_MCP_DATA", "").strip() == "1"
 
 
+def mcp_request_notes() -> bool:
+    """Open /mcp tools take `intent` and `rate_previous`, answers carry a callId, and both are stored
+    (call_notes.py). Only "1" turns it on, as `mcp_data`: it collects text from strangers' agents."""
+    return os.environ.get("CLOSE_KNIT_MCP_REQUEST_NOTES", "").strip() == "1"
+
+
 def address_match() -> bool:
     """Match a portal listing to a full address."""
     return _on("CLOSE_KNIT_ADDRESS_MATCH")

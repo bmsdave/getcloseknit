@@ -563,6 +563,80 @@
         "cellHeight": "sm"
       },
       "id": 13
+    },
+    {
+      "type": "table",
+      "title": "Requests and ratings from agents",
+      "description": "CLOSE_KNIT_MCP_REQUEST_NOTES: the agent's intent for a call and its rating of the answer.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 30,
+        "w": 18,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT created_at AS \"when\", tool, client, ok, intent, rating, bad, fix, good FROM mcp_call_note WHERE $__timeFilter(created_at) AND (intent IS NOT NULL OR rating IS NOT NULL) ORDER BY created_at DESC LIMIT 100"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 14
+    },
+    {
+      "type": "table",
+      "title": "Ratings by tool",
+      "description": "Agents' 1-5 ratings of answers (rate_previous, rate_answer).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 30,
+        "w": 6,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT tool, count(rating) AS rated, count(*) AS calls, round(avg(rating), 1) AS \"avg rating\", count(*) FILTER (WHERE rating <= 2) AS \"rated 1-2\" FROM mcp_call_note WHERE $__timeFilter(created_at) GROUP BY 1 ORDER BY calls DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 15
     }
   ]
 }

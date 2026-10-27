@@ -14,7 +14,7 @@ mkdir -p "$dir"
 out="$dir/close-knit-prod-data-$(date -u +%Y%m%dT%H%M%SZ).sql.gz"
 "${compose[@]}" exec -T database pg_dump -U close_knit -d close_knit \
     --data-only --no-owner --no-privileges \
-    --table=property_objection --table=correction_report --table=profile_analytics_event --table=access_invite --table=mcp_feedback --table=product_event \
+    --table=property_objection --table=correction_report --table=profile_analytics_event --table=access_invite --table=mcp_feedback --table=mcp_call_note --table=product_event \
     --table=agency_opt_out --table=site_feedback \
     | gzip -9 > "$out.tmp"
 mv "$out.tmp" "$out"

@@ -21,10 +21,10 @@ from mcp.server.mcpserver.exceptions import ToolError
 from mcp.server.mcpserver.prompts import Prompt
 from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import Icon, ToolAnnotations
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from . import errors, feature_flags, guidance, ratelimit, usage
+from . import call_notes, errors, feature_flags, guidance, ratelimit, usage
 from .tools import TOOLS, ToolContext, ToolSpec, call_tool, home_prices_description
 
 logger = logging.getLogger(__name__)
@@ -65,6 +65,10 @@ WRITE_TOOLS = frozenset({"send_feedback"})
 OPEN_WORLD_TOOLS = frozenset({"get_listing_search_links", "send_feedback"})
 # With CLOSE_KNIT_MCP_DATA off these still work; every other tool answers COMING_SOON (FLAGS.md).
 OPEN_TOOLS = frozenset({"send_feedback"})
+# With CLOSE_KNIT_MCP_REQUEST_NOTES on, every other tool takes intent and rate_previous and answers with a
+# callId (call_notes.py); rate_answer is added for the last answer of a conversation.
+NOTELESS_TOOLS = frozenset({"send_feedback"})
+RATE_ANSWER = "rate_answer"
 COMING_SOON_MESSAGE = ("Coming soon: Close Knit's data for assistants opens at launch. "
                        "Tell the user it is not available yet; don't retry or try other Close Knit tools.")
 # Appended to a closed tool's description, so tools/list says so before anyone calls it.
@@ -74,6 +78,7 @@ CONTEXT_ARG = "mcp_request_context"
 
 
 def build_server(context_factory: Callable[[], ToolContext]) -> MCPServer:
+    notes = feature_flags.mcp_request_notes()
     apps = Apps()
     apps.add_html_resource(WIDGET_URI, WIDGET_HTML.read_text(encoding="utf-8"), name="home-search",
                            title="Close Knit home search", prefers_border=True, csp=WIDGET_CSP,
@@ -81,15 +86,21 @@ def build_server(context_factory: Callable[[], ToolContext]) -> MCPServer:
     for name in WIDGET_TOOLS:
         spec = TOOLS[name]
         apps.tool(resource_uri=WIDGET_URI, name=spec.name, title=_title(spec), description=_description(spec),
-                  annotations=_annotations(spec), structured_output=True)(_tool_function(spec, context_factory))
+                  annotations=_annotations(spec), structured_output=True)(_tool_function(spec, context_factory, notes))
     server = _Server(SERVER_NAME, title=SERVER_TITLE, description=SERVER_DESCRIPTION, version=SERVER_VERSION,
                      website_url=WEBSITE_URL, icons=[Icon.model_validate(icon) for icon in ICONS],
-                     instructions=guidance.instructions(feature_flags.mcp_data()), extensions=[apps])
+                     instructions=guidance.instructions(feature_flags.mcp_data(), notes=notes), extensions=[apps])
     for spec in TOOLS.values():
         if spec.name not in WIDGET_TOOLS:
-            server.add_tool(_tool_function(spec, context_factory), name=spec.name, title=_title(spec),
+            server.add_tool(_tool_function(spec, context_factory, notes), name=spec.name, title=_title(spec),
                             description=_description(spec), annotations=_annotations(spec),
                             structured_output=True)
+    if notes:
+        server.add_tool(_rate_answer_function(context_factory), name=RATE_ANSWER, title="Rate answer",
+                        description=call_notes.RATE_ANSWER_DESCRIPTION,
+                        annotations=ToolAnnotations(title="Rate answer", read_only_hint=False, destructive_hint=False,
+                                                    idempotent_hint=True, open_world_hint=False),
+                        structured_output=True)
     server.add_prompt(Prompt.from_function(
         guidance.find_a_home, name="find-a-home", title=f"Find a home in {guidance.served_scope().covers}",
         description="Start a guided search: questions, area shortlist, feedback, listings, a watch."))
@@ -163,17 +174,38 @@ class McpMount:
         await self.app(scope, receive, send)
 
 
-def _tool_function(spec: ToolSpec, context_factory: Callable[[], ToolContext]) -> Callable[..., Any]:
+def _tool_function(spec: ToolSpec, context_factory: Callable[[], ToolContext],
+                   notes: bool = False) -> Callable[..., Any]:
+    notes = notes and spec.name not in NOTELESS_TOOLS
+
     async def invoke(**arguments: Any) -> dict[str, Any]:
         session, client = request_identity(arguments.pop(CONTEXT_ARG, None))
         context = replace(context_factory(), session=session)
-        return await anyio.to_thread.run_sync(_call_with_codes, spec.name, context, arguments, client)
+        note = (arguments.pop(INTENT_ARG, None), arguments.pop(RATE_ARG, None)) if notes else None
+        return await anyio.to_thread.run_sync(_call_with_codes, spec.name, context, arguments, client, note)
 
     invoke.__name__ = spec.name
     invoke.__doc__ = spec.description
-    invoke.__signature__ = _flat_signature(spec.input_model)
-    invoke.__annotations__ = _flat_annotations(spec.input_model)
+    invoke.__signature__ = _flat_signature(spec.input_model, notes)
+    invoke.__annotations__ = _flat_annotations(spec.input_model, notes)
     return invoke
+
+
+def _rate_answer_function(context_factory: Callable[[], ToolContext]) -> Callable[..., Any]:
+    async def rate_answer(call_id: str = Field(description=call_notes.RatePrevious.model_fields["call_id"].description),
+                          rating: int = Field(ge=1, le=5, description=call_notes.RatePrevious.model_fields["rating"].description),
+                          good: str | None = Field(default=None, max_length=call_notes.MAX_TEXT, description="What was useful."),
+                          bad: str | None = Field(default=None, max_length=call_notes.MAX_TEXT,
+                                                  description="What was wrong, missing or confusing."),
+                          fix: str | None = Field(default=None, max_length=call_notes.MAX_TEXT,
+                                                  description="The change you would want."),
+                          mcp_request_context: Context = None) -> dict[str, Any]:
+        connect = getattr(context_factory().reader, "_connect", None)
+        value = {"call_id": call_id, "rating": rating, "good": good, "bad": bad, "fix": fix}
+        stored = await anyio.to_thread.run_sync(call_notes.rate, connect, value)
+        return call_notes.rate_answer_result(stored)
+
+    return rate_answer
 
 
 def request_identity(ctx: Context | None) -> tuple[str | None, str | None]:
@@ -208,9 +240,18 @@ def client_name(ctx: Context | None) -> str | None:
     return params.client_info.name if params is not None and params.client_info is not None else None
 
 
-def _call_with_codes(name: str, context: ToolContext, arguments: dict, client: str | None = None) -> dict:
+def _call_with_codes(name: str, context: ToolContext, arguments: dict, client: str | None = None,
+                     note: tuple[Any, Any] | None = None) -> dict:
+    """The tool's answer, or a ToolError with its code. `note` is (intent, rate_previous) when
+    CLOSE_KNIT_MCP_REQUEST_NOTES is on: the call is stored for a later rating and its answer carries a callId."""
     started = time.monotonic()
     connect = getattr(context.reader, "_connect", None)
+    call_id = None
+    if note is not None:
+        intent, rate_previous = note
+        if rate_previous is not None:
+            call_notes.rate(connect, rate_previous)
+        call_id = call_notes.new_call_id()
     try:
         # /mcp is open without the preview login, so it answers with public flag defaults (FLAGS.md).
         with feature_flags.public_call():
@@ -221,10 +262,17 @@ def _call_with_codes(name: str, context: ToolContext, arguments: dict, client: s
             logger.exception("mcp tool %s failed", name)
         usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, None, code, client),
                      context.session)
+        if call_id is not None:
+            call_notes.record_call(connect, call_id, tool=name, ok=False, code=code, session=context.session,
+                                   client=client, intent=intent)
         raise ToolError(f"{code}: {message}") from error
     usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, result, None, client),
                  context.session)
-    return result
+    if call_id is None:
+        return result
+    call_notes.record_call(connect, call_id, tool=name, ok=True, session=context.session, client=client,
+                           intent=intent)
+    return {**result, "callId": call_id}
 
 
 def _open(name: str) -> bool:
@@ -237,17 +285,31 @@ def coming_soon(name: str) -> dict:
             "confidence": "none", "evidence": [], "sources": [], "caveats": [COMING_SOON_MESSAGE]}
 
 
-def _flat_signature(model: type[BaseModel]) -> inspect.Signature:
+# The two parameters CLOSE_KNIT_MCP_REQUEST_NOTES adds to every noted tool (call_notes.py).
+INTENT_ARG = "intent"
+RATE_ARG = "rate_previous"
+NOTE_FIELDS = {
+    INTENT_ARG: (str | None, Field(default=None, description=call_notes.INTENT_DESCRIPTION)),
+    RATE_ARG: (call_notes.RatePrevious | None, Field(default=None, description=call_notes.RATE_DESCRIPTION)),
+}
+
+
+def _flat_signature(model: type[BaseModel], notes: bool = False) -> inspect.Signature:
     parameters = []
     for field_name, field in model.model_fields.items():
         parameters.append(inspect.Parameter(
             field_name, inspect.Parameter.KEYWORD_ONLY, default=field, annotation=field.annotation))
+    for field_name, (annotation, field) in (NOTE_FIELDS.items() if notes else ()):
+        parameters.append(inspect.Parameter(field_name, inspect.Parameter.KEYWORD_ONLY, default=field,
+                                            annotation=annotation))
     parameters.append(inspect.Parameter(CONTEXT_ARG, inspect.Parameter.KEYWORD_ONLY, default=None, annotation=Context))
     return inspect.Signature(parameters, return_annotation=dict[str, Any])
 
 
-def _flat_annotations(model: type[BaseModel]) -> dict[str, Any]:
+def _flat_annotations(model: type[BaseModel], notes: bool = False) -> dict[str, Any]:
     annotations = {name: field.annotation for name, field in model.model_fields.items()}
+    if notes:
+        annotations.update({name: annotation for name, (annotation, _) in NOTE_FIELDS.items()})
     annotations[CONTEXT_ARG] = Context
     annotations["return"] = dict[str, Any]
     return annotations
