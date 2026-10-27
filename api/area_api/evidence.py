@@ -1333,11 +1333,18 @@ class EvidenceReader:
 
     def rent_levels(self, bedrooms: int, area_ids: list[str] | None = None) -> dict[str, dict]:
         """Borough average monthly rent per LSOA for the bedroom count (migration 029), with the
-        borough, month and source; empty for a studio or before the rents are loaded."""
+        borough, month and source; empty for a studio or before the rents are loaded. A requested MSOA
+        or borough id gets the row of an LSOA inside it (the rent is the borough's)."""
         from .repository import rent_rows
 
         with self._connect() as connection:
-            return {row["geography_id"]: row for row in rent_rows(connection, bedrooms, area_ids)}
+            rows = rent_rows(connection, bedrooms, area_ids)
+        levels = {row["geography_id"]: row for row in rows}
+        for row in rows:
+            for parent in (row.get("msoa_id"), row.get("carrier_geography_id")):
+                if area_ids and parent in area_ids:
+                    levels.setdefault(parent, row)
+        return levels
 
     def _price_levels(self, cancel: Callable[[], bool] | None) -> dict[str, float]:
         """Latest £/m² of every area, from the cached value pack the map also uses."""

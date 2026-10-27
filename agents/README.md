@@ -65,8 +65,10 @@ Every `/api/*` and `/mcp` request is rate limited per client (`CLOSE_KNIT_RATE_L
 - **Codex CLI** – append [`codex/config.toml`](codex/config.toml) to `~/.codex/config.toml`.
 - **ChatGPT** – see [`chatgpt/README.md`](chatgpt/README.md) (developer-mode connector).
 - **API-first agents** – see [`api-first/README.md`](api-first/README.md); hand the agent `/llms.txt`.
-- **Gemini** – Gemini CLI: `gemini mcp add --transport http close-knit https://<host>/mcp`; elsewhere hand it
-  `/llms.txt`. From Gemini CLI's docs, not tested here.
+- **Gemini** – Gemini CLI: `gemini extensions install https://github.com/bmsdave/getcloseknit` (root
+  `gemini-extension.json`: the `/mcp` server plus the find-a-home skill as context), or just the server with
+  `gemini mcp add --transport http close-knit https://<host>/mcp`; elsewhere hand it `/llms.txt`. From Gemini
+  CLI's docs, not tested here.
 - **Grok** – a custom connector with the `/mcp` URL where the plan offers one, or a remote MCP tool
   (`server_url`) through the xAI API; otherwise `/llms.txt`. From xAI's docs, not tested here.
 - **Any other agent** – remote MCP (Streamable HTTP) → `/mcp`; web APIs → `/openapi.json`; neither → `/llms.txt`.

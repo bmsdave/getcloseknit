@@ -420,12 +420,14 @@ RENT_SQL = """-- evidence:borough-rent
 SELECT lsoa.id AS geography_id, lsoa.name, 'affordability' AS factor_id,
   rent.monthly_rent AS raw_value, NULL::numeric AS utility, 'GBP/month' AS unit, rent.bedrooms,
   msoa.parent_id AS carrier_geography_id, 'fallback' AS quality, rent.source_release_id,
-  rent.period, (SELECT release_id FROM active_product_release) AS product_release_id
+  rent.period, (SELECT release_id FROM active_product_release) AS product_release_id,
+  msoa.id AS msoa_id, borough.name AS borough_name
 FROM borough_rent rent
-JOIN area_geography msoa ON msoa.parent_id = 'uk:lad:' || rent.area_code AND msoa.kind = 'msoa'
+JOIN area_geography borough ON borough.id = 'uk:lad:' || rent.area_code
+JOIN area_geography msoa ON msoa.parent_id = borough.id AND msoa.kind = 'msoa'
 JOIN area_geography lsoa ON lsoa.parent_id = msoa.id AND lsoa.kind = 'lsoa'
 WHERE rent.bedrooms = %s AND rent.period = (SELECT max(period) FROM borough_rent)
-  AND (%s::text[] IS NULL OR lsoa.id = ANY(%s::text[]))"""
+  AND (%s::text[] IS NULL OR lsoa.id = ANY(%s::text[]) OR msoa.id = ANY(%s::text[]) OR borough.id = ANY(%s::text[]))"""
 
 
 def rent_cell(bedrooms: int) -> str | None:
@@ -436,12 +438,12 @@ def rent_cell(bedrooms: int) -> str | None:
 
 
 def rent_rows(connection: Any, bedrooms: int, area_ids: list[str] | None = None, served: Scope | None = None) -> list[dict]:
-    """Borough rent rows per LSOA (of the scope, when given); empty for a studio or before migration 029 is
-    loaded."""
+    """Borough rent rows per LSOA (of the scope, when given); `area_ids` may name LSOAs, MSOAs or boroughs.
+    Empty for a studio or before migration 029 is loaded."""
     cell = rent_cell(bedrooms)
     if cell is None or not list(connection.execute(RENT_TABLE_SQL))[0]["t"]:
         return []
-    return list(connection.execute(served.rows(RENT_SQL) if served else RENT_SQL, (cell, area_ids, area_ids)))
+    return list(connection.execute(served.rows(RENT_SQL) if served else RENT_SQL, (cell, *[area_ids] * 4)))
 
 
 # Zones expand to LSOA sets. Station walks are pinned to the active release;

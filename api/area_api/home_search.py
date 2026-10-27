@@ -307,7 +307,7 @@ class FloodRiskInput(StrictInput):
 
 class RentLevelsInput(StrictInput):
     area_ids: list[str] = Field(min_length=1, max_length=50,
-                                description="Geography ids, e.g. uk:lsoa:E01000951.")
+                                description="LSOA, MSOA or borough ids, e.g. uk:lsoa:E01000951 or uk:lad:E09000012.")
     bedrooms: int = Field(ge=1, le=8, description="Bedroom count; the site shows rents per bedroom count.")
 
 
@@ -1108,17 +1108,17 @@ def _get_rent_levels(context: ToolContext, args: RentLevelsInput) -> dict:
     for area_id in args.area_ids:
         row = rows.get(area_id) or {}
         levels.append({"geographyId": area_id,
-                       "medianMonthlyRent": row.get("rent"),
-                       "borough": row.get("borough"),
-                       "month": row.get("month"),
+                       "medianMonthlyRent": None if row.get("raw_value") is None else int(row["raw_value"]),
+                       "borough": row.get("borough_name"),
+                       "month": str(row["period"])[:7] if row.get("period") else None,
                        "sourceVersion": row.get("source_release_id")})
     release = next((level["sourceVersion"] for level in levels if level["sourceVersion"]), "")
     return envelope.wrap(
         levels, schema_version="tool-rent-levels.v1", release_id=release,
         confidence="high" if any(level["medianMonthlyRent"] is not None for level in levels) else "low",
         sources=[{"release": release}] if release else [],
-        caveats=["Borough average monthly rent per LSOA for the bedroom count; empty for a studio "
-                 "or before the rents are loaded."])
+        caveats=["Borough average monthly rent for the bedroom count (an LSOA or MSOA gets its borough's); "
+                 "empty for a studio or before the rents are loaded."])
 
 
 def _location(context: ToolContext, area_id: str) -> dict | None:

@@ -15,6 +15,28 @@ except ImportError:  # pragma: no cover - dependency-free environments
 
 # The MCP Registry's copy (published by hand with mcp-publisher); the API serves the same values.
 SERVER_JSON = Path(__file__).resolve().parents[2] / "server.json"
+# Gemini CLI extension manifest at the repo root: `gemini extensions install https://github.com/bmsdave/getcloseknit`.
+ROOT = Path(__file__).resolve().parents[2]
+GEMINI_EXTENSION = ROOT / "gemini-extension.json"
+CLAUDE_PLUGIN_MCP = ROOT / "agents" / "claude" / "plugin" / ".mcp.json"
+
+
+class GeminiExtensionTests(unittest.TestCase):
+    def test_manifest_points_at_the_public_mcp_and_the_find_a_home_skill(self):
+        manifest = json.loads(GEMINI_EXTENSION.read_text(encoding="utf-8"))
+
+        self.assertRegex(manifest["name"], r"^[a-z0-9-]+$")
+        self.assertTrue(manifest["version"] and manifest["description"])
+        servers = manifest["mcpServers"]
+        self.assertEqual(list(servers), ["close-knit"], "no underscores: Gemini parses mcp_<server>_<tool>")
+        server = servers["close-knit"]
+        self.assertNotIn("trust", server, "extensions may not set trust")
+        claude_url = json.loads(CLAUDE_PLUGIN_MCP.read_text(encoding="utf-8"))["mcpServers"]["close-knit"]["url"]
+        self.assertEqual(server["httpUrl"], claude_url.split(":-", 1)[1].rstrip("}"),
+                         "same server as the Claude plugin's default")
+        context = manifest["contextFileName"]
+        self.assertNotIn("..", context)
+        self.assertTrue((ROOT / context).is_file(), context)
 
 
 @unittest.skipIf(TestClient is None, "fastapi test client is not installed")

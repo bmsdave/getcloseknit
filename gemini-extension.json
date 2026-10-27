@@ -1,0 +1,12 @@
+{
+  "name": "close-knit",
+  "version": "0.7.1",
+  "description": "Find the best place to live in England, London in depth: area shortlist, evidence, listings and a watch for new homes.",
+  "mcpServers": {
+    "close-knit": {
+      "httpUrl": "https://getcloseknit.com/mcp",
+      "description": "Close Knit: evidence about neighbourhoods and homes"
+    }
+  },
+  "contextFileName": "agents/claude/plugin/skills/find-a-home/SKILL.md"
+}

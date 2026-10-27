@@ -3,12 +3,14 @@ import contextlib
 import unittest
 from unittest import mock
 
-from area_api import matching, repository
+from area_api import matching, repository, tools
+from area_api.evidence import EvidenceReader
 
 ROW = {"geography_id": "uk:lsoa:E01000907", "name": "Camden 001A", "factor_id": "affordability",
        "raw_value": 3112, "utility": None, "unit": "GBP/month", "bedrooms": "2 bedrooms",
        "carrier_geography_id": "uk:lad:E09000007", "quality": "fallback",
-       "source_release_id": "src-ons-pipr-2026-09", "period": "2026-08-01", "product_release_id": "rel"}
+       "source_release_id": "src-ons-pipr-2026-09", "period": "2026-08-01", "product_release_id": "rel",
+       "msoa_id": "uk:msoa:E02000166", "borough_name": "Camden"}
 
 
 class FakeConnection:
@@ -41,7 +43,7 @@ class RentRowsTests(unittest.TestCase):
         connection = FakeConnection()
         self.assertEqual(repository.rent_rows(connection, 2, ["uk:lsoa:E01000907"]), [ROW])
         self.assertEqual(connection.statements[-1], ("-- evidence:borough-rent",
-                                                     ("2 bedrooms", ["uk:lsoa:E01000907"], ["uk:lsoa:E01000907"])))
+                                                     ("2 bedrooms", *[["uk:lsoa:E01000907"]] * 4)))
         self.assertEqual(repository.rent_rows(FakeConnection(loaded=False), 2), [])
         studio = FakeConnection()
         self.assertEqual(repository.rent_rows(studio, 0), [])
@@ -61,6 +63,25 @@ class RentRowsTests(unittest.TestCase):
         self.assertEqual((component["rawValue"], component["unit"], component["carrierGeographyId"]),
                          (3112, "GBP/month", "uk:lad:E09000007"))
         self.assertEqual(round(component["utility"]), 39)
+
+
+class RentLevelsToolTests(unittest.TestCase):
+    def _call(self, area_ids):
+        reader = EvidenceReader(lambda: contextlib.nullcontext(FakeConnection()))
+        return tools.call_tool("get_rent_levels", tools.ToolContext(reader=reader),
+                               {"area_ids": area_ids, "bedrooms": 2})
+
+    def test_lsoa_msoa_and_borough_ids_get_the_borough_rent(self):
+        ids = ["uk:lsoa:E01000907", "uk:msoa:E02000166", "uk:lad:E09000007"]
+        out = self._call(ids)
+        self.assertEqual(out["confidence"], "high")
+        for level, area_id in zip(out["value"], ids):
+            self.assertEqual(level, {"geographyId": area_id, "medianMonthlyRent": 3112, "borough": "Camden",
+                                     "month": "2026-08", "sourceVersion": "src-ons-pipr-2026-09"})
+
+    def test_an_area_without_rent_stays_empty(self):
+        level = self._call(["uk:lsoa:E01000001"])["value"][0]
+        self.assertIsNone(level["medianMonthlyRent"])
 
 
 if __name__ == "__main__":
