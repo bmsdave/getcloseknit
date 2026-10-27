@@ -2,7 +2,7 @@
   "mcpServers": {
     "close-knit": {
       "type": "http",
-      "url": "${CLOSE_KNIT_MCP_URL:-https://getcloseknit.com/mcp}"
+      "url": "https://getcloseknit.com/mcp"
     }
   }
 }

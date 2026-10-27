@@ -21,6 +21,23 @@ GEMINI_EXTENSION = ROOT / "gemini-extension.json"
 CLAUDE_PLUGIN_MCP = ROOT / "agents" / "claude" / "plugin" / ".mcp.json"
 
 
+class IconFileTests(unittest.TestCase):
+    def test_every_icon_is_a_file_the_site_serves_at_its_declared_size(self):
+        """Directories fetch these URLs: each must be a web/public file, a PNG as big as its sizes say."""
+        for icon in json.loads(SERVER_JSON.read_text(encoding="utf-8"))["icons"]:
+            path = ROOT / "web" / "public" / icon["src"].removeprefix("https://getcloseknit.com/")
+            self.assertTrue(path.is_file(), path)
+            if icon["mimeType"] == "image/png":
+                head = path.read_bytes()[:24]
+                self.assertEqual(head[:8], b"\x89PNG\r\n\x1a\n", path)
+                width, height = int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+                self.assertEqual([f"{width}x{height}"], icon["sizes"], path)
+
+    def test_a_512_px_png_comes_first_for_the_directories(self):
+        first = json.loads(SERVER_JSON.read_text(encoding="utf-8"))["icons"][0]
+        self.assertEqual((first["src"], first["sizes"]), ("https://getcloseknit.com/icon.png", ["512x512"]))
+
+
 class GeminiExtensionTests(unittest.TestCase):
     def test_manifest_points_at_the_public_mcp_and_the_find_a_home_skill(self):
         manifest = json.loads(GEMINI_EXTENSION.read_text(encoding="utf-8"))
@@ -32,8 +49,7 @@ class GeminiExtensionTests(unittest.TestCase):
         server = servers["close-knit"]
         self.assertNotIn("trust", server, "extensions may not set trust")
         claude_url = json.loads(CLAUDE_PLUGIN_MCP.read_text(encoding="utf-8"))["mcpServers"]["close-knit"]["url"]
-        self.assertEqual(server["httpUrl"], claude_url.split(":-", 1)[1].rstrip("}"),
-                         "same server as the Claude plugin's default")
+        self.assertEqual(server["httpUrl"], claude_url, "same server as the Claude plugin")
         context = manifest["contextFileName"]
         self.assertNotIn("..", context)
         self.assertTrue((ROOT / context).is_file(), context)

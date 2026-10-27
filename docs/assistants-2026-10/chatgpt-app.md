@@ -41,7 +41,7 @@
 4. [ ] Организация OpenAI: верификация личности или бизнеса; сабмитит owner или роль «Apps Management Write» ([submission](https://developers.openai.com/apps-sdk/deploy/submission)).
 5. [ ] Тест в developer mode: chatgpt.com → plugins → «+» → Add custom MCP server → URL `/mcp` → no auth ([testing](https://developers.openai.com/apps-sdk/deploy/testing)). Плюс MCP Inspector.
 6. [ ] Ровно 5 позитивных тест-кейсов (`tools_triggered`, `expected_behavior`) и 3 негативных. Черновик ниже.
-7. [ ] Демо-видео, квадратная иконка ≥48 px, скриншоты (опционально).
+7. [ ] Демо-видео, скриншоты (опционально). Квадратная иконка ≥48 px — сделано: `web/public/icon.png`, PNG 512×512 (`https://getcloseknit.com/icon.png` после выкладки).
 8. [ ] Страны: `GB` (+ решение по остальным).
 9. [ ] Политика: 13+, не для детей, без рекламы, минимум данных, без продажи цифровых товаров ([guidelines](https://developers.openai.com/apps-sdk/app-submission-guidelines)).
 10. [ ] Сабмит делает владелец. Отказ приходит письмом, на него можно ответить. Срок не указан.
@@ -49,7 +49,7 @@
 ## Чек-лист: Claude
 
 1. [ ] Пункт 1 из ChatGPT (публичные флаги).
-2. [ ] Ссылки на документацию, privacy и поддержку, иконка.
+2. [ ] Ссылки на документацию, privacy и поддержку. Иконка — сделано: `web/public/icon.png`, PNG 512×512.
 3. [ ] У инструментов `title` и hints (сделано).
 4. [ ] Для MCP Apps: 3–5 PNG ≥1000 px шириной, у каждого свой промпт; `ui.domain` для Claude не отдаём (G5).
 5. [ ] Аутентификация `none`. Тестовый аккаунт для ревьюеров не нужен, хватит инструкции.

@@ -35,12 +35,16 @@ SERVER_NAME = "close-knit"
 REGISTRY_NAME = "com.getcloseknit/close-knit"
 SERVER_TITLE = "Close Knit"
 SERVER_DESCRIPTION = "London neighbourhoods and homes: crime, schools, prices, rents, commute, green space, sourced."
-SERVER_VERSION = "2.0.3"
+SERVER_VERSION = "2.0.4"
 WEBSITE_URL = "https://getcloseknit.com"
 # The public install guide and Gemini CLI extension.
 REPOSITORY = {"url": "https://github.com/bmsdave/close-knit-mcp", "source": "github"}
-# The site's one file outside the preview login, so directories can show it.
-ICON = {"src": "https://getcloseknit.com/icon.svg", "mimeType": "image/svg+xml", "sizes": ["any"]}
+# Files outside the preview login, so directories can show them (web/public). The 512 px PNG comes
+# first: directories that take one icon (Claude, ChatGPT, the server card) read the first entry.
+ICONS = [
+    {"src": "https://getcloseknit.com/icon.png", "mimeType": "image/png", "sizes": ["512x512"]},
+    {"src": "https://getcloseknit.com/icon.svg", "mimeType": "image/svg+xml", "sizes": ["any"]},
+]
 MCP_PATH = "/mcp"
 INSTRUCTIONS = guidance.INSTRUCTIONS
 WIDGET_URI = "ui://close-knit/home-search.html"
@@ -79,7 +83,7 @@ def build_server(context_factory: Callable[[], ToolContext]) -> MCPServer:
         apps.tool(resource_uri=WIDGET_URI, name=spec.name, title=_title(spec), description=_description(spec),
                   annotations=_annotations(spec), structured_output=True)(_tool_function(spec, context_factory))
     server = _Server(SERVER_NAME, title=SERVER_TITLE, description=SERVER_DESCRIPTION, version=SERVER_VERSION,
-                     website_url=WEBSITE_URL, icons=[Icon.model_validate(ICON)],
+                     website_url=WEBSITE_URL, icons=[Icon.model_validate(icon) for icon in ICONS],
                      instructions=guidance.instructions(feature_flags.mcp_data()), extensions=[apps])
     for spec in TOOLS.values():
         if spec.name not in WIDGET_TOOLS:

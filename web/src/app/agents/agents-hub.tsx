@@ -1,29 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
-import { CopyField } from "@/components/copy-field";
+import { CopyButton, CopyField } from "@/components/copy-field";
 import { KnitIcon } from "@/components/knit/knit-icon";
 import { SiteHeader } from "@/components/site-header";
 import { SubpageHero } from "@/components/subpage-hero";
-import { AGENT_SAMPLE_PROMPT, AGENT_TABS, CLAUDE_PLUGIN_MARKETPLACE, agentPath, type AgentSlug } from "@/lib/agents";
+import { AGENT_GROUPS, AGENT_SAMPLE_PROMPT, agentCard, agentPath, agentTab, type AgentCard, type AgentSlug } from "@/lib/agents";
 import { exampleSearchHref } from "@/lib/profile-state";
 import { pageMetadata, siteOrigin } from "@/lib/seo";
 
 import "@/styles/tools.css";
-import "./claude.css";
 import "./agents.css";
 
 export function agentsMetadata(slug: AgentSlug): Metadata {
-  const tab = AGENT_TABS.find((entry) => entry.slug === slug)!;
   return pageMetadata({
-    title: slug === "claude" ? "AI agents" : `${tab.label} · AI agents`,
-    description: "Use Close Knit in Claude, ChatGPT, Codex or any agent: add it once, then ask where to live in London.",
+    title: slug === "claude" ? "AI agents" : `${agentTab(slug).label} · AI agents`,
+    description: "Use Close Knit in Claude, ChatGPT, Gemini, Cursor, Codex or any agent: add it once, then ask where to live in London.",
     path: agentPath(slug),
   });
 }
 
-/** /agents (G13, G14): one tab per agent, each a few steps and the address to paste. */
+/** /agents (board variant A): one MCP address, the apps in three rows, the chosen app's card. */
 export async function AgentsHub({ slug }: { slug: AgentSlug }) {
   const origin = (await siteOrigin()) ?? "";
   const urls = { mcp: `${origin}/mcp`, openapi: `${origin}/openapi.json`, llms: `${origin}/llms.txt` };
@@ -37,147 +34,95 @@ export async function AgentsHub({ slug }: { slug: AgentSlug }) {
         ornament="town"
         yarn="var(--yarn-tangerine)"
       />
-      <nav className="tools-nav agents-nav" aria-label="AI agents">
-        {AGENT_TABS.map((tab) => (
-          <Link key={tab.slug} href={agentPath(tab.slug)} data-testid={`agents-tab-${tab.slug}`}
-            aria-current={tab.slug === slug ? "page" : undefined}>{tab.label}</Link>
+      <section className="agents-address" aria-label="MCP address">
+        <KnitIcon name="globe" colour="var(--yarn-tangerine)" className="agents-address__icon" />
+        <div className="agents-address__body">
+          <span>One address for every app · no sign-in</span>
+          <CopyField value={urls.mcp} label="MCP address" testId="agents-mcp-url" />
+        </div>
+      </section>
+      <nav className="agents-nav" aria-label="Pick your app">
+        {AGENT_GROUPS.map((group) => (
+          <div key={group.label} className="tools-nav agents-nav__row">
+            <span className="agents-nav__label">{group.label}</span>
+            {group.slugs.map((each) => (
+              <Link key={each} href={agentPath(each)} data-testid={`agents-tab-${each}`} aria-current={each === slug ? "page" : undefined}>
+                <span className="agents-dot" aria-hidden="true" style={{ background: agentTab(each).yarn }} />{agentTab(each).label}
+              </Link>
+            ))}
+          </div>
         ))}
       </nav>
-      <div className="subpage-cards" data-testid={`agents-panel-${slug}`}>
-        {slug === "claude" && <ClaudeTab mcpUrl={urls.mcp} />}
-        {slug === "chatgpt" && <ChatGptTab mcpUrl={urls.mcp} />}
-        {slug === "codex" && <CodexTab mcpUrl={urls.mcp} />}
-        {slug === "any" && <AnyAgentTab urls={urls} />}
-      </div>
-      <p className="subpage-foot"><Link href="/about#teams">API and licences</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms of use</Link></p>
+      <AppCard card={agentCard(slug, urls)} />
+      <p className="subpage-foot"><span>Steps follow each maker&apos;s docs, Oct 2026.</span>
+        <Link href="/about#teams">API and licences</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms of use</Link></p>
     </main>
   );
 }
 
-function Card({ title, icon, yarn, testId, id, children }: {
-  title: string; icon: "panel" | "note" | "info"; yarn: string; testId?: string; id?: string; children: ReactNode;
-}) {
+function AppCard({ card }: { card: AgentCard }) {
+  const { action } = card;
   return (
-    <section className="subpage-card" data-testid={testId} id={id}>
-      <h2><span className="subpage-card__icon" aria-hidden="true"><KnitIcon name={icon} colour={yarn} /></span>{title}</h2>
-      {children}
+    <section className="subpage-card agents-card" data-testid={`agents-panel-${card.slug}`}>
+      <div className="agents-card__main">
+        <h2><span className="agents-dot agents-dot--big" aria-hidden="true" style={{ background: card.yarn }} />{card.name}
+          {card.sub && <span className="agents-card__sub">{card.sub}</span>}</h2>
+        {card.tags.length > 0 && (
+          <ul className="agents-tags" data-testid="agents-tags">{card.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+        )}
+        <div>
+          {action.copy
+            ? <CopyButton value={action.copy} label={action.label} icon={action.icon} testId="agents-action" />
+            : <a className="primary-action" href={action.href} data-testid="agents-action">
+              <KnitIcon name={action.icon} colour="var(--on-primary)" className="copy-field__icon" />{action.label}</a>}
+        </div>
+        <ol className="step-list" data-testid="agents-steps">
+          {card.steps.map((step, index) => (
+            <li key={index}>
+              <span className="step-badge" aria-hidden="true">{index + 1}</span>
+              <div className="step-list__text">
+                {step.path && (
+                  <span className="agents-path">{step.path.map((label, at) => (
+                    <span key={at}>{at > 0 && <span className="agents-path__sep" aria-hidden="true">›</span>}<b>{label}</b></span>
+                  ))}</span>
+                )}
+                {step.text && <span>{step.text}</span>}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div className="agents-try">
+          <p>Then try</p>
+          <CopyField value={AGENT_SAMPLE_PROMPT} label="sample prompt" testId="agents-sample-prompt" />
+          {/* What an agent hands back (CUJ-07 v4): the sample prompt's own search in My match. */}
+          <p><a href={exampleSearchHref()} data-testid="agents-example-search">Example search →</a></p>
+        </div>
+        {card.doc && (card.doc.download
+          ? <p><a href={card.doc.href} download>{card.doc.label}</a></p>
+          : <p><a href={card.doc.href} target="_blank" rel="noopener noreferrer">{card.doc.label} ↗</a></p>)}
+      </div>
+      <div className="agents-card__panel" data-testid="agents-card-panel">
+        <h3><KnitIcon name={card.panel.icon} colour="var(--muted)" className="copy-field__icon" />{card.panel.title}</h3>
+        {card.fields.length > 0 && (
+          <dl className="agents-fields">
+            {card.fields.map((field) => (
+              <div key={field.label}>
+                <dt>{field.label}</dt>
+                <dd>{field.copy
+                  ? <CopyField value={field.value} label={field.label} testId={field.testId} />
+                  : <span className="agents-fields__value">{field.value}</span>}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        {card.snippets.map((snippet) => (
+          <div key={snippet.value} className="agents-snippet">
+            {snippet.label && <p>{snippet.label}</p>}
+            <CopyField value={snippet.value} label={snippet.label ?? `${card.name} ${card.panel.title}`} testId={snippet.testId}
+              multiline={snippet.value.includes("\n")} />
+          </div>
+        ))}
+      </div>
     </section>
-  );
-}
-
-function Steps({ children }: { children: ReactNode[] }) {
-  return (
-    <ol className="step-list" data-testid="agents-steps">
-      {children.map((step, index) => (
-        <li key={index}>
-          <span className="step-badge" aria-hidden="true">{index + 1}</span>
-          <div className="step-list__text">{step}</div>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function TryPrompt() {
-  return (
-    <div className="agents-try">
-      <p>Then try:</p>
-      <CopyField value={AGENT_SAMPLE_PROMPT} label="sample prompt" testId="agents-sample-prompt" />
-    </div>
-  );
-}
-
-function ClaudeTab({ mcpUrl }: { mcpUrl: string }) {
-  return (
-    <>
-      <Card title="Claude app or claude.ai" icon="panel" yarn="var(--yarn-tangerine)" testId="agents-claude-connector">
-        <CopyField value={mcpUrl} label="MCP address" testId="agents-mcp-url" />
-        <Steps>{[
-          <>Open <strong>Settings → Connectors → Add custom connector</strong>.</>,
-          <>Name it <strong>Close Knit</strong> and paste the address.</>,
-        ]}</Steps>
-        <TryPrompt />
-        {/* What an agent hands back (CUJ-07 v4): the sample prompt's own search in My match, so it keeps its budget. */}
-        <p><a href={exampleSearchHref()} data-testid="agents-example-search">Example search →</a></p>
-      </Card>
-      <Card title="Claude Code" icon="note" yarn="var(--yarn-sky)" testId="agents-claude-code" id="code">
-        <CopyField value={`claude mcp add --transport http close-knit ${mcpUrl}`} label="connector command" testId="agents-claude-command" />
-        {/* r3 #17 (CUJ07 board step 3): or the whole plugin (connector, skill and commands) from its marketplace. */}
-        <p>Or the plugin, in Claude Code:</p>
-        <CopyField value={`/plugin marketplace add ${CLAUDE_PLUGIN_MARKETPLACE}`} label="marketplace command" testId="agents-plugin-marketplace" />
-        <CopyField value="/plugin install close-knit@close-knit" label="plugin install command" testId="agents-plugin-install" />
-        <p>For the guided interview, add the find-a-home skill: unzip it into <code>~/.claude/skills/</code>, or upload it in
-          Claude under <strong>Settings → Capabilities → Skills</strong>.</p>
-        <p><a className="claude-download" href="/downloads/find-a-home.zip" download>
-          <KnitIcon name="arrow-up" className="claude-download__icon" />find-a-home.zip</a></p>
-      </Card>
-    </>
-  );
-}
-
-function ChatGptTab({ mcpUrl }: { mcpUrl: string }) {
-  return (
-    <Card title="ChatGPT" icon="panel" yarn="var(--yarn-sky)" testId="agents-chatgpt">
-      <CopyField value={mcpUrl} label="MCP address" testId="agents-mcp-url" />
-      <Steps>{[
-        <>Open <strong>Settings → Connectors → Advanced → Developer mode</strong>.</>,
-        <><strong>Create</strong> a connector, paste the address as its MCP server URL, authentication <strong>None</strong>.</>,
-        <>In a chat, turn the connector on.</>,
-      ]}</Steps>
-      <TryPrompt />
-    </Card>
-  );
-}
-
-function CodexTab({ mcpUrl }: { mcpUrl: string }) {
-  return (
-    <Card title="Codex" icon="panel" yarn="var(--yarn-cherry)" testId="agents-codex">
-      <CopyField value={`[mcp_servers.close_knit]\nurl = "${mcpUrl}"`} label="Codex config" testId="agents-codex-config" multiline />
-      <Steps>{[
-        <>Add this to <code>~/.codex/config.toml</code>.</>,
-        <>Restart Codex.</>,
-      ]}</Steps>
-      <TryPrompt />
-    </Card>
-  );
-}
-
-function AnyAgentTab({ urls }: { urls: { mcp: string; openapi: string; llms: string } }) {
-  return (
-    <>
-      <Card title="Addresses" icon="panel" yarn="var(--yarn-tangerine)" testId="agents-any-addresses">
-        <dl className="agents-addresses">
-          <dt>MCP, for agents with connectors (no sign-in)</dt>
-          <dd><CopyField value={urls.mcp} label="MCP address" testId="agents-any-mcp" /></dd>
-          <dt>OpenAPI, for agents that call web APIs</dt>
-          <dd><CopyField value={urls.openapi} label="OpenAPI address" testId="agents-any-openapi" /></dd>
-          <dt>llms.txt, for agents that read the web</dt>
-          <dd><CopyField value={urls.llms} label="llms.txt address" testId="agents-any-llms" /></dd>
-        </dl>
-      </Card>
-      <Card title="Gemini" icon="note" yarn="var(--yarn-sky)" testId="agents-any-gemini">
-        <Steps>{[
-          <>In Gemini CLI, run this command:</>,
-          <>Elsewhere in Gemini, give it the <strong>llms.txt</strong> address.</>,
-        ]}</Steps>
-        <CopyField value={`gemini mcp add --transport http close-knit ${urls.mcp}`} label="Gemini CLI command" testId="agents-gemini-command" />
-      </Card>
-      <Card title="Grok" icon="note" yarn="var(--yarn-pink)" testId="agents-any-grok">
-        <Steps>{[
-          <>If your Grok has custom connectors, add one with the <strong>MCP</strong> address.</>,
-          <>Through the xAI API, use it as a remote MCP tool&apos;s <code>server_url</code>.</>,
-          <>Otherwise, give it the <strong>llms.txt</strong> address.</>,
-        ]}</Steps>
-        <CopyField value={urls.mcp} label="MCP address for Grok" testId="agents-grok-mcp" />
-      </Card>
-      <Card title="Other agents" icon="info" yarn="var(--yarn-cherry)" testId="agents-any-other">
-        <Steps>{[
-          <>Speaks MCP: the <strong>MCP</strong> address (Streamable HTTP).</>,
-          <>Calls APIs: the <strong>OpenAPI</strong> address.</>,
-          <>Neither: the <strong>llms.txt</strong> address.</>,
-        ]}</Steps>
-        <p className="claude-note">Gemini and Grok steps follow their makers&apos; docs; we haven&apos;t tested them.</p>
-      </Card>
-    </>
   );
 }

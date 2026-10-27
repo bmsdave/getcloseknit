@@ -3,6 +3,7 @@
  * ("- [Name](url): notes") to the key pages, every URL absolute on the public origin. Pure, so
  * tests/llms-txt.test.ts can check it; app/llms.txt/route.ts supplies the origin and guide titles.
  */
+import { AGENT_TABS } from "./agents";
 import { areaPath, LONDON, RANKINGS } from "./area-pages";
 import { TOOLS } from "./tools";
 
@@ -56,7 +57,7 @@ export function llmsTxt({ origin, guides, hasApi }: LlmsTxtInput): string {
     ...TOOLS.map((tool) => link(tool.title, `/tools/${tool.slug}`)),
     "",
     "## For agents",
-    link("AI agents", "/agents", `set-up steps for Claude (the MCP connector ${origin}/mcp, plugin and skill), ChatGPT, Codex, Gemini, Grok and any MCP or OpenAPI client`),
+    link("AI agents", "/agents", `set-up steps (the MCP connector ${origin}/mcp) for ${AGENT_TABS.filter((tab) => tab.slug !== "any").map((tab) => tab.label).join(", ")} and any MCP or OpenAPI client`),
     link("MCP server card", "/.well-known/mcp/server.json"),
     link("OpenAPI", "/openapi.json", "the REST mirror of the agent tools, each answer an evidence envelope"),
     link("Metrics", "/api/v1/metrics", "JSON: every figure with its source and latest period"),

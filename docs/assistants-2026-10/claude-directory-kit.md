@@ -58,8 +58,8 @@
 | Имя сервера | `close-knit` (registry `com.getcloseknit/close-knit`) | `api/area_api/mcp_server.py`, `server.json` |
 | Title | `Close Knit` | там же |
 | Описание сервера | London neighbourhoods and homes: crime, schools, prices, rents, commute, green space, sourced. | там же |
-| Версия | 2.0.3 | там же |
-| Иконка | `https://getcloseknit.com/icon.svg` (128×128 viewBox). PNG нет: `/icon.png` → 404 | `ICON` |
+| Версия | 2.0.4 | там же |
+| Иконка | `https://getcloseknit.com/icon.png` (PNG 512×512, скруглённая плитка, `web/public/icon.png`) + `https://getcloseknit.com/icon.svg` (128×128 viewBox) | `ICONS` |
 | Сайт | `https://getcloseknit.com` (публичный, `CLOSE_KNIT_ACCESS=public`) | `WEBSITE_URL` |
 | Репо для пользователей | `https://github.com/bmsdave/close-knit-mcp` (публичный, MIT; `.mcp.json`, `skills/find-a-home/SKILL.md`, README, Gemini-расширение) | `REPOSITORY` |
 | Инструменты | 24; 5 с виджетом MCP Apps `ui://close-knit/home-search.html` | `tools/list` |
@@ -110,7 +110,7 @@ Close Knit helps you decide where to live in London, with evidence you can check
 - Support contact: `hello@getcloseknit.com` (MX есть: пересылка Porkbun)
 - Website: `https://getcloseknit.com`
 - Repository: `https://github.com/bmsdave/close-knit-mcp`
-- Icon: `https://getcloseknit.com/icon.svg` + загрузить PNG 512×512 (сделать, §7)
+- Icon: загрузить `web/public/icon.png` (PNG 512×512, `https://getcloseknit.com/icon.png`) (сделано, §7)
 - Slug: `close-knit`
 - Allowed link URIs: `https://getcloseknit.com`
 
@@ -232,7 +232,7 @@ Intended for people under 18: no.
 2. **Аренда не загружена на проде**: `get_rent_levels` → `null`, `find_areas(market=rent)` не учитывает бюджет. Нарушает «every tool must return a successful response» по смыслу. Загрузить ренты (ONS PIPR) или пометить инструмент.
 3. **Таймауты БД** (§5): разобраться до подачи; health badge считается по 30 дням.
 4. ~~**`/privacy`, `/terms`, `/agents`, `/claude` за паролем превью (401)** — G3, G2.~~ **Исправлено**: сайт публичный после переключения доступа; `/privacy`, `/terms`, `/about`, `/agents`, `/brief`, `/area/london` → 200 без логина.
-5. **Нет PNG-иконки**: `/icon.png` → 404, есть только SVG 128×128. Сделать PNG 512×512.
+5. ~~**Нет PNG-иконки**: `/icon.png` → 404, есть только SVG 128×128.~~ **Исправлено в коде**: `web/public/icon.png`, PNG 512×512 (скруглённая плитка с доски владельца), первой в `icons` (`server.json` и `ICONS`, версия 2.0.4); на проде — после выкладки.
 6. **Нет скриншотов MCP App**: 3–5 PNG ≥1000 px, каждый со своим промптом (шортлист, карточка района, проверка объявления). Снять после G2, чтобы карта и ссылки работали.
 7. **Покрытие названо по-разному**: описание сервера, `find_areas`, промпт `find-a-home` — «London»; `plugin.json` и `SKILL.md` — «England, London in depth»; ответы для шотландских индексов — `outside-london`, а Манчестер обслуживается. Решить, что пишем в листинге, и выровнять `reason`/тексты ошибок (`outside-coverage`).
 8. **Свободный текст вне покрытия** («Glasgow», «Edinburgh») находит лондонские улицы без `reason` — ревьюер на тест-промпте вне Лондона увидит странный ответ.

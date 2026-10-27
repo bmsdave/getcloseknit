@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: AgentTabProps): Promise<Metad
   return isAgentSlug(agent) ? agentsMetadata(agent) : {};
 }
 
-/** /agents/chatgpt, /codex, /any; /agents/claude is /agents itself. */
+/** /agents/<app> for every app but Claude: /agents/claude is /agents itself. */
 export default async function AgentTabPage({ params }: AgentTabProps) {
   const { agent } = await params;
   if (!isAgentSlug(agent)) notFound();

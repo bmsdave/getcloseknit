@@ -1,8 +1,10 @@
 {
   "name": "close-knit",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Find the best place to live in England, London in depth, by talking to Claude: area shortlist, feedback, evidence, listings and a watch for new homes.",
   "author": { "name": "Close Knit" },
   "homepage": "https://getcloseknit.com/agents",
+  "privacyPolicyUrl": "https://getcloseknit.com/privacy",
+  "icon": ".claude-plugin/icon.png",
   "keywords": ["london", "england", "housing", "home search", "property", "neighbourhoods", "mcp"]
 }

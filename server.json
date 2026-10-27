@@ -3,13 +3,18 @@
   "name": "com.getcloseknit/close-knit",
   "title": "Close Knit",
   "description": "London neighbourhoods and homes: crime, schools, prices, rents, commute, green space, sourced.",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "websiteUrl": "https://getcloseknit.com",
   "repository": {
     "url": "https://github.com/bmsdave/close-knit-mcp",
     "source": "github"
   },
   "icons": [
+    {
+      "src": "https://getcloseknit.com/icon.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    },
     {
       "src": "https://getcloseknit.com/icon.svg",
       "mimeType": "image/svg+xml",

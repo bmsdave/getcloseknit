@@ -29,7 +29,7 @@ handle /access/* {
 
 # The browser fetches /favicon.ico on its own; a 401 there pops the login
 # dialog over the invite page, so let it through (it holds nothing).
-# Same for /manifest.webmanifest and /icon.svg (fetched without credentials).
+# Same for /manifest.webmanifest, /icon.svg and /icon.png (fetched without credentials).
 # The MCP endpoint and /.well-known/* stay open too: Claude's connector
 # cannot send the shared login, and a 401 there makes it try OAuth client
 # registration, which this server does not offer, so the connector fails.
@@ -52,7 +52,7 @@ handle /access/* {
 # self-hosted font): code shipped to every visitor, no data. /_next/image and /_next/data stay
 # locked: no open page uses them.
 @locked {
-	not path /api/v1/health /access/* /favicon.ico /manifest.webmanifest /icon.svg /mcp /mcp/* /go/* /.well-known/* /register /authorize /token /bot /api/v1/listing-card /api/v1/listing-badges /api/v1/extension-config /privacy /privacy/* /terms /about /_next/static/*
+	not path /api/v1/health /access/* /favicon.ico /manifest.webmanifest /icon.svg /icon.png /mcp /mcp/* /go/* /.well-known/* /register /authorize /token /bot /api/v1/listing-card /api/v1/listing-badges /api/v1/extension-config /privacy /privacy/* /terms /about /_next/static/*
 	not query invite=*
 	not expression `{env.CLOSE_KNIT_INVITE_TOKEN}.size() >= 20 && {http.request.cookie.ae_invite} == {env.CLOSE_KNIT_INVITE_TOKEN}`
 }

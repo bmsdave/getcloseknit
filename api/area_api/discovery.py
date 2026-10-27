@@ -35,7 +35,7 @@ def mcp_manifest(request: Request) -> dict:
         "version": mcp_server.SERVER_VERSION,
         "websiteUrl": mcp_server.WEBSITE_URL,
         "repository": mcp_server.REPOSITORY,
-        "icons": [mcp_server.ICON],
+        "icons": mcp_server.ICONS,
         "remotes": [{"type": "streamable-http", "url": f"{public_base_url(request)}{mcp_server.MCP_PATH}"}],
     }
 
@@ -47,7 +47,7 @@ def mcp_server_card() -> JSONResponse:
         "serverInfo": {"name": mcp_server.SERVER_NAME, "title": mcp_server.SERVER_TITLE,
                        "version": mcp_server.SERVER_VERSION},
         "description": mcp_server.SERVER_DESCRIPTION,
-        "iconUrl": mcp_server.ICON["src"],
+        "iconUrl": mcp_server.ICONS[0]["src"],
         "transport": {"type": "streamable-http", "endpoint": mcp_server.MCP_PATH},
         "tools": "dynamic",  # SEP-1649: full Tool objects or "dynamic"; tools/list has them
     }

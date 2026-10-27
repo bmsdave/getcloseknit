@@ -56,7 +56,7 @@ test("JSON-LD is schema.org and cannot close its script early", () => {
 
 test("the sitemap lists guide, glossary, tools, agents and every area; never a page that only redirects", () => {
   const paths = sitemapPaths([{ geographyId: "uk:lad:E09000033" }, { geographyId: "uk:lsoa:E01000001" }]);
-  for (const path of ["/", "/guide", "/guide/glossary", "/agents", "/agents/chatgpt", "/agents/any", "/tools", "/tools/stamp-duty", "/tools/check-a-home", "/area/london", "/rankings",
+  for (const path of ["/", "/guide", "/guide/glossary", "/agents", "/agents/chatgpt", "/agents/any", "/agents/gemini", "/agents/claude-code", "/agents/le-chat", "/tools", "/tools/stamp-duty", "/tools/check-a-home", "/area/london", "/rankings",
     "/area/lad/E09000033", "/area/lsoa/E01000001"]) assert.ok(paths.includes(path), path);
   assert.ok(paths.some((path) => path.startsWith("/guide/")), "guide articles");
   assert.equal(new Set(paths).size, paths.length, "no duplicates");

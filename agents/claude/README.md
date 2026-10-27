@@ -37,8 +37,8 @@ python3 agents/smoke_mcp_http.py http://localhost:8080      # whole flow over MC
 
 Restart the session, then say "Help me find a 2-bed to buy in London under £600k" or run
 `/close-knit:find-a-home`. One-off without installing: `claude --plugin-dir agents/claude/plugin`.
-The plugin connects to `${CLOSE_KNIT_MCP_URL:-https://getcloseknit.com/mcp}` (set
-`CLOSE_KNIT_MCP_URL=http://localhost:8080/mcp` for a local API); check it with
+The plugin connects to `https://getcloseknit.com/mcp` (the directory accepts only a fixed https URL; for a
+local API add it yourself with `claude mcp add --transport http close-knit-local http://localhost:8080/mcp`); check it with
 `claude mcp list` (`plugin:close-knit:close-knit … ✔ Connected`). Claude Code shows text and
 links; the interactive widget appears in the Claude app and claude.ai.
 

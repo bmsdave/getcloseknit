@@ -15,16 +15,7 @@ export function CopyField({ value, label, testId, multiline = false }: {
   testId?: string;
   multiline?: boolean;
 }) {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
-    } catch {
-      setCopied(false);
-    }
-  };
+  const [copied, copy] = useCopy(value);
   return (
     <div className={`copy-field${multiline ? " copy-field--multiline" : ""}`}>
       {multiline
@@ -36,4 +27,29 @@ export function CopyField({ value, label, testId, multiline = false }: {
       </button>
     </div>
   );
+}
+
+/** A page's one primary action when that action is a copy (DESIGN.md §7: primary fill and running stitch). */
+export function CopyButton({ value, label, icon, testId }: { value: string; label: string; icon: string; testId?: string }) {
+  const [copied, copy] = useCopy(value);
+  return (
+    <button type="button" className="primary-action" onClick={copy} data-testid={testId}>
+      <KnitIcon name={copied ? "check" : icon} colour="var(--on-primary)" className="copy-field__icon" />
+      <span aria-live="polite">{copied ? "Copied" : label}</span>
+    </button>
+  );
+}
+
+function useCopy(value: string): [boolean, () => Promise<void>] {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+  return [copied, copy];
 }

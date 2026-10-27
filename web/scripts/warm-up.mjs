@@ -39,6 +39,7 @@ export const WARM_PATHS = [
   "/about",
   "/agents",
   "/agents/chatgpt",
+  "/agents/claude-code",
   "/bot",
   "/brief",
   "/civic",

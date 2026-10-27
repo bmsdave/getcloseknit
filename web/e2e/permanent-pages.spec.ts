@@ -105,8 +105,9 @@ test("the AI agents page (the old /claude) gives the connector URL, the command 
   await page.goto("/claude");
   await expect(page).toHaveURL(/\/agents$/);
   await expect(page.getByTestId("agents-mcp-url")).toHaveText(/\/mcp$/);
-  await expect(page.getByTestId("agents-claude-command")).toContainText("claude mcp add --transport http close-knit");
   await expect(page.getByRole("link", { name: /find-a-home\.zip/ })).toHaveAttribute("href", "/downloads/find-a-home.zip");
+  await page.goto("/agents/claude-code");
+  await expect(page.getByTestId("agents-claude-command")).toContainText("claude mcp add --transport http close-knit");
 });
 
 // House-level map: parcels appear for the £/m² layers from zoom 14 and a
