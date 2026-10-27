@@ -1,14 +1,14 @@
 # Finding real listings
 
-Close Knit never fetches, stores or ranks listings. You find them on the user's behalf, the way
-the user would in their own browser, and use Close Knit to judge them.
+Close Knit never fetches, stores or ranks listings. You find them on the user's behalf on the
+public portal pages, and use Close Knit to judge them.
 
 ## Steps
 
 1. `get_listing_search_links(area_ids=[favourites], market, max_price, min_bedrooms)` → one search
    per postcode district with Rightmove, Zoopla, OnTheMarket (and OpenRent for rentals) links,
    already filtered.
-2. If you can browse (web fetch, or the user's browser if they asked you to use it): open each
+2. If you can fetch public web pages: open each
    search page once and read the listings on it. One page per search; no crawling through
    pagination unless the user asks; no logging in; respect a site that blocks you and tell the user.
    If you cannot browse, give the user the links as a short list and ask them to paste the
