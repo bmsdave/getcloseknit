@@ -1,0 +1,30 @@
+# Enfield: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000010
+slug: enfield
+name: Enfield
+register:
+  status: search-only
+  url: https://enfield.metastreet.co.uk/public-register
+  page: https://www.enfield.gov.uk/services/housing/houses-in-multiple-occupation
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-09-01
+  end: 2030-08-31
+  url: https://www.enfield.gov.uk/services/housing/private-rented-property-licensing
+- kind: selective
+  wards: [Bowes, Brimsdown, Bullsmoor, Carterhatch, Edmonton Green, Enfield Lock, Haselbury, Jubilee, Lower Edmonton, Ponders End, Southbury, Upper Edmonton, Whitewebbs, New Southgate, Palmers Green, Southgate, Town]
+  start: 2026-09-01
+  end: 2031-08-31
+  url: https://www.enfield.gov.uk/services/housing/selective-licensing-scheme
+notes: >-
+  Postcode search portal; a paid copy of the public licence register is sold via the council payment form. The 14-ward
+  scheme from 2021 expired 2026-08-31 and is replaced by the 17-ward scheme. End dates are start plus five years
+  (third-party guide); enfield.gov.uk blocks scripts (403), pages read in a browser.

@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/scope?regions=E12000007",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"scope.v1\",\"id\":\"uk:nation:E92000001\",\"level\":\"nation\",\"name\":\"England\",\"served\":[{\"id\":\"uk:region:E12000007\",\"code\":\"E12000007\",\"name\":\"London\"}],\"bbox\":[-6.45,49.86,1.77,55.82],\"outsideReason\":\"outside-coverage\"}"
+}

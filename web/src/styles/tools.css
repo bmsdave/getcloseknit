@@ -1,0 +1,247 @@
+/* /tools pages: stamp duty, mortgage rates tracker, buy-to-let (track M). */
+.tools-page {
+  --rate-bankRate: var(--ink);
+  /* Chart kit tokens: themed in Day and Night (auto or explicit). */
+  --rate-fixed2: var(--chart-1);
+  --rate-fixed3: var(--chart-5);
+  --rate-fixed5: var(--chart-4);
+}
+/* A ~44px title under the tabs, then the notice as one muted line with its (?). */
+.methodology.tools-page > h1 { margin: 18px 0 4px; font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.05; letter-spacing: -0.035em; }
+.tools-advice { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: 0; color: var(--muted); font-size: var(--fs-xs); font-weight: 600; }
+
+/* "Tools" (to /tools) and the four tabs: one row that scrolls sideways on a phone, never wrapping into a wall of pills. */
+.tools-nav {
+  display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; margin: 4px 0 0; padding: 4px 0 2px; overflow-x: auto;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.tools-nav::-webkit-scrollbar { display: none; }
+.tools-nav a { flex: none; white-space: nowrap; }
+
+/* Inputs and the result side by side: the result sticks beside the inputs on a wide screen.
+   On a phone the result follows the inputs and a bar pinned to the bottom keeps the answer in view. */
+.tools-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 24px; align-items: start; }
+.tools-bar {
+  position: fixed; z-index: 20; right: 0; bottom: 0; left: 0; display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 2px 10px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line);
+  background: var(--surface); color: var(--muted); font-size: var(--fs-sm); box-shadow: 0 -6px 18px rgb(0 0 0 / 0.08);
+}
+.tools-bar:empty { display: none; }
+.tools-bar strong { color: var(--ink); font: 700 var(--fs-xl)/1.1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.tools-bar strong.tools-negative { color: var(--danger); }
+.tools-page:has(.tools-bar:not(:empty)) { padding-bottom: 96px; }
+.tools-sources-fold > summary { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--fs-lg); font-weight: 700; cursor: pointer; }
+@media (min-width: 960px) {
+  .tools-layout { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  .tools-layout__result { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; }
+  .tools-bar { display: none; }
+  .tools-page:has(.tools-bar:not(:empty)) { padding-bottom: 0; }
+}
+/* Tool tabs are calm chips; the chosen one is the chosen tag: primary fill and a running stitch (DESIGN.md §7). */
+.tools-nav a {
+  position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-sm); font-weight: 700; text-decoration: none;
+}
+.tools-nav a:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.tools-nav a[aria-current="page"] { color: var(--on-primary); background: var(--primary); }
+.tools-nav a[aria-current="page"]::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.tools-nav a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* "Tools" is the row's title, bold text rather than a chip. */
+.tools-nav a.tools-nav__home { padding: 0 8px 0 0; background: none; font-size: var(--fs-md); font-weight: 800; }
+.tools-nav a.tools-nav__home:hover { background: none; text-decoration: underline; text-underline-offset: 3px; }
+.tools-nav a.tools-nav__home[aria-current="page"] { color: var(--ink); background: none; }
+.tools-nav a.tools-nav__home[aria-current="page"]::after { content: none; }
+/* The investor calculator's tabs (buy-to-let, HMO, BRRR, flip): the same chips as the tool tabs above, as buttons. */
+.tools-tabs { display: flex; flex-wrap: nowrap; gap: 6px; margin: 4px 0 0; padding: 4px 0 2px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.tools-tabs::-webkit-scrollbar { display: none; }
+.tools-tabs button {
+  position: relative; flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font: 700 var(--fs-sm)/1 var(--font-sans); white-space: nowrap; cursor: pointer;
+}
+.tools-tabs button:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.tools-tabs button[aria-selected="true"] { color: var(--on-primary); background: var(--primary); }
+.tools-tabs button[aria-selected="true"]::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.tools-tabs button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* In the home page's Tools block the result follows the inputs: one column, no pinned bar. */
+.tools-stack { display: grid; gap: 0; }
+.tools-ornament { max-width: 760px; margin: 24px 0 0; }
+.tools-prefill { margin: 12px 0 0; font-size: var(--fs-sm); }
+.tools-handoff { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.tools-handoff__lead { flex-basis: 100%; margin: 0; color: var(--muted); font-size: var(--fs-sm); }
+.tools-handoff .property-button > span[aria-hidden="true"] { margin-left: 4px; }
+
+.tools-card { margin-top: 24px; }
+.tools-card h2 { font-size: var(--fs-2xl); }
+.tools-index { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4); margin: 24px 0 0; padding: 0; list-style: none; }
+.tools-index__card { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; margin: 0; }
+.tools-index__card:hover { background: color-mix(in srgb, var(--surface) 92%, var(--ink)); }
+.tools-index__card h2 { font-size: var(--fs-xl); }
+.tools-index h2 a { color: inherit; text-decoration: none; }
+/* The whole card is the link's target. */
+.tools-index h2 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.tools-index h2 a:focus-visible { outline: none; }
+.tools-index__card:has(a:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.tools-index__icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--radius-lg); background: var(--chip); }
+.tools-index__glyph { width: 28px; height: 28px; }
+.tools-index__arrow { width: 22px; height: 22px; justify-self: end; }
+
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px 16px; margin-top: 18px; }
+/* Fields: a surface box with a 1.5px field line, the unit (£, %, years) sewn in beside the number. */
+.tools-field { display: grid; gap: 6px; min-width: 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.tools-field__input {
+  display: flex; align-items: center; gap: 6px; height: 48px; padding: 0 14px; border: 1.5px solid var(--field-line);
+  border-radius: 12px; background: var(--surface); cursor: text;
+}
+.tools-field__input:focus-within { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 1px; }
+.tools-field input {
+  flex: 1; min-width: 0; width: 100%; height: 100%; padding: 0; border: 0; outline: none; background: none;
+  color: var(--ink); font: 600 var(--fs-md)/1 var(--font-sans); font-variant-numeric: tabular-nums;
+}
+.tools-field__adorn { flex: none; color: var(--muted); font-size: var(--fs-md); font-weight: 700; white-space: nowrap; }
+
+/* Checkboxes are stitched toggles: --wool felt when off, the primary fill with a running stitch when on. */
+.tools-checks { display: grid; gap: var(--space-1); margin-top: 18px; }
+.tools-check { display: flex; align-items: center; gap: var(--space-1); }
+.tools-check > label { display: inline-flex; align-items: center; gap: var(--space-3); min-height: 44px; color: var(--ink); font-size: var(--fs-md); cursor: pointer; }
+.tools-toggle {
+  appearance: none; position: relative; flex: none; width: 48px; height: 28px; margin: 0; border-radius: var(--radius-pill);
+  background: var(--wool); box-shadow: inset 0 0 0 1.5px var(--field-line); cursor: pointer; transition: background .15s;
+}
+.tools-toggle::before {
+  content: ""; position: absolute; inset: 3px; border: 1.5px dashed transparent; border-radius: inherit; pointer-events: none;
+}
+.tools-toggle::after {
+  content: ""; position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--surface); box-shadow: 0 1px 2px rgb(0 0 0 / .3); transition: transform .15s;
+}
+.tools-toggle:checked { background: var(--primary); box-shadow: none; }
+.tools-toggle:checked::before { border-color: var(--stitch); }
+.tools-toggle:checked::after { background: var(--on-primary); transform: translateX(20px); }
+.tools-toggle:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .tools-toggle, .tools-toggle::after { transition: none; } }
+
+/* Radios are chips: the chosen one carries the primary fill and the running stitch. */
+.tools-radios { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 18px 0 0; padding: 0; border: 0; }
+.tools-radios legend { margin-bottom: 8px; padding: 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.tools-radios label {
+  position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-sm); font-weight: 700; cursor: pointer;
+}
+.tools-radios input { appearance: none; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border-radius: inherit; cursor: pointer; }
+.tools-radios label:has(input:checked) { color: var(--on-primary); background: var(--primary); }
+.tools-radios label:has(input:checked)::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.tools-radios label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.tools-headline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: 14px 0 0; }
+.tools-headline strong { color: var(--ink); font: 800 clamp(2.5rem, 9vw, 3.75rem)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
+.tools-headline span { color: var(--muted); }
+.methodology-card .tools-subtle { font-size: var(--fs-sm); }
+.methodology-card .tools-note { color: var(--ink); font-size: var(--fs-sm); font-weight: 600; }
+.tools-negative { color: var(--danger); }
+
+.tools-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); margin: 16px 0 0; }
+/* Result tiles: the label, a big number, and a satin meter with its share in words where one means something. */
+.tools-stats > div { padding: var(--space-4); border-radius: var(--radius-lg); background: var(--chip); }
+.tools-stats dt { display: flex; align-items: center; gap: 2px; color: var(--muted); font-size: var(--fs-xs); font-weight: 700; }
+.tools-stats dd { display: grid; gap: var(--space-2); margin: 8px 0 0; }
+.tools-stats dd strong { font: 800 clamp(1.625rem, 5vw, 2rem)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+.tools-stats dd span { color: var(--muted); font-size: var(--fs-2xs); line-height: 1.4; }
+.tools-meter { display: block; max-width: 100%; }
+.tools-stats [data-rate] dt .rates-mark { margin-right: 8px; }
+
+.tools-table-wrap { margin-top: 16px; overflow-x: auto; }
+.tools-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.tools-table caption { padding-bottom: 8px; color: var(--muted); font-size: var(--fs-xs); font-weight: 700; text-align: left; }
+.tools-table th, .tools-table td { padding: 10px 8px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
+.tools-table th:first-child { text-align: left; font-weight: 600; }
+.tools-table thead th { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.tools-table tfoot th, .tools-table tfoot td, .tools-table__total th, .tools-table__total td { font-weight: 800; border-bottom: 0; }
+.tools-table__idle { color: var(--muted); }
+/* Each band's share of the tax: a satin meter with the share as text beside it. */
+.tools-bands tbody th:first-child { min-width: 9em; white-space: normal; }
+.tools-bands :is(th, td) { padding-right: 6px; padding-left: 6px; }
+.tools-share { display: inline-flex; align-items: center; justify-content: flex-end; gap: var(--space-2); }
+.tools-share > svg { display: block; flex: none; }
+.tools-share > span { min-width: 4ch; text-align: right; }
+.tools-rate-tables { display: grid; align-items: start; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 16px; }
+
+.tools-sources { margin: 12px 0 0; padding-left: 18px; }
+.tools-sources a { display: inline-flex; align-items: center; min-height: 44px; }
+
+.tools-details { margin-top: 18px; }
+.tools-details > summary {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-md);
+  background: var(--chip); color: var(--ink); font-weight: 700; cursor: pointer;
+}
+
+/* Mortgage rates chart: the SVG stretches; labels are HTML so they stay legible on a phone. */
+.tools-page [data-rate="bankRate"] { --line-colour: var(--rate-bankRate); }
+.tools-page [data-rate="fixed2"] { --line-colour: var(--rate-fixed2); }
+.tools-page [data-rate="fixed3"] { --line-colour: var(--rate-fixed3); }
+.tools-page [data-rate="fixed5"] { --line-colour: var(--rate-fixed5); }
+.rates-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: var(--fs-sm); }
+.rates-legend li { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* Series keys: a strand of each series' yarn; Bank Rate is a dashed ink rule. */
+.rates-mark { display: inline-block; flex: none; width: 26px; height: 13px; overflow: visible; }
+.rates-mark--bank { height: 0; border-top: 2.5px dashed var(--rate-bankRate); }
+.rates-chart { margin: 14px 0 0; }
+.rates-chart__plot { position: relative; height: 320px; margin-left: 34px; }
+.rates-chart__plot > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.rates-chart__grid { stroke: var(--rule); stroke-width: 1; vector-effect: non-scaling-stroke; }
+/* Fixed rates are stem stitch (StemLine); the svg stretches, so stitches keep their size with a non-scaling stroke. */
+.rates-chart__line { fill: none; vector-effect: non-scaling-stroke; }
+.rates-chart__bank { stroke: var(--rate-bankRate); stroke-width: 2; stroke-dasharray: 7 5; stroke-linecap: round; stroke-linejoin: round; }
+/* Today's value on each fixed rate: a small dot over the stretched svg, placed in % of its box. */
+.rates-chart__dot { position: absolute; transform: translate(-50%, -50%); line-height: 0; pointer-events: none; }
+.rates-chart__dot .dot { display: block; overflow: visible; }
+.rates-chart__y {
+  position: absolute; left: -34px; width: 28px; transform: translateY(-50%);
+  color: var(--muted); font-size: var(--fs-2xs); text-align: right; font-variant-numeric: tabular-nums;
+}
+.rates-chart__x { position: relative; height: 22px; margin: 6px 0 0 34px; color: var(--muted); font-size: var(--fs-2xs); }
+.rates-chart__x span { position: absolute; top: 0; transform: translateX(-50%); }
+.rates-chart figcaption { margin-top: 8px; color: var(--muted); line-height: 1.5; }
+
+/* Check a home: the tools moved out of the area card, fields in columns on a wide screen. */
+.check-home { display: grid; gap: var(--space-4); margin-top: 24px; }
+.check-home > .tools-prefill, .check-home > .property-tools { margin: 0; }
+.check-home__back { display: flex; flex-wrap: wrap; align-items: center; gap: 0 18px; }
+.check-home__back a { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; }
+.check-home .tools-card { margin-top: 0; }
+.check-home .tools-card > :first-child { margin-top: 0; }
+.check-home .cost-worksheet, .check-home .leasehold-checklist { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); column-gap: 16px; }
+.check-home .cost-worksheet > :not(label), .check-home .leasehold-checklist > :not(label) { grid-column: 1 / -1; }
+/* The worksheet as a knit card, its result up top: the month big (as the sibling tools' headline),
+   cash upfront beside it, on the soft chip fill; the fields follow. */
+.cost-worksheet__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.cost-worksheet__head h2 { margin: 0; font-size: var(--fs-2xl); }
+.cost-result { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-3); margin: 4px 0; }
+.cost-worksheet > .cost-result__tile, .cost-result .cost-result__tile {
+  display: grid; align-content: start; gap: 4px; margin: 0; padding: 14px 16px; border-radius: var(--radius-md); background: var(--chip); color: var(--ink);
+}
+.cost-result__label { color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+.cost-result__tile strong { color: var(--ink); font: 800 clamp(1.75rem, 6vw, 2.25rem)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -.03em; }
+.cost-result__tile--lead strong { font-size: clamp(2.5rem, 9vw, 3.75rem); letter-spacing: -.04em; }
+.cost-result__tile strong[data-empty] { font: 700 var(--fs-lg)/1.3 var(--font-sans); letter-spacing: 0; }
+.cost-result__detail { color: var(--muted); font-size: var(--fs-sm); line-height: 1.45; }
+.check-home .user-candidates form { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px 16px; align-items: end; }
+.check-home .user-candidates form > button { justify-self: start; }
+.check-home .user-candidates label { display: grid; gap: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.check-home .user-candidates input, .check-home .user-candidates select {
+  min-width: 0; width: 100%; min-height: 44px; padding: 0 10px; border: 1px solid var(--field-line, var(--rule)); border-radius: 8px;
+  color: var(--ink); background: var(--surface); font: inherit;
+}
+
+@media (max-width: 640px) {
+  .tools-card { padding: 20px 16px; }
+  .rates-chart__plot { height: 240px; }
+  .tools-table { font-size: var(--fs-xs); }
+  .tools-table th, .tools-table td { padding: 8px 4px; }
+  .tools-table tbody th:first-child { white-space: normal; }
+}

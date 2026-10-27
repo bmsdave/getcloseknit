@@ -1,0 +1,369 @@
+# Havering (311): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 311
+slug: havering
+name: Havering
+licence:
+  statement: 2026 © London Borough of Havering (site footer; no OGL statement found)
+  url: https://www.havering.gov.uk/
+licence_decision: unresolved
+aliases:
+  Abbs Cross Academy: '136663'
+  Ardleigh Green Infants: '149452'
+  Coopers' Co & Coborn: '136600'
+  The Coopers' Co & Coborn School: '136600'
+  Crownfield Infants: '102295'
+  Drapers' Brookside Infants: '142966'
+  Hornchuch High School: '143946'
+  Langtons Infants: '102280'
+  Parklands Infants: '102299'
+  Rise Park Infants: '141299'
+  Scargill Infants: '144589'
+  Squirrels Heath Infants: '102303'
+  St Ursula's RC Infants: '102332'
+  The Mawney School: '131426'
+  The RJ Mitchell Primary: '131590'
+  Towers Infants: '102309'
+  Upminster Infants: '138943'
+  Whybridge Infants: '102285'
+docs:
+- phase: primary
+  year: 2019
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/3139/infant-and-primary-school-statistics-2019
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2020
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  accept:
+  - '''Harold Court Primary'': distance 21906 m over 10 miles'
+  accept_note: Printed as 21.9065 km (school full, 60 of 60 offered); checked against the PDF and kept as printed.
+  url: https://www.havering.gov.uk/downloads/file/3762/infant-and-primary-school-statistics-2020
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2021
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/4697/infant-and-primary-school-statistics-2021
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2022
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/5453/infant-and-primary-school-statistics-2022
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2023
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/6185/infant-and-primary-school-statistics-2023
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2024
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/6583/infant-and-primary-school-statistics-2024
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2025
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/7022/infant-and-primary-school-statistics-2025
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: primary
+  year: 2026
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/7395/infant-and-primary-school-statistics-2026
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered_1_2_3_4to6
+- phase: secondary
+  year: 2019
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/3038/secondary-school-statistics-2019
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2020
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/3661/secondary-school-statistics-2020
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2021
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/4556/secondary-school-statistics-2021
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2022
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/5377/secondary-school-statistics-2022
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - sen
+  - looked_after
+  - social_medical
+  - siblings
+  - priority_area
+  - distance_offers
+  - allocated
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2023
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/6066/secondary-school-statistics-2023
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - partner_school
+  - aptitude
+  - random
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2024
+  accept:
+  - '''Abbs Cross Academy'': distance 19415 m over 10 miles'
+  accept_note: Printed as 19.415 km (school full, 180 offered); checked against the PDF and kept as printed.
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/6537/secondary-school-statistics-2024
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - partner_school
+  - aptitude
+  - random
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2025
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/6919/secondary-school-statistics-2025
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - partner_school
+  - aptitude
+  - random
+  - staff
+  - prefs_offered
+- phase: secondary
+  year: 2026
+  note: Applicants are the total preferences expressed (1-6, every preference naming the school); offers are the total places offered at initial allocation; refusals are not printed.
+  url: https://www.havering.gov.uk/downloads/file/7345/secondary-school-statistics-2026
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - places
+  - preferences
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - distance_offers
+  - allocated
+  - partner_school
+  - aptitude
+  - random
+  - staff
+  - prefs_offered
+catchment_maps: null
+notes: 'Listing pages: https://www.havering.gov.uk/downloads/download/396/infant-and-primary-school-statistics
+  and https://www.havering.gov.uk/downloads/download/398/secondary-school-statistics (2012-2026). Column
+  "Furthest Distance Taken at Initial Allocation in KM''s (Straight line distance)"; header "Initial Allocations
+  as of 16 April <year>" = NOD. Wide landscape tables; pdftotext -layout splits columns across very long
+  lines. Count lists sampled from 2019 and 2026 only; middle years assumed. "Preferences expressed" is
+  all preferences 1-6, not first-preference applicants. Some schools use "Priority Area" criteria (no
+  map found). Secondary footnote: Coopers'' distance is furthest Havering resident excluding random allocation.'

@@ -1,0 +1,58 @@
+/* Map objects in the knitted language (DESIGN.md › Map rules): dot
+   places, the home knot, route labels. The basemap stays a real map. */
+
+/* Your place (components/match/match-overlays.tsx): a dot, one size for
+   every place, coloured by its type, with a small label pill beside it. */
+.knit-place { display: flex; align-items: center; gap: var(--space-1); cursor: default; }
+.knit-place .dot { flex: none; display: block; filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.25)); }
+/* My places: an ink teardrop pin with a white glyph, its tip on the place. */
+.knit-place .knit-pin { flex: none; display: block; margin-top: -15px; filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 0.3)); }
+.knit-place-label {
+  padding: 3px 8px; border-radius: var(--radius-pill); white-space: nowrap;
+  font-size: var(--fs-2xs); font-weight: 700; line-height: 1.3;
+  color: var(--ink); background: var(--panel-solid);
+  border: 1px solid rgb(var(--ink-rgb) / 0.18); box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+}
+/* A marker on the map's one hit-test (lib/map-pick.ts registerPickMarker): a pointer when a click opens it;
+   a crosshair while a place is put down or a zone drawn (data-picking on the map). */
+.maplibregl-marker[data-pick="open"], .maplibregl-marker[data-pick="open"] * { cursor: pointer; }
+[data-picking="true"] .maplibregl-marker, [data-picking="true"] .maplibregl-marker * { cursor: crosshair; }
+.knit-must .knit-place-label { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink), 0 1px 3px rgb(0 0 0 / 0.18); }
+.knit-place .bm-modes button { border-color: rgb(var(--ink-rgb) / 0.35); background: var(--panel-solid); color: var(--muted); }
+.knit-place .bm-modes button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+
+/* The home picked from search: the small knitted house at its door. */
+.knit-home { width: 30px; pointer-events: none; filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.35)); }
+.knit-home .knit-logo { display: block; width: 100%; height: auto; }
+
+/* A home chosen on the map: a cobalt ring at the home itself (its parcel may be a title over a whole estate). */
+.chosen-home {
+  width: 20px; height: 20px; box-sizing: border-box; border-radius: 50%; pointer-events: none;
+  /* A light halo in both themes, as the timeline handle's yarn: the ring reads over any area colour. */
+  border: 3.5px solid var(--yarn-cobalt); background: transparent;
+  box-shadow: 0 0 0 2px var(--handle-yarn), 0 1px 5px rgb(0 0 0 / 0.35);
+}
+
+/* MapLibre's attribution, mounted in the map's ⓘ corner (layout.css › .map-credits). Here, after
+   maplibre-gl.css, these win over its equally specific .maplibregl-ctrl.maplibregl-ctrl-attrib. */
+.map-attribution-text .maplibregl-ctrl-attrib { margin: 0; padding: 0; background: none; }
+.map-attribution-text .maplibregl-ctrl-attrib a { color: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
+
+/* A road collision's card in the sheet (components/map-cards.tsx CollisionCard): chips in the dot's yarn, tokens only. */
+.collision-popup__line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font: 600 var(--fs-2xs)/1.4 var(--font-sans); color: var(--ink); }
+/* A clean pill with the dot's own yarn (DESIGN.md › Tags): text never sits on yarn. */
+.collision-popup__chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 1px 8px 1px 6px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-weight: 800;
+}
+.collision-popup__chip::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--yarn-sun); }
+.collision-popup__chip[data-severity="1"]::before { background: var(--yarn-cherry); }
+.collision-popup__chip[data-severity="2"]::before { background: var(--yarn-tangerine); }
+.collision-popup__year { font-weight: 700; font-variant-numeric: tabular-nums; }
+.collision-popup__dark { padding: 1px 8px; border-radius: var(--radius-pill); background: var(--chip); }
+.place-card__text .collision-popup__who { margin: 0; color: var(--ink); font-size: var(--fs-xs); font-weight: 700; }
+.collision-popup__zoom {
+  justify-self: start; min-height: 32px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); color: var(--ink); background: var(--chip);
+  font: inherit; font-weight: 800; cursor: pointer;
+}
+.collision-popup__zoom:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

@@ -1,0 +1,218 @@
+# Kingston upon Thames (314): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 314
+slug: kingston
+name: Kingston upon Thames
+licence:
+  statement: Copyright 2026 Achieving for Children (AfCinfo footer; no OGL statement; kingston.gov.uk
+    copyright page not found)
+  url: https://kr.afcinfo.org.uk/pages/web-site-information/disclaimer
+licence_decision: unresolved
+aliases:
+  Coombe Hill Infants': '102567'
+  The Hollyfield School: '137678'
+  Tolworth Girls' School: '137060'
+docs:
+- phase: primary
+  year: 2019
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://web.archive.org/web/20211128225200/https://www.kingston.gov.uk/downloads/file/226/allocation-of-kingston-community-primary-school-places-for-the-last-3-years
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - sen
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2020
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://web.archive.org/web/20211128225200/https://www.kingston.gov.uk/downloads/file/226/allocation-of-kingston-community-primary-school-places-for-the-last-3-years
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - sen
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2021
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://www.kingston.gov.uk/sites/default/files/downloads/Kingston_Prim_and_Jun_Offers_2023_2021.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2022
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://www.kingston.gov.uk/sites/default/files/downloads/Kingston_Prim_and_Jun_Offers_2023_2021.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2023
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://5f2fe3253cd1dfa0d089-bf8b2cdb6a1dc2999fecbc372702016c.ssl.cf3.rackcdn.com/uploads/ckeditor/attachments/18451/Kingston_Prim___Jun_Offers_2025-2023__for_publication_.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2024
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/20006/Kingston_Prim___Jun_Offers_2026-2023__for_publication_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2025
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/20006/Kingston_Prim___Jun_Offers_2026-2023__for_publication_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2026
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/20006/Kingston_Prim___Jun_Offers_2026-2023__for_publication_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - places
+  - ehcp
+  - looked_after
+  - siblings
+  - social_medical
+  - staff
+  - distance_offers
+  - appeals
+- phase: secondary
+  year: 2021
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://www.kingston.gov.uk/sites/default/files/downloads/Kingston_Sec_offers_2023_2021.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - pan
+- phase: secondary
+  year: 2022
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://www.kingston.gov.uk/sites/default/files/downloads/Kingston_Sec_offers_2023_2021.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - pan
+- phase: secondary
+  year: 2023
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  accept:
+  - '''Southborough High School'': distance not understood: ''Overseas'''
+  accept_note: 'Printed ''Overseas'' (the last place at offer day went to an applicant abroad): no distance; the row says nothing else and is not loaded.'
+  url: https://www.kingston.gov.uk/sites/default/files/downloads/Kingston_Sec_offers_2023_2021.pdf
+  format: pdf-table
+  units: km
+  method: null
+  counts:
+  - pan
+- phase: secondary
+  year: 2024
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  accept:
+  - '''Chessington School'': distance not understood: ''Overseas'''
+  accept_note: 'Printed ''Overseas'' (the last place at offer day went to an applicant abroad): no distance; the row says nothing else and is not loaded.'
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/19948/RBK_TSS_furthest_distance_offers__last_three_years__2024-2026___published_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - pan
+- phase: secondary
+  year: 2025
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/19948/RBK_TSS_furthest_distance_offers__last_three_years__2024-2026___published_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - pan
+- phase: secondary
+  year: 2026
+  note: Rolling three-year document; the configured year's cut-off distance at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://hubb-production.lon1.cdn.digitaloceanspaces.com/uploads/ckeditor/attachments/19948/RBK_TSS_furthest_distance_offers__last_three_years__2024-2026___published_%282%29.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - pan
+catchment_maps: null
+notes: 'Admissions run by Achieving for Children (shared with Richmond 318): pages under https://kr.afcinfo.org.uk/pages/community-information/information-and-advice/school-admissions/
+  (starting-school... and apply-for-a-secondary-school-place-in-september) list BOTH Kingston and Richmond
+  docs on shared AfC CDNs (hubb-production digitaloceanspaces and rackcdn 5f2fe325...). Rolling 3-year
+  docs; one doc per year assigned to the newest live doc covering it. Primary: community schools only
+  (academies/faith publish own); gives distance of last child at offer date AND furthest offered from
+  waiting list at end of national coordination (31 Aug). Primary 2024-2026 file name says "2026-2023"
+  but contains 2024-2026 only. Secondary: "Cut off distance at NOD" + "distance at end of NC" per year;
+  no criterion counts; academies "contact the school"; straight-line only implied (Google Maps straight-line
+  advice) in 2024-2026 doc. Secondary 2019/2020 not found (file/1020 slug "2021-2019" actually holds 2021-2023).
+  Other archived variants: rackcdn 14102/14108 (2021-23), 16708 (prim 2022-24, now 404), RBK_Notes_to_parents_following_secondary_2026_allocation.pdf
+  (rackcdn 19213, Wayback 20260611104622, now 404), RBK_Notes_to_parents_following_Secondary_2023_allocation_v3.docx.pdf
+  (live, 1 Mar 2023 furthest distances). Wayback: Schools_Allocation_List_2023.xlsx (rackcdn 12757) unchecked.'

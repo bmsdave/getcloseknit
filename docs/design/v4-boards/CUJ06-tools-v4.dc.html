@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CUJ-06 Tools v4</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #22252c; } a:hover { color: #2f5bd3; }
+.card { width: 500px; flex: none; box-sizing: border-box; padding: 16px; border: 1px solid #dfe7f0; border-radius: 14px; background: #ffffff; display: flex; flex-direction: column; gap: 12px; }
+.head { display: flex; align-items: center; gap: 10px; }
+.num { width: 30px; height: 30px; flex: none; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.route { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: #eef2f7; padding: 3px 8px; border-radius: 6px; }
+.what { font-size: 16px; font-weight: 700; }
+.note { font-size: 14px; line-height: 1.35; }
+.wf { width: 468px; height: 330px; box-sizing: border-box; border: 2px dashed #7a8494; border-radius: 8px; background: #ffffff; overflow: hidden; padding: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; line-height: 1.3; color: #22252c; }
+.map { position: relative; padding: 0; background: #e9eef3; }
+.blk { position: absolute; background: #dfe7f0; border-radius: 10px; }
+.hatch { background: repeating-linear-gradient(45deg, #d3d8df 0 4px, #eceff3 4px 8px); }
+.hdr { display: flex; align-items: center; gap: 6px; padding-bottom: 6px; border-bottom: 1px solid #dfe7f0; }
+.pill { display: inline-flex; align-items: center; gap: 6px; background: #eef2f7; border-radius: 999px; padding: 3px 4px 3px 8px; font-weight: 800; }
+.srch { display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border-radius: 999px; padding: 2px 10px 2px 6px; color: #5b6270; font-weight: 400; min-width: 84px; }
+.sv { display: inline-flex; align-items: center; gap: 4px; background: #eef2f7; border-radius: 999px; padding: 3px 9px; font-weight: 800; }
+.stack { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.cir { width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; background: #ffffff; border: 1px solid #dfe7f0; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); }
+.loc { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+.menu { position: absolute; left: 10px; top: 40px; width: 220px; box-sizing: border-box; padding: 8px; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 10px rgba(20, 30, 50, 0.18); display: flex; flex-direction: column; gap: 1px; font-size: 12px; }
+.mg { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; padding: 3px 4px 0; }
+.mi { padding: 1px 4px 1px 10px; }
+.mr { display: flex; align-items: center; gap: 6px; padding: 2px 4px; }
+.mr > b { flex: 1; }
+.seg { display: inline-flex; gap: 2px; background: #eef2f7; border-radius: 999px; padding: 2px; font-size: 11px; font-weight: 700; }
+.seg > span { padding: 0 8px; border-radius: 999px; }
+.seg > .on { background: #22252c; color: #ffffff; }
+.crumb { font-size: 12px; color: #5b6270; }
+.t1 { font-size: 18px; font-weight: 800; line-height: 1.1; }
+.btn { font-family: inherit; font-size: 12px; color: #22252c; background: #dfe7f0; border: 0; border-radius: 999px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.tag { background: #dfe7f0; border-radius: 999px; padding: 1px 8px; font-size: 12px; }
+.mut { color: #5b6270; font-size: 11px; }
+.tap { outline: 3px solid #2f5bd3; outline-offset: 2px; border-radius: 4px; }
+.tools { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.fld { display: flex; align-items: center; justify-content: space-between; gap: 8px; border: 1px solid #7a8494; border-radius: 6px; padding: 4px 8px; }
+.carry { font-size: 11px; color: #1f6b37; background: #e3f4e8; border-radius: 999px; padding: 0 6px; white-space: nowrap; }
+.res { display: flex; gap: 14px; align-items: baseline; }
+.big { font-size: 22px; font-weight: 800; }
+.hand { border: 1px solid #7a8494; border-radius: 8px; padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
+.nh { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; }
+.panel { position: absolute; right: 10px; top: 10px; bottom: 10px; width: 224px; box-sizing: border-box; padding: 8px; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 10px rgba(20, 30, 50, 0.18); display: flex; flex-direction: column; gap: 5px; font-size: 11px; }
+.ch { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #22252c; border-radius: 999px; padding: 1px 7px; font-weight: 700; white-space: nowrap; }
+.ch > em { font-style: normal; color: #5b6270; font-weight: 400; }
+.add { display: inline-flex; border: 1px dashed #7a8494; border-radius: 999px; padding: 0 6px; color: #5b6270; white-space: nowrap; }
+.mrow { display: flex; align-items: center; gap: 5px; border-bottom: 1px solid #dfe7f0; padding-bottom: 3px; }
+.mrow > span:nth-child(2) { flex: 1; }
+.pin { width: 16px; height: 16px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; position: absolute; }
+.pro { background: #e2f3e7; color: #1d5a36; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.con { background: #fdebd3; color: #9a4d00; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.tile { border: 1px solid #dfe7f0; border-radius: 8px; padding: 4px 6px; display: flex; flex-direction: column; gap: 2px; font-size: 10.5px; }
+.tile b { font-size: 12px; }
+.strip { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #dfe7f0, #9fb0c6); position: relative; }
+.strip > i { position: absolute; top: -2px; width: 3px; height: 8px; border-radius: 1px; background: #22252c; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.v3 { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #1d5a36; background: #e2f3e7; border: 1.5px solid #2e7d4f; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+.v4 { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #1f3f99; background: #e4ecfb; border: 1.5px solid #2f5bd3; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+.open { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #8f2a22; background: #fde4e2; border: 1.5px solid #c0352c; border-radius: 999px; padding: 2px 10px; }
+.arr { width: 150px; flex: none; box-sizing: border-box; padding: 200px 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.al { font-size: 15px; font-weight: 700; color: #2f5bd3; line-height: 1.3; }
+.ln { display: flex; align-items: center; }
+.ln > .l { flex: 1; border-top: 3px solid #7a8494; }
+.ln > .h { width: 0; height: 0; border-left: 14px solid #7a8494; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.lbl { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5b6270; }
+.chg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; max-width: 1900px; }
+.chg > div { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.chg > div > span:first-child { width: 130px; flex: none; justify-content: center; }
+</style>
+</helmet>
+<div style="width: 3862px; height: 1100px; box-sizing: border-box; padding: 56px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; display: flex; flex-direction: column; gap: 36px;">
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <h1 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;">CUJ-06 Tools · v4</h1>
+      <div style="display: flex; align-items: center; gap: 10px; background: #22252c; color: #ffffff; border-radius: 999px; padding: 8px 18px; font-size: 22px; font-weight: 800;">v2 5 → v4 6 steps</div>
+      <div style="font-size: 17px; color: #5b6270;">+1: My match rows have no Check button; Check a home sits in the area panel</div>
+    </div>
+    <p style="margin: 0; font-size: 20px;">Run the sums → apply them to a real area. Final state after v3 (shipped) + v4 (planned).</p>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 15px;">
+      <span style="font-weight: 700;">Entry:</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">≡ › Tools › Stamp duty</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">area panel › Check a home →</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">area page › What's next › Check a home</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; font-size: 14px; color: #5b6270;">
+      <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 14px; border: 3px solid #2f5bd3; border-radius: 3px;"></span>control tapped</span>
+      <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 30px; border-top: 3px solid #7a8494;"></span>linked step</span>
+      <span style="display: flex; align-items: center; gap: 8px;"><span class="carry" style="font-size: 13px;">£500k</span>number carried over</span>
+      <span class="v3">v3 Fix · shipped</span>
+      <span class="v4">v4 Task · planned</span>
+      <span class="open">open</span>
+      <span>Values illustrative</span>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px;">
+    <div class="lbl">Desktop · v4</div>
+    <div style="display: flex; align-items: flex-start;">
+
+      <div class="card">
+        <div class="head"><div class="num">1</div><div class="route">/</div><div class="what">Map · ≡ open</div></div>
+        <div class="note">10 links in three groups. Taps Stamp duty.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 250px; top: 230px; width: 150px; height: 70px;"></div>
+          <div class="blk" style="left: 250px; top: 60px; width: 120px; height: 120px;"></div>
+          <div style="position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center;">
+            <span class="pill" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch" style="background: #eef2f7;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span class="sv" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+          </div>
+          <div class="stack">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div class="loc"><div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f5bd3" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.5" fill="#2f5bd3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></div></div>
+          <div class="menu">
+            <div class="mg">Find a place</div>
+            <div class="mi">My match · Rankings · Boroughs</div>
+            <div class="mg">Tools</div>
+            <div class="mi">Check a home</div>
+            <div class="mi"><a href="#" class="tap">Stamp duty</a></div>
+            <div class="mi">Mortgage · Investor</div>
+            <div class="mg">Learn</div>
+            <div class="mi">Guide · AI agents · About</div>
+            <div style="border-top: 1px solid #dfe7f0; margin-top: 4px; padding-top: 3px; display: flex; flex-direction: column; gap: 2px;">
+              <div class="mr"><b>Map</b><span class="seg"><span class="on">2D</span><span>3D</span></span></div>
+              <div class="mr"><b>Colours</b><span style="width: 44px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #f3b0a7, #9fb0c6, #2f5bd3);"></span><span>›</span></div>
+              <div class="mr"><b>Theme</b><span class="seg"><span class="on">Auto</span><span>Day</span><span>Night</span></span></div>
+            </div>
+            <div class="mut" style="border-top: 1px solid #dfe7f0; margin-top: 3px; padding: 3px 4px 0;">Privacy · Terms · Feedback</div>
+          </div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 17 · 10 links</span><span class="v3">v3 Fix 13</span></div>
+      </div>
+
+      <div class="arr"><div class="al">≡ › Stamp duty</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">2</div><div class="route">/tools/stamp-duty</div><div class="what">Stamp duty</div></div>
+        <div class="note">Header and tabs never move between tools.</div>
+        <div class="wf">
+          <div class="hdr">
+            <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span style="flex: 1;"></span>
+            <span class="sv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+            <span class="btn">Map →</span>
+          </div>
+          <div class="tools"><a href="#" style="font-weight: 800;">Tools</a><span class="btn" style="background: #22252c; color: #ffffff;">Stamp duty</span><span class="btn">Mortgage rates</span><span class="btn">Buy-to-let</span><span class="btn">Check a home</span></div>
+          <div class="t1">Stamp duty</div>
+          <div class="mut">A guide, not financial advice <b>?</b></div>
+          <div class="fld"><span>Price</span><span style="font-weight: 800;">£500,000</span></div>
+          <div class="mut">☐ First-time buyer · ☐ Another home</div>
+          <div class="res"><span class="big">£15,000</span><span class="mut">3.00% of the price</span></div>
+          <div class="hand">
+            <span class="nh">Next with £500k</span>
+            <a href="#" class="tap" style="align-self: flex-start;">Buy-to-let with £500k →</a>
+            <a href="#" style="align-self: flex-start;">Areas this buys in →</a>
+          </div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 18 · tabs, no "All tools"</span><span class="v4">v4 Task 16 · 1120 px</span></div>
+      </div>
+
+      <div class="arr"><div class="al">Buy-to-let with £500k</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">3</div><div class="route">/tools/investor?price=500000</div><div class="what">Buy-to-let</div></div>
+        <div class="note">Price carried; rate from the Bank of England.</div>
+        <div class="wf">
+          <div class="hdr">
+            <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span style="flex: 1;"></span>
+            <span class="sv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+            <span class="btn">Map →</span>
+          </div>
+          <div class="tools"><a href="#" style="font-weight: 800;">Tools</a><span class="btn">Stamp duty</span><span class="btn">Mortgage rates</span><span class="btn" style="background: #22252c; color: #ffffff;">Buy-to-let</span><span class="btn">Check a home</span></div>
+          <div class="t1">Buy-to-let</div>
+          <div class="mut">A guide, not financial advice <b>?</b></div>
+          <div class="fld"><span>Price</span><span><span class="carry">from stamp duty</span> <b>£500,000</b></span></div>
+          <div class="fld"><span>Rate</span><span><span class="carry">BoE 5-yr</span> <b>4.78%</b></span></div>
+          <div class="res"><span><span class="mut">Gross</span> <b>[x]%</b></span><span><span class="mut">Net</span> <b>[x]%</b></span><span><span class="mut">Cash flow</span> <b>£[x]/mo</b></span></div>
+          <div class="hand">
+            <span class="nh">Next with £500k · 4.78%</span>
+            <a href="#" class="tap" style="align-self: flex-start;">Areas this buys in →</a>
+          </div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 18</span><span class="v4">v4 Task 16</span></div>
+      </div>
+
+      <div class="arr"><div class="al">Areas this buys in</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">4</div><div class="route">/?match&amp;budget=500000</div><div class="what">My match</div></div>
+        <div class="note">No wizard: the list opens with Budget ≤ £500k. Every area coloured; over budget hatched. Taps #1.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 14px; top: 46px; width: 70px; height: 70px; background: #2166ac;"></div>
+          <div class="blk" style="left: 88px; top: 50px; width: 64px; height: 60px; background: #67a9cf;"></div>
+          <div class="blk" style="left: 156px; top: 46px; width: 40px; height: 76px; background: #d1e5f0;"></div>
+          <div class="blk" style="left: 14px; top: 120px; width: 60px; height: 70px; background: #f7f7f7;"></div>
+          <div class="blk" style="left: 78px; top: 116px; width: 74px; height: 64px; background: #fddbc7;"></div>
+          <div class="blk hatch" style="left: 156px; top: 128px; width: 40px; height: 80px;"></div>
+          <div class="blk" style="left: 14px; top: 196px; width: 80px; height: 60px; background: #ef8a62;"></div>
+          <div class="blk hatch" style="left: 98px; top: 186px; width: 54px; height: 70px;"></div>
+          <div class="pin" style="left: 40px; top: 72px;">1</div>
+          <div class="pin" style="left: 112px; top: 72px;">2</div>
+          <div class="pin" style="left: 166px; top: 74px;">3</div>
+          <div class="stack" style="right: 244px;">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div style="position: absolute; left: 10px; bottom: 10px; width: 200px; display: flex; flex-direction: column; gap: 2px; background: #ffffff; border-radius: 8px; padding: 3px 8px; font-size: 10px;">
+            <div style="display: flex; height: 7px; border-radius: 3px; overflow: hidden;"><i style="flex: 1; background: #2166ac;"></i><i style="flex: 1; background: #67a9cf;"></i><i style="flex: 1; background: #d1e5f0;"></i><i style="flex: 1; background: #f7f7f7;"></i><i style="flex: 1; background: #fddbc7;"></i><i style="flex: 1; background: #ef8a62;"></i><i style="flex: 1; background: #b2182b;"></i></div>
+            <div style="display: flex;"><span style="flex: 1;">Most like</span><span>Least like your search</span></div>
+          </div>
+          <div class="panel">
+            <div style="display: flex; align-items: center; gap: 4px;"><b style="flex: 1; font-size: 13px;">My match</b><span class="sv" style="padding: 1px 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span><span>⟩</span></div>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px; align-items: center;"><span class="ch">Budget ≤ £500k <em>−2,950</em></span><span class="carry">from Tools</span></div>
+            <div><span class="mut">Travel to</span> <span class="add">+ Work, school, gym…</span></div>
+            <div class="mut">What matters</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px;"><span class="add">+ Safer streets</span><span class="add">+ Good schools</span><span class="add">+ Quiet streets</span><span class="add">+ Any layer…</span></div>
+            <div style="display: flex; align-items: baseline; gap: 4px;"><b style="font-size: 15px;">2,044</b><span class="mut">of 4,994 areas left</span></div>
+            <span class="seg" style="align-self: flex-start;"><span class="on">Top 10</span><span>Bottom 10</span></span>
+            <div class="mrow tap"><b>1</b><span>Leytonstone</span><b>78</b><span>☆</span></div>
+            <div class="mrow"><b>2</b><span>Walthamstow Village</span><b>74</b><span>☆</span></div>
+            <div class="mrow"><b>3</b><span>Forest Gate</span><b>71</b><span>☆</span></div>
+            <div class="mut" style="margin-top: auto;">Homes for sale: Rightmove ↗ · Zoopla ↗ · OnTheMarket ↗</div>
+          </div>
+        </div>
+        <div class="chips"><span class="v4">v4 Task 21c</span><span class="v4">v4 Task 21e</span><span class="v4">v4 Task 14</span><span class="v4">v4 Task 9</span></div>
+      </div>
+
+      <div class="arr"><div class="al">#1 Leytonstone</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">5</div><div class="route">/?selected=…&amp;layer=personal-match</div><div class="what">Area panel</div></div>
+        <div class="note">Camera flies to Leytonstone. One area view; your budget comes first in the tags. Taps Check a home →.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 14px; top: 46px; width: 90px; height: 90px; background: #2166ac;"></div>
+          <div class="blk" style="left: 108px; top: 50px; width: 84px; height: 80px; background: #67a9cf;"></div>
+          <div class="blk" style="left: 14px; top: 140px; width: 90px; height: 80px; background: #d1e5f0;"></div>
+          <div class="blk hatch" style="left: 108px; top: 136px; width: 84px; height: 90px;"></div>
+          <div class="blk" style="left: 14px; top: 46px; width: 90px; height: 90px; background: transparent; border: 3px solid #22252c; box-sizing: border-box;"></div>
+          <div style="position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center;">
+            <span class="pill" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch" style="background: #eef2f7; min-width: 60px;">Leytonstone</span></span>
+          </div>
+          <div class="stack" style="right: 244px;">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div class="panel">
+            <div style="display: flex; align-items: center; gap: 4px;"><span class="mut" style="flex: 1; font-size: 10px;">← My match · Waltham Forest</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span>✕</span></div>
+                        <div style="font-size: 15px; font-weight: 800; line-height: 1.1;">Leytonstone</div>
+            <div class="mut" style="font-size: 10.5px;">Cheaper than most; quick to the City.</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px;"><span class="pro">+ Within budget</span><span class="pro">+ Station 6 min</span><span class="con">− Busy roads</span></div>
+            <span class="tag" style="align-self: flex-start; font-size: 10px;">Tailored to: Buy ≤ £500k ✎</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+              <div class="tile"><span>Price</span><b>£6,450/m²</b><div class="strip"><i style="left: 40%;"></i></div></div>
+              <div class="tile"><span>Safety</span><b>Avg crime</b><div class="strip"><i style="left: 41%;"></i></div></div>
+              <div class="tile"><span>Schools</span><b>9 ≤ 1.5 km</b><div class="strip"><i style="left: 60%;"></i></div></div>
+              <div class="tile"><span>Station walk</span><b>6 min</b><div class="strip"><i style="left: 75%;"></i></div></div>
+            </div>
+            <a href="#" class="tap" style="align-self: flex-start; font-weight: 800; margin-top: auto;">Check a home →</a>
+            <div style="background: #22252c; color: #ffffff; border-radius: 999px; padding: 4px 10px; text-align: center; font-weight: 800; font-size: 12px;">Open full area page</div>
+          </div>
+        </div>
+        <div class="chips"><span class="v4">v4 Task 12</span><span class="v4">v4 Task 15</span><span class="v3">v3 Fix 27G</span><span class="v3">v3 Fix 33</span><span class="v4">decided: Check in the area panel</span></div>
+      </div>
+
+      <div class="arr"><div class="al">Check a home</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">6</div><div class="route">/tools/check-a-home?area=…&amp;price=…</div><div class="what">Check a home</div></div>
+        <div class="note">Price, rate and stamp duty carried into the area.</div>
+        <div class="wf">
+          <div class="hdr">
+            <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span style="flex: 1;"></span>
+            <span class="sv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+            <span class="btn">Map →</span>
+          </div>
+          <div class="tools"><a href="#" style="font-weight: 800;">Tools</a><span class="btn">Stamp duty</span><span class="btn">Mortgage rates</span><span class="btn">Buy-to-let</span><span class="btn" style="background: #22252c; color: #ffffff;">Check a home</span></div>
+          <div class="t1">Check a home · Leytonstone</div>
+          <div class="fld"><span>Price</span><span><span class="carry">carried</span> <b>£500,000</b></span></div>
+          <div class="fld"><span>Rate</span><span><span class="carry">carried</span> <b>4.78%</b></span></div>
+          <div class="fld"><span>Stamp duty</span><span><span class="carry">carried</span> <b>£15,000</b></span></div>
+          <div class="res"><span class="mut">Monthly total</span><span class="big">£[x]</span></div>
+          <div style="display: flex; gap: 6px; align-items: center;"><span class="btn">← Leytonstone</span><span class="btn">Homes in budget</span><span style="flex: 1;"></span><span style="font-weight: 800; color: #1f6b37;">Goal reached</span></div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 18</span><span class="v4">v4 Task 16</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="lbl">What changed vs v2</div>
+    <div class="chg">
+      <div><span class="v3">v3 Fix 17</span><span>≡ has 10 links: no "All tools", no Homes &amp; schools group; Check a home is a tool.</span></div>
+      <div><span class="v3">v3 Fix 13</span><span>Menu foot: Map 2D | 3D, Colours, Theme as one tidy block.</span></div>
+      <div><span class="v3">v3 Fix 18</span><span>Tool tabs: Stamp duty · Mortgage rates · Buy-to-let · Check a home; "not advice" as one muted line.</span></div>
+      <div><span class="v4">v4 Task 16</span><span>Every page on one 1120 px container: header, tabs and footer never jump.</span></div>
+      <div><span class="v4">v4 Task 21c</span><span>No wizard: the carried budget is the first chip; map, count and top 10 at once.</span></div>
+      <div><span class="v4">v4 Task 21e</span><span>Every area coloured best → least like your search; over budget = grey hatch.</span></div>
+      <div><span class="v4">v4 Task 9</span><span>Under the top 10: the matching areas on Rightmove · Zoopla · OnTheMarket.</span></div>
+      <div><span class="v4">v4 Task 14</span><span>My match and the area panel run full height on the right.</span></div>
+      <div><span class="v4">v4 Task 12</span><span>One area view in the panel; "Check a home →" lives there (no per-home price).</span></div>
+      <div><span class="v3">v3 Fix 27G · 33</span><span>"Within budget" tag first; "Tailored to" chip from the search.</span></div>
+      <div><span class="v4">decided</span><span>Owner 2026-10-18: My match rows stay clean (☆ only); “Check a home →” lives in the area panel, one tap longer than v2.</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":3862,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

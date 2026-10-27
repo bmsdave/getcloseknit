@@ -1,0 +1,18 @@
+/* Fine print: a folded card shared by /guide articles and /agents; its notes
+   read like the panel's quality notes. Loaded by each page that folds, since
+   guide.css loads on /guide only. Tokens only. */
+.guide-fine-print { margin-top: 40px; border-radius: 16px; background: var(--surface); color: var(--muted); font-size: var(--fs-sm); line-height: 1.6; }
+.guide-fine-print summary {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); min-height: 56px; padding: 0 20px;
+  border-radius: 16px; color: var(--ink); font: 800 var(--fs-md)/1.2 var(--font-display); cursor: pointer; list-style: none;
+}
+.guide-fine-print summary::-webkit-details-marker { display: none; }
+.guide-fine-print summary:hover { background: var(--chip); }
+.guide-fine-print summary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.guide-fine-print__chevron { width: 20px; height: 20px; flex: none; transition: transform 160ms ease; }
+.guide-fine-print[open] .guide-fine-print__chevron { transform: rotate(180deg); }
+.guide-fine-print__body { padding: 4px 20px 20px; }
+.guide-fine-print__body > p, .guide-fine-print__body > ul { max-width: 68ch; }
+.guide-fine-print ul { margin: 0 0 10px; padding-left: 20px; }
+.guide-fine-print li + li { margin-top: 6px; }
+.guide-fine-print a { color: var(--ink); text-underline-offset: 3px; }

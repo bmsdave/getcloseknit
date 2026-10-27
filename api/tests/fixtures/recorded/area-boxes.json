@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/boxes?carrier=msoa",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-boxes.v1\",\"carrier\":\"msoa\",\"productReleaseId\":\"fixture-2026-06\",\"areas\":[[\"uk:msoa:E02000166\",-0.17,51.52,-0.14,51.56],[\"uk:msoa:E02000167\",-0.14,51.52,-0.11,51.56],[\"uk:msoa:E02004541\",0.04,51.64,0.16,51.67],[\"uk:msoa:E02004542\",0.04,51.67,0.16,51.7]]}"
+}

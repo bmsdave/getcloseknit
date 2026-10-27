@@ -1,0 +1,93 @@
+/* People and Schools as charts (components/people-section.tsx, area-schools.tsx).
+   Colours: chart tokens via data-chart-tone (styles/charts.css) plus --ink,
+   --muted, --chip. Text never sits on a chart fill. Lays out at 320px. */
+
+/* People: two big numbers */
+.people-big { gap: 10px; }
+.people-big > div { display: grid; align-content: start; gap: 2px; padding: 10px 12px; }
+.people-big dd.people-big__value { font-size: var(--fs-2xl); font-weight: 800; line-height: 1.1; letter-spacing: -.01em; overflow-wrap: break-word; hyphens: auto; }
+.people-big .people-figure-note { line-height: 1.3; }
+.people-caption { margin: 10px 0 0; color: var(--muted); font-size: var(--fs-2xs); }
+
+/* People: one topic = title row, 100% bar with legend, "Show all" */
+.people-topic { display: grid; gap: var(--space-2); margin-top: 14px; min-width: 0; }
+.people-topic__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; min-width: 0; }
+.people .people-topic__head h4 { margin: 0; }
+.people-topic__head .people-universe { margin: 0 0 0 auto; color: var(--muted); font-size: var(--fs-2xs); white-space: nowrap; }
+.people-topic .people-unknown { margin: 0; }
+.people-topic .people-more { justify-self: start; margin: 0; }
+.people-all { display: grid; gap: 6px; padding: 10px 12px; border-radius: var(--radius-md); background: var(--surface); }
+.people-all[hidden] { display: none; }
+.people-all__help { display: inline-flex; align-items: center; justify-self: end; color: var(--muted); font-size: var(--fs-2xs); }
+.people-sources { margin-top: 16px; }
+.people-sources ul.chart-sources__body { margin: 0; padding-left: 40px; }
+
+/* Schools: header count, caption, cards */
+.area-schools .chart-frame { margin-bottom: 4px; }
+.area-schools .chart-icons__count strong { font-size: var(--fs-lg); }
+.area-schools .chart-icon { width: 20px; height: 20px; }
+.schools-caption { margin: 6px 0 8px; color: var(--muted); font-size: var(--fs-2xs); }
+
+.area-schools-list li.school-card {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; align-items: start; padding: 10px 12px;
+}
+.school-card__phase {
+  display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid var(--tone); border-radius: var(--radius-md);
+  box-sizing: border-box; color: var(--tone);
+}
+.school-card__phase .chart-icon { width: 20px; height: 20px; }
+.school-card__body { display: grid; gap: var(--space-1); min-width: 0; }
+.school-card__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-1) var(--space-2); }
+.school-card__name { min-width: 0; font-size: var(--fs-sm); line-height: 1.25; overflow-wrap: break-word; hyphens: auto; }
+.area-schools-list .school-card__meta::first-letter { text-transform: uppercase; }
+
+/* Rating badge: outlined pill with a tone dot; the word carries the meaning. */
+.school-badge {
+  display: inline-flex; flex: none; align-items: center; gap: 5px; max-width: 100%; padding: 3px 9px;
+  border: 1.5px solid var(--tone); border-radius: 99px; color: var(--ink); font-size: var(--fs-2xs); font-weight: 700; line-height: 1.2;
+}
+.school-badge__dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--tone); }
+.area-schools-list .school-badge small { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.school-badge[data-empty] { border-style: dashed; border-color: var(--muted); color: var(--muted); }
+
+/* Distance: bar over 0–1.5 km with the value beside it */
+.school-card__distance { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; margin-top: 2px; }
+p.school-card__distance { display: block; margin: 2px 0 0; }
+p.school-card__distance .school-card__metres { text-align: left; }
+.school-card__distance .chart-scale__dot { width: 12px; height: 12px; margin: -6px 0 0 -6px; }
+.school-card__metres { min-width: 48px; font-size: var(--fs-xs); font-weight: 800; text-align: right; font-variant-numeric: tabular-nums; }
+.school-card__body .chart-unknown { margin: 2px 0; }
+
+/* Folded per-school evidence */
+.school-card__more summary {
+  display: flex; align-items: center; gap: 6px; min-height: 44px; margin: -6px 0 -10px; color: var(--muted);
+  font-size: var(--fs-2xs); font-weight: 700; cursor: pointer; list-style: none;
+}
+.school-card__more summary::-webkit-details-marker { display: none; }
+.school-card__more summary::before {
+  content: "+"; display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--chip); color: var(--ink); font-weight: 800;
+}
+.school-card__more[open] summary::before { content: "–"; }
+.school-card__more summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+.school-card__evidence { display: grid; gap: var(--space-1); padding: 10px 0 2px 24px; }
+
+/* Phones: slim number tiles so the first topic chart shows right under the tab strip. */
+@media (max-width: 800px) {
+  .people h2 { margin-top: 8px; }
+  .people-big > div { padding: 6px 10px; }
+  .people-big dd.people-big__value { font-size: var(--fs-lg); }
+  .people-caption { margin-top: 6px; }
+  .people h3 { margin-top: 10px; }
+  .people-topic { margin-top: 8px; }
+}
+
+/* The school's name opens its card (/school/{urn}); the Top school chip sits beside it. */
+.school-card__name a { display: inline-flex; align-items: center; min-height: 24px; color: inherit; text-underline-offset: 3px; }
+.school-card__top {
+  display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border-radius: 999px;
+  border: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 30%, var(--surface));
+  color: var(--ink); font: 700 var(--fs-2xs, .75rem)/1 var(--font-sans); white-space: nowrap;
+}
+/* The map popup's link to a school card. */
+.bm-school-link { display: inline-flex; align-items: center; min-height: 24px; font-weight: 700; color: inherit; text-underline-offset: 3px; }

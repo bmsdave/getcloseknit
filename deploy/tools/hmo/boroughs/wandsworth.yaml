@@ -1,0 +1,42 @@
+# Wandsworth: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000032
+slug: wandsworth
+name: Wandsworth
+register:
+  status: on-request       # published | search-only | on-request | not-found
+  url: https://wandsworth.gov.uk/housing/private-housing/private-housing-landlords/houses-in-multiple-occupation-hmos/hmo-register
+  page: https://wandsworth.gov.uk/housing/private-housing/private-housing-landlords/houses-in-multiple-occupation-hmos/hmo-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: 2026-09-23
+  terms: Full register as PDF by email or post for a GBP 50 cost-recovery fee; not available as Excel or CSV.
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-07-01
+  end: 2030-06-30
+  url: https://wandsworth.gov.uk/media/klpjttfb/public_notice_on_additional_licencing_across_wandsworth.pdf
+- kind: selective
+  wards:
+  - Furzedown
+  - South Balham
+  - Tooting Bec
+  - Tooting Broadway
+  start: 2025-07-01
+  end: 2030-06-30
+  url: https://wandsworth.gov.uk/housing/private-housing/private-rented-property-licences/property-licences-faq/
+- kind: selective
+  wards:
+  - East Putney
+  - Northcote
+  - West Putney
+  start: 2026-04-01
+  end: 2031-03-31
+  url: https://wandsworth.gov.uk/media/ps2icr1d/public_notice_on_selective_licencing.pdf
+notes: >-
+  Register is shared with Merton's Regulatory Services Hub (rspandlp.merton.gov.uk), a per-property search behind an AWS WAF CAPTCHA, so not loaded. The full
+  list is on request as a PDF (licence number, address, dates) for GBP 50 via the Merton-run private housing team. Phase 1 selective end date comes from
+  a third-party guide (council gives only the 1 July 2025 start); phase 2 dates are from the council's public notice.

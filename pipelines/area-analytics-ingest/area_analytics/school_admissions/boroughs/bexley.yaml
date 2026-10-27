@@ -1,0 +1,106 @@
+# Bexley (303): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 303
+slug: bexley
+name: Bexley
+licence:
+  statement: '"Most content on our website is copyright of The London Borough of Bexley ... All other
+    use of our content is subject to our prior express written permission." (educational use allowed with
+    acknowledgement; not OGL)'
+  url: https://web.archive.org/web/20260616093916/https://www.bexley.gov.uk/terms-conditions
+licence_decision: unresolved
+aliases:
+  Normandy Primary (now known as Fairford Academy): '141889'
+  St Paul's (Slade Green) Primary: '145011'
+  Haberdashers' Aske's Crayford Temple Grove: '147358'
+  Haberdashers' Aske's Slade Green Temple Grove: '147356'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20210908214920/https://www.bexley.gov.uk/sites/default/files/2021-09/Admission-to-primary-schools-in-bexley-2022-2023.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_successful
+  note: booklet table 'Home to school distance for offers in miles' for 2021/2020/2019
+- phase: primary
+  year: 2020
+  url: https://www.bexley.gov.uk/sites/default/files/2022-08/Admission-to-primary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_successful
+  note: live booklet with a 2022/2021/2020 table; 'distances are those reached on the offer day'
+- phase: primary
+  year: 2021
+  url: https://www.bexley.gov.uk/sites/default/files/2022-08/Admission-to-primary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_successful
+- phase: primary
+  year: 2022
+  url: https://www.bexley.gov.uk/sites/default/files/2022-08/Admission-to-primary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_successful
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20221228203955/https://www.bexley.gov.uk/sites/default/files/2022-10/Admission-to-secondary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+  basis: end-of-process
+  note: 'columns run ''5 years ago'' to ''1 years ago*'' plus ''@ 7.7.2022'', so year mapping is approximate.
+    The booklet says the distances are ''those reached at the end of the process in August'', not offer
+    day. NOT LOADED: the footnote ''* as at July 2022'' on ''1 years ago'' conflicts with the ''@ 7.7.2022''
+    column, so no column can be tied to an entry year without guessing; some cells are by road route'
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20221228203955/https://www.bexley.gov.uk/sites/default/files/2022-10/Admission-to-secondary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+  basis: end-of-process
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20221228203955/https://www.bexley.gov.uk/sites/default/files/2022-10/Admission-to-secondary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+  basis: end-of-process
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20221228203955/https://www.bexley.gov.uk/sites/default/files/2022-10/Admission-to-secondary-schools-2023-2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+  basis: end-of-process
+  note: column '@ 7.7.2022'
+catchment_maps: null
+notes: 'No catchment areas. After the 2023-24 booklets Bexley moved its school lists to HTML pages (admission-primary-schools-25-26/primary-schools-bexley,
+  admission-secondary-schools-26-27/secondary-schools-bexley). These show only PAN and preference counts,
+  with no distances. The live site returns 403 to non-browser clients. Missing: primary 2023-2026, secondary
+  2023-2026 and secondary offer-day figures. The archived 2021-22 primary and 2021 secondary booklets
+  are cut off at 1 MB. Adapter notes: primary only; ''See note'' cells (faith schools) are not read; ''All
+  on time offered'' is kept as all offered with no raw value; ''(TB)'' marks a tie-break distance. Secondary
+  2019-2022 are not read (see the secondary 2019 note). ''Haberdashers'' Aske''s Crayford Temple Grove''
+  (2019) is aliased to Haberdashers'' Crayford Primary 147358 (and ''... Slade Green Temple Grove'' to
+  Haberdashers'' Slade Green Primary 147356): GIAS records both as split from Haberdashers'' Crayford
+  Academy on 1 Sep 2019, the start of that intake. The 2022-23 and 2023-24 booklets agree on the shared
+  2020 and 2021 columns (36/36 and 35/36 schools; the other differs only by its ''(TB)'' mark).'

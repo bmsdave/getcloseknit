@@ -1,0 +1,1244 @@
+/* Two blocks over the map (components/close-knit.tsx): the top bar and
+   the map dock. Desktop: the bar spans the top and the dock is a 380px right
+   panel that folds to a 44px strip. Phones (≤ 800px): the dock is a bottom
+   sheet. Map padding for fitBounds/easeTo is measured from these blocks
+   (visiblePadding in lib/map-padding.ts), so sizes here are the only source. */
+
+/* The explorer never scrolls as a page: no rubber band or pull-to-refresh
+   when a drag on the sheet or the map overshoots. */
+html:has(.explorer-shell), html:has(.explorer-shell) body { overscroll-behavior: none; }
+
+/* ---- Top bar ---------------------------------------------------------- */
+/* The bar is clear (the map takes clicks across it); its pill "≡ · close knit · Search" floats top-left
+   and ♡ N is its own chip at the right (explorer-header.tsx). */
+.explorer-header {
+  position: fixed; z-index: 20; top: 12px; left: 12px; right: 12px; height: 56px;
+  display: flex; align-items: center; gap: var(--space-2); pointer-events: none;
+}
+.explorer-header > * { pointer-events: auto; }
+.explorer-pill {
+  display: flex; align-items: center; gap: var(--space-1); min-width: 0; height: 56px; padding: 6px 8px 6px 6px;
+  border-radius: var(--radius-pill); background: var(--panel); box-shadow: 0 10px 30px rgb(var(--ink-rgb) / 0.1);
+}
+.explorer-pill .top-menu { margin-left: 0; }
+.explorer-pill .top-menu-toggle { border-radius: 50%; background: transparent; }
+.explorer-pill .top-menu-toggle:hover { background: var(--chip); }
+.explorer-pill .top-menu-toggle[aria-expanded="true"] { background: var(--ink); }
+.explorer-pill .top-menu-panel { left: 0; right: auto; }
+.explorer-pill .brand { padding-right: 6px; }
+.explorer-pill .search-wrap { flex: 0 1 260px; }
+.explorer-pill .search-wrap input { border-radius: var(--radius-pill); }
+.explorer-header .saved-link { background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16); }
+.brand { flex: none; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--ink); text-decoration: none; }
+/* Two groups: brand and a compact search on the left; the ≡ menu (margin-left: auto) and "Find my area" on the right. */
+.search-wrap { position: relative; flex: 1; max-width: 320px; min-width: 0; }
+.search-wrap input {
+  width: 100%; height: 44px; padding: 0 16px 0 40px; border: 1px solid var(--field-line);
+  border-radius: 12px; color: var(--ink); background: var(--surface);
+  background-image: radial-gradient(circle, transparent 48%, var(--ink) 50%, var(--ink) 62%, transparent 64%);
+  background-size: 16px 16px; background-position: 14px 14px; background-repeat: no-repeat;
+}
+.search-wrap input:focus { outline: 3px solid var(--focus); border-color: var(--ink); }
+.search-results, .search-empty {
+  position: absolute; inset: 52px 0 auto; margin: 0; border-radius: var(--radius-lg); background: var(--surface);
+  box-shadow: 0 20px 55px rgb(var(--ink-rgb) / 0.18);
+}
+/* The list scrolls inside its own card, which is only as tall as its rows and the window allows. The card
+   clips and an inner box scrolls, so rows scrolled out of view never paint an empty block below the card
+   (a scroller's own clip left a grey block over the map in Chrome). */
+.search-results {
+  display: flex; flex-direction: column; max-height: min(70dvh, 560px, calc(100dvh - 140px)); overflow: hidden;
+}
+.search-results__scroll { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 6px; }
+/* One group per kind under a short label (Postcode, Homes, Areas, Schools, Stations, Places). */
+.search-group + .search-group { margin-top: 4px; }
+.search-group__label { padding: 8px 12px 2px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.search-results button { width: 100%; display: grid; gap: 3px; padding: 11px 12px; border: 0; border-radius: 9px; text-align: left; color: var(--ink); background: transparent; cursor: pointer; }
+.search-results button:hover, .search-results button:focus { background: var(--chip); outline: none; } .search-results button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.search-results span { color: var(--muted); font-size: var(--fs-2xs); }
+.search-empty { padding: 12px 14px; color: var(--muted); font-size: var(--fs-xs); }
+.search-cancel, .search-open { display: none; }
+/* Searching on a phone: the field and Cancel fill the bar (the rest of the bar hides). */
+.search-wrap[data-searching="true"] { display: flex; align-items: center; gap: 6px; max-width: none; }
+.search-wrap[data-searching="true"] .search-cancel {
+  display: block; flex: none; min-height: 44px; padding: 0 10px; border: 0; border-radius: 12px;
+  color: var(--ink); background: transparent; font-size: var(--fs-sm); font-weight: 700; cursor: pointer;
+}
+
+/* The ≡ menu: a disclosure (Escape and outside click close it). */
+.top-menu { position: relative; flex: none; margin-left: auto; }
+.top-menu-toggle {
+  width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 12px;
+  color: var(--ink); background: var(--chip); cursor: pointer;
+}
+.top-menu-toggle[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); }
+.top-menu-icon { width: 18px; height: 2px; border-radius: 2px; background: currentColor; box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor; }
+.top-menu-panel {
+  position: absolute; z-index: 40; top: calc(100% + 10px); right: 0; width: 320px;
+  max-height: calc(100dvh - 96px); overflow: auto; display: grid; gap: 2px; padding: var(--space-2);
+  border-radius: var(--radius-lg); background: var(--panel-solid); color: var(--ink); box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.2);
+}
+.top-menu-section { margin: 0; padding: 6px 0; border: 0; border-top: 1px solid var(--rule); min-width: 0; }
+.top-menu-section legend {
+  float: left; width: 100%; padding: 4px 8px; color: var(--muted);
+  font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.top-menu-row {
+  width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 8px; border: 0; border-radius: var(--radius-md); color: var(--ink); background: transparent;
+  font-size: var(--fs-xs); font-weight: 700; text-align: left; cursor: pointer;
+}
+.top-menu-row:hover { background: var(--chip); }
+.top-menu-caret { width: 8px; height: 8px; border: solid currentColor; border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-2px, -2px); }
+.top-menu-row[aria-expanded="true"] .top-menu-caret { transform: rotate(225deg) translate(-2px, -2px); }
+.appearance-menu { display: grid; gap: var(--space-2); padding: 2px 0 4px; }
+.appearance-menu fieldset { display: grid; gap: 0; margin: 0; padding: 0; border: 0; }
+.appearance-menu legend { padding: 4px 8px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.appearance-menu button { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 4px 8px; border: 0; border-radius: var(--radius-md); background: none; color: var(--ink); font-size: var(--fs-2xs); text-align: left; cursor: pointer; }
+.appearance-menu button:hover { background: var(--chip); }
+.appearance-menu button[aria-pressed="true"] { background: var(--chip); font-weight: 800; }
+.theme-choice label { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 8px; border-radius: 10px; color: var(--ink); font-size: 12px; cursor: pointer; }
+.theme-choice label:hover, .theme-choice label:has(:checked) { background: var(--chip); }
+.theme-choice label:has(:checked) { font-weight: 800; }
+.theme-choice input[type="radio"] { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--ink); }
+.appearance-swatch { display: inline-flex; overflow: hidden; border-radius: 4px; box-shadow: 0 0 0 1px rgb(var(--ink-rgb) / 0.12); }
+.appearance-swatch i { width: 12px; height: 14px; }
+.data-mode-selector label { display: flex; gap: 10px; align-items: center; min-height: 44px; padding: 4px 8px; border-radius: var(--radius-md); font-size: var(--fs-xs); font-weight: 700; cursor: pointer; }
+.data-mode-selector label:hover { background: var(--chip); }
+.data-mode-selector input[type="radio"] { flex: none; width: 18px; height: 18px; margin: 0; accent-color: var(--ink); }
+.data-mode-selector p { clear: both; margin: 2px 8px 0; color: var(--muted); font-size: var(--fs-2xs); }
+.segmented { clear: both; display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-1); padding: 0 4px; }
+.segmented button {
+  min-height: 44px; border: 0; border-radius: var(--radius-md); color: var(--ink); background: var(--chip);
+  font-size: var(--fs-xs); font-weight: 800; cursor: pointer;
+}
+.segmented button[aria-pressed="true"] { color: var(--on-ink); background: var(--ink); }
+
+/* First visit: the value line, steps and proof over the map, away from the dock. */
+.first-visit-intro {
+  position: fixed; z-index: 11; top: calc(80px); left: 12px; width: min(360px, calc(100vw - 420px));
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 4px; padding: 14px 6px 14px 16px;
+  border-radius: 16px; color: var(--ink); background: var(--panel-solid); box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.16);
+}
+.first-visit-intro p { margin: 0; font: 700 var(--fs-md)/1.3 var(--font-display); letter-spacing: -0.01em; }
+.first-visit-intro__find {
+  grid-column: 1; justify-self: start; min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px;
+  color: var(--on-ink); background: var(--ink); font-size: var(--fs-sm); font-weight: 800; cursor: pointer;
+}
+.first-visit-intro__find:hover { background: rgb(var(--ink-rgb) / 0.86); }
+.first-visit-intro__close {
+  grid-column: 2; grid-row: 1; align-self: start; width: 44px; height: 44px; margin: -10px 0 0; display: grid; place-items: center;
+  border: 0; border-radius: 12px; color: var(--muted); background: transparent; font-size: var(--fs-xl); line-height: 1; cursor: pointer;
+}
+.first-visit-intro__close:hover { color: var(--ink); background: var(--chip); }
+/* A "map unavailable" notice sits in the same corner: it must stay readable. */
+.explorer-shell:has([data-testid="map-fallback"]) .first-visit-intro { display: none; }
+/* The places key sits in the same corner: the intro moves below it. */
+/* Landscape phones and short windows (#20): the first-visit card folds to two short rows (the value line, then ×;
+   then the labelled start, "Find my area" and "Try an example", as desktop and portrait have them) so the
+   map stays in view. */
+@media (max-height: 500px) {
+  .explorer-shell .first-visit-intro:not(.first-visit-intro--back) {
+    grid-template-columns: minmax(0, 1fr) auto; row-gap: 2px; padding: 4px 4px 6px 16px; border-radius: var(--radius-lg, 16px);
+  }
+  .first-visit-intro:not(.first-visit-intro--back) :is(.first-visit-intro__steps, .first-visit-intro__proof, .first-visit-intro__claude) { display: none; }
+  .first-visit-intro:not(.first-visit-intro--back) .first-visit-intro__actions { grid-row: 2; flex-wrap: nowrap; gap: 0 10px; }
+  .first-visit-intro:not(.first-visit-intro--back) .first-visit-intro__find { min-height: 40px; padding: 0 12px; white-space: nowrap; font-size: 13px; }
+  .first-visit-intro:not(.first-visit-intro--back) .first-visit-intro__example { min-height: 40px; white-space: nowrap; font-size: 12.5px; }
+  .first-visit-intro:not(.first-visit-intro--back) h1.first-visit-intro__lead {
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: var(--fs-sm, .875rem); text-wrap: nowrap;
+  }
+  .first-visit-intro:not(.first-visit-intro--back) .first-visit-intro__close { margin: 0; align-self: center; }
+}
+
+/* ---- Map ---------------------------------------------------------------- */
+.map-fallback {
+  position: absolute; z-index: 2; left: 16px; top: calc(84px); max-width: 340px;
+  padding: 14px 16px; border-radius: var(--radius-lg); color: var(--ink); background: var(--panel); font-size: var(--fs-xs); line-height: 1.5;
+}
+
+/* ---- Map dock ----------------------------------------------------------- */
+/* The side panel's width (lib/panel-width.ts): 380px on a phone on its side; on a desktop the visitor's
+   --dock-w (set on <html> before first paint, dragged by the panel's edge), kept within 360px and the room
+   that leaves 420px of map. Everything beside the panel is offset from --dock-panel. */
+:root { --dock-panel: 380px; }
+@media (min-width: 801px) and (min-height: 500px) {
+  :root { --dock-panel: max(360px, min(var(--dock-w, 460px), calc(100vw - 420px))); }
+}
+.map-dock {
+  position: fixed; z-index: 12; top: 80px; right: 12px; bottom: 12px; width: var(--dock-panel);
+  display: flex; flex-direction: column; border-radius: 16px; color: var(--ink); background: var(--panel);
+  box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.12); backdrop-filter: blur(18px);
+}
+.dock-grip, .panel-handle, .dock-resize { display: none; }
+/* The only control on top of the area: hide the panel (desktop) or lower the sheet (phones). */
+.dock-head { position: absolute; z-index: 3; top: 6px; right: 6px; }
+
+/* ---- Map controls (components/map-layers.tsx) ----------------------------
+   The map's own controls, apart from the area: round buttons on the right (My match, Layers, Show),
+   the compass, my location with + and −, the legend chip (the scale and its "?") and the Layers or Show card.
+   One layer over the map that lets clicks through to it; desktop keeps them clear of the dock. */
+.map-controls {
+  --dock-space: calc(var(--dock-panel) + 24px);
+  position: fixed; z-index: 11; inset: 0; pointer-events: none;
+}
+/* 12px in from the side panel's left edge, the folded strip's, or the map's own edge with no area. */
+.explorer-shell:has(.map-dock[data-expanded="false"]) .map-controls { --dock-space: 68px; }
+.map-controls > *, .map-key > *, .map-rail > *, .map-position > *, .map-credits > * { pointer-events: auto; }
+.map-rail, .map-position { position: absolute; right: var(--dock-space); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: none; }
+.map-rail { top: 80px; }
+.map-position { bottom: 66px; }
+.map-position .map-locate { margin-bottom: 8px; }
+/* The compass chip (Map controls PR 1): 40px on a desktop, 44px on a phone, above my location while the map
+   is turned or tilted. The needle turns with the map (transform-origin at the face's centre). */
+.map-position .map-compass { width: 40px; height: 40px; }
+.map-compass__face { display: block; overflow: visible; }
+.map-compass__needle { transform-origin: 12px 12px; transition: transform 120ms linear; }
+@media (prefers-reduced-motion: reduce) { .map-compass__needle { transition: none; } }
+/* The ⓘ corner under my location and zoom: the map credits, Sources & privacy and Terms, one tap away. */
+.map-credits {
+  position: absolute; right: var(--dock-space); bottom: 12px; display: flex; align-items: center; gap: 6px; pointer-events: none;
+}
+.map-credits__toggle {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  color: var(--ink); background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16); cursor: pointer;
+}
+.map-credits__toggle:hover { background: var(--chip); }
+.map-credits__toggle[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); }
+.map-credits__toggle:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-credits__status {
+  max-width: 220px; overflow: hidden; padding: 6px 10px; border-radius: var(--radius-pill); color: var(--muted); background: var(--panel-solid);
+  box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.12); font-size: var(--fs-2xs); font-weight: 700; text-overflow: ellipsis; white-space: nowrap;
+}
+/* Desktop: the card opens to the left of ⓘ, level with it, so it never covers my location and
+   zoom stacked above. */
+.map-credits__text {
+  position: absolute; z-index: 5; right: 52px; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px;
+  width: max-content; max-width: min(340px, calc(100vw - 24px)); padding: 8px 12px; border-radius: var(--radius-md);
+  color: var(--ink); background: var(--panel-solid); box-shadow: 0 12px 34px rgb(var(--ink-rgb) / 0.18); font-size: var(--fs-2xs); line-height: 1.45;
+}
+.map-credits__text[hidden] { display: none; }
+/* HM Land Registry's line, in view while the outlines are drawn (the full wording one tap away). */
+.map-credits .map-licence {
+  max-width: min(380px, calc(100vw - var(--dock-space) - 120px)); padding: 4px 0 4px 12px; border-radius: var(--radius-md);
+  color: var(--muted); background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.12);
+}
+.map-licence .help-tip__bubble { top: auto; bottom: calc(100% + 8px); }
+.map-credits__text .map-attribution-text { flex-basis: 100%; }
+.map-credits__text > a { display: inline-flex; align-items: center; min-height: 32px; color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
+@media (min-width: 801px), (max-height: 499px) and (orientation: landscape) {
+  /* The stack, zoom and ⓘ slide with the panel as it comes and goes. */
+  .map-rail, .map-position, .map-credits, .layers-card { transition: right 300ms ease; }
+  .explorer-shell:has(.map-dock[data-area="empty"]) .map-controls { --dock-space: 12px; }
+}
+/* A round 44px map control: calm (its own fill, yarn icon), ink while its card is open. By Night the fill is
+   lifted off the navy basemap and a light rim outlines it, so the controls never vanish. */
+.map-round {
+  position: relative; flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 0; border-radius: 50%; color: var(--ink); background: var(--map-control);
+  box-shadow: 0 0 0 2px var(--map-control-rim), 0 8px 24px rgb(var(--ink-rgb) / 0.16); cursor: pointer;
+}
+.map-round:hover { background: color-mix(in srgb, var(--map-control) 88%, var(--ink)); }
+.map-round[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); }
+.map-round:disabled { color: var(--muted); background: var(--chip); cursor: default; }
+.map-round__icon { display: block; }
+/* My match: the primary action (primary fill and running stitch, knit-ui.css), round. */
+.map-round.find-my-area { color: var(--on-primary); background: var(--primary); }
+.map-round.find-my-area::after { border-radius: 50%; }
+.map-round.find-my-area:hover { background: color-mix(in srgb, var(--primary) 86%, black); }
+/* One primary per screen. The round My match button steps back (calm chip, no stitch) while the area
+   panel shows its own primary ("Open full area page") or the first-visit card shows its labelled start. */
+body:has(.map-dock[data-area="area"][data-expanded="true"] .area-brief__primary) .map-round.find-my-area,
+body:has(.first-visit-intro__find) .map-round.find-my-area { background: var(--chip); color: var(--ink); }
+body:has(.map-dock[data-area="area"][data-expanded="true"] .area-brief__primary) .map-round.find-my-area::after,
+body:has(.first-visit-intro__find) .map-round.find-my-area::after { content: none; }
+/* How many of Show's overlays are on. */
+.map-round__count {
+  position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  color: var(--on-ink); background: var(--ink); font-size: var(--fs-2xs); font-weight: 800; line-height: 18px; text-align: center;
+}
+.map-round[aria-expanded="true"] .map-round__count { color: var(--ink); background: var(--panel-solid); }
+/* My location: a spinner ring while the browser answers, filled once found (the blue dot is on the map). */
+.map-locate[data-state="locating"]::before {
+  content: ""; position: absolute; inset: -3px; border: 3px solid transparent; border-top-color: var(--yarn-cobalt); border-radius: 50%;
+  animation: locate-spin 900ms linear infinite;
+}
+.map-locate[data-state="found"] { color: var(--on-ink); background: var(--yarn-cobalt); --icon-yarn: var(--on-ink); }
+@keyframes locate-spin { to { transform: rotate(360deg); } }
+
+/* ---- MapToast (components/map-toast.tsx) --------------------------------------------
+   One short notice over the map: under the search pill on phones, top-centre of the visible map on
+   desktops. Above the controls, the legend and every sheet; below modal dialogs. Inverted panel, so
+   Night is light on navy. */
+.map-toast-region, .map-loading {
+  position: fixed; z-index: 25; top: 136px; left: 12px; right: var(--toast-right, 12px);
+  display: flex; justify-content: center; pointer-events: none;
+}
+.explorer-shell:has(.map-dock[data-area]:not([data-area="empty"])) :is(.map-toast-region, .map-loading) { --toast-right: calc(var(--dock-panel) + 24px); }
+.explorer-shell:has(.map-dock[data-expanded="false"]:not([data-area="empty"])) :is(.map-toast-region, .map-loading) { --toast-right: 68px; }
+/* While the map's colours load (a cold map, a deep link, a new layer), a calm pill where the
+   toast goes says so. It shows only after 400 ms, so a quick swap never flashes it; the map stays usable. */
+.map-loading { z-index: 24; animation: map-loading-in 160ms ease 400ms both; }
+.map-loading[hidden] { display: none; }
+.map-loading__pill {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px 0 10px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16);
+  font-size: var(--fs-sm); font-weight: 700;
+}
+.map-loading__pill::before {
+  content: ""; width: 14px; height: 14px; border: 2.5px solid var(--chip); border-top-color: var(--yarn-cobalt); border-radius: 50%;
+  animation: locate-spin 900ms linear infinite;
+}
+@keyframes map-loading-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .map-loading__pill::before { animation: none; } }
+/* Desktop with Layers or Show open: the toast keeps left of the floating card (54px rail + 360px card +
+   12px), so it never hides the card's title; a narrow window keeps it at least 360px wide. */
+@media (min-width: 801px), (max-height: 499px) and (orientation: landscape) {
+  .explorer-shell:has(.map-controls .layers-card) .map-toast-region {
+    right: min(calc(var(--toast-right, 12px) + 426px), calc(100vw - 372px));
+  }
+}
+.map-toast {
+  display: flex; align-items: center; gap: 4px; width: min(520px, 100%); min-height: 48px; padding: 4px 4px 4px 14px;
+  border-radius: var(--radius-lg); color: var(--on-ink); background: var(--ink); box-shadow: 0 12px 34px rgb(var(--ink-rgb) / 0.28);
+  pointer-events: auto;
+}
+.map-toast__text { flex: 1; margin: 0; padding: 6px 0; font-size: var(--fs-xs); font-weight: 700; line-height: 1.35; }
+.map-toast__link, .map-toast__action {
+  min-height: 44px; padding: 0 10px; border: 0; border-radius: var(--radius-pill); color: inherit; background: transparent;
+  font: inherit; font-size: var(--fs-xs); font-weight: 800; cursor: pointer;
+}
+.map-toast__link { min-height: 0; padding: 0 0 0 6px; text-decoration: underline; text-underline-offset: 3px; }
+.map-toast__action { flex: none; background: rgb(var(--panel-rgb) / 0.16); }
+.map-toast__close {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  color: inherit; background: transparent; cursor: pointer;
+}
+.map-toast__link:focus-visible, .map-toast__action:focus-visible, .map-toast__close:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-round:focus-visible, .legend-chip:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* The layer pill (variant B): phones only, under the search pill, the layer named in full
+   (two lines at most, never cut); a tap opens Layers at it. Desktop and a phone on its side keep the
+   legend's own name. */
+.layer-pill {
+  position: absolute; display: none; align-items: center; gap: 6px; max-width: calc(100vw - 16px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  min-height: 44px; padding: 6px 12px; border: 0; border-radius: var(--radius-lg); color: var(--ink); background: var(--panel-solid);
+  box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16); font: inherit; font-size: var(--fs-xs); font-weight: 800; line-height: 1.25; text-align: left; cursor: pointer;
+}
+.layer-pill:hover { background: color-mix(in srgb, var(--panel-solid) 88%, var(--ink)); }
+.layer-pill[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); --icon-yarn: var(--on-ink); }
+.layer-pill:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.layer-pill__icon, .layer-pill__caret { flex: none; display: block; }
+/* It wraps, never ellipsis: a phone's full width holds any layer name in two lines. */
+.layer-pill__name { min-width: 0; overflow-wrap: anywhere; text-wrap: balance; }
+/* The key: a data-mode notice over the legend chip, bottom-left of the map. */
+.map-key {
+  position: absolute; left: 12px; bottom: 12px; width: 320px; max-width: calc(100vw - var(--dock-space) - 24px);
+  display: grid; gap: 6px; justify-items: start; pointer-events: none;
+}
+.map-key .layer-notice { margin: 0; border-radius: var(--radius-md); }
+/* One pill: the layer and its scale (a button that opens Layers) and its "?" beside it. */
+.map-key__row {
+  display: flex; align-items: center; width: 100%; min-width: 0; padding-right: 4px; border-radius: var(--radius-lg);
+  background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16);
+}
+.legend-chip {
+  display: block; flex: 1; min-width: 0; padding: 8px 12px 10px; border: 0; border-radius: var(--radius-lg);
+  color: var(--ink); background: transparent; font: inherit; text-align: left; cursor: pointer;
+}
+.legend-chip:hover { background: color-mix(in srgb, var(--panel-solid) 88%, var(--ink)); }
+/* The layer is named in full, never cut: a long title wraps rather than ending in "…". */
+.legend-chip .map-legend-caption { overflow-wrap: break-word; text-wrap: pretty; }
+/* Wildlife: presence only. */
+.map-legend-note { display: block; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; }
+.legend-about { flex: none; display: flex; }
+/* The "?": a 26px chip in a 44px target; ink while its explainer is open. */
+.legend-about__button {
+  width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  color: var(--ink); background: transparent; cursor: pointer;
+}
+.legend-about__button > span {
+  width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; background: var(--chip);
+  font-size: var(--fs-xs); font-weight: 800; line-height: 1;
+}
+.legend-about__button[aria-expanded="true"] > span { color: var(--on-ink); background: var(--ink); }
+.legend-about__button:focus-visible { outline: 3px solid var(--focus); outline-offset: -2px; }
+/* The layer explainer (layer-explainer.tsx) above the chip. */
+.map-key__explainer { width: min(380px, calc(100vw - var(--dock-space) - 24px)); }
+/* The reader's own colour range under the key (legend-range.tsx): satin bars of the values in view, two handles
+   for the ramp's low and high value, the rank's areas and Reset. Each handle is a 44px target (DESIGN.md › Buttons
+   and controls) around a small dot (--dot), so its centre travels 22px in from each edge and the bars and value
+   labels use the same inset (--thumb). */
+/* Above the chip, so the key stays where it always is, bottom-left. */
+.map-key__range { width: 100%; order: -1; }
+.map-key__range:empty { display: none; }
+.legend-range {
+  --thumb: 44px; --dot: 24px;
+  display: grid; gap: 6px; width: 100%; padding: 8px 10px 8px; border-radius: var(--radius-lg);
+  background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16);
+}
+.legend-range__slider { position: relative; height: 62px; }
+.legend-range__bars { display: block; width: calc(100% - var(--thumb)); height: 26px; margin: 0 calc(var(--thumb) / 2); overflow: visible; }
+.legend-range__slider::before {
+  content: ""; position: absolute; left: calc(var(--thumb) / 2); right: calc(var(--thumb) / 2); top: 31px; height: 4px;
+  border-radius: var(--radius-pill); background: var(--wool); pointer-events: none;
+}
+.legend-range__in {
+  position: absolute; top: 31px; height: 4px; border-radius: var(--radius-pill); background: var(--ink); pointer-events: none;
+  left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--from));
+  width: calc((100% - var(--thumb)) * (var(--to) - var(--from)));
+}
+.legend-range__input {
+  position: absolute; left: 0; top: 11px; width: 100%; height: var(--thumb); min-height: var(--thumb); margin: 0; padding: 0;
+  background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none; touch-action: none;
+}
+.legend-range__input::-webkit-slider-runnable-track { height: var(--thumb); background: transparent; }
+.legend-range__input::-moz-range-track { height: var(--thumb); background: transparent; }
+.legend-range__input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: var(--thumb); height: var(--thumb); border: 0; border-radius: 50%;
+  background: radial-gradient(circle, var(--ink) 0 calc(var(--dot) / 2 - 3px), var(--surface) 0 calc(var(--dot) / 2),
+    rgb(var(--ink-rgb) / .3) 0 calc(var(--dot) / 2 + 1px), transparent 0);
+  cursor: grab; pointer-events: auto;
+}
+.legend-range__input::-moz-range-thumb {
+  box-sizing: border-box; width: var(--thumb); height: var(--thumb); border: 0; border-radius: 50%;
+  background: radial-gradient(circle, var(--ink) 0 calc(var(--dot) / 2 - 3px), var(--surface) 0 calc(var(--dot) / 2),
+    rgb(var(--ink-rgb) / .3) 0 calc(var(--dot) / 2 + 1px), transparent 0);
+  cursor: grab; pointer-events: auto;
+}
+.legend-range__input:active::-webkit-slider-thumb { cursor: grabbing; }
+.legend-range__input:focus-visible { outline: none; }
+/* The focus ring hugs the dot, not the whole target. */
+.legend-range__input:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--focus); outline-offset: calc((var(--dot) - var(--thumb)) / 2 + 2px); }
+.legend-range__input:focus-visible::-moz-range-thumb { outline: 3px solid var(--focus); outline-offset: calc((var(--dot) - var(--thumb)) / 2 + 2px); }
+/* Each value sits under its handle, the low one ending there and the high one starting there, so they never meet. */
+.legend-range__value {
+  position: absolute; top: 47px; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--at));
+  color: var(--ink); font-size: var(--fs-2xs); font-weight: 700; line-height: 15px; white-space: nowrap; font-variant-numeric: tabular-nums;
+  transform: translateX(calc(-100% + 6px)); pointer-events: none;
+}
+.legend-range__value[data-edge="start"] { transform: translateX(-6px); }
+.legend-range__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+/* 44px targets (DESIGN.md › Buttons and controls). */
+.legend-range .legend-range__scopes button { min-width: 0; height: 44px; padding: 0 10px; }
+.legend-range__reset {
+  height: 44px; min-height: 0; margin-left: auto; padding: 0 12px; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font: inherit; font-size: var(--fs-xs); font-weight: 700; cursor: pointer;
+}
+.legend-range__reset:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.map-legend-custom { color: var(--muted); font-weight: 700; }
+@media (pointer: coarse) { .legend-range { --dot: 28px; } }
+/* The explainer brings its own panel: its MapSheet is only a frame on a desktop. */
+.map-key__explainer.map-sheet { background: transparent; }
+.layer-explainer {
+  display: grid; gap: 10px; max-height: min(560px, calc(100dvh - 220px)); overflow: auto; overscroll-behavior: contain;
+  padding: 12px 8px 14px 16px; border-radius: 16px; color: var(--ink); background: var(--panel-solid); box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.2);
+}
+.layer-explainer__head { display: flex; align-items: center; gap: 6px; }
+.layer-explainer__name { flex: 1; margin: 0; font-size: var(--fs-md); font-weight: 800; letter-spacing: -0.01em; }
+.layer-explainer__name:focus { outline: none; }
+.layer-explainer__close {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  color: var(--muted); background: transparent; cursor: pointer;
+}
+.layer-explainer__close:hover { color: var(--ink); background: var(--chip); }
+.layer-explainer__close:focus-visible, .layer-explainer__guide:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.layer-explainer__line { margin: -6px 8px 0 0; color: var(--muted); font-size: var(--fs-xs); font-weight: 600; line-height: 1.4; }
+.layer-explainer__points { display: grid; gap: 8px; margin: 0; padding: 0 8px 0 0; list-style: none; }
+.layer-explainer__points li { display: flex; align-items: flex-start; gap: 10px; }
+.layer-explainer__points li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 50%; background: var(--muted); }
+.layer-explainer__point { flex: 1; display: grid; gap: 1px; min-width: 0; }
+.layer-explainer__point strong { font-size: var(--fs-xs); font-weight: 700; }
+.layer-explainer__point span { color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; overflow-wrap: anywhere; }
+.layer-explainer__value { flex: none; font-size: var(--fs-xs); font-weight: 800; font-variant-numeric: tabular-nums; }
+/* The scale: the area chosen (●) over it, London typical (▲) under it. */
+.layer-explainer__scale { position: relative; display: grid; margin: 0 8px 0 0; padding: 22px 0 0; }
+.layer-explainer__ramp { display: block; width: 100%; height: 12px; }
+/* Each mark spans the scale; its dot or caret sits at --at (0..1) and its words slide by the same share of
+   their own width, so a long name stays inside the panel wherever the mark falls (phones included). */
+.layer-explainer__area, .layer-explainer__average {
+  position: absolute; left: 0; right: 0; font-size: var(--fs-2xs); font-weight: 800; font-variant-numeric: tabular-nums; pointer-events: none;
+}
+.layer-explainer__area { top: 0; }
+.layer-explainer__average { top: calc(22px + 12px); color: var(--muted); font-weight: 700; }
+.layer-explainer__label {
+  position: absolute; left: calc(var(--at) * 100%); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transform: translateX(calc(var(--at) * -100%));
+}
+.layer-explainer__area .layer-explainer__label { top: 0; }
+.layer-explainer__average .layer-explainer__label { top: 7px; }
+.layer-explainer__dot, .layer-explainer__caret { position: absolute; left: calc(var(--at) * 100%); transform: translateX(-50%); }
+.layer-explainer__dot { top: 15px; width: 12px; height: 12px; border: 2px solid var(--panel-solid); border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.layer-explainer__caret { top: 0; width: 0; height: 0; border-right: 5px solid transparent; border-bottom: 7px solid var(--ink); border-left: 5px solid transparent; }
+.layer-explainer__note { margin-top: 28px; color: var(--muted); font-size: var(--fs-2xs); }
+.layer-explainer__guide {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: var(--fs-xs); font-weight: 700;
+  text-decoration: underline dashed var(--primary); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+}
+/* ---- MapSheet (components/map-sheet.tsx) ----------------------------------------
+   One sheet for Layers, Show, the layer explainer and "How to allow": the header is title · Default ·
+   ✕, only the body scrolls. Desktop: the owner's floating card (.layers-card below); phones: a bottom
+   sheet resting at half or full (the @media block further down). */
+.map-sheet { display: flex; flex-direction: column; min-height: 0; color: var(--ink); background: var(--panel-solid); }
+.map-sheet:focus { outline: none; }
+.map-sheet__grip { display: none; }
+.map-sheet__head { display: flex; align-items: center; gap: 4px; padding: 8px 8px 8px 12px; border-bottom: 1px solid var(--rule); }
+.map-sheet__title { flex: 1; margin: 0; padding-left: 4px; font-size: var(--fs-sm); font-weight: 800; }
+.map-sheet__title:focus { outline: none; }
+/* The content's way back in the title's place: "← My match" over an area or a lens. */
+.map-sheet__lead { flex: 1; min-width: 0; display: flex; align-items: center; }
+.map-sheet__back {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--ink);
+  font: 800 var(--fs-sm)/1.2 var(--font-sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.map-sheet__back:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+/* "Default": quiet text, muted and disabled while the sheet already holds its defaults. */
+.map-sheet__default {
+  flex: none; min-height: 44px; padding: 0 10px; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: transparent; font: inherit; font-size: var(--fs-xs); font-weight: 700; cursor: pointer;
+}
+.map-sheet__default:hover:not(:disabled) { background: var(--chip); }
+.map-sheet__default:disabled { color: var(--muted); cursor: default; }
+.map-sheet__default:focus-visible, .map-sheet__close:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-sheet__body { display: grid; align-content: start; gap: var(--space-2); min-height: 0; overflow: auto; overscroll-behavior: contain; }
+/* The Layers menu or the Show card on a desktop: floating beside its round button, as tall as its rows. */
+.layers-card {
+  position: absolute; top: 134px; right: calc(var(--dock-space) + 54px); width: 340px;
+  max-height: min(70dvh, calc(100dvh - 134px - 12px));
+  border-radius: 18px; box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.2);
+}
+.layers-card[data-card="show"] { top: 188px; width: 360px; max-height: min(680px, calc(100dvh - 188px - 12px)); }
+.layers-card .map-sheet__body { padding: 10px 12px 12px; }
+.layers-card[data-card="layers"] .map-sheet__body { padding: 8px; }
+.layers-card__content { display: contents; }
+/* Show › Draw an area: Finish and Cancel float over the map while the corners are tapped. */
+.map-sheet__close {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 12px;
+  color: var(--muted); background: transparent; cursor: pointer;
+}
+.map-sheet__close:hover { color: var(--ink); background: var(--chip); }
+/* "How to allow": the browser steps, then Try again. */
+.location-steps { display: grid; gap: 12px; padding: 12px 16px 16px; font-size: var(--fs-xs); line-height: 1.45; }
+.location-steps h3 { margin: 0 0 4px; font-size: var(--fs-xs); font-weight: 800; }
+.location-steps ol { margin: 0; padding-left: 20px; }
+.location-steps__note { margin: 0; color: var(--muted); }
+.location-steps__retry {
+  justify-self: start; min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill);
+  color: var(--on-ink); background: var(--ink); font: inherit; font-size: var(--fs-xs); font-weight: 800; cursor: pointer;
+}
+.location-steps__retry:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.map-settings-panel { display: grid; }
+.map-settings-panel > :first-child { border-top: 0; }
+/* The Layers menu (components/map-data-selector.tsx): a small search, None, then the groups as an
+   accordion, one open, its items in place. Rows are words only. */
+.topic-picker { display: grid; gap: 2px; min-width: 0; }
+.topic-search {
+  display: flex; align-items: center; gap: 8px; height: 40px; margin-bottom: 4px; padding: 0 12px; flex: none;
+  border: 1px solid var(--field-line); border-radius: var(--radius-pill); background: var(--chip);
+}
+.topic-search:focus-within { outline: 3px solid var(--focus); outline-offset: 1px; }
+.topic-search__icon { flex: none; }
+.topic-search input {
+  flex: 1; min-width: 0; height: 38px; padding: 0; border: 0; outline: none; color: var(--ink); background: transparent;
+  font: inherit; font-size: 16px;
+}
+.topic-search input::placeholder { color: var(--muted); }
+.topic-menu, .topic-list { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.topic-group > .topic-list { padding: 0 0 8px 8px; }
+.topic-none, .topic-group__head {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-md);
+  color: var(--ink); background: transparent; font: inherit; font-size: var(--fs-sm); font-weight: 700; text-align: left; cursor: pointer;
+}
+.topic-none { position: relative; border-radius: var(--radius-pill); }
+.topic-none .topic-item__name { flex: 1; font-size: var(--fs-sm); font-weight: 700; }
+.topic-none:hover, .topic-group__head:hover { background: var(--chip); }
+/* None chosen: the chosen pill, ink with its stitch. */
+.topic-none[aria-pressed="true"] { color: var(--on-ink); background: var(--ink); }
+.topic-group__label { flex: 1; min-width: 0; }
+.topic-group__held { max-width: 130px; overflow: hidden; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.topic-group__dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
+.topic-group__chevron { flex: none; transform: rotate(90deg); transition: transform 160ms ease; }
+.topic-group__head[aria-expanded="true"] .topic-group__chevron { transform: rotate(-90deg); }
+:is(.topic-none, .topic-group__head, .topic-item):focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.topic-item {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: transparent; font: inherit; text-align: left; cursor: pointer;
+}
+.topic-item[aria-disabled="true"] { color: var(--muted); }
+.topic-item__text { flex: 1; display: grid; gap: 1px; min-width: 0; }
+.topic-item__name { font-size: var(--fs-sm); font-weight: 600; }
+.topic-item__text small { color: var(--muted); font-size: var(--fs-2xs); font-weight: 500; line-height: 1.3; }
+.topic-plain > .topic-item:hover { background: var(--chip); }
+/* The item shown without controls: one pill (fill, check, "Top 10 →" in it), never a strip under it. */
+.topic-pill { position: relative; display: flex; align-items: center; gap: 2px; min-width: 0; padding-right: 8px; border-radius: var(--radius-pill); color: var(--on-ink); background: var(--ink); }
+.topic-pill > .topic-item { flex: 1; min-width: 0; color: inherit; }
+.topic-pill .topic-item__name, .topic-block[data-current] > .topic-row .topic-item__name { font-weight: 800; }
+.topic-pill .topic-top { color: inherit; }
+.topic-pill::after, .topic-none[aria-pressed="true"]::after {
+  content: ""; position: absolute; inset: 3px; border: 1.5px dashed currentColor; border-radius: inherit; opacity: .75; pointer-events: none;
+}
+/* An item with views or controls: its name over them, in the light block only while it is the one shown. */
+.topic-block { display: grid; gap: 4px; min-width: 0; padding: 2px 8px 8px 0; border-radius: 14px; }
+.topic-block[data-current] { background: var(--chip); }
+.topic-block > .topic-views, .topic-block > .topic-more, .topic-block > .criteria-builder { margin-left: 12px; }
+.topic-row { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.topic-row > .topic-item { flex: 1; min-width: 0; }
+.topic-block > .topic-row > .topic-item:hover { background: rgb(var(--ink-rgb) / 0.06); }
+.topic-latest {
+  flex: none; padding: 2px 8px; border: 1px solid var(--rule); border-radius: var(--radius-pill); color: var(--muted); background: var(--panel-solid);
+  font-size: var(--fs-2xs); font-weight: 700;
+}
+/* "Top 10 →": a quiet link with the dashed thread under it. */
+.topic-top {
+  display: inline-flex; align-items: center; flex: none; min-height: 44px; padding: 0 4px; color: var(--ink);
+  font-size: var(--fs-2xs); font-weight: 700; white-space: nowrap;
+  text-decoration: underline dashed var(--primary); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+}
+.topic-pill .topic-top { text-decoration-color: currentColor; }
+.topic-top:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.topic-more { display: grid; gap: 8px; min-width: 0; }
+/* View chips: white with a hairline on the light block, ink with a stitch once chosen. */
+.topic-block .topic-subviews button { padding: 4px 9px; }
+.topic-block .topic-subviews button:not([aria-pressed="true"]) { background: var(--panel-solid); box-shadow: inset 0 0 0 1px var(--rule); }
+.topic-block .topic-subviews button:not([aria-pressed="true"]):hover { background: var(--chip); }
+.topic-views .help-tip { align-self: center; }
+/* Change over 1 · 5 · 10 years, inline. */
+.topic-window { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.topic-window .topic-subviews button { min-width: 44px; }
+.topic-results { display: grid; gap: 2px; }
+/* A view's second level (Ethnic makeup › Asian): compact chips that wrap, under the chosen view. */
+.topic-subviews { display: flex; flex-wrap: wrap; gap: var(--space-1); min-width: 0; }
+.topic-subviews button {
+  min-height: 44px; padding: 4px 12px; border: 0; border-radius: var(--radius-md); color: var(--ink); background: var(--chip);
+  font-size: var(--fs-2xs); font-weight: 800; cursor: pointer;
+}
+.topic-subviews button[aria-pressed="true"] { color: var(--on-ink); background: var(--ink); }
+/* Pick a country, group, language, …: a search over a scrolling box of chips. */
+.topic-picks { display: grid; gap: 6px; min-width: 0; }
+.topic-picks__label { color: var(--ink); font-size: var(--fs-2xs); font-weight: 800; }
+.topic-picks__list { max-height: 196px; overflow-y: auto; padding: 2px; border-radius: var(--radius-md); }
+.topic-empty { margin: 8px; color: var(--muted); font-size: var(--fs-xs); }
+.topic-list .criteria-builder { margin: 4px 8px 8px; }
+.topic-overlays { display: grid; gap: 2px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.topic-overlays legend {
+  float: left; width: 100%; padding: 10px 0 4px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.topic-overlay { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 4px 8px; border-radius: var(--radius-md); cursor: pointer; }
+.topic-overlay:hover { background: var(--chip); }
+.topic-overlay input { flex: none; width: 18px; height: 18px; margin: 0; accent-color: var(--ink); }
+.topic-overlay[data-available="false"] { color: var(--muted); cursor: not-allowed; }
+.topic-overlay-row { display: grid; gap: 2px; min-width: 0; }
+.topic-overlay-row > section { margin: 0 8px 8px 36px; }
+/* The item's row: its tick-box label, then the ⓘ for its method and licence. */
+.topic-overlay-line { display: flex; align-items: center; min-width: 0; }
+.topic-overlay-line > .topic-overlay { flex: 1; min-width: 0; }
+.topic-overlay__about {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  color: var(--muted); background: transparent; cursor: pointer;
+}
+.topic-overlay__about:hover { color: var(--ink); background: var(--chip); }
+.topic-overlay__about[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); --icon-yarn: var(--on-ink); }
+.topic-overlay__about:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+/* The explainer card under the row, as the legend's "?" card (same style). */
+.topic-overlay-about {
+  display: grid; gap: 6px; margin: 0 8px 8px 36px; padding: 10px 12px; border-radius: var(--radius-md);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-2xs); line-height: 1.45;
+}
+.topic-overlay-about p { margin: 0; }
+.topic-overlay-about .licence-note { color: var(--muted); }
+
+/* ---- Show sub-options (components/show-sub-options.tsx) -----------------------------
+   Every Show item's options: indented under the item; each group a small label on its own line, then a
+   control that wraps inside the panel (flex-wrap, never a fixed width). 44px targets. */
+.show-sub { display: grid; gap: 10px; min-width: 0; font-size: var(--fs-2xs); }
+.show-sub__group { display: grid; gap: 4px; min-width: 0; }
+.show-sub__head { display: flex; flex-wrap: wrap; align-items: center; gap: 0 4px; min-width: 0; color: var(--muted); }
+.show-sub__label { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.show-sub__head .show-sub__label { margin-right: auto; }
+.show-sub__action {
+  min-width: 44px; min-height: 44px; padding: 0 6px; border: 0; border-radius: var(--radius-pill); color: var(--ink); background: transparent;
+  font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.show-sub__action:disabled { color: var(--muted); text-decoration: none; cursor: default; }
+.show-sub__seg, .show-sub__chips { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.show-sub__seg button, .show-sub__chips button {
+  flex: 0 1 auto; min-width: 0; min-height: 44px; padding: 4px 12px; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font: inherit; font-size: var(--fs-2xs); font-weight: 700; cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.show-sub__seg button[aria-pressed="true"], .show-sub__chips button[aria-pressed="true"] { color: var(--on-ink); background: var(--ink); }
+.show-sub__action:focus-visible, .show-sub__seg button:focus-visible, .show-sub__chips button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* The key: one row of swatches with three labels under it, then "No data" as a grey dot. */
+.show-sub__key { display: flex; align-items: flex-start; gap: 12px; min-width: 0; }
+.show-sub__key-ramp { flex: 1 1 auto; display: grid; gap: 2px; min-width: 0; max-width: 240px; }
+.show-sub__key-swatches { display: flex; height: 10px; overflow: hidden; border-radius: 99px; }
+.show-sub__key-swatches i { flex: 1; }
+.show-sub__key-labels { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.show-sub__key-none { flex: none; display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.show-sub__key-none i { width: 10px; height: 10px; border-radius: 50%; }
+.show-sub__fields { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; color: var(--muted); }
+.show-sub__fields label { flex: 1 1 96px; min-width: 0; }
+.show-sub__fields input { width: 100%; min-height: 44px; }
+.show-sub__note { margin: 0; color: var(--muted); font-size: var(--fs-2xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.topic-overlay .topic-item__text { flex: 1; }
+/* Each row keyed by its yarn: the dot the map draws it in. */
+.topic-overlay__yarn { flex: none; width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 0 2px var(--panel-solid), 0 0 0 3px rgb(var(--ink-rgb) / 0.15); }
+.topic-overlays .drawn-zones { margin: 6px 8px 0; padding-top: 8px; border-top: 1px solid var(--rule); }
+.topic-overlays .drawn-zones h3 { margin: 0 0 4px; font-size: var(--fs-xs); }
+.layer-option-check { flex: none; font-weight: 800; }
+.dock-toggle {
+  flex: none; width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 12px;
+  color: var(--muted); background: transparent; cursor: pointer;
+}
+.dock-toggle:hover { color: var(--ink); background: var(--chip); }
+.chevron { display: block; }
+.layer-notice { margin: 2px 0; padding: 6px 10px; border-left: 3px solid var(--accent); background: var(--note); color: var(--ink); font-size: var(--fs-2xs); line-height: 1.4; }
+
+/* The legend chip's key: the caption, the satin scale with its ticks and the London marker. */
+.map-legend { display: grid; gap: 3px; min-width: 0; margin: 0; }
+.map-legend-caption { display: block; margin: 0; color: var(--ink); font-size: var(--fs-2xs); font-weight: 700; line-height: 1.3; }
+.map-legend-typical { display: block; margin: 0; color: var(--ink); font-size: var(--fs-2xs); font-weight: 700; font-variant-numeric: tabular-nums; }
+.map-legend-typical span { font-size: var(--fs-2xs); }
+.map-legend-bar { position: relative; display: block; }
+.map-legend-gradient { height: 8px; border-radius: 99px; }
+/* London median of the shown year on the fixed price scale. */
+.map-legend-tick {
+  position: absolute; top: -3px; width: 3px; height: 14px; margin-left: -1.5px; border-radius: 2px;
+  background: var(--ink); box-shadow: 0 0 0 1.5px var(--surface);
+  /* Slides with the map's value morph (PRICE_MORPH_MS), starting when it does. */
+  transition: left 200ms linear;
+}
+/* Custom "A vs B" criteria: the chip names the layer beside a small square (its key is in the card). */
+.bivariate-legend { display: flex; align-items: center; gap: var(--space-2); }
+.bivariate-legend__text { display: grid; gap: 2px; min-width: 0; }
+.bivariate-legend__key { display: flex; flex-wrap: wrap; gap: 2px 10px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; line-height: 1.3; }
+.bivariate-legend__key > span { display: inline-flex; align-items: center; gap: 4px; }
+.bivariate-square { display: grid; gap: 1px; flex: none; }
+.bivariate-square span { display: block; border-radius: 1px; }
+.bivariate-axes { display: grid; gap: 2px; min-width: 0; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.bivariate-details { display: flex; align-items: center; gap: 10px; margin: 2px 0; }
+.bivariate-details .bivariate-axes { font-size: var(--fs-2xs); }
+/* Tick labels sit under their place on the gradient; the end ones stay inside it. */
+.map-legend-stops { position: relative; display: block; height: 13px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; line-height: 13px; font-variant-numeric: tabular-nums; }
+.map-legend-stops span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+.map-legend-stops span[data-edge="start"] { transform: none; }
+.map-legend-stops span[data-edge="end"] { transform: translateX(-100%); }
+/* Labels that would crowd the ramp (map-legend.tsx useFittedTicks): hidden, place kept. */
+.map-legend-stops span[data-fit="hidden"] { visibility: hidden; }
+/* The period and ▶ at the top of the Layers tab. */
+.timeline-control { display: flex; align-items: center; gap: var(--space-1); }
+.timeline-control > button {
+  width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; cursor: pointer;
+}
+.timeline-control > button span {
+  width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%;
+  color: var(--accent); background: var(--ink); font-size: var(--fs-2xs);
+}
+.timeline-control label { flex: 1; display: grid; gap: 2px; min-width: 0; }
+.timeline-period { color: var(--ink); font-size: var(--fs-2xs); font-weight: 800; font-variant-numeric: tabular-nums; }
+/* The slider's first and last years (2006 … 2026) under it. */
+.timeline-ends { display: flex; justify-content: space-between; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
+/* A 44px tall hit area for a finger; the period text above stays readable. */
+.timeline-control input { width: 100%; height: 44px; margin: -14px 0 -14px; accent-color: var(--ink); background: transparent; cursor: pointer; }
+.legend-details { display: grid; gap: 3px; font-size: var(--fs-2xs); line-height: 1.45; }
+.legend-details p { margin: 0; }
+.legend-details-title { font-weight: 800; }
+.legend-details-unknown, .legend-details-direction { color: var(--muted); font-size: var(--fs-2xs); }
+.legend-details-unknown { display: flex; align-items: center; gap: 6px; }
+.legend-details-bands { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; margin: 2px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: var(--fs-2xs); font-variant-numeric: tabular-nums; }
+.legend-details-bands li { display: flex; align-items: center; gap: 6px; }
+.legend-details-sold { display: grid; gap: 2px; }
+.map-legend-sold { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-weight: 600; color: var(--muted); }
+.map-legend-sold > span:last-child { min-width: 0; }
+.map-legend-sold-swatches { display: inline-flex; flex: none; gap: 2px; }
+.map-legend-swatch { flex: none; width: 12px; height: 12px; border-radius: 3px; box-shadow: 0 0 0 1px rgb(var(--ink-rgb) / 0.12); }
+.scale-row { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-2); }
+.scale-control { display: grid; gap: var(--space-1); color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.scale-control select {
+  height: 44px; padding: 0 8px; border: 1px solid var(--field-line); border-radius: var(--radius-md);
+  background: var(--surface); color: var(--ink); font-size: var(--fs-2xs); font-weight: 700;
+  text-transform: none; letter-spacing: 0; cursor: pointer;
+}
+.scale-note { margin: 0; padding: 8px 10px; border-left: 3px solid var(--accent); background: var(--note); color: var(--muted); font-size: var(--fs-2xs); line-height: 1.45; }
+.crime-filter { display: grid; gap: 2px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.crime-filter legend { padding: 0 0 4px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.crime-filter-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 8px; }
+.crime-filter label { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 44px; color: var(--ink); font-size: var(--fs-2xs); font-weight: 600; line-height: 1.2; cursor: pointer; }
+.crime-filter input[type="checkbox"] { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--ink); }
+.crime-filter-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+/* Row 3: the area — evidence, the match ranking or the empty line. */
+.dock-area { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.dock-area .evidence-panel { padding: 16px 20px 24px; }
+.dock-area .evidence-panel > .eyebrow { margin-bottom: 4px; }
+.dock-area .evidence-panel h1 { font-size: var(--fs-2xl); }
+.dock-area .evidence-panel--empty { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; padding: 10px 14px; }
+/* With nothing chosen: the prompt, and beside it the ready-made example as a quiet text action. */
+.evidence-empty-example {
+  display: inline-flex; align-items: center; min-height: 44px; color: var(--ink);
+  font: 700 var(--fs-xs)/1.25 var(--font-sans); text-underline-offset: 3px; text-decoration-color: var(--muted);
+}
+.evidence-empty-example:hover { text-decoration-color: var(--ink); }
+.dock-area .evidence-panel .evidence-empty-line { font: 700 var(--fs-xs)/1.4 var(--font-sans); letter-spacing: 0; }
+.evidence-empty-line span { color: var(--muted); font-weight: 500; }
+/* The heading is a focus target for a new area, not a control. */
+.dock-area .evidence-panel h1:focus-visible { outline: none; }
+.dock-area .comparison-tray { top: -16px; }
+
+/* Collapsed: the reopen row (phones) or the 44px strip (desktop). */
+.map-dock[data-expanded="false"] .dock-area { display: none; }
+.dock-reopen {
+  display: flex; align-items: center; gap: var(--space-2); min-width: 44px; min-height: 44px; border: 0;
+  color: var(--ink); background: transparent; font-size: var(--fs-2xs); font-weight: 800; cursor: pointer;
+}
+.dock-reopen-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* HM Land Registry's statement must stay on screen with the outlines: one line in the
+   map's ⓘ corner (.map-licence), the full wording one tap away. */
+.dock-licence { display: flex; align-items: center; gap: var(--space-1); margin: 0; padding: 6px 12px 8px; color: var(--muted); font-size: var(--fs-2xs); line-height: 1.4; }
+.dock-licence details { flex: 1; min-width: 0; }
+.dock-licence summary { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; list-style: none; }
+.dock-licence summary::-webkit-details-marker { display: none; }
+.dock-licence__more { text-decoration: underline; }
+.dock-licence[open] summary { white-space: normal; }
+/* The peek's "Try an example" (phones, nothing chosen). */
+.dock-example {
+  display: none; flex: none; align-items: center; min-height: 44px; margin: 0 8px 4px 0; padding: 0 8px; border: 0; color: var(--ink); background: transparent;
+  font: inherit; font-size: var(--fs-xs); font-weight: 700; cursor: pointer;
+  text-decoration: underline dashed var(--primary); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+}
+/* Desktop, nothing chosen: one hint chip under the search pill instead of a panel. */
+.map-hint {
+  position: fixed; z-index: 11; top: 80px; left: 12px; display: flex; align-items: center; gap: 2px; height: 44px; margin: 0; padding: 0 2px 0 16px;
+  border-radius: var(--radius-pill); color: var(--ink); background: var(--panel-solid); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / 0.16);
+  font-size: var(--fs-xs); font-weight: 700;
+}
+.map-hint__dot { padding: 0 4px; color: var(--muted); }
+.map-hint__example {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); color: var(--ink); background: transparent;
+  font: inherit; cursor: pointer; text-decoration: underline dashed var(--primary); text-decoration-thickness: 1.5px; text-underline-offset: 4px;
+}
+.map-hint__example:hover { background: var(--chip); }
+.map-hint__example:focus-visible, .dock-example:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+@keyframes dock-in { from { transform: translateX(calc(100% + 12px)); } }
+@media (min-width: 801px), (max-height: 499px) and (orientation: landscape) {
+  /* With nothing chosen there is no panel; the first area chosen slides it in from the right
+     (data-entering, map-dock.tsx; a link that opens on an area shows it at once). */
+  .map-dock[data-area="empty"] { display: none; }
+  .map-dock[data-entering] { animation: dock-in 300ms ease; }
+  /* A card first in the panel (a tapped school, tree, collision) sits under the panel's own corner (.dock-head), so its × is reachable. */
+  .dock-area > .place-card:first-child { margin-top: 54px; }
+  .dock-toggle .chevron { display: none; }
+  .map-dock[data-expanded="false"] { width: 44px; }
+  .dock-reopen { flex: 1; flex-direction: column; padding: 12px 0; border-radius: 16px; }
+  .dock-reopen:hover { background: var(--chip); }
+  .dock-reopen .chevron { order: -1; transform: rotate(180deg); }
+  .dock-reopen-label { writing-mode: vertical-rl; transform: rotate(180deg); max-height: 100%; }
+}
+
+/* ---- Desktop: the right panel from the top ------------------------------------------
+   With a panel open it runs full height with the left pill's 12px margin; its header row holds ♡ N
+   beside the panel toggle, and the round buttons sit 12px left of it, top-aligned, never under it.
+   The bar stops short of them. Folded (the 44px strip) or closed: the stack and ♡ N go back to the
+   map's right edge, under the bar. Every right panel (area, My match, Saved) is this dock. */
+@media (min-width: 801px) and (min-height: 500px) {
+  .map-dock[data-expanded="true"] { top: 12px; }
+  /* The panel's left edge resizes it (map-dock.tsx PanelResize): a 16px strip over the edge, a short bar that
+     runs full height on hover, while dragging or focused. */
+  .map-dock[data-expanded="true"]:not([data-area="empty"]) .dock-resize {
+    display: block; position: absolute; z-index: 4; top: 16px; bottom: 16px; left: -8px; width: 16px; cursor: col-resize; touch-action: none;
+  }
+  .dock-resize::after {
+    content: ""; position: absolute; top: calc(50% - 24px); left: 6px; width: 4px; height: 48px; border-radius: 2px; background: var(--rule);
+  }
+  .dock-resize:is(:hover, :focus-visible)::after, .map-dock[data-resizing] .dock-resize::after { top: 0; height: 100%; background: var(--muted); }
+  .dock-resize:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; border-radius: 8px; }
+  .map-dock[data-resizing] { user-select: none; }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .map-rail { top: 12px; }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .layers-card { top: 66px; max-height: min(70dvh, calc(100dvh - 78px)); }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .layers-card[data-card="show"] { top: 120px; max-height: min(680px, calc(100dvh - 132px)); }
+  /* The panel and its margins + the 44px stack + 12px. */
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .explorer-header { right: calc(var(--dock-panel) + 80px); }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .explorer-header .saved-link {
+    position: fixed; top: 18px; right: 66px; box-shadow: none;
+  }
+  /* The panel's first row leaves room for ♡ N and the toggle. */
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"] :is(.area-brief__head > :first-child, .match-panel-title, .saved-panel__head) { padding-right: 116px; }
+  /* CUJ14 round 3: one line above the title, as the boards draw it, never 3 ragged lines beside ♡ N. Each
+     crumb gives way with an ellipsis (London and "›" stay); the h1 below says the area's name in full, and a crumb's
+     title says it on hover. */
+  .map-dock .area-brief__parents.area-page__crumbs ol { flex-wrap: nowrap; overflow: hidden; white-space: nowrap; mask-image: none; }
+  .map-dock .area-brief__parents.area-page__crumbs li { display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .map-dock .area-brief__parents.area-page__crumbs li:first-child { flex: none; }
+  /* The borough crumb is a button (inline-block): inline here, so the ellipsis runs through it; 32px tall to tap. */
+  .map-dock .area-brief__parents.area-page__crumbs li > :is(a, span, button) { display: inline; min-height: 0; margin: 0; padding: 7px 0; vertical-align: baseline; }
+  /* The corner holding ♡ N and the toggle is solid, so nothing scrolls under them (Top 10 | Bottom 10, a row's tick box). */
+  .map-dock[data-expanded="true"]:not([data-area="empty"]) .dock-head { top: 0; right: 0; display: flex; justify-content: flex-end; width: 56px; height: 50px; padding: 6px 6px 0 0; border-radius: 0 16px 0 14px; background: var(--panel-solid); }
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"]:not([data-area="empty"]) .dock-head { width: 124px; }
+  /* My match's title row is the panel's header, solid across it and kept on top while the list
+     scrolls, so nothing (Top 10 | Bottom 10, a row's tick box) runs under ♡ N or the toggle; "Top 10 ›" lands below it. */
+  .map-dock[data-expanded="true"] .match-panel > .match-panel-title {
+    position: sticky; top: 0; z-index: 2; box-sizing: border-box; min-height: 50px;
+    margin: -16px -20px 8px; padding: 12px 76px 8px 20px; background: var(--panel-solid);
+  }
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"] .match-panel > .match-panel-title { padding-right: 144px; }
+  .map-dock[data-expanded="true"] .match-panel .match-results-anchor { scroll-margin-top: 58px; }
+}
+
+/* ---- A phone on its side, or any window under 500px tall -------------------------------
+   Height wins over width (lib/viewport.ts SHORT_QUERY): one-row top bar (≡ · logo · Search · ♡; the
+   search says "Choose an area"), the three round buttons in a column inside the safe area, my location
+   alone bottom-right (no +/−: pinch; ⓘ moves to the ≡ menu foot), a slim legend bottom-left at most
+   half the width. Layers, Show, the explainer, My match and the area open as a 360px right-side panel,
+   full height; the round buttons step left of an open area panel and hide behind a sheet. */
+@media (max-height: 499px) and (orientation: landscape) {
+  /* The slim legend keeps its one line: no room for the colour range on a phone on its side. */
+  .map-key__range { display: none; }
+  .explorer-header {
+    top: calc(8px + env(safe-area-inset-top, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); right: calc(8px + env(safe-area-inset-right, 0px));
+  }
+  .map-hint { display: none; }
+  .first-visit-intro { top: calc(72px + env(safe-area-inset-top, 0px)); }
+  .map-toast-region, .explorer-shell .map-toast-region { top: calc(72px + env(safe-area-inset-top, 0px)); }
+  /* The right-side panel: the area, My match and Saved, and every MapSheet over it. */
+  .map-dock {
+    top: calc(8px + env(safe-area-inset-top, 0px)); bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    right: calc(8px + env(safe-area-inset-right, 0px)); width: 360px;
+  }
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"] :is(.area-brief__head > :first-child, .match-panel-title, .saved-panel__head) { padding-right: 116px; }
+  /* The corner holding ♡ N and the toggle is solid, so nothing scrolls under them (Top 10 | Bottom 10, a row's tick box). */
+  .map-dock[data-expanded="true"]:not([data-area="empty"]) .dock-head { top: 0; right: 0; display: flex; justify-content: flex-end; width: 56px; height: 50px; padding: 6px 6px 0 0; border-radius: 0 16px 0 14px; background: var(--panel-solid); }
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"]:not([data-area="empty"]) .dock-head { width: 124px; }
+  /* My match's title row is the panel's header, solid across it and kept on top while the list
+     scrolls, so nothing (Top 10 | Bottom 10, a row's tick box) runs under ♡ N or the toggle; "Top 10 ›" lands below it. */
+  .map-dock[data-expanded="true"] .match-panel > .match-panel-title {
+    position: sticky; top: 0; z-index: 2; box-sizing: border-box; min-height: 50px;
+    margin: -16px -20px 8px; padding: 12px 76px 8px 20px; background: var(--panel-solid);
+  }
+  .explorer-shell:has(.explorer-header .saved-link) .map-dock[data-expanded="true"] .match-panel > .match-panel-title { padding-right: 144px; }
+  .map-dock[data-expanded="true"] .match-panel .match-results-anchor { scroll-margin-top: 58px; }
+  .map-controls, .explorer-shell:has(.map-dock[data-area="empty"]) .map-controls { --dock-space: calc(12px + env(safe-area-inset-right, 0px)); }
+  .explorer-shell:has(.map-dock[data-expanded="false"]:not([data-area="empty"])) .map-controls { --dock-space: calc(64px + env(safe-area-inset-right, 0px)); }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .map-controls {
+    --dock-space: calc(380px + env(safe-area-inset-right, 0px));
+  }
+  /* With a panel open the bar keeps left of it and of the stack, and ♡ N joins the panel's header row. */
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .explorer-header { right: calc(380px + 56px + env(safe-area-inset-right, 0px)); }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .explorer-header .saved-link {
+    position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); right: calc(62px + env(safe-area-inset-right, 0px)); box-shadow: none;
+  }
+  .explorer-shell:has(.map-controls .map-sheet) .explorer-header { right: calc(376px + env(safe-area-inset-right, 0px)); }
+  /* Three circles: My match, Layers, Show (under ♡ N; level with an open panel's top). */
+  .map-rail { top: calc(76px + env(safe-area-inset-top, 0px)); gap: 8px; }
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-area="empty"])) .map-rail { top: calc(8px + env(safe-area-inset-top, 0px)); }
+  .map-position { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .map-position .map-zoom { display: none; }
+  .map-position .map-locate { margin-bottom: 0; }
+  .map-position .map-compass { width: 44px; height: 44px; }
+  /* ⓘ is in the ≡ menu foot ("Map credits"); the status and licence lines sit above my location. */
+  .map-credits__toggle { display: none; }
+  .map-credits { right: var(--dock-space); bottom: calc(66px + env(safe-area-inset-bottom, 0px)); flex-direction: column; align-items: flex-end; }
+  .map-credits__status, .map-credits .map-licence { max-width: min(260px, calc(50vw - 24px)); }
+  .map-credits__text {
+    position: fixed; right: var(--dock-space); bottom: calc(66px + env(safe-area-inset-bottom, 0px));
+    max-height: calc(100dvh - 140px); overflow: auto;
+  }
+  /* The legend: one slim row bottom-left, at most half the width: name · ramp (≤ 3 labels under it) · ?. */
+  .map-key {
+    left: calc(12px + env(safe-area-inset-left, 0px)); bottom: calc(12px + env(safe-area-inset-bottom, 0px)); width: auto;
+    max-width: min(50vw, calc(100vw - var(--dock-space) - 80px - env(safe-area-inset-left, 0px)));
+  }
+  .map-key__row { padding-right: 0; }
+  .legend-chip { display: flex; align-items: center; min-width: 0; min-height: 44px; padding: 4px 10px; }
+  .legend-chip .map-legend {
+    display: grid; flex: 1; grid-template-columns: minmax(0, max-content) minmax(96px, 1fr); align-items: center; gap: 2px 10px;
+  }
+  /* The layer's name only, wrapped to its lines, never cut (not "Price per m² · Ju…"); its date and
+     measure stay in the chip's accessible name. */
+  .legend-chip .map-legend-caption { grid-row: 1 / span 2; max-width: 9em; white-space: normal; overflow-wrap: break-word; }
+  .legend-chip .map-legend-caption__rest { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+  .legend-chip :is(.map-legend-typical, .map-legend-note, .map-legend-keys, .map-legend-sold) { display: none; }
+  .legend-chip .map-legend-gradient.ramp-satin { height: 8px; }
+  /* Sheets: a 360px right-side panel, full height, title · ✕; the list scrolls inside. */
+  .map-controls:has(.map-sheet) { z-index: 13; }
+  .map-controls .map-sheet, .layers-card, .layers-card[data-card="show"], .map-key .map-key__explainer {
+    position: fixed; z-index: 3; top: calc(8px + env(safe-area-inset-top, 0px)); bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    left: auto; right: calc(8px + env(safe-area-inset-right, 0px)); width: min(360px, calc(100vw - 16px)); height: auto; max-height: none;
+    border-radius: 18px; background: var(--panel-solid); box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.2);
+  }
+  .map-controls .map-sheet .map-sheet__body { flex: 1; }
+  .map-key .map-key__explainer .layer-explainer { max-height: none; overflow: visible; border-radius: 0; box-shadow: none; }
+  .map-key .map-key__explainer { overflow: auto; overscroll-behavior: contain; }
+}
+
+/* ---- Phones ------------------------------------------------------------- */
+@media (max-width: 800px) and (min-height: 500px), (max-width: 800px) and (orientation: portrait) {
+  .explorer-header {
+    top: calc(8px + env(safe-area-inset-top, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); right: calc(8px + env(safe-area-inset-right, 0px));
+    gap: var(--space-2);
+  }
+  /* The pill takes the width beside ♡ N. */
+  .explorer-pill { flex: 1 1 auto; padding: 6px; }
+  .explorer-pill .search-wrap { flex: 1 1 auto; }
+  .top-menu-panel { position: fixed; top: 72px; left: 8px; right: 8px; width: auto; max-height: calc(100dvh - 88px); }
+  /* Narrow phones: the field's padding tightens, so the search keeps room for its hint. */
+  @media (max-width: 480px) {
+    .search-wrap input { padding: 0 6px 0 34px; }
+  }
+  /* The narrowest phones (320px): tighter spacing. */
+  @media (max-width: 360px) {
+    .explorer-header { gap: 6px; }
+  }
+  /* The search opens as a full-width overlay: the bar is the field and Cancel, the results fill the screen below. */
+  .explorer-header:has(.search-wrap[data-searching="true"]) :is(.saved-link, .explorer-pill > :not(.search-wrap)) { display: none; }
+  .explorer-header .search-wrap[data-searching="true"] .search-results,
+  .explorer-header .search-wrap[data-searching="true"] .search-empty {
+    position: fixed; z-index: 30; top: calc(72px + env(safe-area-inset-top, 0px)); left: 8px; right: 8px; bottom: auto;
+    max-height: calc(100dvh - 84px - env(safe-area-inset-top, 0px)); overflow: auto;
+  }
+  .explorer-header .search-wrap[data-searching="true"] .search-results { overflow: hidden; }
+  .first-visit-intro { top: calc(76px + env(safe-area-inset-top, 0px)); left: 8px; right: 8px; width: auto; }
+  /* A comparison keeps the half sheet: the map it paints stays in view above. */
+  .explorer-shell[data-active-metric^="custom:"] .map-dock[data-expanded="true"][data-area="match"]:not([data-snap="full"]) { height: var(--sheet); }
+
+  /* The sheet rests at its peek (collapsed), half (--sheet) or full (up to the top bar), as in
+     Apple or Google Maps; data-snap says which. While a finger drags it the inline height wins. */
+  .map-dock {
+    /* Half: at most about 45% of the screen, so the chosen area stays in view above it. */
+    --sheet: 45dvh;
+    --sheet-full: calc(100dvh - 72px - env(safe-area-inset-top, 0px));
+    top: auto; left: 0; right: 0; bottom: 0; width: auto; max-height: var(--sheet-full);
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    border-radius: 20px 20px 0 0; box-shadow: 0 -10px 30px rgb(var(--ink-rgb) / 0.12);
+    /* Every change of snap slides here (map-dock.tsx useSheetDrag) on the iOS sheet curve;
+       reduced motion makes it instant (globals.css). */
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  /* The panel carries on below the sheet's edge, so a slide down or a pull past full shows no gap. */
+  .map-dock::after { content: ""; position: absolute; top: 100%; left: 0; right: 0; height: 100vh; background: var(--panel); pointer-events: none; }
+  .map-dock[data-dragging="true"] { transition: none; }
+  /* Half is one height with or without an area, so the first tap on the map never moves it:
+     with nothing chosen the prompt row and the legend sit at its top. */
+  .map-dock[data-expanded="true"] { height: var(--sheet); }
+  /* The match ranking keeps its comparison tray pinned; give the list room under it. */
+  .map-dock[data-expanded="true"][data-area="match"] { height: max(var(--sheet), 74dvh); }
+  /* An area's half shows its whole peek, the four tiles above the sticky footer (map-dock.tsx usePeekFit). */
+  .map-dock[data-expanded="true"][data-area="area"] { height: max(var(--sheet), var(--sheet-fit, 0px)); }
+  .map-dock[data-snap="full"]:not([data-area="empty"]) { height: var(--sheet-full); }
+  .map-dock[data-dragging="true"] .dock-area { display: block; }
+  /* The peek, about 72px over the safe area: the grabber over one line, the area's name and value, or
+     "Choose an area · Try an example" (a tap or a drag opens the sheet). A finger dragging it up shows
+     the open rows instead. */
+  .map-dock[data-expanded="false"]:not([data-dragging]) { flex-flow: row wrap; align-content: flex-start; align-items: center; }
+  .map-dock[data-expanded="false"]:not([data-dragging]) .dock-grip { flex: 0 0 100%; padding: 20px 0 19px; margin: -12px 0 -15px; }
+  .map-dock[data-expanded="false"]:not([data-dragging]) .dock-reopen { order: 1; flex: 1 1 0; min-width: 0; margin: 0 8px 4px 0; }
+  .map-dock[data-expanded="false"]:not([data-dragging]) .dock-example { order: 2; display: inline-flex; }
+  /* One "Try an example" at a time (HomePhone): while the first-visit card shows its own, the peek's waits. */
+  :root:not([data-intro-boot="hide"]) body:has(.first-visit-intro__example) .map-dock .dock-example { display: none; }
+  .map-dock[data-dragging="true"] .dock-reopen { display: none; }
+  .map-hint { display: none; }
+  .map-dock[data-area="empty"] .dock-toggle { display: none; }
+  /* The grabber, the head and the peek line drag the sheet; their buttons still click on a tap.
+     The evidence is text to read and copy: it scrolls (its rows sideways too), and only a pull
+     down from its top moves the sheet (map-dock.tsx). */
+  .dock-grip, .dock-head, .dock-reopen { touch-action: none; }
+  /* A press on the grabber that moves never starts a native drag of a link in the sheet (the sticky footer's): it would cancel the sheet's own drag. */
+  .map-dock a, .map-sheet a { -webkit-user-drag: none; }
+  .dock-area { touch-action: pan-x pan-y; }
+  /* The grabber: a 36x5 pill taking 25px of the sheet (17px at the peek) in a 44px button that
+     reaches above the sheet's edge and under the row below (which stays on top of it). */
+  .dock-grip {
+    position: relative; display: block; width: 100%; margin: -10px 0; padding: 20px 0; border: 0;
+    color: inherit; background: transparent; cursor: grab;
+  }
+  .dock-grip:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; border-radius: 20px 20px 0 0; }
+  .panel-handle { display: block; width: 36px; height: 5px; margin: 0 auto; border-radius: 3px; background: rgb(var(--ink-rgb) / 0.28); }
+  .dock-head { top: 4px; right: 8px; }
+  .dock-toggle .chevron { transform: rotate(90deg); }
+  .dock-toggle .icon-panel { display: none; }
+  /* The peek line: the area's name and value in the sheet's own type, a chevron saying it opens. */
+  .dock-reopen {
+    flex: none; justify-content: space-between; margin: 0; padding: 0 8px 0 16px;
+    border-radius: 12px; font-size: var(--fs-sm); text-align: left;
+  }
+  .dock-reopen .chevron { flex: none; color: var(--muted); transform: rotate(-90deg); }
+  .dock-area .evidence-panel { padding: 12px 16px 20px; }
+  /* The pinned CTA bar spans the phone panel's 16px inset exactly, so it never sticks out sideways. */
+  .map-dock .dock-area .area-brief__actions { margin-inline: -16px; padding-inline: 16px; }
+  .dock-area .evidence-panel h1 { font-size: var(--fs-xl); }
+  .metric-description { margin-bottom: 12px; }
+  /* The map's controls ride above where the sheet rests (--sheet-rest, from map-dock.tsx) on the
+     sheet's curve, and step aside while it is full. */
+  .map-controls { --float-bottom: calc(var(--sheet-rest, 80px) + 12px); }
+  /* Until it is measured (the server's paint, before hydration) an open sheet rests at half, not at its peek:
+     the controls start above it instead of jumping there (a layout shift on a link with ?selected=). */
+  .explorer-shell:has(.map-dock[data-expanded="true"]:not([data-snap="full"])) .map-controls {
+    --float-bottom: calc(var(--sheet-rest, var(--sheet)) + 12px);
+  }
+  /* They slide (map-dock.tsx liftControls) only once the sheet's rest is known, so the first paint after load never animates. */
+  .explorer-shell[data-sheet-rest] :is(.map-rail, .map-position, .map-key, .map-credits) { transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1); }
+  /* One column bottom-right, over the sheet: My match, Layers, Show, then my location (a phone pinches to zoom). */
+  .map-rail { top: auto; right: calc(12px + env(safe-area-inset-right, 0px)); bottom: calc(var(--float-bottom) + 54px); }
+  .map-position { right: calc(12px + env(safe-area-inset-right, 0px)); bottom: var(--float-bottom); }
+  .map-position .map-zoom { display: none; }
+  .map-position .map-locate { margin-bottom: 0; }
+  .map-position .map-compass { width: 44px; height: 44px; }
+  .map-key { left: calc(62px + env(safe-area-inset-left, 0px)); right: calc(64px + env(safe-area-inset-right, 0px)); bottom: var(--float-bottom); width: auto; max-width: 300px; }
+  /* A tap on the chip opens the colour range just above it (map-layers.tsx; the layer pill opens Layers): one short
+     card, the map still in view around it. */
+  .map-key__range:not([data-open]) { display: none; }
+  .legend-range .legend-range__scopes button { padding: 0 7px; }
+  .legend-range__reset { padding: 0 9px; }
+  /* ⓘ bottom-left above the sheet, the chip beside it; its credits open above. */
+  .map-credits {
+    left: calc(12px + env(safe-area-inset-left, 0px)); right: auto; bottom: var(--float-bottom);
+    flex-direction: column; align-items: flex-start;
+  }
+  /* Above ⓘ and never wider than the gap left of the right-hand column (My match, Layers, Show,
+     my location), so it cannot cover those circles on a 390px phone. */
+  .map-credits__text {
+    left: 0; right: auto; bottom: calc(100% + 8px);
+    max-width: calc(100vw - 80px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+  }
+  .map-credits__status { max-width: calc(100vw - 140px); }
+  .map-credits .map-licence { max-width: calc(100vw - 88px); }
+  /* The explainer: a small sheet above the chip, across the map's width. */
+  .map-key__explainer {
+    position: fixed; z-index: 2; left: calc(12px + env(safe-area-inset-left, 0px)); right: calc(64px + env(safe-area-inset-right, 0px));
+    bottom: calc(var(--float-bottom) + 54px); width: auto;
+  }
+  .layer-explainer { max-height: min(60dvh, calc(100dvh - var(--float-bottom) - 140px)); }
+  /* A high sheet leaves too little map for the column (map-dock.tsx data-sheet-high): the buttons lie in a
+     row left of my location, and the chip takes what is left (none on the narrowest phones). */
+  .explorer-shell[data-sheet-high] .map-rail { flex-direction: row; bottom: var(--float-bottom); right: calc(66px + env(safe-area-inset-right, 0px)); }
+  .explorer-shell[data-sheet-high] .map-key { right: calc(228px + env(safe-area-inset-right, 0px)); }
+  @media (max-width: 400px) {
+    .explorer-shell[data-sheet-high] .map-key { display: none; }
+  }
+  /* The chip is one 44px line beside the round buttons: a thin scale between its lowest and highest
+     labels, then its "?". The layer and period are its accessible name and the "?" text. */
+  .map-key__row { padding-right: 0; }
+  .legend-chip { display: flex; align-items: center; min-width: 0; min-height: 44px; padding: 4px 10px; }
+  .legend-chip .map-legend { display: flex; flex: 1; align-items: center; gap: 6px; }
+  .legend-chip .map-legend-caption { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .legend-chip .map-legend-stops { display: contents; }
+  .legend-chip .map-legend-stops span { position: static; flex: none; transform: none; }
+  .legend-chip .map-legend-stops span:not([data-edge]),
+  .legend-chip :is(.map-legend-tick, .map-legend-typical, .map-legend-view-note) { display: none; }
+  .legend-chip .map-legend-stops span[data-edge="start"] { order: 1; }
+  .legend-chip .map-legend-bar { order: 2; flex: 1 1 40px; min-width: 32px; }
+  .legend-chip .map-legend-stops span[data-edge="end"] { order: 3; }
+  /* The layer pill under the search names the layer, so the chip keeps the scale and "?". */
+  .layer-pill { display: flex; top: calc(72px + env(safe-area-inset-top, 0px)); left: calc(8px + env(safe-area-inset-left, 0px)); }
+  .explorer-shell:has(.search-wrap[data-searching="true"], .zone-bar) .layer-pill { display: none; }
+  /* First visit: the card no longer hides the pill; it sits under it, so the layer stays named. */
+  .explorer-shell:has(.layer-pill) .first-visit-intro { top: calc(124px + env(safe-area-inset-top, 0px)); }
+  /* Hidden on screen only: the chip's accessible name keeps the layer, its period and its note. */
+  .legend-chip .map-legend:not(.map-legend--sales) .map-legend-caption, .legend-chip .map-legend-note {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap;
+  }
+  /* My match before its first criterion has no scale to show: its hint is the chip's text, never a blank pill. */
+  .legend-chip .map-legend--hint .map-legend-note { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; line-height: 1.25; }
+  .legend-chip .map-legend-gradient.ramp-satin { height: 8px; margin: 0; }
+  .explorer-shell:has(.map-dock[data-snap="full"]:not([data-area="empty"])) :is(.map-rail, .map-position, .map-key, .map-credits) { visibility: hidden; }
+  /* Every MapSheet is the area sheet's twin: half (--sheet) or full (up to the top bar), the
+     same grabber, slide and curve (useSheetDrag). Over the area sheet, which waits at its peek; the
+     map stays live above half. The content scrolls only at full: below it a drag moves the sheet. */
+  .map-controls { --sheet: 45dvh; }
+  .map-controls:has(.map-sheet) { z-index: 13; }
+  .map-sheet, .layers-card, .layers-card[data-card="show"], .map-key .map-key__explainer {
+    --sheet: 45dvh;
+    --sheet-full: calc(100dvh - 72px - env(safe-area-inset-top, 0px));
+    position: fixed; z-index: 1; top: auto; left: 0; right: 0; bottom: 0; width: auto; height: var(--sheet); max-height: var(--sheet-full);
+    padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    border-radius: 20px 20px 0 0; background: var(--panel-solid); box-shadow: 0 -10px 30px rgb(var(--ink-rgb) / 0.16);
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1); pointer-events: auto;
+  }
+  .map-sheet[data-snap="full"] { height: var(--sheet-full); }
+  .map-sheet[data-dragging="true"] { transition: none; }
+  /* The panel carries on below the sheet's edge, so a slide down or a pull past full shows no gap. */
+  .map-sheet::after { content: ""; position: absolute; top: 100%; left: 0; right: 0; height: 100vh; background: var(--panel-solid); pointer-events: none; }
+  .map-sheet__grip {
+    position: relative; display: block; flex: none; width: 100%; margin: -10px 0 -14px; padding: 20px 0; border: 0;
+    color: inherit; background: transparent; cursor: grab; touch-action: none;
+  }
+  .map-sheet__grip:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; border-radius: 20px 20px 0 0; }
+  .map-sheet__head { padding-top: 4px; touch-action: none; }
+  .map-sheet__body { flex: 1; overflow: hidden; touch-action: pan-x; }
+  .map-sheet[data-snap="full"] .map-sheet__body { overflow: auto; touch-action: pan-x pan-y; }
+  /* The map's buttons and legend ride above an open MapSheet, as they do above the area sheet. */
+  .explorer-shell:has(.map-controls .map-sheet:not([data-snap="full"])) .map-controls { --float-bottom: calc(var(--sheet) + 12px); }
+  .explorer-shell:has(.map-controls .map-sheet[data-snap="full"]) :is(.map-rail, .map-position, .map-key__row, .map-credits) { visibility: hidden; }
+  /* The explainer inside its sheet: the sheet scrolls and frames it. */
+  .map-key .map-key__explainer .layer-explainer { max-height: none; overflow: visible; border-radius: 0; box-shadow: none; }
+  /* The toast: just under the search pill, full width minus the gutters. */
+  .map-toast-region, .explorer-shell .map-toast-region, .explorer-shell .map-loading { top: calc(72px + env(safe-area-inset-top, 0px)); left: 10px; right: 10px; }
+  .map-toast { width: 100%; }
+  .preference-panel { inset: 72px 0 0; width: calc(100vw - 16px); max-height: calc(100dvh - 24px); border-radius: 22px 22px 0 0; }
+}
+
+/* Short phones and landscape: the rows above the area take a larger share
+   of the sheet, so the open sheet grows to keep the area usable. */
+@media (max-width: 800px) and (min-height: 500px) and (max-height: 700px) {
+  .map-dock, .map-sheet, .map-controls { --sheet: 55dvh; }
+}
+
+/* The criterion panel (components/match/criterion-focus.tsx): no scale of its own, the legend chip is the one. */
+.criterion-added { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 12px; }
+.criterion-added p { flex-basis: 100%; margin: 0; font-size: var(--fs-xs); }
+.criterion-choose { display: grid; gap: var(--space-2); margin: 0 0 12px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 12px; }
+.criterion-choose legend { padding: 0 4px; font-size: var(--fs-xs); font-weight: 800; }
+.criterion-choose .segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0; }
+.criterion-weight { display: grid; gap: var(--space-1); font-size: var(--fs-2xs); font-weight: 700; color: var(--muted); }
+.criterion-weight select { min-height: 44px; padding: 0 10px; border: 1px solid var(--field-line); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); font: inherit; font-size: var(--fs-xs); }
+.criterion-focus-actions button, .criterion-added button {
+  min-height: 44px; padding: 0 16px; border: 1px solid var(--field-line); border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--surface); font: inherit; font-size: var(--fs-sm); font-weight: 700; cursor: pointer;
+}
+.criterion-focus-actions .criterion-add { border-color: var(--primary); color: var(--on-primary); background: var(--primary); }
+.criterion-focus-actions .criterion-add:disabled { border-color: var(--chip); color: var(--muted); background: var(--chip); cursor: not-allowed; }
+.criterion-how { margin: 4px 0 0; font-size: var(--fs-xs); }
+.criterion-how summary { display: flex; align-items: center; min-height: 44px; font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+/* A tapped place, at the top of the sheet (components/places-panel.tsx PlaceCard). */
+.place-card {
+  display: flex; align-items: flex-start; gap: 2px; margin: 10px 12px 0; padding: 10px 4px 10px 14px;
+  border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface);
+}
+.place-card__text { flex: 1; display: grid; gap: 2px; min-width: 0; padding-top: 2px; }
+.place-card__text strong { font-size: var(--fs-md); line-height: 1.3; }
+.place-card__text span, .place-card__text small { color: var(--muted); font-size: var(--fs-2xs); line-height: 1.4; }
+.place-card__text a { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; font-size: var(--fs-xs); font-weight: 700; }
+.place-card__more, .place-card__close {
+  flex: none; width: 44px; height: 44px; margin: -6px 0; display: grid; place-items: center; border: 0; border-radius: 12px;
+  color: var(--muted); background: transparent; font-size: var(--fs-sm); font-weight: 800; cursor: pointer;
+}
+.place-card__close { font-size: var(--fs-xl); font-weight: 400; }
+.place-card__more:hover, .place-card__close:hover { color: var(--ink); background: var(--chip); }
+/* Your place's card (components/map-cards.tsx MyPlaceCard): Rename, Move, Remove, Commute from here. */
+.map-card__actions { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 4px; }
+.map-card__action {
+  min-height: 44px; padding: 0 12px; border: 1px solid var(--field-line); border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--surface); font: inherit; font-size: var(--fs-xs); font-weight: 700; cursor: pointer;
+}
+.map-card__action[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+.map-card__rename { display: flex; align-items: center; gap: 8px; }
+.map-card__rename input { flex: 1; min-width: 0; min-height: 44px; }
+
+/* #20: short screens (a phone on its side): a compact CTA bar and area head, so
+   the first evidence tiles show above it. Targets keep 44px. */
+@media (max-height: 500px) {
+  /* (The side panel's place on a short screen is the short-screen block above.) */
+  .map-dock .dock-area .area-brief__actions { padding-top: 2px; padding-bottom: 2px; }
+  .dock-area .area-brief__body { margin-top: 0; }
+  .dock-area .evidence-panel { padding-top: 8px; }
+  .dock-area .evidence-panel > .eyebrow { display: none; }
+  .dock-area .evidence-panel h1 { font-size: var(--fs-lg); }
+  /* The "Part of …" row (44px targets) would push the first tiles under the CTA bar; the wider
+     areas stay a zoom-out away on the map, and the row returns once the phone stands up. */
+  .dock-area .area-brief__parents { display: none; }
+  .dock-footer { min-height: 32px; }
+  .dock-footer > a[data-testid="sources-privacy-link"], .dock-footer > a[data-testid="sources-terms-link"] { display: none; }
+}

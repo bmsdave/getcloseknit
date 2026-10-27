@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Every push runs the fast gate (unit suites, PostGIS tests, contracts, web unit + typecheck).
+# Skip in an emergency with `git push --no-verify` and say so in the PR.
+set -euo pipefail
+exec "$(git rev-parse --show-toplevel)/gate.sh" --fast

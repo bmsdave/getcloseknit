@@ -1,0 +1,48 @@
+{
+  "_note": "Trimmed from live Zoopla pages on 2026-10-18 (read in Chrome): the JSON-LD and the streamed analyticsTaxonomy, ntsInfo (key/value only) and priceHistory that the adapter parses.",
+  "74027384": {
+    "ld": {
+      "@type": "RealEstateListing", "name": "1 bed flat for sale Kingsland Road, London E8",
+      "datePosted": "2026-08-20T11:57:51", "mainEntityOfPage": "https://www.zoopla.co.uk/for-sale/details/74027384/",
+      "offers": { "price": 450000 }
+    },
+    "analyticsTaxonomy": { "epcRating": "B", "listingId": 74027384, "priceActual": 450000, "propertyType": "flat", "tenure": "leasehold" },
+    "ntsInfo": [
+      { "title": "Tenure", "value": "Leasehold (111 years)", "key": "tenure" },
+      { "title": "Council tax band", "value": "C", "key": "council_tax_band" },
+      { "title": "Ground rent", "value": "Not available", "key": "ground_rent" },
+      { "title": "Ground rent date of next review", "value": "Not available", "key": "ground_rent_date_of_next_review" }
+    ],
+    "priceHistory": { "priceChanges": [{ "isPriceDrop": true, "priceChangeDate": "2026-09-15T11:18:21" }] }
+  },
+  "67222934": {
+    "ld": {
+      "@type": "RealEstateListing", "name": "3 bed flat for sale The Vibe, Dalston E8",
+      "datePosted": "2024-04-28T20:04:29", "mainEntityOfPage": "https://www.zoopla.co.uk/for-sale/details/67222934/",
+      "offers": { "price": 850000 }
+    },
+    "analyticsTaxonomy": { "epcRating": null, "listingId": 67222934, "priceActual": 850000, "propertyType": "flat", "tenure": "leasehold" },
+    "ntsInfo": [
+      { "title": "Tenure", "value": "Leasehold (238 years)", "key": "tenure" },
+      { "title": "Service charge", "value": "£5,291 per year", "key": "service_charge" },
+      { "title": "Council tax band", "value": "Not available", "key": "council_tax_band" },
+      { "title": "Ground rent", "value": "£480", "key": "ground_rent" },
+      { "title": "Ground rent review period", "value": "Every 25 years", "key": "ground_rent_review_period" }
+    ],
+    "priceHistory": { "priceChanges": null }
+  },
+  "73421491": {
+    "ld": {
+      "@type": "RealEstateListing", "name": "3 bed maisonette for sale Mayfield Close, Hackney E8",
+      "datePosted": "2026-07-14T11:38:42", "mainEntityOfPage": "https://www.zoopla.co.uk/for-sale/details/73421491/",
+      "offers": { "price": 650000 }
+    },
+    "analyticsTaxonomy": { "epcRating": "D", "listingId": 73421491, "priceActual": 650000, "propertyType": "maisonette", "tenure": "leasehold" },
+    "ntsInfo": [
+      { "title": "Tenure", "value": "Leasehold (Ask agent)", "key": "tenure" },
+      { "title": "Council tax band", "value": "Not available", "key": "council_tax_band" },
+      { "title": "Ground rent", "value": "Not available", "key": "ground_rent" }
+    ],
+    "priceHistory": { "priceChanges": [{ "isPriceDrop": true, "priceChangeDate": "2026-09-25T11:15:36" }] }
+  }
+}

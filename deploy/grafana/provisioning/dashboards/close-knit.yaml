@@ -1,0 +1,11 @@
+# Dashboards are files in deploy/grafana/dashboards (built by tools/grafana_dashboards.py);
+# edits in the UI are not kept: change the generator and ship.
+apiVersion: 1
+providers:
+  - name: close-knit
+    folder: Close Knit
+    type: file
+    disableDeletion: true
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/dashboards

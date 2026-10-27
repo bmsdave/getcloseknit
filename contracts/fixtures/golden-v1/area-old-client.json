@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "area-summary.v1",
+  "summary": {
+    "geographyId": "uk:lsoa:E01000001",
+    "name": "Westminster 001A",
+    "metricId": "crime",
+    "period": "2026-06",
+    "value": 48.5,
+    "londonPercentile": 61,
+    "englandPercentile": 44,
+    "sampleCount": 120,
+    "quality": "observed",
+    "sourceVersion": "police-uk-2026-06",
+    "carrier": "lsoa"
+  },
+  "priceTimeline": [],
+  "metricTimeline": []
+}

@@ -1,0 +1,142 @@
+# New stations in Greater London, read by deploy/tools/etl_future_transport.py (migration 088).
+#
+# Curated by hand on 2026-10-18. Each scheme cites the official page its status comes from: TfL
+# (tfl.gov.uk and its subdomains), the GLA (london.gov.uk) or DfT (gov.uk, and hs2.org.uk for HS2 Ltd,
+# DfT's delivery body). Statuses:
+#   under construction  works on site
+#   consented           legal powers granted (Act of Parliament, TWAO, DCO), not yet building
+#   funded              money committed, no powers yet
+#   proposed            plans, consultation or safeguarding only; never shown as coming
+# expected_year: only a year the official page publishes, else null.
+# Points (WGS84) are placed from the official page's description or map, to about 200 m; `placed` says how.
+# Existing stations that gain new platforms (New Cross Gate, Lewisham) are left out: they are not new.
+# Re-check every status against its page before each load.
+
+schemes:
+  - id: hs2-old-oak-common
+    scheme: HS2 and Elizabeth line at Old Oak Common
+    mode: rail
+    status: under construction
+    expected_year: null
+    source_url: https://www.hs2.org.uk/construction/stations/old-oak-common/
+    stations:
+      - name: Old Oak Common
+        lat: 51.52690
+        lon: -0.24700
+        placed: HS2 page, the station box between Old Oak Common Lane and Hythe Road
+
+  - id: hs2-euston
+    scheme: HS2 at Euston
+    mode: rail
+    status: consented
+    expected_year: null
+    source_url: https://www.hs2.org.uk/construction/stations/london-euston/
+    stations:
+      - name: Euston HS2
+        lat: 51.52850
+        lon: -0.13550
+        placed: HS2 page, new platforms west of the existing Euston station
+
+  - id: dlr-thamesmead
+    scheme: DLR extension to Thamesmead
+    mode: dlr
+    status: funded
+    expected_year: null
+    source_url: https://haveyoursay.tfl.gov.uk/dlr-extension-consultation-3
+    stations:
+      - name: Beckton Riverside
+        lat: 51.51200
+        lon: 0.08000
+        placed: TfL consultation, south of Armada Way opposite Gallions Reach Shopping Park
+      - name: Thamesmead
+        lat: 51.50690
+        lon: 0.10800
+        placed: TfL consultation, on the site of Cannon Retail Park, Central Way
+
+  - id: bakerloo-extension
+    scheme: Bakerloo line extension
+    mode: tube
+    status: proposed
+    expected_year: null
+    source_url: https://tfl.gov.uk/corporate/about-tfl/how-we-work/planning-for-the-future/bakerloo-line-extension
+    stations:
+      - name: Old Kent Road 1
+        lat: 51.48860
+        lon: -0.07500
+        placed: TfL route, Old Kent Road at Dunton Road and Humphrey Street
+      - name: Old Kent Road 2
+        lat: 51.47780
+        lon: -0.06250
+        placed: TfL route, Old Kent Road near Asylum Road
+
+  - id: old-oak-overground
+    scheme: Overground stations at Old Oak
+    mode: overground
+    status: proposed
+    expected_year: null
+    source_url: https://tfl.gov.uk/info-for/media/press-releases/2017/december/strong-support-for-two-new-potential-london-overground-stations-at-old-oak
+    stations:
+      - name: Old Oak Common Lane
+        lat: 51.52580
+        lon: -0.25250
+        placed: TfL release, Old Oak Common Lane on the North London line
+      - name: Hythe Road
+        lat: 51.52720
+        lon: -0.23900
+        placed: TfL release, Hythe Road on the West London line
+
+  - id: west-london-orbital
+    scheme: West London Orbital
+    mode: overground
+    status: proposed
+    expected_year: null
+    source_url: https://haveyoursay.tfl.gov.uk/west-london-orbital/news_feed/new-stations
+    stations:
+      - name: Neasden (West London Orbital)
+        lat: 51.55200
+        lon: -0.24990
+        placed: TfL page, Neasden Lane south of the Tube station
+      - name: Harlesden (West London Orbital)
+        lat: 51.53630
+        lon: -0.25730
+        placed: TfL page, Acton Lane opposite Harlesden station
+      - name: Lionel Road
+        lat: 51.49100
+        lon: -0.29170
+        placed: TfL page, Lionel Road South near Kew Bridge station
+
+  - id: beam-park
+    scheme: Beam Park station
+    mode: rail
+    status: proposed
+    expected_year: null
+    source_url: https://www.london.gov.uk/who-we-are/what-london-assembly-does/questions-mayor/find-an-answer/beam-park-station-1
+    stations:
+      - name: Beam Park
+        lat: 51.52300
+        lon: 0.17200
+        placed: Beam Park development on the c2c line between Dagenham Dock and Rainham
+
+  - id: surrey-canal-road
+    scheme: Surrey Canal Road (New Bermondsey) Overground station
+    mode: overground
+    status: proposed
+    expected_year: null
+    source_url: https://tfl.gov.uk/corporate/transparency/freedom-of-information/foi-request-detail?referenceId=FOI-0989-2526
+    stations:
+      - name: Surrey Canal Road
+        lat: 51.48430
+        lon: -0.05000
+        placed: TfL answer, the Windrush line by Surrey Canal Road (New Bermondsey)
+
+  - id: thames-wharf
+    scheme: Thames Wharf DLR station
+    mode: dlr
+    status: proposed
+    expected_year: null
+    source_url: https://content.tfl.gov.uk/silvertown-and-blackwall-tunnels-12-month-monitoring-report.pdf
+    stations:
+      - name: Thames Wharf
+        lat: 51.50500
+        lon: 0.01500
+        placed: TfL report, Thameside West between Canning Town and West Silvertown

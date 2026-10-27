@@ -1,0 +1,6 @@
+/* components/share-review.tsx: the review before a share link is made. The card and its
+   buttons are .share-preview (knit-ui.css); this adds the heading and the "Also include" ticks. */
+.share-preview h3 { margin: 0; font-size: var(--fs-md); }
+.share-review__include { display: grid; gap: 0; margin: 0; padding: 0; border: 0; }
+.share-review__include legend { padding: 0; font-size: var(--fs-sm); font-weight: 700; }
+.share-review__include label { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; font-size: var(--fs-sm); }

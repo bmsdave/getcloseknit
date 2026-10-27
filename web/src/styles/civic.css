@@ -1,0 +1,25 @@
+/* Local council section (components/civic-section.tsx, track J). */
+.civic h2 { display: flex; align-items: center; gap: var(--space-1); margin: 18px 0 6px; font-size: var(--fs-md); }
+.civic h3 { display: flex; align-items: center; gap: var(--space-1); margin: 14px 0 4px; font-size: var(--fs-xs); }
+.civic h4 { margin: 8px 0 4px; font-size: var(--fs-2xs); }
+.civic p { margin: 4px 0; }
+.civic-crumbs { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 0; padding: 0; list-style: none; font-size: var(--fs-2xs); }
+.civic-crumbs li { color: var(--muted); }
+.civic-crumbs li + li::before { content: "›"; margin: 0 6px; color: var(--muted); }
+.civic-crumbs li[aria-current] { color: var(--ink); font-weight: 700; }
+.civic-note, .civic-sub, .civic-fetched { color: var(--muted); font-size: var(--fs-2xs); line-height: 1.45; }
+.civic-tax { width: 100%; max-width: 320px; border-collapse: collapse; font-size: var(--fs-2xs); font-variant-numeric: tabular-nums; }
+.civic-tax th, .civic-tax td { padding: 4px 8px; border-bottom: 1px solid var(--rule); text-align: left; }
+.civic-tax td { text-align: right; }
+.civic-tax thead th:last-child { text-align: right; }
+.civic-tax__d th, .civic-tax__d td { background: var(--note); font-weight: 700; }
+.civic-people ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.civic-people li { display: grid; gap: 2px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); font-size: var(--fs-2xs); }
+.civic-people a { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; font-weight: 700; }
+.civic-people small { color: var(--muted); font-size: var(--fs-2xs); }
+.civic-codes { display: grid; gap: var(--space-1); margin: 0; font-size: var(--fs-2xs); }
+.civic-codes div { display: grid; grid-template-columns: minmax(120px, 40%) 1fr; gap: var(--space-2); }
+.civic-codes dt { color: var(--muted); }
+.civic-codes dd { margin: 0; overflow-wrap: anywhere; } /* official codes (IDs) */
+.civic-codes code { color: var(--muted); font-size: var(--fs-2xs); }
+.civic .licence-note { margin-top: 12px; color: var(--muted); }

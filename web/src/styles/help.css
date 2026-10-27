@@ -1,0 +1,19 @@
+/* (?) help buttons and their bubbles (components/help-tip.tsx). */
+.help-tip { position: relative; display: inline-flex; vertical-align: middle; }
+/* 22px disc, 44px hit area through the padding. */
+.help-tip__button {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; margin: -11px -11px -11px -6px; padding: 11px;
+  border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer;
+}
+.help-tip__button > span {
+  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--chip); color: var(--ink); font-size: var(--fs-2xs); font-weight: 800; line-height: 1;
+}
+.help-tip__button:hover > span, .help-tip__button[aria-expanded="true"] > span { background: var(--ink); color: var(--on-ink); }
+.help-tip__bubble {
+  position: absolute; z-index: 45; top: calc(100% + 4px); left: -12px; width: min(280px, calc(100vw - 16px));
+  display: grid; gap: var(--space-2); padding: 12px 14px; border-radius: 12px; background: var(--panel-solid); color: var(--ink);
+  box-shadow: 0 14px 40px rgb(var(--ink-rgb) / .2); font-size: var(--fs-xs); font-weight: 400; line-height: 1.45;
+  letter-spacing: normal; text-align: left; text-transform: none; white-space: normal;
+}
+.help-tip__more { justify-self: start; font-weight: 700; }

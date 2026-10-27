@@ -1,0 +1,11 @@
+[project]
+name = "area-analytics-ingest"
+version = "0.1.0"
+description = "Deterministic analytics transforms for London Close Knit"
+requires-python = ">=3.12"
+
+[project.scripts]
+area-analytics = "area_analytics.cli:main"
+
+[tool.ruff]
+line-length = 100

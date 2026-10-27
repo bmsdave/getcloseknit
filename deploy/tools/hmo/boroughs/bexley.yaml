@@ -1,0 +1,25 @@
+# Bexley: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000004
+slug: bexley
+name: Bexley
+register:
+  status: published
+  url: https://www.bexley.gov.uk/sites/default/files/2026-10/public-register-06-october-26.csv
+  page: https://www.bexley.gov.uk/services/housing/property-licensing/property-licensing-schemes
+  format: csv
+  sheet: null
+  postcode_column: Postode
+  rows: 289
+  updated: 2026-10-06
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: selective
+  wards: [Belvedere]
+  start: 2025-01-13
+  end: 2030-01-12
+  url: https://www.bexley.gov.uk/news/selective-licensing-scheme-belvedere
+notes: >-
+  The postcode header is misspelt "Postode" in the file. The CSV lists mandatory HMO licences only (no additional
+  scheme in Bexley). Selective licences are a separate CSV (public-register-of-selective-licences-25-september-2026.csv)
+  on the same page, not an HMO list. File name changes with each update, so re-read the page for the link.

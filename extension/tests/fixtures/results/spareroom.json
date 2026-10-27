@@ -1,0 +1,39 @@
+{
+ "url": "https://www.spareroom.co.uk/flatshare/london/hackney",
+ "scripts": [],
+ "nextData": null,
+ "listingData": [
+  {
+   "listingId": "17091268",
+   "listingUrl": "/flatshare/fad_click.pl?fad_id=17091268&search_id=&offset=0&city_id=9&flatshare_type=offered&next_id=18462996&search_results=%2Fflatshare%2Flondon%2Fhackney&",
+   "listingType": "offered",
+   "listingPostcode": "E2",
+   "listingAdRateNormalised": "£1,000",
+   "listingAdRateNormalisedPeriod": "pcm"
+  },
+  {
+   "listingId": "18465659",
+   "listingUrl": "/flatshare/london/hackney/18465659",
+   "listingType": "offered",
+   "listingPostcode": "E9",
+   "listingAdRateNormalised": "£220",
+   "listingAdRateNormalisedPeriod": "pw"
+  },
+  {
+   "listingId": "18466130",
+   "listingUrl": "/flatshare/london/hackney/18466130",
+   "listingType": "offered",
+   "listingPostcode": "E9",
+   "listingAdRateNormalised": "£1,300",
+   "listingAdRateNormalisedPeriod": "pcm"
+  },
+  {
+   "listingId": "18465764",
+   "listingUrl": "/flatshare/london/hackney/18465764",
+   "listingType": "offered",
+   "listingPostcode": "E8",
+   "listingAdRateNormalised": "£915",
+   "listingAdRateNormalisedPeriod": "pcm"
+  }
+ ]
+}

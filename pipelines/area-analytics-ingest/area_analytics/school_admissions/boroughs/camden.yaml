@@ -1,0 +1,170 @@
+# Camden (202): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 202
+slug: camden
+name: Camden
+licence: null
+licence_decision: unresolved
+aliases:
+  Abacus: '139837'
+  Christ Church NW1: '100029'
+  Emmanuel: '100030'
+  Hampstead Parochial: '100031'
+  Holy Trinity & St Silas: '100033'
+  Holy Trinity NW3: '100032'
+  Kentish Town: '100034'
+  King's Cross Academy: '140686'
+  Our Lady's: '100048'
+  Rhyl: '100021'
+  Rosary: '100035'
+  St Alban's: '100036'
+  St Eugene De Mazenod: '100047'
+  St George the Martyr: '100040'
+  St Joseph's: '100041'
+  St Luke's: '136807'
+  St Mary and St Pancras: '100043'
+  St Mary's Kilburn: '100042'
+  St Patrick's: '100045'
+  St Paul's: '100046'
+  La Sainte Union Catholic School: '100059'
+  Maria Fidelis School FCJ: '100055'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20211023205934/https://www.camden.gov.uk/documents/20142/1915641/Starting+School+in+Camden+2021+primary+admissions+guide.pdf/7d4d216d-6378-8636-43d6-40dad2dbd8a6?t=1603997977187
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20220301064905/https://www.camden.gov.uk/documents/20142/225233791/Starting+School+in+Camden+2022+-+primary+admissions+guide.pdf/21cbbc5c-9329-306a-bfe9-17b874367adf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - '"St Dominic''s": no URN'
+  - '"St Michael''s Camden Town": no URN'
+  accept_note: St Dominic's Catholic Primary (closed 31-08-2023) and St Michael's CE Primary (closed
+    30-04-2023) have no successor in GIAS; left out.
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20221103161456/https://www.camden.gov.uk/documents/20142/225233791/Starting+School+in+Camden+2023+admissions+guide+-+FINAL+web.pdf/88d3014c-5f07-95ac-acec-9ca6b2a926ff
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - '"St Dominic''s": no URN'
+  - '"St Michael''s Camden Town": no URN'
+  accept_note: St Dominic's Catholic Primary (closed 31-08-2023) and St Michael's CE Primary (closed
+    30-04-2023) have no successor in GIAS; left out.
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20240325130247/https://www.camden.gov.uk/documents/20142/225233791/Starting+School+in+Camden+2024+admissions+guide+for+parents.pdf/7240b7b7-9343-d7ee-ff17-848373f7b82a
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - '"St Dominic''s": no URN'
+  - '"St Michael''s Camden Town": no URN'
+  accept_note: St Dominic's Catholic Primary (closed 31-08-2023) and St Michael's CE Primary (closed
+    30-04-2023) have no successor in GIAS; left out.
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20241119035833/https://www.camden.gov.uk/documents/d/guest/starting-school-in-camden-2025-admissions-guide-web
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20251226074126/https://www.camden.gov.uk/documents/d/guest/starting-school-in-camden-2026-admissions-guide
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20251226074126/https://www.camden.gov.uk/documents/d/guest/starting-school-in-camden-2026-admissions-guide
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20240627230733/https://www.camden.gov.uk/documents/20142/1915641/Secondary+schools+in+Camden+guide+%E2%80%93+applying+for+a+Yr+7+place+for+2021.pdf/ab867e18-962a-ff99-bd55-19e8a1219e0e
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20220301064746/https://www.camden.gov.uk/documents/20142/225233791/Secondary+schools+in+Camden+2022+-+admissions+guide+for+parents.pdf/62cf86e7-8716-2619-5f10-bd6c55431622
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20230322170651/https://www.camden.gov.uk/documents/20142/225233791/Secondary+schools+in+Camden+2023+admissions+guide.pdf/a2db1f7c-62db-14d8-56aa-031d235b82c5?t=1659624759799
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+  other_urls:
+  - https://web.archive.org/web/20220301064746/https://www.camden.gov.uk/documents/20142/225233791/Secondary+schools+in+Camden+2022+-+admissions+guide+for+parents.pdf/62cf86e7-8716-2619-5f10-bd6c55431622
+  note: The 2023 guide capture is cut off at 1 MB; the 2022 guide (the 2020 doc's file) also holds 2021.
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240329134839/https://www.camden.gov.uk/documents/20142/225233791/Secondary+schools+in+Camden+-+2024+admissions+guide.pdf/e521ebf9-a45b-ade6-7e79-6bed42b4894f
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240329134839/https://www.camden.gov.uk/documents/20142/225233791/Secondary+schools+in+Camden+-+2024+admissions+guide.pdf/e521ebf9-a45b-ade6-7e79-6bed42b4894f
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240815161506/https://www.camden.gov.uk/documents/d/guest/secondary-schools-in-camden-admissions-guide-2025-web-final
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+catchment_maps: null
+notes: 'No standalone offer-day report; distances are only in the annual admissions guides, each holding
+  the two previous offer rounds (primary "Results and statistics ... on offer date": admission number,
+  applications, offers to EHCP/siblings/social-medical, "Furthest child offered on the offer date in miles";
+  secondary "Allocation of places": cut-off distance per school/band, n/a = vacancies). Verified by text
+  extraction: primary 2019 guide (2017-18; school-hosted copy https://www.primrosehill.camden.sch.uk/wp-content/uploads/2018/11/Starting-School-in-Camden-2019.pdf),
+  2026 guide (2024-25); secondary 2021-entry guide (2019-20), 2024 guide (2022-23), 2025 guide (2023-24).
+  Other guides'' years inferred from the same two-year pattern. camden.gov.uk returns 403 to scripted
+  clients (curl and WebFetch), so everything is via Wayback; the licence page could not be read (null).
+  Gaps: primary 2026 (needs the 2027 guide, not seen); secondary 2025-2026 (the 2026 guide snapshot 20250905182633
+  is truncated at 5 MB of 8.6 MB; the 2027 brochure camden.gov.uk/documents/d/guest/camden-secondary-admissions-brochure-2027
+  shows up in search, said to cover 2025 and 2026, but it returns 403 and is not archived). The 2020 secondary
+  guide (documents/20142/876898/Secondary+schools+in+Camden+2020+-+admissions+guide.pdf, CDX 20190922105711)
+  should cover 2018-2019 but was not opened.'

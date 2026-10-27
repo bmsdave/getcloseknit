@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "area-summary.v1",
+  "productReleaseId": "official-2026-06",
+  "summary": {
+    "geographyId": "uk:lsoa:E01000003",
+    "name": "South Bank 003A",
+    "metricId": "income",
+    "period": "2023-01",
+    "regionPercentile": null,
+    "londonPercentile": null,
+    "countryPercentile": null,
+    "englandPercentile": null,
+    "sampleCount": null,
+    "quality": "suppressed",
+    "sourceVersion": "ons-income-2023",
+    "carrier": "lsoa"
+  },
+  "parentId": "uk:msoa:E02000003",
+  "priceTimeline": [],
+  "metricTimeline": []
+}

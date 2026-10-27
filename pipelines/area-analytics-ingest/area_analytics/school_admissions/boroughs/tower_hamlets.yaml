@@ -1,0 +1,53 @@
+# Tower Hamlets (211): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 211
+slug: tower_hamlets
+name: Tower Hamlets
+licence:
+  statement: The information featured on this website is the copyright of London Borough of Tower Hamlets
+    unless otherwise indicated. Permission is hereby granted to electronically copy and to print hard
+    copy portions of this web site for the sole purpose of using this as an information resource...
+  url: https://www.towerhamlets.gov.uk/content_pages/legal_notices/legal_notices.aspx
+licence_decision: unresolved
+aliases:
+  Blue Gate Fields: '100915'   # the infants' school takes the reception intake
+docs:
+- phase: primary
+  year: 2026
+  url: https://www.towerhamlets.gov.uk/lgnl/education_and_learning/schools/school_admissions/primary_school_admissions.aspx
+  format: html
+  units: metres
+  method: walking
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: Oversubscribed LA-policy (community) schools only. 'Tie-break cut off distance (metres)' is measured
+    by shortest walking distance.
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20250516141812/https://www.towerhamlets.gov.uk/lgnl/education_and_learning/schools/school_admissions/primary_school_admissions.aspx
+  format: html
+  units: metres
+  method: walking
+  counts:
+  - applicants
+  - offers
+  source: wayback
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20240619200842/https://www.towerhamlets.gov.uk/lgnl/education_and_learning/schools/school_admissions/primary_school_admissions.aspx
+  format: html
+  units: metres
+  method: walking
+  counts:
+  - applicants
+  - offers
+  source: wayback
+catchment_maps: https://www.towerhamlets.gov.uk/Documents/Education-and-skills/Admissions-and-exclusions/Tower-Hamlets-Primary-Schools-Catchment-Areas.pdf
+notes: 'The primary table appears only from 2024; snapshots from 2019 to June 2023 have no ''how places
+  were offered'' table. No secondary last-distance data was found: the Admission-to-Year-7 page, the secondary
+  prospectus 2027-28 and the Admissions Forum 2022 xlsx files (offers by preference only) give no distances.
+  The prospectuses (primary and secondary) give no distances either.'

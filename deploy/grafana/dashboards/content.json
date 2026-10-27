@@ -1,0 +1,951 @@
+{
+  "uid": "close-knit-content",
+  "title": "Close Knit · What people look at",
+  "description": "Time spent, the analytics and places people open, map use and searches (docs/product-analytics.md).",
+  "tags": [
+    "close-knit"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "",
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "close-knit"
+      ],
+      "asDropdown": false,
+      "title": "Dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "type": "row",
+      "title": "Time spent",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 1
+    },
+    {
+      "type": "stat",
+      "title": "Engaged hours, 7 days",
+      "description": "Hours with the tab visible and the reader active in the last 30 s, all people.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT sum((props->>'seconds')::numeric) / 3600 FROM product_event WHERE name = 'engagement' AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "h"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 2
+    },
+    {
+      "type": "stat",
+      "title": "Minutes a person spends a day",
+      "description": "Median engaged minutes per person on the days they came, last 7 days.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 6,
+        "y": 1,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY seconds) / 60 FROM ( SELECT visitor_id, occurred_at::date, sum((props->>'seconds')::numeric) AS seconds FROM product_event WHERE name = 'engagement' AND visitor_id IS NOT NULL AND occurred_at >= now() - interval '7 days' GROUP BY 1, 2) d"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 3
+    },
+    {
+      "type": "stat",
+      "title": "Visit length",
+      "description": "Median time from a visit's first to last event (wall-clock, idle included), last 7 days.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM last - first)) FROM ( SELECT session_id, min(occurred_at) AS first, max(occurred_at) AS last FROM product_event WHERE channel = 'web' AND session_id IS NOT NULL AND occurred_at >= now() - interval '7 days' GROUP BY 1 HAVING count(*) > 1) v"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 4
+    },
+    {
+      "type": "stat",
+      "title": "Map views, 7 days",
+      "description": "Pans and zooms people made (at most one counted every 2 s).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 18,
+        "y": 1,
+        "w": 6,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM product_event WHERE name = 'map_view' AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 5
+    },
+    {
+      "type": "timeseries",
+      "title": "Engaged hours per day",
+      "description": "Total engaged time across everyone.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 8,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "time_series",
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), sum((props->>'seconds')::numeric) / 3600 AS \"hours\" FROM product_event WHERE name = 'engagement' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 30,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "id": 6
+    },
+    {
+      "type": "bargauge",
+      "title": "Time by page (minutes)",
+      "description": "Where the time goes: / is the map; homes and postcodes are templates.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 5,
+        "w": 8,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'path' AS page, round(sum((props->>'seconds')::numeric) / 60) AS minutes FROM product_event WHERE name = 'engagement' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY minutes DESC LIMIT 12"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 7
+    },
+    {
+      "type": "bargauge",
+      "title": "Time by map layer (minutes)",
+      "description": "Engaged time on the map, split by the layer on screen. custom:<slug> is a ready-made criterion, custom:own one people built.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 5,
+        "w": 8,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'layer' AS layer, round(sum((props->>'seconds')::numeric) / 60) AS minutes FROM product_event WHERE name = 'layer_time' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY minutes DESC LIMIT 15"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 8
+    },
+    {
+      "type": "row",
+      "title": "Analytics people open",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 9
+    },
+    {
+      "type": "table",
+      "title": "Top analytics (map layers)",
+      "description": "Built-in metrics, My match (personal-match) and custom criteria. 'Opened with the page' is the layer a link or the default showed.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 12,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT CASE WHEN props->>'layer' = 'custom' THEN 'custom: ' || coalesce(props->>'preset', 'own · ' || coalesce(props->>'label', '?')) ELSE props->>'layer' END AS analytic, count(DISTINCT coalesce(visitor_id::text, session_id)) FILTER (WHERE NOT coalesce((props->>'initial')::boolean, false)) AS \"people who chose it\", count(*) FILTER (WHERE NOT coalesce((props->>'initial')::boolean, false)) AS \"times chosen\", count(*) FILTER (WHERE (props->>'initial')::boolean) AS \"opened with the page\" FROM product_event WHERE name = 'layer_view' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 2 DESC, 4 DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 10
+    },
+    {
+      "type": "table",
+      "title": "Custom criteria: ready-made and people's own",
+      "description": "preset = one of the ready-made criteria (by slug); own = built by the reader from neutral place types (its label).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 14,
+        "w": 12,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'custom' AS kind, coalesce(props->>'preset', props->>'label', '?') AS criterion, count(DISTINCT coalesce(visitor_id::text, session_id)) AS people, count(*) AS times FROM product_event WHERE name = 'layer_view' AND props->>'layer' = 'custom' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY people DESC LIMIT 20"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 11
+    },
+    {
+      "type": "table",
+      "title": "Sub-views inside a topic",
+      "description": "Views and scales picked within a map topic.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'layer' AS topic, props->>'view' AS view, count(DISTINCT visitor_id) AS people, count(*) AS times FROM product_event WHERE name = 'layer_subview' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 12
+    },
+    {
+      "type": "bargauge",
+      "title": "Area page cards opened",
+      "description": "Cards on the full area page (price, sales, living, schools, around, environment, planning, council, home); 'all' is Open all.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'section' AS card, count(DISTINCT visitor_id) AS people FROM product_event WHERE name = 'section_open' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY people DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 13
+    },
+    {
+      "type": "row",
+      "title": "Places people look at",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 14
+    },
+    {
+      "type": "geomap",
+      "title": "Where people look on the map",
+      "description": "Centres of the map after people's own pans and zooms, to about a kilometre.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 14,
+        "h": 14
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT (props->>'lat')::float AS lat, (props->>'lng')::float AS lng, count(*) AS views FROM product_event WHERE name = 'map_view' AND props ? 'lat' AND $__timeFilter(occurred_at) GROUP BY 1, 2"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "view": {
+          "id": "coords",
+          "lat": 51.505,
+          "lon": -0.11,
+          "zoom": 10.2
+        },
+        "controls": {
+          "showZoom": true,
+          "mouseWheelZoom": true,
+          "showAttribution": true
+        },
+        "basemap": {
+          "type": "osm-standard",
+          "name": "OpenStreetMap"
+        },
+        "layers": [
+          {
+            "type": "heatmap",
+            "name": "Map views",
+            "tooltip": true,
+            "location": {
+              "mode": "coords",
+              "latitude": "lat",
+              "longitude": "lng"
+            },
+            "config": {
+              "blur": 22,
+              "radius": 12,
+              "weight": {
+                "field": "views",
+                "fixed": 1,
+                "min": 0,
+                "max": 1
+              }
+            }
+          }
+        ]
+      },
+      "id": 15
+    },
+    {
+      "type": "table",
+      "title": "Top areas",
+      "description": "Areas selected on the map, the ranking or search, opened from a shortlist, or read on their page.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 14,
+        "y": 33,
+        "w": 10,
+        "h": 14
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH v AS ( SELECT props->>'area' AS area, coalesce(visitor_id::text, session_id) AS who FROM product_event WHERE name IN ('area_select', 'area_open', 'section_open') AND props ? 'area' AND $__timeFilter(occurred_at) UNION ALL SELECT 'uk:lsoa:' || substring(props->>'path' FROM '^/area/lsoa/([A-Z0-9]+)'), coalesce(visitor_id::text, session_id) FROM product_event WHERE name = 'page_view' AND props->>'path' ~ '^/area/lsoa/' AND $__timeFilter(occurred_at)) SELECT coalesce(l.friendly_name || coalesce(' · ' || l.postcode_district, ''), v.area) AS area, v.area AS id, count(DISTINCT who) AS people, count(*) AS looks FROM v LEFT JOIN area_label l ON l.geography_id = v.area GROUP BY 1, 2 ORDER BY people DESC, looks DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 16
+    },
+    {
+      "type": "bargauge",
+      "title": "Zoom levels people use",
+      "description": "10 ≈ all London, 13 ≈ a neighbourhood, 16 ≈ streets.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 47,
+        "w": 8,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT 'zoom ' || lpad(floor((props->>'zoom')::float)::int::text, 2, '0') AS zoom, count(*) AS views FROM product_event WHERE name = 'map_view' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 17
+    },
+    {
+      "type": "bargauge",
+      "title": "How areas get selected",
+      "description": "map = a click on the map; ranking = My match list; search; match_map = shortlist pins; panel = a neighbouring area link.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 47,
+        "w": 6,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'from' AS \"from\", count(*) AS times FROM product_event WHERE name = 'area_select' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY times DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 18
+    },
+    {
+      "type": "table",
+      "title": "Zones people set in Find my area",
+      "description": "Stations, boroughs and neighbourhoods by name; a drawn shape by its rough centre.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 14,
+        "y": 47,
+        "w": 10,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'kind' AS kind, coalesce(props->>'place', CASE WHEN props ? 'lat' THEN 'drawn near ' || (props->>'lat') || ', ' || (props->>'lng') END) AS place, count(*) FILTER (WHERE props->>'action' = 'add') AS added, count(*) FILTER (WHERE props->>'action' = 'remove') AS removed, count(DISTINCT visitor_id) AS people FROM product_event WHERE name = 'zone_change' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY added DESC LIMIT 20"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 19
+    },
+    {
+      "type": "row",
+      "title": "Searches",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 56,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 20
+    },
+    {
+      "type": "table",
+      "title": "What people type",
+      "description": "Typed text that led to a chosen result: words as typed, a postcode as its district, anything with a house number as [with digits].",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 57,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'query' AS query, count(*) AS times, count(DISTINCT visitor_id) AS people, mode() WITHIN GROUP (ORDER BY props->>'kind') AS \"usually chose\" FROM product_event WHERE name = 'search' AND props ? 'query' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY times DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 21
+    },
+    {
+      "type": "table",
+      "title": "What they chose",
+      "description": "An area by name; a home, street or postcode only by its district.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 57,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'kind' AS kind, coalesce(props->>'label', coalesce(l.friendly_name || coalesce(' · ' || l.postcode_district, ''), props->>'area'), props->>'district') AS place, count(*) AS times FROM product_event LEFT JOIN area_label l ON l.geography_id = props->>'area' WHERE name = 'search' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 22
+    },
+    {
+      "type": "table",
+      "title": "Searches that found nothing",
+      "description": "Where search lets people down.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 57,
+        "w": 8,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'query' AS query, count(*) AS times FROM product_event WHERE name = 'search_empty' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY times DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 23
+    }
+  ]
+}

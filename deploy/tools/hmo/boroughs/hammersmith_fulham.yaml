@@ -1,0 +1,56 @@
+# Hammersmith and Fulham: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000013
+slug: hammersmith_fulham
+name: Hammersmith and Fulham
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://www.lbhf.gov.uk/sites/default/files/2026-10/hmo-register-05-oct-2026-website.xlsx
+  page: https://www.lbhf.gov.uk/housing/private-housing/property-licensing-landlords-and-letting-agents/register-licences
+  format: xlsx
+  sheet: [Mandatory licences, Additional licences]
+  postcode_column: Postcode
+  rows: 5958
+  updated: 2026-10-05
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2022-06-05
+  end: 2027-06-04
+  url: https://www.lbhf.gov.uk/housing/private-housing/property-licensing-landlords-and-letting-agents/new-discretionary-licensing-schemes-approved
+- kind: selective
+  streets:    # not wards: 24 named streets
+  - Askew Road
+  - Baron's Court Road
+  - Bloemfontein Road
+  - Blythe Road
+  - Coningham Road
+  - Crookham Road
+  - Dalling Road
+  - Dawes Road
+  - Fulham Road
+  - Goldhawk Road
+  - Greyhound Road
+  - King Street
+  - Lime Grove
+  - New King's Road
+  - North End Road
+  - Richmond Way
+  - Scrubs Lane
+  - Shepherd's Bush Road
+  - Sinclair Road
+  - Talgarth Road
+  - Uxbridge Road
+  - Wandsworth Bridge Road
+  - Wood Lane
+  - Woodstock Grove
+  start: 2022-06-05
+  end: 2027-06-04
+  url: https://www.lbhf.gov.uk/housing/private-housing/property-licensing-landlords-and-letting-agents/hmo-mandatory-additional-and-selective-licensing-faqs
+notes: >-
+  HMO xlsx has two sheets with the same header (Reference number, Address, Postcode, ...): "Mandatory licences"
+  (about 3,064 rows, the first sheet) and "Additional licences" (about 2,894 rows); load both. A separate
+  selective xlsx (SEL sheet, about 3,600 rows, same Postcode column) is
+  https://www.lbhf.gov.uk/sites/default/files/2026-10/selective-licence-register-05-oct-2026-website.xlsx.
+  Selective scheme covers the 24 named streets only, not wards; start/end dates taken from the 5-year renewal effective 2022-06-05.

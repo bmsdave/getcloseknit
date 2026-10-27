@@ -1,0 +1,43 @@
+/* Ranking lists (C8): the takeaway line, a satin bar beside each figure, "Add to compare" on each row
+   and the next steps under the table. Tokens only, Day and Night. */
+.ranking-takeaway { margin: 14px 0 0; color: var(--ink); font: 600 var(--fs-md, 1rem)/1.45 var(--font-sans); text-wrap: pretty; }
+.ranking-list td, .ranking-list th { vertical-align: middle; }
+.ranking-list .satin-value-bar { display: inline-flex; align-items: center; gap: var(--space-2, 8px); }
+.ranking-list .satin-value-bar__bar { flex: none; }
+.ranking-list .satin-value-bar__value { overflow-wrap: normal; }
+.ranking-list__action { width: 1%; white-space: nowrap; text-align: right; }
+.ranking-list .ranking-list__compare { min-height: 44px; padding: 0 12px; font-size: var(--fs-xs, .8125rem); white-space: nowrap; }
+.ranking-list th .ranking-list__map {
+  display: flex; align-items: center; gap: 2px; width: fit-content; min-height: 32px; color: var(--muted); font-size: var(--fs-xs, .8125rem); font-weight: 700;
+  text-decoration: none;
+}
+.ranking-list__map:hover { color: var(--ink); text-decoration: underline; }
+.ranking-list__map:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Most | Least: two links in a segmented pill, the shown end on the --seg-on thumb. */
+.ranking-switch { display: inline-flex; gap: 1px; margin: var(--space-2, 8px) 0 0; padding: 2px; border-radius: var(--radius-pill); background: var(--chip); }
+.ranking-switch a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+  color: var(--muted); font-size: var(--fs-sm, .875rem); font-weight: 700; text-decoration: none;
+}
+.ranking-switch a:hover { color: var(--ink); }
+.ranking-switch a[aria-current="page"] { color: var(--ink); background: var(--seg-on); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.12); }
+.ranking-switch a:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.ranking-next { margin: var(--space-5, 20px) 0 0; }
+.ranking-next__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2, 8px); }
+/* Phones: the bar narrows and the row button keeps only its icon (its name stays in aria-label). */
+@media (max-width: 640px) {
+  .ranking-list .satin-value-bar { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .ranking-list .satin-value-bar__bar { width: 64px; height: 10px; }
+  .ranking-list .ranking-list__compare { width: 44px; padding: 0; justify-content: center; }
+  .ranking-list .ranking-list__compare-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+}
+/* CUJ-05/10 v4: the title with "On map ↗" beside it, then Most | Least and Areas | Boroughs on one row. */
+.ranking-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-2, 8px) var(--space-4, 16px); }
+.ranking-title h1 { margin-bottom: 0; }
+.ranking-title__map {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 14px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-sm, .875rem); font-weight: 700; text-decoration: none;
+}
+.ranking-title__map:hover { text-decoration: underline; }
+.ranking-title__map:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ranking-switches { display: flex; flex-wrap: wrap; gap: var(--space-2, 8px); }

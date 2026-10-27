@@ -1,0 +1,619 @@
+{
+  "uid": "close-knit-feedback",
+  "title": "Close Knit · Feedback",
+  "description": "Votes and reviews people chose to send (docs/superpowers/specs/2026-10-14-user-feedback-design.md).",
+  "tags": [
+    "close-knit"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "",
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "close-knit"
+      ],
+      "asDropdown": false,
+      "title": "Dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "type": "row",
+      "title": "Reviews and votes in the chosen period",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 1
+    },
+    {
+      "type": "stat",
+      "title": "Reviews",
+      "description": "Star reviews sent from /feedback or the prompt after a first action.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'review'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 2
+    },
+    {
+      "type": "stat",
+      "title": "Average rating",
+      "description": "Mean of 1-5 stars (CSAT). Read it with the count: a handful of reviews swing it.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT round(avg(rating), 2) FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'review'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 3
+    },
+    {
+      "type": "stat",
+      "title": "Rated 4-5",
+      "description": "Share of reviews with 4 or 5 stars.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT avg((rating >= 4)::int) FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'review'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 4
+    },
+    {
+      "type": "stat",
+      "title": "Votes",
+      "description": "Thumbs up or down on area-page cards and Find my area shortlists (a changed vote counts once).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'vote'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 5
+    },
+    {
+      "type": "stat",
+      "title": "Thumbs up",
+      "description": "Share of votes that were thumbs up.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT avg((vote = 1)::int) FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'vote'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 6
+    },
+    {
+      "type": "timeseries",
+      "title": "Rating per week",
+      "description": "Weekly average stars and the number of reviews behind it.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "time_series",
+          "rawSql": "SELECT $__timeGroupAlias(created_at, 7d), round(avg(rating), 2) AS \"average rating\", count(*) AS \"reviews\" FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'review' GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "id": 7
+    },
+    {
+      "type": "bargauge",
+      "title": "Ratings 1-5",
+      "description": "How many reviews gave each number of stars.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 5,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT rating || CASE WHEN rating = 1 THEN ' star' ELSE ' stars' END AS rating, count(*) AS reviews FROM site_feedback WHERE $__timeFilter(created_at) AND kind = 'review' GROUP BY rating ORDER BY rating DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 8
+    },
+    {
+      "type": "row",
+      "title": "What people find useful",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 9
+    },
+    {
+      "type": "bargauge",
+      "title": "Area cards: share of thumbs up",
+      "description": "Per area-page card, worst first: the share of votes that were thumbs up, with the number of votes.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 14,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT target || ' (' || count(*) || ' votes)' AS card, round(100 * avg((vote = 1)::int)) AS \"% thumbs up\" FROM site_feedback WHERE $__timeFilter(created_at) AND surface = 'area_card' GROUP BY target ORDER BY 2, count(*) DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "horizontal",
+        "displayMode": "basic",
+        "showUnfilled": true,
+        "valueMode": "text",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": true
+        }
+      },
+      "id": 10
+    },
+    {
+      "type": "timeseries",
+      "title": "Shortlist: share of thumbs up by week",
+      "description": "Are Find my area's shortlists a good fit? The weekly share of thumbs up, by market.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 14,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "time_series",
+          "rawSql": "SELECT $__timeGroupAlias(created_at, 7d), avg((vote = 1)::int) FILTER (WHERE target = 'buy') AS \"buy\", avg((vote = 1)::int) FILTER (WHERE target = 'rent') AS \"rent\" FROM site_feedback WHERE $__timeFilter(created_at) AND surface = 'shortlist' GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "id": 11
+    },
+    {
+      "type": "table",
+      "title": "Top reasons",
+      "description": "The reasons people tapped: after a thumbs down, and with a star review.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 23,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT surface, CASE WHEN kind = 'vote' THEN 'thumbs down' WHEN rating >= 4 THEN 'worked (4-5 stars)' ELSE 'got in the way (1-3 stars)' END AS feeling, reason, count(*) AS times FROM site_feedback, unnest(tags) AS reason WHERE $__timeFilter(created_at) GROUP BY 1, 2, 3 ORDER BY times DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 12
+    },
+    {
+      "type": "table",
+      "title": "Areas with the most thumbs down",
+      "description": "Area pages whose cards people found least useful.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 23,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT area, target AS card, count(*) AS \"thumbs down\" FROM site_feedback WHERE $__timeFilter(created_at) AND surface = 'area_card' AND vote = -1 AND area IS NOT NULL GROUP BY 1, 2 ORDER BY 3 DESC LIMIT 25"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 13
+    },
+    {
+      "type": "row",
+      "title": "What people wrote",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 14
+    },
+    {
+      "type": "table",
+      "title": "Latest comments",
+      "description": "Free text, newest first. Contact details were removed before storing; there is no way to reply.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 33,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT updated_at AS \"time\", surface || coalesce(':' || target, '') AS about, coalesce(rating || '/5', CASE vote WHEN 1 THEN 'up' WHEN -1 THEN 'down' END) AS score, array_to_string(tags, ', ') AS reasons, message, path, device FROM site_feedback WHERE $__timeFilter(created_at) AND message IS NOT NULL ORDER BY updated_at DESC LIMIT 100"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 15
+    }
+  ]
+}

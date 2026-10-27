@@ -1,0 +1,24 @@
+/* Street trees, Green streets and Canopy (components/street-trees-map.ts, detail-legend.tsx). */
+
+/* The dots' key, in the legend chip and under Show › Street trees. */
+.tree-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 2px; color: var(--muted); font-weight: 600; }
+.tree-key__dot { display: inline-block; flex: none; box-sizing: border-box; border: 1.5px solid var(--panel-solid); border-radius: var(--radius-pill); background: var(--dot, var(--yarn-leaf)); box-shadow: 0 0 0 1px var(--dot, var(--yarn-leaf)); }
+.tree-key__dot--hollow { width: 8px; height: 8px; margin-left: 8px; border: 2px solid var(--dot, var(--yarn-leaf)); background: var(--panel-solid); box-shadow: none; }
+.tree-panel { display: grid; gap: 4px; }
+/* Street trees' heat key: the name, then "Fewer" ▬ "More" in the heat's greens. */
+.tree-heat-key { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin-top: 2px; color: var(--muted); font-weight: 600; }
+.tree-heat-key__name { color: var(--ink); }
+.tree-heat-key__bar { display: inline-flex; width: 72px; height: 10px; overflow: hidden; border-radius: var(--radius-pill); }
+.tree-heat-key__bar .map-legend-gradient { width: 100%; height: 100%; }
+.tree-panel__note .help-tip { margin-left: 4px; vertical-align: middle; }
+
+/* A detail layer's legend keeps its unit in sight: "0 … 12+" means nothing without "Trees per 100 m". */
+.legend-chip .map-legend[data-legend]:not(.bivariate-legend) .map-legend-caption {
+  position: static; width: auto; height: auto; overflow: hidden; clip: auto;
+}
+.tree-panel__note { margin: 0; color: var(--muted); font-size: var(--fs-2xs); line-height: 1.4; }
+/* One line to the other view of the same trees: Show › Street trees → Green cover, and its "?" panel back. */
+.tree-panel__link, .layer-explainer__related { justify-self: start; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; }
+.tree-panel__link:hover, .layer-explainer__related:hover { color: var(--ink); }
+.layer-explainer__related { margin: 0 0 8px; }
+.map-legend-zoom { color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; }

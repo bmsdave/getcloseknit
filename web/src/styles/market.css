@@ -1,0 +1,104 @@
+/* Local market section (components/market-section.tsx). Series colours are
+   the chart kit's categorical tokens (--chart-*, 3:1 on the panel in Day and
+   Night, auto or explicit), one per type of home. Text never wears a series
+   colour. */
+.market {
+  container-type: inline-size;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 18px;
+  --market-all: var(--ink);
+  --market-D: var(--chart-1); --market-S: var(--chart-2); --market-T: var(--chart-4); --market-F: var(--chart-5); --market-O: var(--chart-6);
+}
+.market h2 { margin: 0; }
+.market-heading { display: flex; align-items: center; gap: var(--space-1); margin: 14px 0 0; font-size: var(--fs-md); }
+.market-note, .market-basis, .market-source { margin: 0; color: var(--muted); font-size: var(--fs-xs); line-height: 1.45; }
+.market-basis { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; color: var(--ink); }
+.market-unknown { color: var(--muted); font-style: italic; font-weight: 400; }
+
+.market-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: 0; }
+.market-tiles > div { display: grid; align-content: start; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--chip); }
+.market-tiles dt { display: flex; align-items: center; gap: 2px; min-height: 22px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.market-tiles dd { margin: 0; font-size: var(--fs-lg); font-weight: 800; font-variant-numeric: tabular-nums; }
+.market-tiles small { color: var(--muted); font-size: var(--fs-2xs); line-height: 1.35; }
+
+.market-table-wrap { overflow-x: auto; max-width: 100%; border-radius: var(--radius-md); }
+.market-table-wrap:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.market-table, .market-sales { width: 100%; border-collapse: collapse; font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.market-table th, .market-table td, .market-sales th, .market-sales td { padding: 7px 6px; border-bottom: 1px solid var(--rule); text-align: right; white-space: nowrap; }
+.market-table th:first-child, .market-sales th:nth-child(2), .market-sales td:nth-child(2) { text-align: left; }
+.market-table thead th, .market-sales thead th { color: var(--muted); font-size: var(--fs-2xs); }
+.market-table tbody th { position: sticky; left: 0; background: var(--panel-solid); font-weight: 700; }
+.market-sales td:nth-child(2) { white-space: normal; min-width: 12ch; }
+.market-sales th:first-child, .market-sales td:first-child { text-align: left; }
+.market-sales small, .market-table small { color: var(--muted); }
+
+/* Legend and table swatches are a short strand of the series' yarn (YarnSwatch). */
+.market-swatch { --series: var(--market-all); display: inline-block; width: 20px; height: 10px; margin-right: 6px; overflow: visible; vertical-align: -1px; }
+
+.market-chart { display: grid; gap: 6px; margin: 4px 0 0; }
+.market-chart figcaption { color: var(--ink); font-size: var(--fs-xs); font-weight: 700; }
+.market-legend { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: var(--fs-2xs); }
+.market-plot { position: relative; }
+.market-plot > svg { display: block; width: 100%; height: auto; overflow: visible; touch-action: pan-y; }
+.market-grid line { stroke: var(--rule); stroke-width: 1; }
+.market-grid text, .market-axis { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.market-crosshair { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+.market-line { --series: var(--market-all); }
+/* Each line is a Yarn thread through the exact data points, a Dot at the latest;
+   the hovered month gets a dot on every thread. */
+.market-line > circle { fill: var(--series); stroke: var(--surface); stroke-width: 1.5; pointer-events: none; }
+.market-line .dot { overflow: visible; pointer-events: none; }
+[data-series="D"] { --series: var(--market-D); }
+[data-series="S"] { --series: var(--market-S); }
+[data-series="T"] { --series: var(--market-T); }
+[data-series="F"] { --series: var(--market-F); }
+[data-series="O"] { --series: var(--market-O); }
+.market-box { --series: var(--market-all); }
+.market-box[data-series="D"] { --series: var(--market-D); }
+.market-box[data-series="S"] { --series: var(--market-S); }
+.market-box[data-series="T"] { --series: var(--market-T); }
+.market-box[data-series="F"] { --series: var(--market-F); }
+.market-box[data-series="O"] { --series: var(--market-O); }
+.market-hit { fill: transparent; }
+.market-row-label { fill: var(--ink); font-size: 12px; font-weight: 700; }
+/* Box plot: whiskers are yarn, the middle half a knitted strip (KnitFabric) in the
+   series colour, the median a running stitch in ink over a panel halo. */
+.market-whisker { pointer-events: none; }
+.market-iqr { overflow: visible; pointer-events: none; }
+.market-median-halo { stroke: var(--panel-solid); stroke-width: 6; stroke-linecap: round; }
+.market-median { stroke: var(--ink); stroke-width: 3; stroke-dasharray: 4 2.5; stroke-linecap: butt; }
+
+.market-tooltip {
+  position: absolute; z-index: 20; top: 0; transform: translateX(-50%);
+  display: grid; gap: 2px; width: max-content; max-width: min(240px, 90%); padding: 8px 10px; border-radius: var(--radius-md);
+  background: var(--panel-solid); color: var(--ink); box-shadow: 0 10px 30px rgb(var(--ink-rgb) / .2);
+  font-size: var(--fs-2xs); line-height: 1.4; pointer-events: none;
+}
+.market-tooltip small { color: var(--muted); }
+.market-tooltip--below { position: static; transform: none; max-width: 100%; margin-top: 4px; box-shadow: none; background: var(--chip); }
+.market-tooltip .market-swatch { margin-right: 4px; }
+
+.market-figures summary { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: var(--fs-xs); font-weight: 700; cursor: pointer; }
+
+.market-recent { display: grid; gap: var(--space-2); }
+.market-sort { display: flex; gap: 6px; }
+.market-sort button, .market-pager button {
+  min-height: 44px; min-width: 44px; padding: 8px 14px; border: 1px solid var(--line); border-radius: var(--radius-md);
+  color: var(--ink); background: var(--chip); font: inherit; font-size: var(--fs-xs); font-weight: 800; cursor: pointer;
+}
+.market-sort button[aria-pressed="true"] { color: var(--on-ink); background: var(--ink); }
+.market-pager { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); font-size: var(--fs-xs); color: var(--muted); }
+.market-pager button:disabled { opacity: .45; cursor: default; }
+
+/* Narrow panels and phones: tiles stay two-up, sales become cards. */
+@container (max-width: 520px) {
+  .market-sales thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .market-sales, .market-sales tbody, .market-sales tr, .market-sales td { display: block; }
+  .market-sales tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+  .market-sales td { padding: 0; border: 0; text-align: left; white-space: normal; }
+  .market-sales td:nth-child(2) { grid-column: 1 / -1; grid-row: 2; font-weight: 700; }
+  .market-sales td:nth-child(1) { color: var(--muted); }
+  .market-sales td:nth-child(5) { grid-column: 2; grid-row: 1; text-align: right; font-weight: 800; }
+  .market-sales td:nth-child(3), .market-sales td:nth-child(4) { display: inline; color: var(--muted); font-size: var(--fs-2xs); }
+  .market-sales td:nth-child(3) { grid-row: 3; grid-column: 1; }
+  .market-sales td:nth-child(4) { grid-row: 3; grid-column: 2; text-align: right; }
+}

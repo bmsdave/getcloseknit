@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/scope",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"scope.v1\",\"id\":\"uk:nation:E92000001\",\"level\":\"nation\",\"name\":\"England\",\"served\":[{\"id\":\"uk:region:E12000001\",\"code\":\"E12000001\",\"name\":\"North East\"},{\"id\":\"uk:region:E12000002\",\"code\":\"E12000002\",\"name\":\"North West\"},{\"id\":\"uk:region:E12000003\",\"code\":\"E12000003\",\"name\":\"Yorkshire and The Humber\"},{\"id\":\"uk:region:E12000004\",\"code\":\"E12000004\",\"name\":\"East Midlands\"},{\"id\":\"uk:region:E12000005\",\"code\":\"E12000005\",\"name\":\"West Midlands\"},{\"id\":\"uk:region:E12000006\",\"code\":\"E12000006\",\"name\":\"East of England\"},{\"id\":\"uk:region:E12000007\",\"code\":\"E12000007\",\"name\":\"London\"},{\"id\":\"uk:region:E12000008\",\"code\":\"E12000008\",\"name\":\"South East\"},{\"id\":\"uk:region:E12000009\",\"code\":\"E12000009\",\"name\":\"South West\"}],\"bbox\":[-6.45,49.86,1.77,55.82],\"outsideReason\":\"outside-coverage\"}"
+}

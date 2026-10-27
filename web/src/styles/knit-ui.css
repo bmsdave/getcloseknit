@@ -1,0 +1,188 @@
+/* Knitted UI (DESIGN.md › Knitted components): running-stitch buttons,
+   rib cuffs, knitted charts. Colours come from globals.css tokens. */
+
+/* Running stitch: a dashed ::after sewn just inside the button's edge.
+   position: relative sits in :where() (no specificity), so a button that is
+   already positioned keeps its own position and still holds the stitch. */
+:where(
+  .primary-action, .area-brief__primary, .area-full__primary, .property-button, .match-empty-cta,
+  .area-wizard .wizard-nav .wizard-primary, .criterion-focus-actions .criterion-add,
+  .area-brief__secondary, .area-full__secondary, .wizard-nav button, .ranking-more, .match-actions button,
+  .your-search button, .brief-layers button, .area-marks button, .tradeoff-actions button, .add-place-actions button,
+  .area-note-form button, .comparison-tray__actions button, .shortlist-save button, .shortlist-actions button, .decision-brief button, .discuss-ai button,
+  .brief-filters button, .chip-button, .segmented button, .topic-subviews button, .sales-segment button,
+  .criteria-chip, .chart-ranges button, .unit-toggle button, .market-sort button, .overview-sizes button,
+  .postcode-chart__switch button, .dev-charts__themes button, .appearance-menu button, .chart-frame__toggle > span
+) { position: relative; }
+
+/* The one action per screen: primary fill with a --stitch running stitch. */
+.primary-action::after, .area-brief__primary::after, .area-full__primary::after, .property-button--primary::after,
+.match-empty-cta::after, .area-wizard .wizard-nav .wizard-primary::after, .criterion-focus-actions .criterion-add::after {
+  content: ""; position: absolute; inset: 5px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.primary-action:focus-visible, .area-brief__primary:focus-visible, .area-full__primary:focus-visible,
+.match-empty-cta:focus-visible, .area-wizard .wizard-nav .wizard-primary:focus-visible, .criterion-focus-actions .criterion-add:focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 2px;
+}
+
+/* DESIGN.md §7: one chosen state for every pressed chip, segment and chosen tab on
+   every page: the primary fill and its running stitch, as the tool tabs have it. Never ink, never a
+   chip without its stitch. The ≡ menu's own rows and segmented thumbs (--seg-on) are not chips. */
+:is(.brief-filters button, .chip-button, .segmented button, .topic-subviews button, .sales-segment button,
+  .criteria-chip, .chart-ranges button, .unit-toggle button, .market-sort button, .overview-sizes button,
+  .postcode-chart__switch button, .dev-charts__themes button, .area-marks > button,
+  .your-search button, .brief-layers button, .add-place-actions button, .show-sub__seg button, .show-sub__chips button,
+  .area-save-actions__button)[aria-pressed="true"],
+.area-tabs a[aria-current="true"], .detail-tabs button[aria-selected="true"],
+.chart-frame__toggle[aria-pressed="true"] > span {
+  position: relative; border-color: var(--primary); color: var(--on-primary); background: var(--primary);
+}
+:is(.brief-filters button, .chip-button, .segmented button, .topic-subviews button, .sales-segment button,
+  .criteria-chip, .chart-ranges button, .unit-toggle button, .market-sort button, .overview-sizes button,
+  .postcode-chart__switch button, .dev-charts__themes button, .area-marks > button,
+  .your-search button, .brief-layers button, .add-place-actions button, .show-sub__seg button, .show-sub__chips button,
+  .area-save-actions__button)[aria-pressed="true"]::after,
+.area-tabs a[aria-current="true"]::after, .detail-tabs button[aria-selected="true"]::after,
+.chart-frame__toggle[aria-pressed="true"] > span::after {
+  content: ""; position: absolute; inset: 3px; border: 1.5px dashed var(--stitch); border-radius: inherit;
+  opacity: 1; pointer-events: none;
+}
+.chart-frame__toggle[aria-pressed="true"] > span::after { inset: 2px; border-width: 1px; }
+
+/* Disabled is neutral: chip fill, muted text, a faint stitch. Never a faded
+   primary (translucent sun over the panel reads olive). */
+:is(.primary-action, .area-brief__primary, .area-full__primary, .property-button, .match-empty-cta,
+  .area-wizard .wizard-nav .wizard-primary, .criterion-focus-actions .criterion-add, .wizard-nav button,
+  .market-pager button, .postcode-chart__switch button):is(:disabled, [aria-disabled="true"]) {
+  opacity: 1; border-color: var(--chip); color: var(--muted); background: var(--chip); cursor: not-allowed;
+}
+:is(.primary-action, .area-brief__primary, .area-full__primary, .property-button, .match-empty-cta,
+  .area-wizard .wizard-nav .wizard-primary, .criterion-focus-actions .criterion-add, .wizard-nav button):is(:disabled, [aria-disabled="true"])::after {
+  border-color: rgb(var(--ink-rgb) / .22); border-style: dotted; opacity: 1;
+}
+
+/* "Find my area" is the product's one big action: the primary fill and stitch
+   in the welcome card and the top bar. */
+.first-visit-intro__find, .find-my-area { position: relative; border: 0; background: var(--primary); color: var(--on-primary); }
+.first-visit-intro__find::after, .find-my-area::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.first-visit-intro__find:focus-visible, .find-my-area:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.first-visit-intro__find:hover, .find-my-area:hover { background: color-mix(in srgb, var(--primary) 86%, black); }
+
+/* Secondary buttons are calm: a soft chip fill, no frame and no stitch. The
+   stitch is reserved for the primary action and for what is chosen. */
+.area-brief__secondary, .area-full__secondary, .property-button:not(.property-button--primary),
+.wizard-nav button:not(.wizard-primary), .ranking-more, .match-actions button,
+:where(.your-search, .brief-layers, .area-marks, .tradeoff-actions, .add-place-actions, .area-note-form,
+  .comparison-tray__actions, .shortlist-save, .shortlist-actions, .decision-brief, .discuss-ai) button:not(.link-button, .criterion-add, [aria-pressed="true"]) {
+  border-color: transparent; background: var(--chip);
+}
+
+/* The full-page link in the match card: ink fill with an on-ink running stitch. */
+.area-full-link { position: relative; }
+.area-full-link::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--on-ink); border-radius: inherit; opacity: .8; pointer-events: none;
+}
+
+
+/* Knitted fabric is a thing, not a sticker: its outline is the stitches, and it
+   casts a soft shadow that follows them. */
+.knit-fabric { filter: drop-shadow(0 1px 0.8px rgb(0 0 0 / 0.28)); }
+.chart-icon.knit-fabric, .knit-glyph.knit-fabric { filter: none; }
+
+/* Styled selects (knit-select in match/my-criteria.tsx): a surface field with a
+   1.5px field line and a plied-yarn chevron sewn in on the right. */
+.knit-select { position: relative; display: block; min-width: 0; }
+.knit-select select {
+  appearance: none; width: 100%; min-height: 44px; padding: 0 38px 0 12px; border: 1.5px solid var(--field-line);
+  border-radius: 12px; background: var(--surface); color: var(--ink); font: 600 var(--fs-md)/1.2 var(--font-sans);
+  text-overflow: ellipsis; cursor: pointer;
+}
+.knit-select select:focus-visible { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 1px; }
+.knit-select__chevron.knit-select__chevron { position: absolute; top: 50%; right: 10px; width: 20px; height: 20px; transform: translateY(-50%); pointer-events: none; }
+
+/* "Show it" is the builder's one action: the primary button with its running stitch. */
+.criteria-builder .primary-action { min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--primary); color: var(--on-primary); font: 800 var(--fs-md)/1 var(--font-sans); }
+.criteria-builder .primary-action:hover:not(:disabled) { background: color-mix(in srgb, var(--primary) 86%, black); }
+.criteria-builder .primary-action:disabled { color: var(--muted); background: var(--chip); }
+
+/* Fields (contract 3): one field box, 44px tall, a 1px field line (3:1 on
+   the surface, colour-contrast test; --line is transparent), --radius-md and
+   16px text so iOS does not zoom. New inputs take className="knit-field";
+   existing ones join by selector. Checkboxes, radios and sliders keep theirs. */
+.knit-field,
+.shortlist-save input,
+.housing-fields :is(input, select), .commute-fields input,
+:is(.cost-worksheet, .leasehold-checklist, .question-composer, .sourced-field, .brief-costs) :is(input, select):not([type="checkbox"], [type="radio"], [type="range"]),
+.referencing-check input[type="number"],
+.factor-field > select, .school-fields > label input[type="number"],
+.my-place-head input, .add-place-search input, .area-note-form textarea,
+.school-discovery > label input, .admissions-pilot :is(input, select), .visit-recorder :is(input, select) {
+  box-sizing: border-box; min-height: 44px; padding: 0 12px; border: 1px solid var(--field-line); border-radius: var(--radius-md);
+  background: var(--surface); color: var(--ink); font: inherit; font-size: var(--fs-md);
+}
+.area-note-form textarea { padding: 10px 12px; }
+:is(.knit-field, .shortlist-save input, .housing-fields :is(input, select), .commute-fields input, :is(.cost-worksheet, .leasehold-checklist, .question-composer, .sourced-field, .brief-costs) :is(input, select):not([type="checkbox"], [type="radio"], [type="range"]), .referencing-check input[type="number"], .factor-field > select, .school-fields > label input[type="number"], .my-place-head input, .add-place-search input, .area-note-form textarea, .school-discovery > label input, .admissions-pilot :is(input, select), .visit-recorder :is(input, select)):focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 1px;
+}
+/* Sliders in the match panel and wizard: a 44px row to grab. */
+:where(.match-panel, .area-wizard, .preference-panel) input[type="range"] { min-height: 44px; }
+
+/* Knit form controls. Zero-specificity bases (:where), so every component rule still
+   wins; they only replace what the browser would otherwise draw (grey outset buttons, native ticks). */
+
+/* A button no rule dresses is a calm chip, never the browser's grey face and outset border. */
+:where(button:not([class]), input:is([type="button"], [type="submit"], [type="reset"]):not([class])) {
+  min-height: 44px; padding: 0 16px; border: 0; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer;
+}
+:where(button:not([class])):hover:not(:disabled) { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+:where(button:not([class])):disabled { color: var(--muted); cursor: not-allowed; }
+:where(button:not([class])):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Underlined tabs keep square ends. */
+.detail-tabs button { border-radius: 0; }
+
+/* Tick-boxes and radios: a 2px field line on the surface; chosen is ink with an on-ink tick or dot.
+   The switch (.tools-toggle) and the radio cards (.tools-radios) draw their own. */
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"]), input[type="radio"]:not(.tools-radios input)) {
+  -webkit-appearance: none; appearance: none; position: relative; flex: none; box-sizing: border-box;
+  width: 20px; height: 20px; margin: 0; border: 2px solid var(--field-line); border-radius: var(--radius-sm);
+  background: var(--surface); vertical-align: middle; cursor: pointer;
+}
+:where(input[type="radio"]:not(.tools-radios input)) { border-radius: 50%; }
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"])):checked { border-color: var(--ink); background: var(--ink); }
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"])):checked::after {
+  content: ""; position: absolute; left: 50%; top: 45%; width: 28%; height: 55%;
+  border: solid var(--on-ink); border-width: 0 2px 2px 0; transform: translate(-50%, -50%) rotate(45deg);
+}
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"])):indeterminate { border-color: var(--ink); background: var(--ink); }
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"])):indeterminate::after {
+  content: ""; position: absolute; left: 22%; right: 22%; top: calc(50% - 1px); height: 2px; background: var(--on-ink);
+}
+:where(input[type="radio"]:not(.tools-radios input)):checked {
+  border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 3px var(--surface);
+}
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"]), input[type="radio"]:not(.tools-radios input)):disabled {
+  border-color: rgb(var(--ink-rgb) / 0.25); background: var(--chip); cursor: not-allowed;
+}
+:where(input[type="checkbox"]:not(.tools-toggle, [role="switch"]), input[type="radio"]:not(.tools-radios input)):focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 2px;
+}
+
+/* The share review (match panel, Saved › shortlist): a card, then Confirm (ink) and Cancel (chip). */
+.share-preview, .shortlist-share {
+  display: grid; gap: var(--space-2); margin: var(--space-3) 0; padding: var(--space-4); border: 1px solid var(--field-line);
+  border-radius: var(--radius-lg); background: var(--surface); color: var(--ink);
+}
+.share-preview h2, .shortlist-share h3 { margin: 0; font-size: var(--fs-md); }
+.share-preview p, .shortlist-share p { margin: 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.45; }
+.share-preview ul, .shortlist-share ul { margin: 0; padding-left: 20px; font-size: var(--fs-sm); line-height: 1.5; }
+.shortlist-share > label { display: flex; align-items: center; gap: var(--space-2); min-height: 44px; font-size: var(--fs-sm); }
+.share-preview-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.share-preview-actions button {
+  min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font: 700 var(--fs-sm)/1.2 var(--font-sans); cursor: pointer;
+}
+.share-preview-actions button:first-child, .shortlist-share .shortlist-actions button:first-child { background: var(--ink); color: var(--on-ink); }
+.share-preview-actions button:focus-visible, .shortlist-actions button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

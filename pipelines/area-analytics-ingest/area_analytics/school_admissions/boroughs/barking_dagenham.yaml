@@ -1,0 +1,179 @@
+# Barking and Dagenham (301): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 301
+slug: barking_dagenham
+name: Barking and Dagenham
+licence:
+  statement: 'No copyright, OGL or terms page found on lbbd.gov.uk: /terms-and-conditions, /copyright
+    and /website-terms-and-conditions all return 404, and the footer has no copyright line.'
+  url: null
+licence_decision: unresolved
+aliases:
+  Village: '101223'
+  Thomas Arnold: '101220'
+  Richard Alibon: '130357'
+  Goresbrook (All-through): '140962'
+  George Carey: '136431'
+  Furze: '101203'
+  Eastbury Community (All-through): '101244'
+  Eastbrook (All-through): '101243'
+  Dorothy Barley: '101188'
+  St Joseph's (Bkg): '147328'
+  St Joseph's (Dag): '147329'
+  Jo Richardson: '133561'
+  Dagenham Park: '136028'
+  Barking Abbey: '101241'
+  All Saints: '101247'
+  Robert Clack (All-through): '101245'
+  Marks Gate: '101224'
+  Sydney Russell (All-through): '141683'
+  Thames View: '138684'
+  St Margaret's: '144035'
+  St Peter's: '101237'
+  St Teresa: '147330'
+  St Vincent's: '148289'
+secondary_names:
+  Eastbury: Eastbury Community
+docs:
+- phase: primary
+  year: 2025
+  url: https://www.lbbd.gov.uk/sites/default/files/2025-10/Starting%20School%20Full%20time%202026%20ebooklet.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+  note: Text says 2025 admission criteria, but the table heading reads '2024 Criteria', which may be a
+    stale label.
+- phase: primary
+  year: 2024
+  url: https://www.lbbd.gov.uk/sites/default/files/2024-11/024375%20LBBD%20SS%202025%20ebooklet%20HG%20FINAL.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: primary
+  year: 2022
+  url: https://www.lbbd.gov.uk/sites/default/files/2022-11/Starting%20School%20full%20time%202023%20e-booklet.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: primary
+  year: 2021
+  url: https://www.lbbd.gov.uk/sites/default/files/2022-08/Starting%20School%20full%20time%202022_0.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: primary
+  year: 2020
+  url: https://www.lbbd.gov.uk/sites/default/files/2022-08/Starting-school-full-time-in-2021-ebooklet.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: primary
+  year: 2019
+  url: https://www.lbbd.gov.uk/sites/default/files/2022-08/Starting%20school%20ebooklet%202020%20-%20secure.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: secondary
+  year: 2026
+  url: https://www.lbbd.gov.uk/sites/default/files/2026-10/LBBD%20MSS%202027%20ebooklet_0.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+  other_urls:
+  - https://www.lbbd.gov.uk/sites/default/files/2026-08/Moving%20to%20Secondary%20School%20in%202027.pdf
+  note: '''Statistical information'' on p7. Use pdftotext -raw for clean rows.'
+- phase: secondary
+  year: 2025
+  url: https://www.lbbd.gov.uk/sites/default/files/2025-08/024755%20LBBD%20MSS%202026%20ebooklet%20FINAL.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: secondary
+  year: 2024
+  url: https://www.lbbd.gov.uk/sites/default/files/2024-08/024375%20LBBD%20MSS%202025%20ebooklet%20FINAL.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: secondary
+  year: 2023
+  url: https://www.lbbd.gov.uk/sites/default/files/2023-09/LBBD%20MSS%202024%20ebooklet%20FINAL.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: secondary
+  year: 2022
+  url: https://www.lbbd.gov.uk/sites/default/files/2022-09/Moving%20to%20Secondary%20School%202023%20ebooklet.pdf
+  format: pdf-table
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+catchment_maps: null
+notes: 'All data is in the annual e-booklets'' ''Statistical information'' table: the previous round''s
+  applications, admission number, EHCP/LAC/sibling/distance counts, ''Last place'' (km, as the crow flies)
+  and appeals. Community schools have full data; for VA schools the booklet says to contact the school.
+  Not found: primary 2023 (the ''Starting School 2024'' booklet is not listed) and primary 2026 (2027
+  booklet not yet out); secondary 2019-2021 (the 2023 booklet is the oldest listed). The 2024-11 SS2025
+  file also exists without ''HG'' in its name (024375%20LBBD%20SS%202025%20ebooklet%20FINAL.pdf, live
+  200). Adapter notes: ''Marks Gate'' (2019 entry) is aliased to Rose Lane Primary 101224, the GIAS successor
+  (merged 1 Sep 2019) of Marks Gate Infants'' 101210. ''Manor - Longbridge'' and ''Manor - Sandringham''
+  are sites of Manor Primary 101193 (site column). Only decimal last-place cells are distances; ''-'',
+  ''N/A'' and a bare ''0'' are not explained by the booklet and are kept as no distance. VA schools print
+  ''Criteria do not apply''. The primary 2025 table heading reads ''2024 Criteria'' but the text names
+  September 2025; it differs from the 2024 table. Secondary 2026: the 2026-08 and 2026-10 booklets print
+  the same table (read once).'

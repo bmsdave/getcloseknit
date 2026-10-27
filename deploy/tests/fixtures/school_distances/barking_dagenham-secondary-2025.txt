@@ -1,0 +1,39 @@
+Statistical information
+The following information gives statistics about entry to Barking and
+Dagenham secondary-phase schools in September 2025. It includes the
+number of people who sent us their application forms by the closing date,
+and the distance the child given the last place at each of our schools
+lived from that school using our 2025 admission criteria. Distances are
+measured in kilometres in a straight line (as the crow flies).
+The number of applications for each school and the addresses from
+which children are applying will be different from year to year.
+School name
+Number of applications naming the school as a preference
+Standard number of children the school admits
+(admission number)
+Number of children with EHC plan naming the school
+Number of children given a place due to the LAC criterion
+Number of Year-6 children attending the All-through school and
+moving up to Year-7 (see note 5)
+Number of children given a place due to the schools faith or
+sibling criterion
+Number of children given a place due to the distance criterion
+Distance (in kilometres) the child given the last place lives from
+the school
+Number of appeals received (see note 5)
+Number of appeals allowed (see note 5)
+Community schools
+Barking Abbey 1050 360 5 1 N/A N/A 354 1.950 25 0
+DagenhamPark 364 270 5 2 N/A N/A 143 N/A 2 0
+Eastbrook 373 270 3 0 20 N/A 84 N/A 2 0
+Eastbury 531 300 3 1 41 N/A 140 0 2 0
+Jo Richardson 879 300 5 1 N/A N/A 294 1.881 20 2
+Robert Clack 1131 540 3 0 N/A N/A 476 - 29 2
+Own admission authority schools
+All Saints 587 240 0 0 N/A 240 0 6.035 3 0
+Goresbrook 425 120 0 1 56 14 59 - 6 0
+Greatfields 382 240 0 0 N/A N/A 159 N/A 2 0
+Riverside 529 300 3 0 N/A N/A 269 N/A 9 2
+Sydney Russell 1148 360 5 3 81 N/A 275 1.670 39 4
+Warren 529 240 5 0 N/A N/A 235 3.659 5 0
+Notes

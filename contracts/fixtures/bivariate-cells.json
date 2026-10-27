@@ -1,0 +1,28 @@
+{
+  "note": "Colour-square cells for pair lenses: level(A) x 4 + level(B), a level being how many of the axis thresholds (London median, upper quartile, top tenth) the count reaches. api/area_api/custom_criteria.bivariate_cell and web bivariateCell must both match.",
+  "size": 4,
+  "squares": [
+    {
+      "name": "bakeries-vs-betting-shops",
+      "thresholds": { "a": [1, 2, 3], "b": [1, 2, 3] },
+      "cases": [
+        { "counts": { "a": 0, "b": 0 }, "cell": 0 },
+        { "counts": { "a": 1, "b": 0 }, "cell": 4 },
+        { "counts": { "a": 0, "b": 1 }, "cell": 1 },
+        { "counts": { "a": 2, "b": 1 }, "cell": 9 },
+        { "counts": { "a": 3, "b": 2 }, "cell": 14 },
+        { "counts": { "a": 9, "b": 5 }, "cell": 15 }
+      ]
+    },
+    {
+      "name": "kebab-shops-vs-cafes",
+      "thresholds": { "a": [1, 2, 4], "b": [7, 20, 37] },
+      "cases": [
+        { "counts": { "a": 2, "b": 0 }, "cell": 8 },
+        { "counts": { "a": 0, "b": 19 }, "cell": 1 },
+        { "counts": { "a": 3, "b": 20 }, "cell": 10 },
+        { "counts": { "a": 42, "b": 40 }, "cell": 15 }
+      ]
+    }
+  ]
+}

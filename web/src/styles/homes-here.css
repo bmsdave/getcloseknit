@@ -1,0 +1,23 @@
+/* "Homes here" (components/homes-here.tsx): from a chosen area to the portals' searches.
+   Secondary links in a framed block; the card's own primary button keeps the stitch (DESIGN.md §1.6). */
+.homes-here { margin: 14px 0 0; padding: 12px; border: 2px solid var(--ink); border-radius: var(--radius-lg); background: var(--surface); }
+.homes-here h3 { margin: 0; font-size: var(--fs-md); }
+.homes-here__filters { margin: 2px 0 10px; color: var(--muted); font-size: var(--fs-xs); }
+.homes-here__filters a, .homes-here__sold a { color: var(--focus); }
+.homes-here__switch { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.homes-here__portals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+.homes-here__portals--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.homes-here__portal {
+  display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; padding: 0 8px;
+  border: 1px solid var(--rule); border-radius: var(--radius-md); background: var(--chip); color: var(--ink);
+  font-size: var(--fs-sm); font-weight: 700; text-decoration: none; text-align: center;
+}
+.homes-here__portal span { color: var(--muted); font-weight: 400; }
+@media (max-width: 480px) {
+  .homes-here__portal { padding: 0 4px; font-size: var(--fs-xs); }
+}
+.homes-here__portal:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.homes-here__sold { margin: 10px 0 0; color: var(--muted); font-size: var(--fs-xs); }
+.homes-here__note { margin: 6px 0 0; color: var(--muted); font-size: var(--fs-2xs); }
+.area-full .homes-here { margin: 16px 0; }
+@media print { .homes-here { display: none; } }

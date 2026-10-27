@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/uk:lsoa:E01099999?metric=crime&period=2026-06",
+ "status": 404,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"detail\":{\"error\":\"area-not-found\",\"message\":\"unknown area: uk:lsoa:E01099999\"}}"
+}

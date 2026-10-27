@@ -1,0 +1,14 @@
+/* The school card's KPI score (school/school-card.tsx, lib/rating.ts). The band colour is a
+   5-step diverging ramp, --chart-bad → --chart-neutral → --chart-good (red to
+   blue: colour-blind safe, no green). It is set on the element itself, so each
+   theme's chart tokens apply wherever the rating sits. Context metrics
+   (data-tone="neutral") take --chart-neutral only; no data takes the track. */
+.rating { --rating-colour: var(--chart-neutral); }
+.rating[data-tone="1"] { --rating-colour: var(--chart-bad); }
+.rating[data-tone="2"] { --rating-colour: color-mix(in srgb, var(--chart-bad) 55%, var(--chart-neutral)); }
+.rating[data-tone="3"] { --rating-colour: var(--chart-neutral); }
+.rating[data-tone="4"] { --rating-colour: color-mix(in srgb, var(--chart-good) 55%, var(--chart-neutral)); }
+.rating[data-tone="5"] { --rating-colour: var(--chart-good); }
+.rating[data-tone="none"] { --rating-colour: var(--muted); }
+
+.rating { display: grid; gap: var(--space-1); min-width: 0; color: var(--ink); }

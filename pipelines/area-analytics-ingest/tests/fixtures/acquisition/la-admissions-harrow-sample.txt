@@ -1,0 +1,5 @@
+How places were allocated at Harrow Primary Schools for September 2026 on 16th April 2026
+ SCHOOL NAME OF PLACES APPLICATIONS AFTER SIBLING WHO WORSHIPS WHERE
+Cannon Lane Primary School 90 396 0 0 0 0 32 N/A N/A 0 58 0.851 N/A 90
+Grimsdyke School 90 283 0 0 0 0 35 N/A N/A 3 52 1.498 N/A 90
+Pinner Park Primary School 120 324 0 1 0 0 40 N/A N/A 0 73 N/A 5 119

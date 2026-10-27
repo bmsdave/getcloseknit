@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Menu A v4, open</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #22252c; } a:hover { color: #22252c; }
+input::placeholder { color: #5b6270; }
+</style>
+</helmet>
+<div style="width: 900px; height: 900px; box-sizing: border-box; padding: 28px; display: flex; gap: 28px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;">
+
+  <div style="position: relative; width: 426px; height: 844px; flex: none; border-radius: 18px; overflow: hidden; background: #e9eef3; box-shadow: 0 0 0 1px rgba(34, 37, 44, 0.08), 0 18px 50px rgba(10, 20, 40, 0.1);">
+    <div aria-hidden="true" style="position: absolute; left: -40px; top: 140px; width: 300px; height: 240px; border-radius: 46% 54% 40% 60% / 50% 38% 62% 50%; background: #8fbbe3; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 220px; top: 120px; width: 260px; height: 250px; border-radius: 58% 42% 55% 45% / 45% 60% 40% 55%; background: #f6c445; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 20px; top: 380px; width: 280px; height: 230px; border-radius: 40% 60% 52% 48% / 55% 45% 55% 45%; background: #f9e7b0; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 260px; top: 400px; width: 240px; height: 240px; border-radius: 55% 45% 50% 50% / 50% 50% 50% 50%; background: #f28b30; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: -20px; top: 620px; width: 300px; height: 240px; border-radius: 50% 50% 45% 55% / 40% 55% 45% 60%; background: #b9d3ec; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 250px; top: 640px; width: 260px; height: 230px; border-radius: 46% 54% 40% 60% / 50% 38% 62% 50%; background: #e2453c; border: 2px solid #ffffff;"></div>
+
+    <div style="position: absolute; left: 16px; top: 16px; display: flex; align-items: center; gap: 4px; height: 56px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);">
+      <button type="button" aria-label="Menu" aria-expanded="true" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: #eef2f7;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </button>
+      <a href="#" style="display: flex; align-items: center; gap: 7px; height: 44px; padding: 0 10px 0 4px; text-decoration: none; color: #22252c;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5.5 9.5V20h13V9.5"></path><path d="M10 20v-5h4v5" fill="#f6c445"></path></svg>
+        <span style="font-size: 21px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;">close knit</span>
+      </a>
+      <label style="display: flex; align-items: center; gap: 8px; width: 240px; height: 44px; padding: 0 14px; box-sizing: border-box; border-radius: 999px; background: #eef2f7;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        <input type="search" aria-label="Search" placeholder="Search" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: inherit; font-size: 15px; color: #22252c;">
+      </label>
+    </div>
+
+    <div style="position: absolute; left: 16px; bottom: 16px; z-index: 70; display: flex; align-items: center; gap: 8px; height: 34px; padding: 0 4px 0 12px; border-radius: 999px; background: rgba(34, 37, 44, 0.86); color: #ffffff; font-size: 12.5px; font-weight: 800; white-space: nowrap;">Menu A · v4<button type="button" onClick="{{flipNotes}}" style="height: 26px; padding: 0 10px; border: 0; border-radius: 999px; background: #fff3c4; color: #6b4e00; font: inherit; font-size: 12px; font-weight: 800; cursor: pointer;">{{notesLabel}}</button></div>
+    <nav aria-label="Site menu" style="position: absolute; top: 80px; left: 16px; width: 320px; box-sizing: border-box; padding: 8px; background: #ffffff; border-radius: 18px; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); display: flex; flex-direction: column;">
+      <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column;">
+          <button type="button" aria-expanded="{{g.open}}" style="display: flex; align-items: center; gap: 10px; width: 100%; min-height: 48px; padding: 0 12px 0 14px; border: 0; border-radius: 10px; background: transparent; font: inherit; font-size: 16px; font-weight: 800; letter-spacing: -0.01em; color: #22252c; text-align: left;">
+            <span style="flex: 1;">{{g.label}}</span>
+            <sc-if value="{{g.open}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></sc-if>
+            <sc-if value="{{g.closed}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></sc-if>
+          </button>
+          <sc-if value="{{g.open}}">
+            <div style="display: flex; flex-direction: column; padding-bottom: 4px;">
+              <sc-for list="{{g.links}}" as="l" hint-placeholder-count="6">
+                <sc-if value="{{l.current}}">
+                  <a href="#" aria-current="page" style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px 0 26px; border-radius: 10px; background: #eef2f7; text-decoration: none; color: #22252c; font-size: 15px; font-weight: 700;"><span style="flex: 1;">{{l.label}}</span><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 999px; background: #c0352c;"></span></a>
+                </sc-if>
+                <sc-if value="{{l.other}}">
+                  <a href="#" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px 0 26px; border-radius: 10px; text-decoration: none; color: #22252c; font-size: 15px; font-weight: 500;">{{l.label}}</a>
+                </sc-if>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <div style="padding: 4px 14px;"><div aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 4px;"><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 17 · 10 items</span><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 13 · foot</span><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 22 · Privacy · Terms</span></div></div><div role="group" aria-label="Settings" style="display: flex; flex-direction: column; margin-top: 4px; padding: 4px 6px 0 14px; border-top: 1px solid #dfe7f0;"><div style="display: flex; align-items: center; gap: 10px; min-height: 48px;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Map</span><div role="group" aria-label="Map view" style="flex: none; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: #eef2f7;"><sc-for list="{{modes}}" as="m" hint-placeholder-count="3"><button type="button" aria-pressed="{{m.on}}" onClick="{{m.pick}}" style="min-width: 48px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: {{m.bg}}; box-shadow: {{m.sh}}; font: inherit; font-size: 13.5px; font-weight: 700; color: {{m.fg}}; cursor: pointer;">{{m.label}}</button></sc-for></div></div><button type="button" aria-expanded="{{foot.colOpen}}" onClick="{{foot.flipCol}}" style="display: flex; align-items: center; gap: 10px; min-height: 48px; width: 100%; padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer; text-align: left;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Colours</span><span aria-hidden="true" style="display: flex; gap: 2px;"><sc-for list="{{foot.curSw}}" as="s" hint-placeholder-count="4"><span style="width: 10px; height: 14px; border-radius: 2px; background: {{s.c}};"></span></sc-for></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{foot.chev}}; transition: transform 160ms ease;"><path d="m9 6 6 6-6 6"></path></svg></button><sc-if value="{{foot.colOpen}}" hint-placeholder-val="{{ false }}"><div role="radiogroup" aria-label="Colours" style="display: flex; flex-direction: column; gap: 2px; padding: 0 0 6px;"><sc-for list="{{foot.cols}}" as="p" hint-placeholder-count="7"><button type="button" role="radio" aria-checked="{{p.on}}" onClick="{{p.pick}}" style="display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border: 0; border-radius: 10px; background: {{p.bg}}; font: inherit; font-size: 14px; font-weight: {{p.fw}}; color: {{p.fg}}; cursor: pointer; text-align: left;"><span style="flex: 1;">{{p.label}}</span><span aria-hidden="true" style="display: flex; gap: 2px;"><sc-for list="{{p.sw}}" as="s" hint-placeholder-count="4"><span style="width: 10px; height: 14px; border-radius: 2px; background: {{s.c}};"></span></sc-for></span></button></sc-for></div></sc-if><div style="display: flex; align-items: center; gap: 10px; min-height: 48px;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Theme</span><div role="group" aria-label="Theme" style="flex: none; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: #eef2f7;"><sc-for list="{{themes}}" as="t" hint-placeholder-count="3"><button type="button" aria-pressed="{{t.on}}" onClick="{{t.pick}}" style="min-width: 48px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: {{t.bg}}; box-shadow: {{t.sh}}; font: inherit; font-size: 13.5px; font-weight: 700; color: {{t.fg}}; cursor: pointer;">{{t.label}}</button></sc-for></div></div><div aria-hidden="true" style="height: 0; border-top: 1px solid #dfe7f0; margin: 4px 0 2px;"></div><div style="display: flex; align-items: center; margin-left: -6px; font-size: 13px; font-weight: 600; color: #5b6270;"><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Privacy</a><span aria-hidden="true">·</span><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Terms</a><span aria-hidden="true">·</span><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Feedback</a></div></div>
+    </nav>
+  </div>
+
+  <div style="position: relative; width: 390px; height: 844px; flex: none; border-radius: 36px; overflow: hidden; background: #e9eef3; box-shadow: 0 0 0 1px rgba(34, 37, 44, 0.1), 0 18px 50px rgba(10, 20, 40, 0.12);">
+    <div aria-hidden="true" style="position: absolute; left: -30px; top: 40px; width: 220px; height: 190px; border-radius: 46% 54% 40% 60% / 50% 38% 62% 50%; background: #f6c445; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 170px; top: 20px; width: 250px; height: 200px; border-radius: 58% 42% 55% 45% / 45% 60% 40% 55%; background: #8fbbe3; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; left: 20px; top: 210px; width: 230px; height: 190px; border-radius: 40% 60% 52% 48% / 55% 45% 55% 45%; background: #f28b30; border: 2px solid #ffffff;"></div>
+    <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(20, 30, 50, 0.22);"></div>
+
+    <nav aria-label="Site menu" style="position: absolute; left: 0; right: 0; top: 10px; bottom: 0; border-radius: 18px 18px 0 0; overflow: hidden; background: #ffffff; box-shadow: 0 -6px 24px rgba(20, 30, 50, 0.16); display: flex; flex-direction: column;">
+      <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 5px; background-image: repeating-linear-gradient(120deg, #c0352c 0 4px, #ffffff 4px 6px, #f6c445 6px 10px, #ffffff 10px 12px);"></div>
+      <div style="height: 64px; flex: none; display: flex; align-items: center; gap: 8px; padding: 6px 10px 0 16px; box-sizing: border-box;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5.5 9.5V20h13V9.5"></path><path d="M10 20v-5h4v5" fill="#f6c445"></path></svg>
+        <span style="flex: 1; font-size: 20px; font-weight: 800; letter-spacing: -0.03em;">close knit</span>
+        <button type="button" aria-label="Close menu" style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: #eef2f7;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+      <div style="flex: 1; padding: 4px 10px 16px; display: flex; flex-direction: column;">
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column;">
+            <button type="button" aria-expanded="{{g.open}}" style="display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 0 12px 0 14px; border: 0; border-radius: 10px; background: transparent; font: inherit; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; color: #22252c; text-align: left;">
+              <span style="flex: 1;">{{g.label}}</span>
+              <sc-if value="{{g.open}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></sc-if>
+              <sc-if value="{{g.closed}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></sc-if>
+            </button>
+            <sc-if value="{{g.open}}">
+              <div style="display: flex; flex-direction: column; padding-bottom: 4px;">
+                <sc-for list="{{g.links}}" as="l" hint-placeholder-count="6">
+                  <sc-if value="{{l.current}}">
+                    <a href="#" aria-current="page" style="display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 12px 0 26px; border-radius: 10px; background: #eef2f7; text-decoration: none; color: #22252c; font-size: 16px; font-weight: 700;"><span style="flex: 1;">{{l.label}}</span><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 999px; background: #c0352c;"></span></a>
+                  </sc-if>
+                  <sc-if value="{{l.other}}">
+                    <a href="#" style="display: flex; align-items: center; min-height: 48px; padding: 0 12px 0 26px; border-radius: 10px; text-decoration: none; color: #22252c; font-size: 16px; font-weight: 500;">{{l.label}}</a>
+                  </sc-if>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div style="flex: 1;"></div><div style="padding: 4px 14px;"><div aria-hidden="true" style="display: flex; flex-wrap: wrap; gap: 4px;"><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 17 · 10 items</span><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 13 · foot</span><span aria-hidden="true" style="display: {{nd}}; align-items: center; height: 20px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #e3ebfa; border: 1px dashed #2f5bd3; color: #1f3f99; font-size: 11px; font-weight: 800; letter-spacing: 0; line-height: 1; white-space: nowrap; flex: none; text-transform: none;">v3 Fix 22 · Privacy · Terms</span></div></div><div role="group" aria-label="Settings" style="display: flex; flex-direction: column; margin-top: 4px; padding: 4px 6px 0 14px; border-top: 1px solid #dfe7f0;"><div style="display: flex; align-items: center; gap: 10px; min-height: 48px;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Map</span><div role="group" aria-label="Map view" style="flex: none; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: #eef2f7;"><sc-for list="{{modes}}" as="m" hint-placeholder-count="3"><button type="button" aria-pressed="{{m.on}}" onClick="{{m.pick}}" style="min-width: 48px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: {{m.bg}}; box-shadow: {{m.sh}}; font: inherit; font-size: 13.5px; font-weight: 700; color: {{m.fg}}; cursor: pointer;">{{m.label}}</button></sc-for></div></div><button type="button" aria-expanded="{{foot.colOpen}}" onClick="{{foot.flipCol}}" style="display: flex; align-items: center; gap: 10px; min-height: 48px; width: 100%; padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer; text-align: left;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Colours</span><span aria-hidden="true" style="display: flex; gap: 2px;"><sc-for list="{{foot.curSw}}" as="s" hint-placeholder-count="4"><span style="width: 10px; height: 14px; border-radius: 2px; background: {{s.c}};"></span></sc-for></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{foot.chev}}; transition: transform 160ms ease;"><path d="m9 6 6 6-6 6"></path></svg></button><sc-if value="{{foot.colOpen}}" hint-placeholder-val="{{ false }}"><div role="radiogroup" aria-label="Colours" style="display: flex; flex-direction: column; gap: 2px; padding: 0 0 6px;"><sc-for list="{{foot.cols}}" as="p" hint-placeholder-count="7"><button type="button" role="radio" aria-checked="{{p.on}}" onClick="{{p.pick}}" style="display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border: 0; border-radius: 10px; background: {{p.bg}}; font: inherit; font-size: 14px; font-weight: {{p.fw}}; color: {{p.fg}}; cursor: pointer; text-align: left;"><span style="flex: 1;">{{p.label}}</span><span aria-hidden="true" style="display: flex; gap: 2px;"><sc-for list="{{p.sw}}" as="s" hint-placeholder-count="4"><span style="width: 10px; height: 14px; border-radius: 2px; background: {{s.c}};"></span></sc-for></span></button></sc-for></div></sc-if><div style="display: flex; align-items: center; gap: 10px; min-height: 48px;"><span style="flex: 1; font-size: 15px; font-weight: 700; color: #22252c;">Theme</span><div role="group" aria-label="Theme" style="flex: none; display: flex; gap: 2px; padding: 2px; border-radius: 999px; background: #eef2f7;"><sc-for list="{{themes}}" as="t" hint-placeholder-count="3"><button type="button" aria-pressed="{{t.on}}" onClick="{{t.pick}}" style="min-width: 48px; height: 32px; padding: 0 12px; border: 0; border-radius: 999px; background: {{t.bg}}; box-shadow: {{t.sh}}; font: inherit; font-size: 13.5px; font-weight: 700; color: {{t.fg}}; cursor: pointer;">{{t.label}}</button></sc-for></div></div><div aria-hidden="true" style="height: 0; border-top: 1px solid #dfe7f0; margin: 4px 0 2px;"></div><div style="display: flex; align-items: center; margin-left: -6px; font-size: 13px; font-weight: 600; color: #5b6270;"><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Privacy</a><span aria-hidden="true">·</span><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Terms</a><span aria-hidden="true">·</span><a href="#" style="display: flex; align-items: center; min-height: 36px; padding: 0 6px; color: #5b6270; text-decoration: none;">Feedback</a></div></div>
+      </div>
+    </nav>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":900,"height":900}}'>
+class Component extends DCLogic {
+  state = { theme: 'auto', mode: '2d' };
+
+  modesVals() {
+    const mode = (this.state && this.state.mode) || '2d';
+    return [['2d', '2D'], ['3d', '3D']].map((m) => ({
+      label: m[1], on: mode === m[0],
+      bg: mode === m[0] ? '#ffffff' : 'transparent',
+      fg: mode === m[0] ? '#22252c' : '#5b6270',
+      sh: mode === m[0] ? '0 1px 2px rgba(20, 30, 50, 0.12)' : 'none',
+      pick: () => this.setState({ mode: m[0] })
+    }));
+  }
+
+  themesVals() {
+    const cur = (this.state && this.state.theme) || 'auto';
+    return [['auto', 'Auto'], ['day', 'Day'], ['night', 'Night']].map((t) => ({
+      label: t[1], on: cur === t[0],
+      bg: cur === t[0] ? '#ffffff' : 'transparent',
+      fg: cur === t[0] ? '#22252c' : '#5b6270',
+      sh: cur === t[0] ? '0 1px 2px rgba(20, 30, 50, 0.12)' : 'none',
+      pick: () => this.setState({ theme: t[0] })
+    }));
+  }
+
+
+  footVals(key, dark) {
+    const s = (this.state || {})[key] || {};
+    const set = (o) => this.setState({ [key]: Object.assign({}, s, o) });
+    const pals = [
+      ['current', 'Standard (traffic light)', ['#8fbbe3', '#f6c445', '#f28b30', '#e2453c']],
+      ['colour-blind', 'Colour-blind safe', ['#dbe6f2', '#8fbbe3', '#4a7fc4', '#2f5bd3']],
+      ['viridis', 'Viridis', ['#440154', '#2a788e', '#22a884', '#fde725']],
+      ['magma', 'Magma', ['#fcfdbf', '#f1605d', '#b73779', '#2c115f']],
+      ['yarn', 'Yarn (brand)', ['#2f5bd3', '#f6c445', '#f28b30', '#e2453c']],
+      ['ocean', 'Ocean', ['#eff6fb', '#9ecae1', '#3182bd', '#08519c']],
+      ['ember', 'Ember', ['#ffffcc', '#feb24c', '#e31a1c', '#800026']]
+    ];
+    const cur = s.pal || 'current';
+    const open = !!s.colOpen;
+    const sw = (l) => l.map((c) => ({ c: c }));
+    return {
+      colOpen: open, chev: open ? 'rotate(90deg)' : 'none', flipCol: () => set({ colOpen: !open }),
+      curSw: sw((pals.find((p) => p[0] === cur) || pals[0])[2]),
+      cols: pals.map((p) => ({
+        label: p[1], on: p[0] === cur, fw: p[0] === cur ? 800 : 600, fg: dark ? '#eef1f5' : '#22252c',
+        bg: p[0] === cur ? (dark ? '#2c313a' : '#eef2f7') : 'transparent', sw: sw(p[2]), pick: () => set({ pal: p[0] })
+      }))
+    };
+  }
+
+  renderVals() {
+    const nav = [
+      { id: 'place', label: 'Find a place', links: ['My match', 'Rankings', 'Boroughs'] },
+      { id: 'tools', label: 'Tools', links: ['Check a home', 'Stamp duty', 'Mortgage', 'Investor'] },
+      { id: 'learn', label: 'Learn', links: ['Guide', 'AI agents', 'About'] }
+    ];
+    return {
+      nd: (this.state || {}).notes === false ? 'none' : 'inline-flex', notesLabel: (this.state || {}).notes === false ? 'Notes off' : 'Notes on', flipNotes: () => this.setState({ notes: (this.state || {}).notes === false }),
+      themes: this.themesVals(),
+      foot: this.footVals('foot', false),
+      modes: this.modesVals(),
+      groups: nav.map((g) => ({
+        label: g.label, open: g.id === 'place', closed: g.id !== 'place',
+        links: g.links.map((label) => ({ label: label, current: label === 'Map', other: label !== 'Map' }))
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

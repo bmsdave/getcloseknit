@@ -1,0 +1,174 @@
+# Hounslow (313): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 313
+slug: hounslow
+name: Hounslow
+licence:
+  statement: Users may not modify copy distribute transmit display reproduce publish licence or create
+    derivative works or sell any information obtained from the website.
+  url: https://www.hounslow.gov.uk/council/legal-notices
+licence_decision: unresolved
+aliases:
+  Beavers Primary: '102520'
+  Cardinal Rd I&N: '102471'
+  Cardinal Road I&N: '102471'
+  Feltham Hill I&N: '102484'
+  Hounslow Heath I&N: '150224'
+  Norwood Green I&N: '102496'
+  Strand on the Green I&N: '102504'
+  Kingsley Academy: '139276'
+docs:
+- phase: primary
+  year: 2023
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://web.archive.org/web/20240718133818/https://www.hounslow.gov.uk/download/downloads/id/4026/how_primary_places_were_offered_in_september_2023.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  - places
+  - applications
+- phase: primary
+  year: 2024
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://www.hounslow.gov.uk/downloads/file/10506/how-primary-places-were-offered-in-september-2024
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  - places
+  - applications
+- phase: primary
+  year: 2025
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://www.hounslow.gov.uk/downloads/file/10509/school-places-allocation-for-2025
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  - places
+  - applications
+- phase: primary
+  year: 2026
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://www.hounslow.gov.uk/downloads/file/14355/allocation-of-primary-school-reception-places-september-2026
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  - sen
+  - places
+  - applications
+- phase: secondary
+  year: 2020
+  note: Rolling 2020-2022 table of the last distance offered (miles); the configured year's column is read; no counts.
+  url: https://web.archive.org/web/20230329202257/https://www.hounslow.gov.uk/download/downloads/id/3522/download_and_view_-_last_distance_offered_2022.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2021
+  note: Rolling 2020-2022 table of the last distance offered (miles); the configured year's column is read; no counts.
+  url: https://web.archive.org/web/20230329202257/https://www.hounslow.gov.uk/download/downloads/id/3522/download_and_view_-_last_distance_offered_2022.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2022
+  note: Rolling 2020-2022 table of the last distance offered (miles); the configured year's column is read; no counts.
+  url: https://web.archive.org/web/20230329202257/https://www.hounslow.gov.uk/download/downloads/id/3522/download_and_view_-_last_distance_offered_2022.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2023
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://web.archive.org/web/20240808015942/https://www.hounslow.gov.uk/download/downloads/id/4029/how_secondary_places_were_allocated_for_september_2023.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - places
+  - applications
+  - sen
+  - looked_after
+  - siblings
+  - distance_offers
+- phase: secondary
+  year: 2024
+  note: 'Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count. Green School for Girls community places: printed ''4.5122.126 miles'', not a number, left out.'
+  url: https://www.hounslow.gov.uk/downloads/file/10512/how-secondary-places-were-allocated-for-september-2024
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - places
+  - applications
+  - sen
+  - looked_after
+  - siblings
+  - distance_offers
+- phase: secondary
+  year: 2025
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://www.hounslow.gov.uk/downloads/file/11497/how-secondary-places-were-allocated-for-september-2025
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - places
+  - applications
+  - sen
+  - looked_after
+  - siblings
+  - distance_offers
+- phase: secondary
+  year: 2026
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed. raw_value is the last-offer cell without its leading allocation count.
+  url: https://www.hounslow.gov.uk/downloads/file/14358/allocation-of-year-7-secondary-school-places-september-2026
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - places
+  - applications
+  - sen
+  - looked_after
+  - siblings
+  - distance_offers
+catchment_maps: null
+notes: 'Listing pages: https://www.hounslow.gov.uk/primary-school-admissions/allocation-reception-primary-school-places
+  and https://www.hounslow.gov.uk/secondary-school-admissions/allocation-year-7-secondary-school-places.
+  Docs don''t state the snapshot date (assumed allocation/NOD) nor measurement method. Distance cell is
+  text "57 - all offered" / "34 - last distance - 0.376 miles" (count + distance in one cell). "Applications"
+  = all preferences regardless of order. Secondary is per-school text blocks (criteria -> allocations),
+  not a grid. Duplicates: 11494 (primary 2025 alt), 13618 (primary 2026 alt "Reception places September
+  2026"). Primary 2019-2022 not found: id/3164 "how primary school places were allocated april 2021" and
+  id/2678 "last distance offered" appear in search but 404 and absent from Wayback. Secondary 2019 not
+  found; 3522 is a 3-year table (2020/2021/2022) without counts. Licence is restrictive (private non-commercial
+  use only).'

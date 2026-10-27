@@ -1,0 +1,897 @@
+{
+  "_comment": "v4 shared matching contract (Tasks 21, 21d, 21e). Read by BOTH api/tests/test_match_contract.py and web/tests/match-contract.test.ts; expected values are hand-computed (each case's _note), never copied from an implementation. Fit: 1 inside a criterion's range, linear to 0 across its soft edge, 0 beyond. Weights: rank-order centroid over the criteria that are not Must, in list order (two: 0.75, 0.25). Score = 100 x the weighted geometric mean of the fits (no evidence = 0.5), rounded half up after 6 decimals. A Must is a filter with no weight. Evidence keyed range:<layer> or a v1 factor id carries utility = London percentile.",
+  "cases": [
+    {
+      "id": "budget-must-is-a-filter",
+      "_note": "v1 affordability with a minimum is a Must budget: within maximumBudget or out. No ranked criterion: score 100.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 500000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {}
+        }
+      ],
+      "profiles": {
+        "low-budget": {
+          "schemaVersion": "preference-profile.v1",
+          "market": "buy",
+          "bedrooms": 2,
+          "forecastHorizon": "1y",
+          "commuteDestinations": [],
+          "school": {
+            "phases": [
+              "primary"
+            ],
+            "characteristics": [],
+            "facetWeights": {},
+            "shortlistUrns": [],
+            "desiredSchoolCount": 3
+          },
+          "analyticsConsent": false,
+          "targetBudget": 300000,
+          "maximumBudget": 400000,
+          "factors": [
+            {
+              "factorId": "affordability",
+              "weight": 5,
+              "direction": "target-range",
+              "minimumUtility": 50,
+              "maximumUtility": null
+            }
+          ]
+        },
+        "high-budget": {
+          "schemaVersion": "preference-profile.v1",
+          "market": "buy",
+          "bedrooms": 2,
+          "forecastHorizon": "1y",
+          "commuteDestinations": [],
+          "school": {
+            "phases": [
+              "primary"
+            ],
+            "characteristics": [],
+            "facetWeights": {},
+            "shortlistUrns": [],
+            "desiredSchoolCount": 3
+          },
+          "analyticsConsent": false,
+          "targetBudget": 600000,
+          "maximumBudget": 700000,
+          "factors": [
+            {
+              "factorId": "affordability",
+              "weight": 5,
+              "direction": "target-range",
+              "minimumUtility": 50,
+              "maximumUtility": null
+            }
+          ]
+        }
+      },
+      "expected": {
+        "low-budget": [
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": null,
+            "rank": null,
+            "percentile": null,
+            "excluded": true,
+            "unmetLimits": [
+              "affordability:outside"
+            ],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 0
+            },
+            "reasons": [],
+            "weakest": [
+              "affordability"
+            ]
+          }
+        ],
+        "high-budget": [
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 100,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 100
+            },
+            "reasons": [],
+            "weakest": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "order-sets-the-weights",
+      "_note": "ROC for two: 0.75, 0.25. X: budget fit 1 (450k <= 500k), crime 70th percentile fit (75-70)/25 = 0.2. Y: budget fit (650-620)/150 = 0.2, crime 30th fit 1. Crime first: X 0.2^0.75 = 0.299 -> 30, Y 0.2^0.25 = 0.669 -> 67. Budget first: X 67, Y 30.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 70,
+              "utility": 70,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 620000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 30,
+              "utility": 30,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        }
+      ],
+      "profiles": {
+        "crime-first": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": 75,
+              "must": false
+            },
+            {
+              "kind": "budget",
+              "must": false
+            }
+          ]
+        },
+        "budget-first": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "budget",
+              "must": false
+            },
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": 75,
+              "must": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "crime-first": [
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 67,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 20,
+              "range:crime": 100
+            },
+            "reasons": [
+              "range:crime",
+              "affordability"
+            ],
+            "weakest": [
+              "affordability"
+            ]
+          },
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 30,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 100,
+              "range:crime": 20
+            },
+            "reasons": [
+              "affordability",
+              "range:crime"
+            ],
+            "weakest": [
+              "range:crime"
+            ]
+          }
+        ],
+        "budget-first": [
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 67,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 100,
+              "range:crime": 20
+            },
+            "reasons": [
+              "affordability",
+              "range:crime"
+            ],
+            "weakest": [
+              "range:crime"
+            ]
+          },
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 30,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "affordability": 20,
+              "range:crime": 100
+            },
+            "reasons": [
+              "range:crime",
+              "affordability"
+            ],
+            "weakest": [
+              "affordability"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "must-has-no-weight",
+      "_note": "Crime Must (the lower half): X at the 70th is out; Y is scored on the budget alone: fit 0.2 -> 20.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 70,
+              "utility": 70,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 620000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 30,
+              "utility": 30,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        }
+      ],
+      "profiles": {
+        "crime-must": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": null,
+              "must": true
+            },
+            {
+              "kind": "budget",
+              "must": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "crime-must": [
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 20,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100,
+              "affordability": 20
+            },
+            "reasons": [
+              "affordability"
+            ],
+            "weakest": [
+              "affordability"
+            ]
+          },
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": null,
+            "rank": null,
+            "percentile": null,
+            "excluded": true,
+            "unmetLimits": [
+              "range:crime:outside"
+            ],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 0,
+              "affordability": 100
+            },
+            "reasons": [],
+            "weakest": [
+              "range:crime"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "missing-evidence-is-half-a-fit",
+      "_note": "Noise first (0.75) with no value for Y: 0.5^0.75 = 0.595 -> 59, evidence 25%. X has both: 100.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:noise": {
+              "rawValue": 40,
+              "utility": 40,
+              "unit": "%",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {}
+        }
+      ],
+      "profiles": {
+        "noise-first": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "range",
+              "layer": "noise",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": 75,
+              "must": false
+            },
+            {
+              "kind": "budget",
+              "must": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "noise-first": [
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 100,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:noise": 100,
+              "affordability": 100
+            },
+            "reasons": [
+              "range:noise",
+              "affordability"
+            ],
+            "weakest": []
+          },
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 59,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 25,
+            "utilities": {
+              "affordability": 100
+            },
+            "reasons": [
+              "affordability"
+            ],
+            "weakest": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "ties-break-by-the-criteria-in-order",
+      "_note": "Both fit everything (score 100). Crime first: the lower crime percentile wins (X 10th, Y 30th). Budget first: the lower price wins (Y £400k, X £450k).",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 10,
+              "utility": 10,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 400000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 30,
+              "utility": 30,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        }
+      ],
+      "profiles": {
+        "crime-first": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": 75,
+              "must": false
+            },
+            {
+              "kind": "budget",
+              "must": false
+            }
+          ]
+        },
+        "budget-first": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "budget",
+              "must": false
+            },
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "percentile",
+              "min": null,
+              "max": 50,
+              "softMin": null,
+              "softMax": 75,
+              "must": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "crime-first": [
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 100,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100,
+              "affordability": 100
+            },
+            "reasons": [
+              "range:crime",
+              "affordability"
+            ],
+            "weakest": []
+          },
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 100,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100,
+              "affordability": 100
+            },
+            "reasons": [
+              "range:crime",
+              "affordability"
+            ],
+            "weakest": []
+          }
+        ],
+        "budget-first": [
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 100,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100,
+              "affordability": 100
+            },
+            "reasons": [
+              "affordability",
+              "range:crime"
+            ],
+            "weakest": []
+          },
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 100,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100,
+              "affordability": 100
+            },
+            "reasons": [
+              "affordability",
+              "range:crime"
+            ],
+            "weakest": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "beyond-the-soft-edge-scores-zero-not-out",
+      "_note": "Crime <= 25 per 1,000, soft to 35 (values). X at 40: fit 0, score 0, scored and ranked last; Y at 20: 100.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 40,
+              "utility": 90,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "range:crime": {
+              "rawValue": 20,
+              "utility": 20,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            }
+          }
+        }
+      ],
+      "profiles": {
+        "soft": {
+          "schemaVersion": "preference-profile.v2",
+          "market": "buy",
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "bedrooms": 2,
+          "criteria": [
+            {
+              "kind": "range",
+              "layer": "crime",
+              "scale": "value",
+              "min": null,
+              "max": 25,
+              "softMin": null,
+              "softMax": 35,
+              "must": false
+            }
+          ]
+        }
+      },
+      "expected": {
+        "soft": [
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 100,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 100
+            },
+            "reasons": [
+              "range:crime"
+            ],
+            "weakest": []
+          },
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 0,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "range:crime": 0
+            },
+            "reasons": [],
+            "weakest": [
+              "range:crime"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "v1-weights-become-the-order",
+      "_note": "market-level weight 5 then crime weight 2 (affordability weight 0 is off): 0.75 and 0.25. Each is the chip default on its London percentile (lower: inside up to the 50th, soft to the 75th). X: price 60th fit 0.6, crime 20th fit 1: 0.6^0.75 = 0.682 -> 68. Y: price 40th fit 1, crime 65th fit 0.4: 0.4^0.25 = 0.795 -> 80.",
+      "areas": [
+        {
+          "geographyId": "uk:lsoa:E01000001",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "crime": {
+              "rawValue": 20,
+              "utility": 20,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            },
+            "market-level": {
+              "rawValue": 7200,
+              "utility": 60,
+              "unit": "£/m²",
+              "carrierGeographyId": "uk:lsoa:E01000001",
+              "quality": "observed",
+              "sourceVersion": "price-2026-06"
+            }
+          }
+        },
+        {
+          "geographyId": "uk:lsoa:E01000002",
+          "name": "Probe area",
+          "price": 450000,
+          "monthlyRent": 2100,
+          "journeys": {},
+          "evidence": {
+            "crime": {
+              "rawValue": 65,
+              "utility": 65,
+              "unit": "per 1,000",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "police-2026-06"
+            },
+            "market-level": {
+              "rawValue": 6100,
+              "utility": 40,
+              "unit": "£/m²",
+              "carrierGeographyId": "uk:lsoa:E01000002",
+              "quality": "observed",
+              "sourceVersion": "price-2026-06"
+            }
+          }
+        }
+      ],
+      "profiles": {
+        "v1": {
+          "schemaVersion": "preference-profile.v1",
+          "market": "buy",
+          "bedrooms": 2,
+          "forecastHorizon": "1y",
+          "commuteDestinations": [],
+          "school": {
+            "phases": [
+              "primary"
+            ],
+            "characteristics": [],
+            "facetWeights": {},
+            "shortlistUrns": [],
+            "desiredSchoolCount": 3
+          },
+          "analyticsConsent": false,
+          "targetBudget": 500000,
+          "maximumBudget": 650000,
+          "factors": [
+            {
+              "factorId": "affordability",
+              "weight": 0,
+              "direction": "target-range",
+              "minimumUtility": null,
+              "maximumUtility": null
+            },
+            {
+              "factorId": "crime",
+              "weight": 2,
+              "direction": "lower",
+              "minimumUtility": null,
+              "maximumUtility": null
+            },
+            {
+              "factorId": "market-level",
+              "weight": 5,
+              "direction": "lower",
+              "minimumUtility": null,
+              "maximumUtility": null
+            }
+          ]
+        }
+      },
+      "expected": {
+        "v1": [
+          {
+            "geographyId": "uk:lsoa:E01000002",
+            "score": 80,
+            "rank": 1,
+            "percentile": 100,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "crime": 40,
+              "market-level": 100
+            },
+            "reasons": [
+              "market-level",
+              "crime"
+            ],
+            "weakest": [
+              "crime"
+            ]
+          },
+          {
+            "geographyId": "uk:lsoa:E01000001",
+            "score": 68,
+            "rank": 2,
+            "percentile": 0,
+            "excluded": false,
+            "unmetLimits": [],
+            "evidenceCompleteness": 100,
+            "utilities": {
+              "crime": 100,
+              "market-level": 60
+            },
+            "reasons": [
+              "market-level",
+              "crime"
+            ],
+            "weakest": [
+              "market-level"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

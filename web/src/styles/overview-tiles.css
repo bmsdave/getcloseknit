@@ -1,0 +1,21 @@
+/* The compact council card (civic-section.tsx compact). The old x/10 overview tiles, headline
+   badges and London cards are gone: the area view uses the v3 tiles (area-v3.css). */
+
+/* Compact council card */
+.civic-card { display: grid; gap: 10px; }
+.civic-card__status { margin: 0; color: var(--muted); font-size: var(--fs-2xs); }
+.civic-card__who { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2) var(--space-3); margin: 0; }
+.civic-card__who dt { color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: .05em; text-transform: uppercase; overflow-wrap: break-word; hyphens: auto; }
+.civic-card__who dd { margin: 2px 0 0; font-size: var(--fs-xs); font-weight: 700; overflow-wrap: break-word; hyphens: auto; }
+.civic-card__who dd small { display: block; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; }
+.civic-card__tax { display: grid; gap: 2px; }
+.civic-card__tax-label { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.civic-card__tax-value { font: 800 var(--fs-2xl)/1.1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.civic-card__tax-value small { color: var(--muted); font: 600 var(--fs-2xs)/1 var(--font-sans); }
+.civic-card__bands .chart-bars__list { gap: 3px 8px; grid-template-columns: 12px minmax(0, 1fr) auto; }
+.civic-card__bands .chart-bars__row { font-size: var(--fs-2xs); }
+.civic-card__bands .chart-bars__label { font-weight: 800; }
+.civic-card__bands .chart-bars__value { color: var(--muted); font-weight: 600; }
+.civic-card__bands .chart-bars__track { height: 12px; }
+.civic-card__more { display: inline-flex; align-items: center; justify-self: start; min-height: 44px; margin: -8px 0 -10px; font-size: var(--fs-2xs); font-weight: 700; }
+

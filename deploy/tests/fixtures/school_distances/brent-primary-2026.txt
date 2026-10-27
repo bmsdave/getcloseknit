@@ -1,0 +1,30 @@
+How places were offered at Brent Schools - Reception Admissions 2026
+Data correct as of 16/04/2026
+
+                                                                                Number of     Number of   Furthest distance
+School / Offer Criteria (Published Admission Number, PAN)                                                                     Over/Under subscribed
+                                                                               applications     offers    offered (metres)
+Anson Primary School (52)                                                          168           55*                          Undersubscribed
+  Staff Child                                                                                     1
+  Sibling                                                                                         22          3446.01
+  Any Other Applicant                                                                             32          5179.52
+Ark Academy (60)                                                                   314            60                          Oversubscribed
+  EHCP                                                                                             2
+  Staff Child                                                                                     2
+  Sibling                                                                                         32          5212.34
+  Distance                                                                                        24          490.03
+Ark Franklin Primary Academy (90)                                                  349            90                          Oversubscribed
+  Children At Af Nursery Eligible For The Eypp, Pp Or Sp                                           5
+  Sibling                                                                                         38           1656.2
+  Distance                                                                                        47           671.53
+Avigdor Hirsch Torah Temimah Primary School (25)                                   35             25                          Oversubscribed
+  Orthodox Jew And Sibling                                                                        12           9166.13
+  Orthodox Jew                                                                                    13          13469.44
+Barham Primary School (120)                                                        234           111                          Undersubscribed
+  Looked After Children/ Previously Looked After                                                  2
+  Sibling                                                                                         44           2543.9
+  Any Other Applicant                                                                             62           999999
+  Nearest school with a vacancy                                                                   3
+Braintcroft E-Act Primary Academy (90)                                             100            63                          Undersubscribed
+  Sibling                                                                                         27          1727.83
+  Any Other Applicants                                                                            34          5099.32

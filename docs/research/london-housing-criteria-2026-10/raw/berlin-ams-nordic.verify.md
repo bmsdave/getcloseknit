@@ -1,0 +1,7 @@
+# Verification: Berlin, Amsterdam, Nordics, Zurich
+
+- **1. Berlin rent freeze (7-11% drop, fewer listings, Potsdam spillover, ~50% compliance)** — supported. Hahn/Kholodilin/Waltl: "immediate aggregate drop of 7–11%"; stark listing reduction "hampering a successful housing search for newcomers"; Potsdam asking rents +~5/9/12% cumulative in Q1-Q3 2020; "roughly 50% of all ads followed the restrictions".
+- **2. Mietspiegel EUR7.21 (2024) / EUR7.71 (2026) vs asking EUR15.80** — partially. Figures match (berlin.de calls 7.21 the median; BMV gives 7.71, +6.9%; CBRE asking 15.80), and 7.71/15.80 is about 49%, but no source states the "insider/outsider split"; that is the researcher's inference.
+- **3. Amsterdam Q1 2026: 71% above asking, 58% Centrum to 86% Noord, avg price -5.8%, per m2 -1.3%** — supported. MVA gives 71%; NH Nieuws gives Noord 86%, Centrum 58%, -5.8% avg (vs previous quarter), -1.3% per m2.
+- **4. Dutch asking-price cuts (12.5% cut by 9.3%, +3.2% vs +4.8% overbid, a third below reduced price)** — supported. NL Times (Huispedia, Q2 2026, national): 12.5% cut, avg EUR41,551 = 9.3%; ~3.2% vs 4.8%; "nearly one-third" sold below the reduced price.
+- **5. Zurich vacancy 0.10% city / 0.48% canton, Hemnet 82%** — supported. Canton 0.48% is "lowest in over 20 years" (the city 0.10% figure is not described that way; it rose slightly); Hemnet: 82% of 2025 Swedish sales, down from 86-90% in 2019-2024.

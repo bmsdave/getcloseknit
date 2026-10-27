@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/uk:lsoa:E01000900/trail",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-hierarchy.v1\",\"productReleaseId\":\"fixture-2026-06\",\"areas\":[{\"geographyId\":\"uk:lad:E09000007\",\"name\":\"Camden\",\"carrier\":\"lad\",\"parentId\":null,\"regionCode\":\"E12000007\",\"friendlyName\":null,\"postcodeDistrict\":null,\"displayName\":\"Camden\",\"schools\":{\"primary\":1,\"secondary\":1}},{\"geographyId\":\"uk:msoa:E02000166\",\"name\":\"Camden 001\",\"carrier\":\"msoa\",\"parentId\":\"uk:lad:E09000007\",\"regionCode\":\"E12000007\",\"friendlyName\":null,\"postcodeDistrict\":null,\"displayName\":\"Camden 001\",\"schools\":{\"primary\":1,\"secondary\":1}},{\"geographyId\":\"uk:lsoa:E01000900\",\"name\":\"Camden 001A\",\"carrier\":\"lsoa\",\"parentId\":\"uk:msoa:E02000166\",\"regionCode\":\"E12000007\",\"friendlyName\":null,\"postcodeDistrict\":null,\"displayName\":\"Camden 001A\",\"schools\":null}],\"region\":{\"code\":\"E12000007\",\"name\":\"London\"}}"
+}

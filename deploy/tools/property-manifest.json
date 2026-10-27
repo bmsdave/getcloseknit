@@ -1,0 +1,210 @@
+{
+ "transformation": "close-knit-etl-property-1",
+ "inputs": {
+  "epc_csv": "27293c0ef90492fc53e80bb08445601de78093b319cbef86b2875f7115b4affe",
+  "address_spine": "b3a7663d0b80a05682fd736b846be5145a4ca5a1c2e2f2315ad79f66f70e3ce8"
+ },
+ "stats": {
+  "uprn-map": {
+   "epc_rows": 4300285,
+   "key_hits": 2123710,
+   "addresses_mapped": 1317865,
+   "distinct_uprns": 1305508,
+   "spine_addresses": 2083489
+  },
+  "os-uprn": {
+   "scanned": 41629393,
+   "kept": 1305459,
+   "wanted": 1305508,
+   "zip_sha256": "c50c1b6e6129f7fced4309ee873a25bdcb7f5679ba938b64227240580faa21f1"
+  },
+  "inspire": {
+   "authorities": {
+    "E09000001": {
+     "file": "City_of_London_Corporation.zip",
+     "parcels": 3903,
+     "sha256": "48f428689bf87388ed73b96719e3c06ed9214d53542e40e643304179a33ad67a"
+    },
+    "E09000033": {
+     "file": "City_of_Westminster.zip",
+     "parcels": 28260,
+     "sha256": "e3c9ae698eecc08a46afecd660d5387b432ca5a690fca6605ab65228fe758642"
+    },
+    "E09000002": {
+     "file": "London_Borough_of_Barking_and_Dagenham.zip",
+     "parcels": 50417,
+     "sha256": "6fee45d1a94e52a3efddfdb09ea36224248de07f8a764a341c50a67b00536bbe"
+    },
+    "E09000003": {
+     "file": "London_Borough_of_Barnet.zip",
+     "parcels": 99434,
+     "sha256": "b0a4a33af39c8f932f1faa2a1331b38cdb8dfb0ded3e439ab53552c49ad7ebeb"
+    },
+    "E09000004": {
+     "file": "London_Borough_of_Bexley.zip",
+     "parcels": 86286,
+     "sha256": "5691cb0a518d372b3e5f78a47fe30c4b7b19950cdd580e17f8e3326a1b77e092"
+    },
+    "E09000005": {
+     "file": "London_Borough_of_Brent.zip",
+     "parcels": 70224,
+     "sha256": "1086c2dc20234431e94e5cddde2c380dbe6d944b58f3d1e4d427468f0ce11855"
+    },
+    "E09000006": {
+     "file": "London_Borough_of_Bromley.zip",
+     "parcels": 123275,
+     "sha256": "8458dcba7de1b6d02bee43f519074ed24477785804ab66448a82be55a17e1aa4"
+    },
+    "E09000007": {
+     "file": "London_Borough_of_Camden.zip",
+     "parcels": 30848,
+     "sha256": "ff9921068740c36ef4694840ae3864190b47810fe234bd48023801cadf104f2b"
+    },
+    "E09000008": {
+     "file": "London_Borough_of_Croydon.zip",
+     "parcels": 114390,
+     "sha256": "b2135b5a8cd15c0a0f03a27d5e768dc5aee2ebbcb8a25a29129a4126126f7fb7"
+    },
+    "E09000009": {
+     "file": "London_Borough_of_Ealing.zip",
+     "parcels": 86889,
+     "sha256": "f881fcbbd07a53385319f6389d43ed8dff82020c709f7a4dc084ee80c3faa344"
+    },
+    "E09000010": {
+     "file": "London_Borough_of_Enfield.zip",
+     "parcels": 91684,
+     "sha256": "fb0df5c8ea7a6739f4f32fe5fbc5e92382d2fe5a6b6eff8c819ada22455adccf"
+    },
+    "E09000011": {
+     "file": "Royal_Borough_of_Greenwich.zip",
+     "parcels": 62751,
+     "sha256": "7b1dfa52d3cee41bffbc9f16a4ba4550f174cef0b3e9cc2b95ca3ea8c486c104"
+    },
+    "E09000012": {
+     "file": "London_Borough_of_Hackney.zip",
+     "parcels": 34334,
+     "sha256": "0f4410287c22f091daf55b1aabe1e0ce629d304ef08d69f7c8e223d414baa3c4"
+    },
+    "E09000013": {
+     "file": "London_Borough_of_Hammersmith_and_Fulham.zip",
+     "parcels": 35255,
+     "sha256": "10e8785980f9faa7821cf7cffd2ee0c5c8d79d30f60e93f3b689387375326760"
+    },
+    "E09000014": {
+     "file": "London_Borough_of_Haringey.zip",
+     "parcels": 60585,
+     "sha256": "871ad32d719c80948a4c7ac6b2bc8cc43f0017e925cc869b4fe2542bcc23bce3"
+    },
+    "E09000015": {
+     "file": "London_Borough_of_Harrow.zip",
+     "parcels": 71600,
+     "sha256": "31eeae7eb89ee1f5ce807873287879b07f125302a9c0b289775b1f46dfe6854d"
+    },
+    "E09000016": {
+     "file": "London_Borough_of_Havering.zip",
+     "parcels": 92980,
+     "sha256": "0d3a2090b9cc30d301f400ecbfbf6a53311ba09c27baaaf3e97c3fc19fce5b22"
+    },
+    "E09000017": {
+     "file": "London_Borough_of_Hillingdon.zip",
+     "parcels": 94202,
+     "sha256": "e2f744203bdfcc15927a249857305687a1693ee7db699d2edb2397cf8af18c1f"
+    },
+    "E09000018": {
+     "file": "London_Borough_of_Hounslow.zip",
+     "parcels": 72192,
+     "sha256": "2c6d502bed89b4a9bb3c5cfcd77037f2854b4acaea4edef9e65c8583f77e5d20"
+    },
+    "E09000019": {
+     "file": "London_Borough_of_Islington.zip",
+     "parcels": 30108,
+     "sha256": "eba67cfadec0cdf679b3cf71d83b9e7ab9c3e650ee83c672ed3c068c3480374d"
+    },
+    "E09000020": {
+     "file": "Royal_Borough_of_Kensington_and_Chelsea.zip",
+     "parcels": 25889,
+     "sha256": "9a84e97b9ec9e21fe81b7c15cd80edaa1aefbc93891b702070194c7fda3eaff5"
+    },
+    "E09000021": {
+     "file": "Royal_Borough_of_Kingston_upon_Thames.zip",
+     "parcels": 52842,
+     "sha256": "c7837a148cacd11a739e5be00cd745dc90e4ec5327d4e57792159148c838bdba"
+    },
+    "E09000022": {
+     "file": "London_Borough_of_Lambeth.zip",
+     "parcels": 51543,
+     "sha256": "f5ae45675adf7d44da145ffa071ec30c0e72047ea5b8cbc777a85dc9cea24e6e"
+    },
+    "E09000023": {
+     "file": "London_Borough_of_Lewisham.zip",
+     "parcels": 66601,
+     "sha256": "8689e02a8115534641f8be8c08834cbb29895eee431f51794299f543cf0dd5f1"
+    },
+    "E09000024": {
+     "file": "London_Borough_of_Merton.zip",
+     "parcels": 64003,
+     "sha256": "7c45f3db4599d1bb5fe37b57f10fc9eeb491f3f100cd9973fe1c35463777745d"
+    },
+    "E09000025": {
+     "file": "London_Borough_of_Newham.zip",
+     "parcels": 63114,
+     "sha256": "a9071f9aca20748b3b54669de07bd82e2c459ceb19554ca875eaad0a8dc21fdc"
+    },
+    "E09000026": {
+     "file": "London_Borough_of_Redbridge.zip",
+     "parcels": 83495,
+     "sha256": "4525757502669a0ae87341f0c1ed0db1422e6a445d3f20839cf1b764d95e5b59"
+    },
+    "E09000027": {
+     "file": "London_Borough_of_Richmond_upon_Thames.zip",
+     "parcels": 64167,
+     "sha256": "c5e075fede9ddc5be10fafab89745af268bb5dc51df91a6d0bbfc25ae2106680"
+    },
+    "E09000028": {
+     "file": "London_Borough_of_Southwark.zip",
+     "parcels": 40587,
+     "sha256": "c857470b635ed38172715a973d93ce73f0261739e01f0f71f7eb63236dac4eda"
+    },
+    "E09000029": {
+     "file": "London_Borough_of_Sutton.zip",
+     "parcels": 62376,
+     "sha256": "1fa0329ba03e62cda808e17cdcac36e87b008de6360ed4e36c62b3faf6b15900"
+    },
+    "E09000030": {
+     "file": "London_Borough_of_Tower_Hamlets.zip",
+     "parcels": 23391,
+     "sha256": "7ccd8f6c1fa57d494b7f1cb5c1ab714f75609ecbf37419c8b34a7c99fe8085d9"
+    },
+    "E09000031": {
+     "file": "London_Borough_of_Waltham_Forest.zip",
+     "parcels": 69713,
+     "sha256": "ab1c8c32bb20b8cc596f63f9363ebf3dbedcad8cb55e991138c79e6f1c9aae47"
+    },
+    "E09000032": {
+     "file": "London_Borough_of_Wandsworth.zip",
+     "parcels": 66420,
+     "sha256": "fccda2231b0f080c465b3c6acce9b9713a4dd5752618616e77b0c754340b4f0d"
+    }
+   },
+   "conditions": "https://use-land-property-data.service.gov.uk/datasets/inspire/#conditions"
+  }
+ },
+ "outputs": {
+  "address-uprn.csv": "e7655984178b4c7127d150a657c983d0a524622e5d217e3ab907bb729ed70064",
+  "uprn-points.csv": "5a54682304eff77de386d3335666dc545a777f16d6ffacd196971999e1eee724",
+  "parcels.csv": "11f1ad580546001a70b6abb7d0b537e52600e0138cf442299ae895732afa1155"
+ },
+ "sources": {
+  "src-os-open-uprn-2026-08": {
+   "url": "https://api.os.uk/downloads/v1/products/OpenUPRN/downloads?area=GB&format=CSV&redirect",
+   "licence": "OGL-3.0",
+   "attribution": "Contains OS data \u00a9 Crown copyright and database right 2026"
+  },
+  "src-hmlr-inspire-2026-09": {
+   "url": "https://use-land-property-data.service.gov.uk/datasets/inspire/download/",
+   "licence": "OGL-3.0",
+   "attribution": "This information is subject to Crown copyright and database rights 2026 and is reproduced with the permission of HM Land Registry. The polygons (including the associated geometry, namely x, y co-ordinates) are subject to Crown copyright and database rights 2026 Ordnance Survey 100026316.",
+   "conditions": "https://use-land-property-data.service.gov.uk/datasets/inspire/#conditions"
+  }
+ }
+}

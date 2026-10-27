@@ -1,0 +1,19 @@
+# Bromley: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000006
+slug: bromley
+name: Bromley
+register:
+  status: not-found
+  url: null
+  page: https://www.bromley.gov.uk/housing-advice-options/apply-hmo-licence
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes: []
+notes: >-
+  No public register page or file on bromley.gov.uk; the register has only been released through FOI requests.
+  Bromley operates mandatory HMO licensing only (about 150 licences in 2020); no additional or selective scheme.

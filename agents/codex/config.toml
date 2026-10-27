@@ -1,0 +1,12 @@
+# Append to ~/.codex/config.toml (or drop into .codex/config.toml in a project).
+# Pick ONE of the two servers; both expose the same tool registry.
+
+# Remote (Streamable HTTP) - use when the API is running (start-real.sh or docker compose).
+[mcp_servers.close_knit]
+url = "http://localhost:8080/mcp"
+
+# Local stdio - no HTTP server needed, talks to Postgres directly.
+[mcp_servers.close_knit_stdio]
+command = "python3"
+args = ["-m", "area_api.mcp_stdio"]
+env = { PYTHONPATH = "/ABSOLUTE/PATH/TO/close-knit/api", CLOSE_KNIT_DATABASE_URL = "postgresql://close_knit:close_knit@localhost:5433/close_knit" }

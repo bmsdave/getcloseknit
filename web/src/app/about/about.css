@@ -1,0 +1,12 @@
+/* /about: the two mailto links sit as quiet chips, 44px targets, wrapping on phones. */
+.subpage-card .about-links { display: flex; flex-wrap: wrap; gap: 8px; max-width: none; }
+.subpage-card .about-links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  color: var(--ink); background: var(--chip); font-weight: 700; text-decoration: none;
+}
+.subpage-card .about-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.subpage-card .about-links a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* The freshness table wraps its words instead of scrolling: three short columns fit a phone. */
+.about-freshness :is(th, td) { white-space: normal; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.about-freshness td:last-child, .about-freshness thead th:last-child { white-space: nowrap; text-align: right; }
+@media (max-width: 640px) { .about-freshness { font-size: 13px; } .about-freshness th[scope="row"] { width: 38%; } }

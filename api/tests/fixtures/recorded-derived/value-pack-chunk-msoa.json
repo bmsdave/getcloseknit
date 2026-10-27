@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/value-packs/crime/2026-06?chunk=E12000007&level=msoa",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": "@1792972800",
+ "body": "{\"schemaVersion\":\"area-value-pack.v1\",\"metricId\":\"crime\",\"period\":\"2026-06\",\"sourceVersion\":\"fixture-police-2026-06\",\"productReleaseId\":\"fixture-2026-06\",\"values\":[{\"geographyId\":\"uk:msoa:E02000166\",\"name\":\"Camden 001\",\"metricId\":\"crime\",\"period\":\"2026-06\",\"value\":73.0,\"regionPercentile\":45,\"countryPercentile\":67,\"direction\":\"higher-is-more\",\"percentileMeaning\":\"45 = lower than 55% of London LSOAs\",\"sampleCount\":null,\"quality\":\"observed\",\"carrierGeographyId\":null,\"carrierSampleCount\":null,\"sourceVersion\":\"fixture-police-2026-06\",\"carrier\":\"msoa\",\"areaCount\":15,\"londonPercentile\":45,\"englandPercentile\":67},{\"geographyId\":\"uk:msoa:E02000167\",\"name\":\"Camden 002\",\"metricId\":\"crime\",\"period\":\"2026-06\",\"value\":76.0,\"regionPercentile\":55,\"countryPercentile\":100,\"direction\":\"higher-is-more\",\"percentileMeaning\":\"55 = lower than 45% of London LSOAs\",\"sampleCount\":null,\"quality\":\"observed\",\"carrierGeographyId\":null,\"carrierSampleCount\":null,\"sourceVersion\":\"fixture-police-2026-06\",\"carrier\":\"msoa\",\"areaCount\":15,\"londonPercentile\":55,\"englandPercentile\":100}],\"chunk\":\"E12000007\",\"level\":\"msoa\"}"
+}

@@ -1,0 +1,36 @@
+London Close Knit
+Copyright 2026 London Close Knit contributors
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this software except in compliance with the License. You may obtain a
+copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+
+This licence covers the source code in this directory only. The datasets a
+deployment loads keep their own licences and attribution requirements, listed
+in DATA-LICENCES.md:
+
+  - HM Land Registry Price Paid Data — Open Government Licence v3.0,
+    with HM Land Registry's address-data conditions.
+  - HM Land Registry INSPIRE Index Polygons — Open Government Licence v3.0.
+    This information is subject to Crown copyright and database rights 2026
+    and is reproduced with the permission of HM Land Registry. The polygons
+    (including the associated geometry, namely x, y co-ordinates) are subject
+    to Crown copyright and database rights 2026 Ordnance Survey 100026316.
+  - OS Open UPRN — Open Government Licence v3.0. Contains OS data
+    © Crown copyright and database right 2026.
+  - OS Open Names — Open Government Licence v3.0. Contains OS data
+    © Crown copyright and database right 2026.
+  - Energy Performance Certificates (MHCLG, formerly DLUHC, open data) —
+    non-address fields under the Open Government Licence v3.0; address fields
+    carry Royal Mail / OS rights. A certificate links a sale to a UPRN, and for
+    each home the site shows the latest certificate's building facts: total
+    floor area, current and potential energy rating, certificate date,
+    property type, built form, construction age band, habitable rooms and
+    floor level. Certificate addresses, tenure, names, running costs and
+    recommendations are not stored or republished; the addresses shown come
+    from HM Land Registry Price Paid Data. "Contains public sector
+    information licensed under the Open Government Licence v3.0."
+  - OpenStreetMap — © OpenStreetMap contributors, Open Database License (ODbL).
+  - ONS, police.uk and other area statistics — Open Government Licence v3.0.
+
+No data files are distributed with this source.

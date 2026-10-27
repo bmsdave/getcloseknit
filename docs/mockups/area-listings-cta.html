@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Макет «Homes here»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #22252c; --on-ink: #fff; --muted: #5b6270; --paper: #f4f7fa; --surface: #fff;
+  --rule: rgb(34 37 44 / .1); --chip: #eef2f7; --primary: #c0352c; --on-primary: #fff; --stitch: #fff;
+  --focus: #2f5bd3; --note: #fff6d9; --good: #2f5bd3; --warn: #a8620d;
+  --yarn-cherry: #e2453c; --yarn-sun: #f6c445; --yarn-sky: #4aa3df; --yarn-cobalt: #2f5bd3;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #eef2f8; --on-ink: #16203a; --muted: #a9b3c4; --paper: #16203a; --surface: #1e2a47;
+    --rule: rgb(238 242 248 / .12); --chip: #2a3858; --primary: #ff7a6e; --on-primary: #16203a; --stitch: #16203a;
+    --focus: #8fb0ff; --note: #3a3420; --good: #8fb0ff; --warn: #f2b25c;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.45 "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif; }
+main { max-width: 1240px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 1.75rem; margin: 0 0 6px; }
+.lede { color: var(--muted); max-width: 70ch; margin: 0 0 24px; }
+.frames { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+.frame > h2 { font-size: 1rem; margin: 0 0 4px; }
+.frame > p { color: var(--muted); font-size: .875rem; margin: 0 0 10px; }
+.card { position: relative; padding: 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--rule); }
+.head { display: flex; justify-content: space-between; gap: 10px; }
+.card h3 { margin: 0; font-size: 1.125rem; }
+.meta { color: var(--muted); font-size: .8125rem; margin: 2px 0 0; }
+.fit { align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: var(--chip); font-size: .75rem; font-weight: 600; white-space: nowrap; }
+.verdict { margin: 12px 0; padding: 10px 12px; border-radius: 12px; background: var(--chip); font-size: .875rem; }
+.verdict b { display: block; }
+.tiles { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; padding: 0; list-style: none; }
+.tiles li { padding: 4px 10px; border-radius: 999px; background: var(--chip); font-size: .75rem; }
+.faded { opacity: .45; }
+/* The new block */
+.homes { margin: 14px 0 0; padding: 12px; border-radius: 14px; border: 2px solid var(--ink); }
+.homes h4 { margin: 0; font-size: 1rem; }
+.filters { color: var(--muted); font-size: .8125rem; margin: 2px 0 10px; }
+.filters a { color: var(--focus); }
+.outcodes { display: flex; gap: 6px; margin: 0 0 10px; }
+.outcodes button { font: inherit; font-size: .8125rem; padding: 3px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); }
+.outcodes button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); border-color: var(--ink); position: relative; }
+.outcodes button[aria-pressed="true"]::after { content: ""; position: absolute; inset: 2px; border: 1.5px dashed var(--on-ink); border-radius: inherit; opacity: .8; }
+.portals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.portals.four { grid-template-columns: repeat(2, 1fr); }
+.portal { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 8px; border-radius: 10px;
+  background: var(--chip); color: var(--ink); font-weight: 700; font-size: .875rem; text-decoration: none; border: 1px solid var(--rule); }
+.portal::after { content: "↗"; font-weight: 400; color: var(--muted); }
+.sold { margin: 10px 0 0; font-size: .8125rem; color: var(--muted); }
+.sold a { color: var(--focus); }
+.note { margin: 8px 0 0; font-size: .75rem; color: var(--muted); }
+.primary { position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 12px;
+  border-radius: 12px; background: var(--primary); color: var(--on-primary); font-weight: 800; text-decoration: none; }
+.primary::after { content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; opacity: .8; }
+.dark { position: relative; display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 12px;
+  border-radius: 12px; background: var(--ink); color: var(--on-ink); font-weight: 800; text-decoration: none; }
+.dark.stitched::after { content: ""; position: absolute; inset: 4px; border: 2px dashed var(--on-ink); border-radius: inherit; opacity: .8; }
+.secondary { display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 8px; border-radius: 12px;
+  border: 1px solid var(--rule); color: var(--ink); font-weight: 700; text-decoration: none; }
+.bar { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; }
+.bar .dark, .bar .secondary { margin-top: 12px; }
+.sheet { margin-top: 10px; padding: 12px; border-radius: 14px; background: var(--chip); }
+.sheet h4 { margin: 0 0 8px; font-size: .9375rem; }
+.page { padding: 18px; }
+.page h3 { font-size: 1.375rem; }
+.crumbs { font-size: .75rem; color: var(--muted); margin: 0 0 6px; }
+.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+.stat { padding: 8px; border-radius: 10px; background: var(--chip); font-size: .75rem; }
+.stat b { display: block; font-size: 1rem; }
+.callout { margin: 8px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--note); font-size: .8125rem; }
+.tag { display: inline-block; font-size: .6875rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--primary); margin-bottom: 4px; }
+.notes { margin-top: 28px; max-width: 80ch; font-size: .9375rem; }
+.notes li { margin: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>«Homes here»: от выбранного района к объявлениям</h1>
+  <p class="lede">Макет, не настоящий компонент. Тексты интерфейса на английском, как на сайте. Поиск: покупка до £650k, от 2 спален. Новый блок
+    обведён. Все ссылки на порталы идут через <code>/go/…</code>, чтобы считать людей, а не клики. Для каждого портала есть ссылка на
+    объявления <b>о продаже или аренде</b> с фильтрами поиска и строка со ссылками на <b>проданные цены</b>.</p>
+
+  <div class="frames">
+    <!-- A -->
+    <section class="frame">
+      <h2><span class="tag">A · рекомендую</span><br>Карточка в шортлисте: блок над кнопкой</h2>
+      <p>Главной кнопкой остаётся «Open full area page», порталы сделаны тремя обычными кнопками. От шортлиста до объявлений один тап.</p>
+      <div class="card">
+        <div class="head">
+          <div><h3>2. Hackney Downs</h3><p class="meta">Hackney · E8, E5</p></div>
+          <span class="fit">£590k · in budget</span>
+        </div>
+        <div class="verdict"><b>Good fit</b>5 of 6 criteria fit; the commute to King's Cross is 24 min.</div>
+        <ul class="tiles faded"><li>✓ Commute 24 min</li><li>✓ Price</li><li>✓ Parks</li><li>✓ Schools</li><li>! Quiet</li></ul>
+
+        <div class="homes">
+          <h4>Homes for sale here</h4>
+          <p class="filters">Up to £650k · 2+ beds · <a href="#">change</a></p>
+          <div class="outcodes" role="group" aria-label="Postcode district">
+            <button aria-pressed="true">E8</button><button aria-pressed="false">E5</button>
+          </div>
+          <div class="portals">
+            <a class="portal" href="#">Rightmove</a><a class="portal" href="#">Zoopla</a><a class="portal" href="#">OnTheMarket</a>
+          </div>
+          <p class="sold">Sold prices in E8: <a href="#">Rightmove</a> · <a href="#">HM Land Registry</a></p>
+          <p class="note">A postcode district is wider than the area. Close Knit doesn't host listings.</p>
+        </div>
+
+        <a class="dark stitched" href="#">Open full area page</a>
+      </div>
+    </section>
+
+    <!-- B -->
+    <section class="frame">
+      <h2><span class="tag">B</span><br>Карточка в шортлисте: объявления становятся главным действием</h2>
+      <p>Внизу две кнопки, главная «Homes for sale» раскрывает выбор портала. Это лишний тап, зато целевое действие становится главным.</p>
+      <div class="card">
+        <div class="head">
+          <div><h3>2. Hackney Downs</h3><p class="meta">Hackney · E8, E5</p></div>
+          <span class="fit">£590k · in budget</span>
+        </div>
+        <div class="verdict"><b>Good fit</b>5 of 6 criteria fit; the commute to King's Cross is 24 min.</div>
+        <ul class="tiles faded"><li>✓ Commute 24 min</li><li>✓ Price</li><li>✓ Parks</li><li>✓ Schools</li><li>! Quiet</li></ul>
+        <div class="bar">
+          <a class="dark stitched" href="#">Homes for sale</a>
+          <a class="secondary" href="#">Area page</a>
+        </div>
+        <div class="sheet">
+          <h4>E8 · up to £650k · 2+ beds</h4>
+          <div class="portals">
+            <a class="portal" href="#">Rightmove</a><a class="portal" href="#">Zoopla</a><a class="portal" href="#">OnTheMarket</a>
+          </div>
+          <p class="sold">Sold prices: <a href="#">Rightmove</a> · <a href="#">Land Registry</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Area page -->
+    <section class="frame">
+      <h2><span class="tag">Страница района</span><br>Блок сразу после ключевых цифр</h2>
+      <p>Если есть сохранённый поиск, берутся его фильтры. Если нет (человек пришёл из Google или Claude), фильтров нет, есть переключатель Buy/Rent и ссылка «добавить бюджет».</p>
+      <div class="card page">
+        <p class="crumbs">London › Hackney › Hackney Downs</p>
+        <h3>Hackney Downs</h3>
+        <p class="meta">Hackney · E8, E5</p>
+        <div class="stat-row faded">
+          <div class="stat"><b>£590k</b>typical flat</div><div class="stat"><b>£2,150</b>rent a month</div><div class="stat"><b>24 min</b>to King's Cross</div>
+        </div>
+
+        <div class="homes">
+          <h4>Homes in Hackney Downs</h4>
+          <div class="outcodes" role="group" aria-label="Buy or rent">
+            <button aria-pressed="true">Buy</button><button aria-pressed="false">Rent</button>
+          </div>
+          <p class="filters">Any price · any size · <a href="#">add your budget and bedrooms</a></p>
+          <div class="portals">
+            <a class="portal" href="#">Rightmove</a><a class="portal" href="#">Zoopla</a><a class="portal" href="#">OnTheMarket</a>
+          </div>
+          <p class="sold">Sold prices in E8: <a href="#">Rightmove</a> · <a href="#">HM Land Registry</a></p>
+          <p class="callout">To rent, OpenRent is added as a 4th portal.</p>
+        </div>
+        <p class="meta faded" style="margin-top:14px">… schools, safety, transport, prices …</p>
+      </div>
+    </section>
+  </div>
+
+  <ol class="notes">
+    <li><b>A или B.</b> В варианте A до объявлений один тап, и в карточке остаётся одно главное действие. В варианте B целевое действие главное, но тапов на один больше. Рекомендую A, а когда появятся пользователи, сравнить его с B.</li>
+    <li><b>Какой outcode.</b> Первым показываем район почтового индекса, в который в основном попадает район; если их два, можно переключить.</li>
+    <li><b>Фильтры</b> берутся из поиска (покупка или аренда, потолок бюджета, спальни), как в MCP-инструменте <code>get_listing_search_links</code>.</li>
+    <li><b>Учёт:</b> одно событие на тап, <code>portal_click {portal, kind: listings|sold, area, outcode, from: shortlist|area_page|home}</code>. В конверсии считаем человека, а не клик.</li>
+  </ol>
+</main>
+</body>
+</html>

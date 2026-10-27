@@ -1,0 +1,29 @@
+# Sutton: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000029
+slug: sutton
+name: Sutton
+register:
+  status: published
+  url: https://www.sutton.gov.uk/sites/default/files/2026-09/LBS%20%20Public%20Register%20Website%20September%202026.pdf
+  page: https://www.sutton.gov.uk/businesses-and-licensing/licensing/houses-multiple-occupation/hmo-licensing-register-who-has-licence
+  format: pdf
+  sheet: null
+  postcode_column: null
+  record_start: '^\d{2}/\d+/HMO'
+  include: 'Licence Issued|Decision Made'
+  rows: 317
+  updated: 2026-09-11
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-03-22
+  end: 2030-03-22
+  url: https://www.sutton.gov.uk/businesses-and-licensing/licensing/houses-multiple-occupation/houses-multiple-occupation-hmo
+notes: >-
+  4-page PDF (quarterly, file dated Sep 2026), 363 records of which about 317 are issued or decided licences; the rest are
+  applications, withdrawn or refused. Each record starts with a reference like 26/01340/HMOMAN and the property
+  postcode is on the same line, but wrapped records put the postcode on the next line and some split it (SM2 / 7AE).
+  Some licences appear twice (variations, duplicates). Additional end date is inconsistent in council notices
+  (22 Mar 2030 vs 21 Dec 2030); 22 Mar 2030 used. No selective licensing.

@@ -1,0 +1,196 @@
+# Croydon (306): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 306
+slug: croydon
+name: Croydon
+licence:
+  statement: '"Only a footer notice ''(c) Croydon Council 2026''; the web disclaimer page gives no reuse
+    or OGL terms"'
+  url: https://www.croydon.gov.uk/webdisclaimer
+licence_decision: unresolved
+aliases:
+  Rowdown Primary - Fairchildes Academy: '140841'
+  Park Hill Infants: '101779'
+  Elmwood Infants: '101721'
+  Christ Church CofE Primary: '101793'
+  Beulah Infant & Nursery: '141120'
+  St Mark's CofE Primary Adademy: '141119'
+  Whitehorse Manor Infant - Main Site: '136564'
+  Quest Primary - Formerly Gilbert Scott Primary: '146137'
+  Oasis Academy Shirley Park - Primary Phase: '135968'
+  Thomas More School: '101821'
+  Shirley High School: '137772'
+  Norbury High School: '137754'
+  Harris Invictus Academy: '140952'
+  St Joseph's Boys' College: '138221'
+  Coloma Girls' Convent: '149347'
+  Archbishop Tenison's: '101811'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20220126031531/https://www.croydon.gov.uk/sites/default/files/2021-09/Primary_School_Admissions_2022-2023.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  note: prospectus 'Overview of allocation of places – 2021 entry', 3 years (2019-2021)
+  columns:
+  - 2019
+  - 2020
+  - 2021
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20220420051827/https://www.croydon.gov.uk/sites/default/files/PrimarySchoolsOffer-Reception20.xlsx
+  format: xlsx
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - offers_by_criterion
+  note: oversubscribed schools only, 16/04/2020
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20220126031531/https://www.croydon.gov.uk/sites/default/files/2021-09/Primary_School_Admissions_2022-2023.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  columns:
+  - 2019
+  - 2020
+  - 2021
+  accept:
+  - '''Harris Primary Academy Purley Way'': distance 19929 m over 10 miles'
+  - '''New Valley Primary'': distance 32761 m over 10 miles'
+  accept_note: Croydon prints the furthest distance of any offer, so schools that offered every applicant
+    show long distances (12-20 miles); kept as printed
+- phase: primary
+  year: 2022
+  url: https://www.croydon.gov.uk/sites/default/files/2022-04/Primary_schools_allocation_Breakdown_19.04.2022.xlsx
+  format: xlsx
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - offers_by_criterion
+  note: live; oversubscribed schools only
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240518075507/https://www.croydon.gov.uk/sites/default/files/2023-08/primary-prospectus-2024-2025.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  note: 'prospectus overview ''2023 entry'' (3-year table). NOT READ: this archived ''primary-prospectus-2024-2025.pdf''
+    is the secondary prospectus (its overview lists secondary schools)'
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20241202225145/https://www.croydon.gov.uk/sites/default/files/2024-08/primary-admissions-prospectus-2025-2026.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  note: the 20241103 snapshot is cut off; use this one
+  columns:
+  - 2022
+  - 2023
+  - 2024
+  accept:
+  - '''Harris Primary Academy Kenley'': distance 32293 m over 10 miles'
+  - '''Howard Primary'': distance 24839 m over 10 miles'
+  accept_note: Croydon prints the furthest distance of any offer, so schools that offered every applicant
+    show long distances (12-20 miles); kept as printed
+- phase: primary
+  year: 2025
+  url: https://www.croydon.gov.uk/sites/default/files/2025-08/primary-admissions-prospectus-2026-2027.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  note: live; pages 23-25 cover 2023-2025
+  columns:
+  - 2023
+  - 2024
+  - 2025
+- phase: primary
+  year: 2026
+  url: https://www.croydon.gov.uk/sites/default/files/2026-04/allocation-breakdown-2026.xlsx
+  format: xlsx
+  units: miles
+  method: straight-line
+  counts:
+  - offers
+  - offers_by_criterion
+  note: live; oversubscribed schools only; no applicant counts
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20220419224107/https://www.croydon.gov.uk/sites/default/files/2021-09/Secondary_School_Admissions_2022-2023.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  note: 'prospectus ''Overview of allocation of places – 2021 entry''. NOT READ: the prospectus overview
+    wraps every school name around its row and its columns change by year'
+- phase: secondary
+  year: 2022
+  url: https://www.croydon.gov.uk/sites/default/files/2022-03/Overview%20of%20secondary%20allocations%202022%20entry.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''Norbury High School'': distance 26459 m over 10 miles'
+  accept_note: Croydon prints the furthest distance of any offer, so schools that offered every applicant
+    show long distances (12-20 miles); kept as printed
+- phase: secondary
+  year: 2023
+  url: https://www.croydon.gov.uk/sites/default/files/2023-04/Overview-of%20-secondary-allocations-1.03.23.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '"St Mary''s Catholic High": distance 32712 m over 10 miles'
+  accept_note: Croydon prints the furthest distance of any offer, so schools that offered every applicant
+    show long distances (12-20 miles); kept as printed
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20250430142255/https://www.croydon.gov.uk/sites/default/files/2024-08/secondary-admissions-prospectus-2025-2026.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  note: prospectus overview '2024 entry'
+- phase: secondary
+  year: 2025
+  url: https://www.croydon.gov.uk/sites/default/files/2025-08/secondary-admissions-prospectus-2026-2027.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  note: live; prospectus overview '2025 entry' (p.17)
+catchment_maps: null
+notes: 'Search results list stand-alone secondary overviews for 2024 (new.croydon.gov.uk/.../2024-03/overview-of-secondary-allocations-B-03-24.pdf)
+  and 2025 (.../2025-04/overview-of-secondary-school-allocations-2025.pdf). Both return 404 live and are
+  not in the CDX, so they are not recorded. Missing: secondary 2019, 2020 and 2026. The archived 2019-20,
+  2020-21 and 2021-22 secondary prospectuses and the 2020-21 primary prospectus are all cut off at 1 MB.
+  Distances are measured on the council GIS (''direct line measurement''). Adapter notes: ''columns''
+  gives the printed year order of a primary prospectus overview (its diagonal headers are unreadable as
+  text); the order was read from the header characters'' positions and checked against the 2020/2022 XLSX
+  (32/32 and 28/33 schools equal) and the 2024/2025 booklets'' shared 2023 column (72/72 equal). Secondary
+  prospectus overviews (2021, 2024, 2025) are not read; the stand-alone 2022 and 2023 overviews are. Trust
+  suffixes (''- The STEP Academy Trust'', ''- Pegasus Academy Trust'') are dropped from names.'

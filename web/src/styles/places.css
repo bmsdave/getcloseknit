@@ -1,0 +1,15 @@
+/* The places page (components/places-section.tsx): the area page's section frame. */
+.places { display: grid; gap: 10px; min-width: 0; }
+.places__status, .places__origin, .places__empty { margin: 0; color: var(--muted); font-size: var(--fs-2xs); line-height: 1.45; }
+
+/* Standalone page: /area/<carrier>/<code>/places */
+.places-page { padding: 24px 0 90px; color: var(--ink); }
+.places-page .places-page__title { margin: 8px 0 16px; font: 800 clamp(26px, 5vw, 44px)/1.1 var(--font-display); letter-spacing: -0.03em; }
+/* The sections stack like the area page's: one card per group, each spanning the page width. */
+.places-page__sections { gap: var(--space-4); }
+
+/* Layers panel: how places are chosen and their licences, behind "?". */
+.places-about { font-size: var(--fs-2xs); }
+.places-about summary { display: flex; align-items: center; gap: 6px; min-height: 32px; color: var(--muted); font-weight: 700; cursor: pointer; }
+.places-about summary span { width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--chip); font-size: var(--fs-2xs); }
+.places-about p { margin: 4px 0 0; }

@@ -1,0 +1,183 @@
+# Wandsworth (212): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 212
+slug: wandsworth
+name: Wandsworth
+licence:
+  statement: Use of the contents is limited to private and non-commercial use purposes only and may not
+    be further exploited without prior written permission of the Council.
+  url: https://www.wandsworth.gov.uk/about-this-website/terms-and-disclaimer/
+licence_decision: unresolved
+aliases:
+  ALL SAINTS CE PRIMARY SCHOOL: '101034'
+  ARK JOHN PRIMARY ACADEMY: '146214'
+  GATTON SCHOOL (MUSLIM): '134041'
+  ROEHAMPTON CHURCH PRIMARY SCHOOL: '101038'
+  SMALLWOOD PRIMARY SCHOOL: '101021'
+  ST MARY'S CE PRIMARY SCHOOL (PUTNEY): '101046'
+  ST MARY'S CATHOLIC PRIMARY SCHOOL (BATTERSEA): '101048'
+  TRINITY ST MARY'S PRIMARY SCHOOL: '101047'
+docs:
+- phase: primary
+  year: 2026
+  url: https://www.wandsworth.gov.uk/media/4q2f3jqt/how_places_were_allocated_for_primary_schools_2026.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  note: One small table per school (admission number, offers by criterion, furthest distance). No applicant
+    counts.
+- phase: primary
+  year: 2025
+  url: https://wandsworth.gov.uk/media/xonfunuu/how_places_were_allocated_for_primary_schools_2025.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  accept:
+  - '"ST ANNE''S CE PRIMARY SCHOOL": no URN'
+  - '''GOLDFINCH PRIMARY SCHOOL'': no URN'
+  accept_note: Goldfinch Primary (GIAS 101004, then academy 146549) closed 31 Aug 2025 with no successor;
+    St Anne's CofE Primary (GIAS 101041) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2024
+  url: https://wandsworth.gov.uk/media/mrenk3gj/how_places_were_allocated_for_primary_schools_2024.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  accept:
+  - '"ST ANNE''S CE PRIMARY SCHOOL": no URN'
+  - '''CHRISTCHURCH CE PRIMARY SCHOOL'': no URN'
+  - '''GOLDFINCH PRIMARY SCHOOL'': no URN'
+  accept_note: Christ Church CofE Primary (GIAS 101035) closed 31 Aug 2024 with no successor; Goldfinch
+    Primary (GIAS 101004, then academy 146549) closed 31 Aug 2025 with no successor; St Anne's CofE Primary
+    (GIAS 101041) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2023
+  url: https://www.wandsworth.gov.uk/media/13407/how_places_were_allocated_for_primary_schools_2023.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  accept:
+  - '"ST ANNE''S CE PRIMARY SCHOOL": no URN'
+  - '''CHRISTCHURCH CE PRIMARY SCHOOL'': no URN'
+  - '''GOLDFINCH PRIMARY SCHOOL'': no URN'
+  accept_note: Christ Church CofE Primary (GIAS 101035) closed 31 Aug 2024 with no successor; Goldfinch
+    Primary (GIAS 101004, then academy 146549) closed 31 Aug 2025 with no successor; St Anne's CofE Primary
+    (GIAS 101041) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2022
+  url: https://www.wandsworth.gov.uk/media/5813/how_places_were_allocated_for_primary_schools.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  note: Same URL as the 2020 file; the current live content is 19 April 2022.
+  accept:
+  - '"ST ANNE''S CE PRIMARY SCHOOL": no URN'
+  - '''BROADWATER PRIMARY SCHOOL'': no URN'
+  - '''CHRISTCHURCH CE PRIMARY SCHOOL'': no URN'
+  - '''GOLDFINCH PRIMARY SCHOOL'': no URN'
+  accept_note: Broadwater Primary (GIAS 101002) closed 31 Aug 2023 with no successor; Christ Church CofE
+    Primary (GIAS 101035) closed 31 Aug 2024 with no successor; Goldfinch Primary (GIAS 101004, then academy
+    146549) closed 31 Aug 2025 with no successor; St Anne's CofE Primary (GIAS 101041) closed 31 Aug 2025
+    with no successor
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20210412013445/https://www.wandsworth.gov.uk/media/5813/how_places_were_allocated_for_primary_schools.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: wayback
+  accept:
+  - '"ST ANNE''S CE PRIMARY SCHOOL": no URN'
+  - '''BROADWATER PRIMARY SCHOOL'': no URN'
+  - '''CHRISTCHURCH CE PRIMARY SCHOOL'': no URN'
+  - '''GOLDFINCH PRIMARY SCHOOL'': no URN'
+  accept_note: Broadwater Primary (GIAS 101002) closed 31 Aug 2023 with no successor; Christ Church CofE
+    Primary (GIAS 101035) closed 31 Aug 2024 with no successor; Goldfinch Primary (GIAS 101004, then academy
+    146549) closed 31 Aug 2025 with no successor; St Anne's CofE Primary (GIAS 101041) closed 31 Aug 2025
+    with no successor
+- phase: secondary
+  year: 2026
+  url: https://www.wandsworth.gov.uk/media/ln4kgbvg/how_school_places_were_offered_for_secondary_schools_2026.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+  note: Banded schools give a furthest distance per band.
+- phase: secondary
+  year: 2025
+  url: https://www.wandsworth.gov.uk/media/e45hqwl2/how_school_places_were_offered_for_secondary_schools_2025.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+- phase: secondary
+  year: 2024
+  url: https://www.wandsworth.gov.uk/media/ibgisn4a/how_school_places_were_offered_for_secondary_schools_2024.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+- phase: secondary
+  year: 2023
+  url: https://www.wandsworth.gov.uk/media/13180/how_school_places_were_offered_for_secondary_schools_2023.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: live
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20221025143506/https://www.wandsworth.gov.uk/media/10399/how_school_places_were_offered_for_secondary_schools.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: wayback
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20210301180129/https://www.wandsworth.gov.uk/media/8367/how_school_places_were_offered_2021.pdf
+  format: pdf-text
+  units: metres
+  method: straight-line
+  counts:
+  - offers
+  source: wayback
+catchment_maps: null
+notes: 'There is also a multi-year ''previous years'' admissions'' summary for 2022-2025 with appeals.
+  Primary: https://www.wandsworth.gov.uk/media/ij5oxjfs/previous_years_admissions_for_wandsworth_primary_schools.pdf.
+  Secondary: https://www.wandsworth.gov.uk/media/yi1hafdr/previous_years_admissions_for_wandsworth_secondary_schools.pdf.
+  Its distances are at the end of August, not on offer day. Not found: primary 2019 and 2021, secondary
+  2019 and 2020. Some schools have priority areas (described in admission policies); no map was found.
+  Adapter notes: closed schools with no successor (Broadwater 2023, Christ Church CE 2024, St Anne''s
+  CE 2025, Goldfinch 2025) are accepted unmatched. Primary tables whose last column is not a distance
+  (faith criteria only) give no row; Belleville Wix prints a row per class (rules bilingual / english).
+  Secondary: bands (Ashcroft, Chestnut Grove) and Bolingbroke feeder schools are rules; the distance tie-break
+  inside a selective score (Burntwood, Graveney, Ernest Bevin) is not read; Chestnut Grove 2023 band E
+  prints its distance under siblings, not distance, and is not read.'

@@ -1,0 +1,27 @@
+# Tower Hamlets: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000030
+slug: tower_hamlets
+name: Tower Hamlets
+register:
+  status: published
+  url: https://www.towerhamlets.gov.uk/Documents/Housing/PublicRegister.xlsx
+  page: https://www.towerhamlets.gov.uk/lgnl/housing/Private-tenants-landlords-and-homeowners/Property-licensing/Licences/Mandatory-House-in-Multiple-Occupation-HMO-licensing.aspx
+  format: xlsx
+  sheet: null
+  postcode_column: Postcode
+  rows: 569
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2024-04-01
+  end: 2029-03-31
+  url: https://www.towerhamlets.gov.uk/lgnl/housing/Private-tenants-landlords-and-homeowners/Property-licensing/Licences/Additional-licensing.aspx
+notes: >-
+  This file is the mandatory HMO register only (one sheet, header in row 1, 569 licences). The additional licence register
+  is a separate legacy .xls file, https://www.towerhamlets.gov.uk/Documents/Housing/AdditionalPublicRegister.xls (4780 rows,
+  postcode column "postcode5", about 1936 distinct postcodes, saved 2026-10-05), which openpyxl cannot read; it needs xlrd
+  or conversion to xlsx. Selective licensing (Weavers, Whitechapel, Spitalfields & Banglatown) ended
+  2026-09-30 and has its own SelectivePublicRegister.xls; not listed.

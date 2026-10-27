@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/postcodes/NW1%200AA/homes",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"postcode-homes.v1\",\"productReleaseId\":\"fixture-2026-06\",\"postcode\":\"NW1 0AA\",\"geographyId\":\"uk:lsoa:E01000900\",\"homes\":[{\"addressId\":\"uk:addr:00000000000c\",\"uprn\":null,\"displayAddress\":\"3 Fixture Street, London, NW1 0AA\",\"propertyType\":null,\"tenure\":null,\"floorAreaSquareMetres\":null,\"energyRating\":null,\"saleCount\":0,\"lastSale\":null,\"flood\":null},{\"addressId\":\"uk:addr:00000000000a\",\"uprn\":null,\"displayAddress\":\"Flat 1, 1 Fixture Street, London, NW1 0AA\",\"propertyType\":null,\"tenure\":null,\"floorAreaSquareMetres\":null,\"energyRating\":null,\"saleCount\":0,\"lastSale\":null,\"flood\":null},{\"addressId\":\"uk:addr:00000000000b\",\"uprn\":null,\"displayAddress\":\"Flat 2, 1 Fixture Street, London, NW1 0AA\",\"propertyType\":null,\"tenure\":null,\"floorAreaSquareMetres\":null,\"energyRating\":null,\"saleCount\":0,\"lastSale\":null,\"flood\":null}],\"disclaimer\":\"Recorded sale prices from HM Land Registry and facts from the latest energy certificate. No home here is valued.\",\"withheld\":[],\"sources\":[]}"
+}

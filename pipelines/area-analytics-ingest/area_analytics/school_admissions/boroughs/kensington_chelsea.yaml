@@ -1,0 +1,142 @@
+# Kensington & Chelsea (207): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 207
+slug: kensington_chelsea
+name: Kensington & Chelsea
+licence:
+  statement: You can copy any information for your own personal use. But you may not republish, transmit,
+    store, reproduce, communicate or make available to the public any of the information on this website.
+  url: https://www.rbkc.gov.uk/web-services/terms-use-accessing-any-part-website
+licence_decision: unresolved
+aliases:
+  Ashburnham Primary School: '100477'
+  Our Lady of Victories: '151731'
+  St Barnabas and St Philip's: '100493'
+  St Clement and St James: '100495'
+  The Cardinal Vaughan: '141931'
+  The Cardinal Vaughan Memorial School: '141931'
+docs:
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20230715193940/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC_primary_admissions_brochure_2023.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'St Cuthbert with St Matthias C of E Primary School': no URN"
+  accept_note: St Cuthbert with St Matthias CofE Primary closed 31-10-2025 with no successor in GIAS; left out.
+
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240802175217/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC_primary_admissions_brochure_2024.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'St Cuthbert with St Matthias C of E Primary School': no URN"
+  accept_note: St Cuthbert with St Matthias CofE Primary closed 31-10-2025 with no successor in GIAS; left out.
+
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20250413113014/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC%20Primary%20School%20Admissions%20Brochure%202025.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'St Cuthbert with St Matthias C of E Primary School': no URN"
+  accept_note: St Cuthbert with St Matthias CofE Primary closed 31-10-2025 with no successor in GIAS; left out.
+
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20251214034447/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC%20-%20Primary%20Admissions%20Brochure%202026.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'St Cuthbert with St Matthias C of E Primary School': no URN"
+  accept_note: St Cuthbert with St Matthias CofE Primary closed 31-10-2025 with no successor in GIAS; left out.
+
+- phase: primary
+  year: 2026
+  url: https://www.rbkc.gov.uk/media/document/primary-admissions-brochure-2027
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'St Cuthbert with St Matthias C of E Primary School': no URN"
+  accept_note: St Cuthbert with St Matthias CofE Primary closed 31-10-2025 with no successor in GIAS; left out.
+
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20221102122131/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC_secondary_admissions_brochure_2023.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240701103227/https://www.rbkc.gov.uk/sites/default/files/media/documents/How%20places%20were%20offered%20at%20bi-borough%20secondary%20schools.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20250502215545/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC%20Secondary%20School%20Admissions%20Brochure%202025.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20251113013035/https://www.rbkc.gov.uk/sites/default/files/media/documents/RBKC%20-%20Secondary%20Admissions%20Brochure%202026.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2026
+  url: https://www.rbkc.gov.uk/media/document/how-places-were-offered-at-bi-borough-secondary-schools---2-march-2026
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+catchment_maps: null
+notes: 'rbkc.gov.uk answers 403 to scripted downloads (2026-10-11), so the brochures are read from their
+  Wayback captures; the 2027 primary brochure and the 2 March 2026 bi-borough file are not archived (missing).
+  Each annual primary or secondary admissions brochure has a per-school "How places were offered
+  in <previous year>" box: on-time applications, offers by criterion, and "up to a distance of X of a
+  mile straight-line", or "All on-time applicants were offered". RBKC brochures cover RBKC schools only.
+  The standalone "How places were offered at bi-borough secondary schools" PDFs (2023 file, created 2023-02-28;
+  2026 file dated 2 March 2026) also cover Westminster secondaries, with per-band distances. The 2027
+  secondary brochure (sites/default/files/media/documents/secondary-admissions-brochure-2027_0.pdf) duplicates
+  2026 for the six RBKC schools. All URLs are live. Gaps: 2019-2021 for both phases; the pre-2022 brochures
+  were not found on the current site or in Wayback (the old /pdf/ and atoms/files paths hold only older
+  or unrelated files).'

@@ -1,0 +1,955 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 110;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD951663307FA14E00A86AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD951662307FA14E00A86AC3 /* AppDelegate.swift */; };
+		DD951665307FA14E00A86AC3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD951664307FA14E00A86AC3 /* SceneDelegate.swift */; };
+		DD951668307FA14E00A86AC3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD951666307FA14E00A86AC3 /* LaunchScreen.storyboard */; };
+		DD95166B307FA14E00A86AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD951669307FA14E00A86AC3 /* Main.storyboard */; };
+		DD951674307FA14E00A86AC3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD951673307FA14E00A86AC3 /* AppDelegate.swift */; };
+		DD951677307FA14E00A86AC3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD951675307FA14E00A86AC3 /* Main.storyboard */; };
+		DD95167E307FA14E00A86AC3 /* Close Knit Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DD95167D307FA14E00A86AC3 /* Close Knit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DD951688307FA14E00A86AC3 /* Close Knit Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DD951687307FA14E00A86AC3 /* Close Knit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		DD95168D307FA14E00A86AC3 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = DD951652307FA14D00A86AC3 /* Main.html */; };
+		DD95168E307FA14E00A86AC3 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = DD951652307FA14D00A86AC3 /* Main.html */; };
+		DD95168F307FA14E00A86AC3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DD951654307FA14D00A86AC3 /* Icon.png */; };
+		DD951690307FA14E00A86AC3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DD951654307FA14D00A86AC3 /* Icon.png */; };
+		DD951691307FA14E00A86AC3 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = DD951655307FA14D00A86AC3 /* Style.css */; };
+		DD951692307FA14E00A86AC3 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = DD951655307FA14D00A86AC3 /* Style.css */; };
+		DD951693307FA14E00A86AC3 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = DD951656307FA14D00A86AC3 /* Script.js */; };
+		DD951694307FA14E00A86AC3 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = DD951656307FA14D00A86AC3 /* Script.js */; };
+		DD951695307FA14E00A86AC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD951657307FA14D00A86AC3 /* ViewController.swift */; };
+		DD951696307FA14E00A86AC3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD951657307FA14D00A86AC3 /* ViewController.swift */; };
+		DD951697307FA14E00A86AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD951658307FA14E00A86AC3 /* Assets.xcassets */; };
+		DD951698307FA14E00A86AC3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD951658307FA14E00A86AC3 /* Assets.xcassets */; };
+		DD951699307FA14E00A86AC3 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95165A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift */; };
+		DD95169A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95165A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift */; };
+		DD9516B3307FA14E00A86AC3 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AC307FA14E00A86AC3 /* popup */; };
+		DD9516B4307FA14E00A86AC3 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AD307FA14E00A86AC3 /* background.js */; };
+		DD9516B5307FA14E00A86AC3 /* portal.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AE307FA14E00A86AC3 /* portal.js */; };
+		DD9516B6307FA14E00A86AC3 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AF307FA14E00A86AC3 /* icons */; };
+		DD9516B7307FA14E00A86AC3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B0307FA14E00A86AC3 /* manifest.json */; };
+		DD9516B8307FA14E00A86AC3 /* closeknit.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B1307FA14E00A86AC3 /* closeknit.js */; };
+		DD9516B9307FA14E00A86AC3 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B2307FA14E00A86AC3 /* fonts */; };
+		DD9516BA307FA14E00A86AC3 /* popup in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AC307FA14E00A86AC3 /* popup */; };
+		DD9516BB307FA14E00A86AC3 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AD307FA14E00A86AC3 /* background.js */; };
+		DD9516BC307FA14E00A86AC3 /* portal.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AE307FA14E00A86AC3 /* portal.js */; };
+		DD9516BD307FA14E00A86AC3 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = DD9516AF307FA14E00A86AC3 /* icons */; };
+		DD9516BE307FA14E00A86AC3 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B0307FA14E00A86AC3 /* manifest.json */; };
+		DD9516BF307FA14E00A86AC3 /* closeknit.js in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B1307FA14E00A86AC3 /* closeknit.js */; };
+		DD9516C0307FA14E00A86AC3 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = DD9516B2307FA14E00A86AC3 /* fonts */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD95167F307FA14E00A86AC3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD95164C307FA14D00A86AC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD95167C307FA14E00A86AC3;
+			remoteInfo = "Close Knit Extension (iOS)";
+		};
+		DD951689307FA14E00A86AC3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DD95164C307FA14D00A86AC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DD951686307FA14E00A86AC3;
+			remoteInfo = "Close Knit Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DD9516A0307FA14E00A86AC3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				DD95167E307FA14E00A86AC3 /* Close Knit Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+		DD9516A7307FA14E00A86AC3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				DD951688307FA14E00A86AC3 /* Close Knit Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DD951653307FA14D00A86AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		DD951654307FA14D00A86AC3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		DD951655307FA14D00A86AC3 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		DD951656307FA14D00A86AC3 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		DD951657307FA14D00A86AC3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DD951658307FA14E00A86AC3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DD95165A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		DD95165F307FA14E00A86AC3 /* Close Knit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Close Knit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD951662307FA14E00A86AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DD951664307FA14E00A86AC3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DD951667307FA14E00A86AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		DD95166A307FA14E00A86AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DD95166C307FA14E00A86AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD951671307FA14E00A86AC3 /* Close Knit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Close Knit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD951673307FA14E00A86AC3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DD951676307FA14E00A86AC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DD951678307FA14E00A86AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD95167D307FA14E00A86AC3 /* Close Knit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Close Knit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD951682307FA14E00A86AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD951687307FA14E00A86AC3 /* Close Knit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Close Knit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD95168C307FA14E00A86AC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DD9516AC307FA14E00A86AC3 /* popup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = popup; path = ../../../dist/popup; sourceTree = "<group>"; };
+		DD9516AD307FA14E00A86AC3 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = ../../../dist/background.js; sourceTree = "<group>"; };
+		DD9516AE307FA14E00A86AC3 /* portal.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = portal.js; path = ../../../dist/portal.js; sourceTree = "<group>"; };
+		DD9516AF307FA14E00A86AC3 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../dist/icons; sourceTree = "<group>"; };
+		DD9516B0307FA14E00A86AC3 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../dist/manifest.json; sourceTree = "<group>"; };
+		DD9516B1307FA14E00A86AC3 /* closeknit.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = closeknit.js; path = ../../../dist/closeknit.js; sourceTree = "<group>"; };
+		DD9516B2307FA14E00A86AC3 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../../../dist/fonts; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD95165C307FA14E00A86AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		DD95166E307FA14E00A86AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		DD95167A307FA14E00A86AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+		DD951684307FA14E00A86AC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+			);
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD95164B307FA14D00A86AC3 = {
+			isa = PBXGroup;
+			children = (
+				DD951650307FA14D00A86AC3 /* Shared (App) */,
+				DD951659307FA14E00A86AC3 /* Shared (Extension) */,
+				DD951661307FA14E00A86AC3 /* iOS (App) */,
+				DD951672307FA14E00A86AC3 /* macOS (App) */,
+				DD951681307FA14E00A86AC3 /* iOS (Extension) */,
+				DD95168B307FA14E00A86AC3 /* macOS (Extension) */,
+				DD951660307FA14E00A86AC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD951650307FA14D00A86AC3 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				DD951657307FA14D00A86AC3 /* ViewController.swift */,
+				DD951658307FA14E00A86AC3 /* Assets.xcassets */,
+				DD951651307FA14D00A86AC3 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		DD951651307FA14D00A86AC3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD951652307FA14D00A86AC3 /* Main.html */,
+				DD951654307FA14D00A86AC3 /* Icon.png */,
+				DD951655307FA14D00A86AC3 /* Style.css */,
+				DD951656307FA14D00A86AC3 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DD951659307FA14E00A86AC3 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				DD9516AB307FA14E00A86AC3 /* Resources */,
+				DD95165A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		DD951660307FA14E00A86AC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD95165F307FA14E00A86AC3 /* Close Knit.app */,
+				DD951671307FA14E00A86AC3 /* Close Knit.app */,
+				DD95167D307FA14E00A86AC3 /* Close Knit Extension.appex */,
+				DD951687307FA14E00A86AC3 /* Close Knit Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD951661307FA14E00A86AC3 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				DD951662307FA14E00A86AC3 /* AppDelegate.swift */,
+				DD951664307FA14E00A86AC3 /* SceneDelegate.swift */,
+				DD951666307FA14E00A86AC3 /* LaunchScreen.storyboard */,
+				DD951669307FA14E00A86AC3 /* Main.storyboard */,
+				DD95166C307FA14E00A86AC3 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		DD951672307FA14E00A86AC3 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				DD951673307FA14E00A86AC3 /* AppDelegate.swift */,
+				DD951675307FA14E00A86AC3 /* Main.storyboard */,
+				DD951678307FA14E00A86AC3 /* Info.plist */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		DD951681307FA14E00A86AC3 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				DD951682307FA14E00A86AC3 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		DD95168B307FA14E00A86AC3 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				DD95168C307FA14E00A86AC3 /* Info.plist */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		DD9516AB307FA14E00A86AC3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DD9516AC307FA14E00A86AC3 /* popup */,
+				DD9516AD307FA14E00A86AC3 /* background.js */,
+				DD9516AE307FA14E00A86AC3 /* portal.js */,
+				DD9516AF307FA14E00A86AC3 /* icons */,
+				DD9516B0307FA14E00A86AC3 /* manifest.json */,
+				DD9516B1307FA14E00A86AC3 /* closeknit.js */,
+				DD9516B2307FA14E00A86AC3 /* fonts */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD95165E307FA14E00A86AC3 /* Close Knit (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD9516A1307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit (iOS)" */;
+			buildPhases = (
+				DD95165B307FA14E00A86AC3 /* Sources */,
+				DD95165C307FA14E00A86AC3 /* Frameworks */,
+				DD95165D307FA14E00A86AC3 /* Resources */,
+				DD9516A0307FA14E00A86AC3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD951680307FA14E00A86AC3 /* PBXTargetDependency */,
+			);
+			name = "Close Knit (iOS)";
+			productName = "Close Knit (iOS)";
+			productReference = DD95165F307FA14E00A86AC3 /* Close Knit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD951670307FA14E00A86AC3 /* Close Knit (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD9516A8307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit (macOS)" */;
+			buildPhases = (
+				DD95166D307FA14E00A86AC3 /* Sources */,
+				DD95166E307FA14E00A86AC3 /* Frameworks */,
+				DD95166F307FA14E00A86AC3 /* Resources */,
+				DD9516A7307FA14E00A86AC3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD95168A307FA14E00A86AC3 /* PBXTargetDependency */,
+			);
+			name = "Close Knit (macOS)";
+			productName = "Close Knit (macOS)";
+			productReference = DD951671307FA14E00A86AC3 /* Close Knit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DD95167C307FA14E00A86AC3 /* Close Knit Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD95169D307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit Extension (iOS)" */;
+			buildPhases = (
+				DD951679307FA14E00A86AC3 /* Sources */,
+				DD95167A307FA14E00A86AC3 /* Frameworks */,
+				DD95167B307FA14E00A86AC3 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = "Close Knit Extension (iOS)";
+			productName = "Close Knit Extension (iOS)";
+			productReference = DD95167D307FA14E00A86AC3 /* Close Knit Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		DD951686307FA14E00A86AC3 /* Close Knit Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD9516A4307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit Extension (macOS)" */;
+			buildPhases = (
+				DD951683307FA14E00A86AC3 /* Sources */,
+				DD951684307FA14E00A86AC3 /* Frameworks */,
+				DD951685307FA14E00A86AC3 /* Resources */,
+			);
+			buildRules = (
+			);
+			name = "Close Knit Extension (macOS)";
+			productName = "Close Knit Extension (macOS)";
+			productReference = DD951687307FA14E00A86AC3 /* Close Knit Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD95164C307FA14D00A86AC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2700;
+				LastUpgradeCheck = 2700;
+				TargetAttributes = {
+					DD95165E307FA14E00A86AC3 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					DD951670307FA14E00A86AC3 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					DD95167C307FA14E00A86AC3 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					DD951686307FA14E00A86AC3 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+				};
+			};
+			buildConfigurationList = DD95164F307FA14D00A86AC3 /* Build configuration list for PBXProject "Close Knit" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD95164B307FA14D00A86AC3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = DD951660307FA14E00A86AC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD95165E307FA14E00A86AC3 /* Close Knit (iOS) */,
+				DD951670307FA14E00A86AC3 /* Close Knit (macOS) */,
+				DD95167C307FA14E00A86AC3 /* Close Knit Extension (iOS) */,
+				DD951686307FA14E00A86AC3 /* Close Knit Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD95165D307FA14E00A86AC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD95168F307FA14E00A86AC3 /* Icon.png in Resources */,
+				DD951668307FA14E00A86AC3 /* LaunchScreen.storyboard in Resources */,
+				DD95168D307FA14E00A86AC3 /* Main.html in Resources */,
+				DD951693307FA14E00A86AC3 /* Script.js in Resources */,
+				DD951697307FA14E00A86AC3 /* Assets.xcassets in Resources */,
+				DD95166B307FA14E00A86AC3 /* Main.storyboard in Resources */,
+				DD951691307FA14E00A86AC3 /* Style.css in Resources */,
+			);
+		};
+		DD95166F307FA14E00A86AC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD951690307FA14E00A86AC3 /* Icon.png in Resources */,
+				DD951692307FA14E00A86AC3 /* Style.css in Resources */,
+				DD951677307FA14E00A86AC3 /* Main.storyboard in Resources */,
+				DD951694307FA14E00A86AC3 /* Script.js in Resources */,
+				DD951698307FA14E00A86AC3 /* Assets.xcassets in Resources */,
+				DD95168E307FA14E00A86AC3 /* Main.html in Resources */,
+			);
+		};
+		DD95167B307FA14E00A86AC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD9516BB307FA14E00A86AC3 /* background.js in Resources */,
+				DD9516BD307FA14E00A86AC3 /* icons in Resources */,
+				DD9516BE307FA14E00A86AC3 /* manifest.json in Resources */,
+				DD9516C0307FA14E00A86AC3 /* fonts in Resources */,
+				DD9516BF307FA14E00A86AC3 /* closeknit.js in Resources */,
+				DD9516BA307FA14E00A86AC3 /* popup in Resources */,
+				DD9516BC307FA14E00A86AC3 /* portal.js in Resources */,
+			);
+		};
+		DD951685307FA14E00A86AC3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+				DD9516B4307FA14E00A86AC3 /* background.js in Resources */,
+				DD9516B6307FA14E00A86AC3 /* icons in Resources */,
+				DD9516B7307FA14E00A86AC3 /* manifest.json in Resources */,
+				DD9516B9307FA14E00A86AC3 /* fonts in Resources */,
+				DD9516B8307FA14E00A86AC3 /* closeknit.js in Resources */,
+				DD9516B3307FA14E00A86AC3 /* popup in Resources */,
+				DD9516B5307FA14E00A86AC3 /* portal.js in Resources */,
+			);
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD95165B307FA14E00A86AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD951695307FA14E00A86AC3 /* ViewController.swift in Sources */,
+				DD951663307FA14E00A86AC3 /* AppDelegate.swift in Sources */,
+				DD951665307FA14E00A86AC3 /* SceneDelegate.swift in Sources */,
+			);
+		};
+		DD95166D307FA14E00A86AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD951696307FA14E00A86AC3 /* ViewController.swift in Sources */,
+				DD951674307FA14E00A86AC3 /* AppDelegate.swift in Sources */,
+			);
+		};
+		DD951679307FA14E00A86AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD951699307FA14E00A86AC3 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+		};
+		DD951683307FA14E00A86AC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+				DD95169A307FA14E00A86AC3 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD951680307FA14E00A86AC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD95167C307FA14E00A86AC3 /* Close Knit Extension (iOS) */;
+			targetProxy = DD95167F307FA14E00A86AC3 /* PBXContainerItemProxy */;
+		};
+		DD95168A307FA14E00A86AC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DD951686307FA14E00A86AC3 /* Close Knit Extension (macOS) */;
+			targetProxy = DD951689307FA14E00A86AC3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DD951652307FA14D00A86AC3 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD951653307FA14D00A86AC3 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		DD951666307FA14E00A86AC3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD951667307FA14E00A86AC3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		DD951669307FA14E00A86AC3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD95166A307FA14E00A86AC3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		DD951675307FA14E00A86AC3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD951676307FA14E00A86AC3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD95169B307FA14E00A86AC3 /* Debug configuration for PBXProject "Close Knit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DD95169C307FA14E00A86AC3 /* Release configuration for PBXProject "Close Knit" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		DD95169E307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit Extension (iOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension.Extension;
+				PRODUCT_NAME = "Close Knit Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD95169F307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit Extension (iOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension.Extension;
+				PRODUCT_NAME = "Close Knit Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD9516A2307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit (iOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension;
+				PRODUCT_NAME = "Close Knit";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DD9516A3307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit (iOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension;
+				PRODUCT_NAME = "Close Knit";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DD9516A5307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit Extension (macOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension.Extension;
+				PRODUCT_NAME = "Close Knit Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DD9516A6307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit Extension (macOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension.Extension;
+				PRODUCT_NAME = "Close Knit Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DD9516A9307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit (macOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension;
+				PRODUCT_NAME = "Close Knit";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DD9516AA307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit (macOS)" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Close Knit";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.getcloseknit.extension;
+				PRODUCT_NAME = "Close Knit";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD95164F307FA14D00A86AC3 /* Build configuration list for PBXProject "Close Knit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD95169B307FA14E00A86AC3 /* Debug configuration for PBXProject "Close Knit" */,
+				DD95169C307FA14E00A86AC3 /* Release configuration for PBXProject "Close Knit" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD95169D307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD95169E307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit Extension (iOS)" */,
+				DD95169F307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit Extension (iOS)" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD9516A1307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD9516A2307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit (iOS)" */,
+				DD9516A3307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit (iOS)" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD9516A4307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD9516A5307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit Extension (macOS)" */,
+				DD9516A6307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit Extension (macOS)" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		DD9516A8307FA14E00A86AC3 /* Build configuration list for PBXNativeTarget "Close Knit (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD9516A9307FA14E00A86AC3 /* Debug configuration for PBXNativeTarget "Close Knit (macOS)" */,
+				DD9516AA307FA14E00A86AC3 /* Release configuration for PBXNativeTarget "Close Knit (macOS)" */,
+			);
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD95164C307FA14D00A86AC3 /* Project object */;
+	validationLevel = 1;
+}

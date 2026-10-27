@@ -1,0 +1,25 @@
+# Camden: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000007
+slug: camden
+name: Camden
+register:
+  status: published
+  url: https://opendata.camden.gov.uk/api/views/x43g-c2rf/rows.csv?accessType=DOWNLOAD
+  page: https://opendata.camden.gov.uk/Housing/HMO-Licensing-Register/x43g-c2rf
+  format: csv
+  sheet: null
+  postcode_column: Property Address
+  rows: 3443
+  updated: 2026-10-17
+  terms: Open Government Licence v3 (portal metadata); data not intended for marketing.
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-12-08
+  end: null
+  url: https://www.camden.gov.uk/houses-multiple-occupation
+notes: >-
+  Socrata dataset (live view, 35 columns). Property Address holds the full address with postcode; there is no
+  separate postcode column (Easting/Northing and Latitude/Longitude also present). Covers mandatory and additional licences.
+  Additional scheme runs "until December 2030" per council news; exact end day not found. camden.gov.uk blocks scripts (403).

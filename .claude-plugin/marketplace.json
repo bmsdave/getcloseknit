@@ -1,0 +1,15 @@
+{
+  "name": "close-knit",
+  "owner": { "name": "Close Knit" },
+  "metadata": {
+    "description": "Close Knit plugins: evidence-backed London home search for Claude."
+  },
+  "plugins": [
+    {
+      "name": "close-knit",
+      "source": "./agents/claude/plugin",
+      "description": "Find the best place to live in London by talking to Claude: area shortlist, feedback, evidence, listings and a watch for new homes.",
+      "version": "0.5.0"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+trip_id,arrival_time,departure_time,stop_id,stop_sequence
+sample-victoria-1,08:00:00,08:00:00,9400ZZLUWWL,1
+sample-victoria-1,08:02:00,08:02:30,9400ZZLUBLR,2
+sample-victoria-1,08:05:00,08:05:30,9400ZZLUTMH,3
+sample-victoria-1,08:08:00,08:08:30,9400ZZLUSVS,4
+sample-victoria-1,08:11:00,08:11:30,9400ZZLUFPK,5
+sample-victoria-1,08:13:30,08:14:00,9400ZZLUHAI,6
+sample-victoria-1,08:16:00,08:16:30,9400ZZLUKSX,7

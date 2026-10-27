@@ -1,0 +1,16 @@
+/* People and homes (components/people-section.tsx). */
+.people h2 { margin: 18px 0 8px; font-size: var(--fs-md); }
+.people h3 { margin: 18px 0 4px; font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.people h4 { display: flex; align-items: center; gap: 2px; margin: 12px 0 0; font-size: var(--fs-sm); }
+.people-status, .people-unknown { color: var(--muted); font-size: var(--fs-xs); }
+.people-unknown { margin: 4px 0 0; }
+
+.people-figures { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); margin: 0; }
+.people-figures > div { padding: 8px 10px; border-radius: var(--radius-md); background: var(--surface); }
+.people-figures dt { display: flex; align-items: center; color: var(--muted); font-size: var(--fs-2xs); }
+.people-figures dd { margin: 0; font-size: var(--fs-lg); font-weight: 700; font-variant-numeric: tabular-nums; }
+.people-figures .people-figure-note { color: var(--muted); font-size: var(--fs-2xs); font-weight: 400; }
+
+.people-universe { margin: 0 0 4px; color: var(--muted); font-size: var(--fs-2xs); }
+.people-more { margin: 2px 0 4px; }
+.people-sources { margin: 16px 0 0; padding-left: 16px; color: var(--muted); }

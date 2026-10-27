@@ -1,0 +1,114 @@
+{
+  "type": "ReviewedPlanningSample",
+  "source_id": "planning-data-uk-applications",
+  "review_date": "2026-09-06",
+  "dataset": "planning-application",
+  "dataset_updated": "2026-08-30",
+  "dataset_note": "National Planning Data planning-application records for the pilot boroughs. Decision records stay distinct from proposals; withdrawn applications stay labelled withdrawn, never silently dropped.",
+  "coverage_boroughs": ["E09000033", "E09000007"],
+  "coverage_note": "Pilot boroughs only: Westminster (E09000033) and Camden (E09000007). Any other borough reports no-coverage: planning records are unknown there, not absent.",
+  "constraints": [
+    {
+      "name": "westminster-conservation-area",
+      "label": "Westminster conservation area (reviewed constraint)"
+    },
+    {
+      "name": "article-4-direction",
+      "label": "Article 4 direction (reviewed constraint, separately named)"
+    },
+    {
+      "name": "camden-conservation-area",
+      "label": "Camden conservation area (reviewed constraint)"
+    }
+  ],
+  "applications": [
+    {
+      "reference": "26/01024/FULL",
+      "borough": "E09000033",
+      "title": "Partial demolition and six-storey rear extension, 12 Preview Street",
+      "stage": "planned",
+      "decision": "proposal: awaiting decision",
+      "status": "active",
+      "updated": "2026-08-20",
+      "register_path": "26/01024/FULL",
+      "constraints": ["westminster-conservation-area"]
+    },
+    {
+      "reference": "26/01024/FULL",
+      "borough": "E09000033",
+      "title": "Partial demolition and six-storey rear extension, 12 Preview Street",
+      "stage": "planned",
+      "decision": "proposal: awaiting decision",
+      "status": "active",
+      "updated": "2026-07-01",
+      "register_path": "26/01024/FULL",
+      "constraints": ["westminster-conservation-area"]
+    },
+    {
+      "reference": "25/08711/FULL",
+      "borough": "E09000033",
+      "title": "Change of use of ground floor to cafe, 4 Preview Mews",
+      "stage": "approved",
+      "decision": "decision: granted 2026-05-14",
+      "status": "active",
+      "updated": "2026-05-20",
+      "register_path": "25/08711/FULL",
+      "constraints": ["westminster-conservation-area", "article-4-direction"]
+    },
+    {
+      "reference": "24/05110/FULL",
+      "borough": "E09000033",
+      "title": "Erection of two dwellings, rear of 9 Preview Gardens",
+      "stage": "completed",
+      "decision": "decision: granted 2024-11-02; build recorded complete",
+      "status": "active",
+      "updated": "2026-06-10",
+      "register_path": "24/05110/FULL",
+      "constraints": []
+    },
+    {
+      "reference": "25/09120/FULL",
+      "borough": "E09000033",
+      "title": "Rooftop extension, 21 Preview Road",
+      "stage": "planned",
+      "decision": "proposal withdrawn by the applicant 2026-06-30",
+      "status": "withdrawn",
+      "updated": "2026-06-30",
+      "register_path": "25/09120/FULL",
+      "constraints": []
+    },
+    {
+      "reference": "2026/0123/P",
+      "borough": "E09000007",
+      "title": "Demolition of garage and erection of a mews house, land at Preview Lane",
+      "stage": "planned",
+      "decision": "proposal: awaiting decision",
+      "status": "active",
+      "updated": "2026-08-28",
+      "register_path": "2026/0123/P",
+      "constraints": ["camden-conservation-area"]
+    },
+    {
+      "reference": "2025/4412/P",
+      "borough": "E09000007",
+      "title": "Conversion to four flats, 77 Preview High Street",
+      "stage": "approved",
+      "decision": "decision: granted 2025-12-08",
+      "status": "active",
+      "updated": "2025-11-30",
+      "register_path": "2025/4412/P",
+      "constraints": []
+    },
+    {
+      "reference": "2026/0455/P",
+      "borough": "E09000007",
+      "title": "Shopfront alterations, 3 Preview Parade",
+      "stage": "planned",
+      "decision": "proposal: awaiting decision",
+      "status": "active",
+      "updated": null,
+      "register_path": "2026/0455/P",
+      "constraints": []
+    }
+  ]
+}

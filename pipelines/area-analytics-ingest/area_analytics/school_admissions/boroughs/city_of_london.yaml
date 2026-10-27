@@ -1,0 +1,69 @@
+# City of London (201): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 201
+slug: city_of_london
+name: City of London
+licence:
+  statement: Users may not modify, copy, distribute, transmit, display, reproduce, publish, licence or
+    create derivative works from data or other content found on the Website
+  url: https://www.cityoflondon.gov.uk/footer/legal-notices
+licence_decision: unresolved
+aliases: {}
+docs:
+- phase: primary
+  year: 2021
+  url: https://www.fis.cityoflondon.gov.uk/asset-library/2022-primary-school-admission-booklet.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+- phase: primary
+  year: 2022
+  url: https://www.fis.cityoflondon.gov.uk/asset-library/2023-primary-school-booklet-1.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+- phase: primary
+  year: 2023
+  url: https://www.fis.cityoflondon.gov.uk/asset-library/primary-school-booklet-2024.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+- phase: primary
+  year: 2024
+  url: https://www.fis.cityoflondon.gov.uk/asset-library/2024-25-primary-school-booklet.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+- phase: primary
+  year: 2025
+  url: https://www.fis.cityoflondon.gov.uk/asset-library/primary-school-booklet-2025.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+- phase: primary
+  year: 2026
+  url: https://www.cityoflondon.gov.uk/assets/Services-DCCS/Primary-School-Admissions-Booklet.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - offers
+catchment_maps: null
+notes: Only one maintained school (The Aldgate School, formerly Sir John Cass's Foundation Primary), so
+  each booklet gives one figure ("furthest distance a pupil was allocated a school place", metres) plus
+  offers per oversubscription criterion. Each booklet carries the previous offer round; the current booklet
+  on cityoflondon.gov.uk (September 2027 entry) carries 2026. Booklets for 2019-2020 data not found. No
+  LA secondary school, so no secondary series. Booklets sit on fis.cityoflondon.gov.uk (Family Information
+  Service); the licence statement is from the main City Corporation site.

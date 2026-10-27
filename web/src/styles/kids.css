@@ -1,0 +1,20 @@
+/* Kids tiles (components/kids-tiles.tsx): the overview's tiles, with one shared details panel below. */
+.kids { margin-top: var(--space-3); }
+.kids__title { margin: 0 0 var(--space-2); font-size: var(--fs-xs); font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.kids__pending { color: var(--muted); font-size: var(--fs-xs); }
+.kids__more { border: 0; background: none; cursor: pointer; font-family: inherit; }
+.kids__detail { margin-top: var(--space-2); padding: var(--space-2) var(--space-3); border: 1px solid var(--rule); border-radius: 12px; font-size: var(--fs-xs); }
+.kids__list { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.kids__list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: baseline; }
+.kids__list a { color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+.kids__list li:not([data-well]) span:first-of-type { font-weight: 700; }
+.kids__dist, .kids__note, .kids__source { color: var(--muted); }
+.kids__note { margin: var(--space-2) 0 0; font-size: var(--fs-2xs); }
+.kids__source { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: var(--space-1) 0 0; font-size: var(--fs-2xs); }
+.kids__source a { color: inherit; }
+/* Cycle lanes key: sky dashes on cream as on the map: wide track, Cycleway, thin painted lane. */
+.cycle-key { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-2xs); color: var(--ink); }
+.cycle-key li { display: inline-flex; align-items: center; gap: 6px; }
+.cycle-key__line { display: inline-block; width: 22px; height: 0; border-top: 4px dashed var(--yarn-sky); border-radius: 2px; }
+.cycle-key__line[data-kind="cycleway"] { border-top-width: 3px; }
+.cycle-key__line[data-kind="lane"] { border-top-width: 2px; }

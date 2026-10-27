@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Global G1, zoom levels and compare</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+.g-board { width: 2000px; height: 2160px; box-sizing: border-box; padding: 56px; display: flex; flex-direction: column; gap: 28px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+.g-h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.g-sub { font-size: 15px; font-weight: 600; color: #5b6270; }
+.g-sec { display: flex; flex-direction: column; gap: 16px; padding: 20px 22px; border-radius: 18px; background: #ffffff; border: 1px solid #dfe7f0; }
+.g-lab { font-size: 12.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; }
+.g-row { display: flex; gap: 20px; align-items: flex-start; }
+.g-col { display: flex; flex-direction: column; gap: 10px; }
+.g-card { width: 438px; box-sizing: border-box; padding: 14px; border-radius: 16px; background: #f7f9fb; border: 1px solid #dfe7f0; display: flex; flex-direction: column; gap: 10px; }
+.g-t { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.g-s { font-size: 13.5px; font-weight: 600; color: #5b6270; line-height: 1.35; }
+.g-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.g-chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; background: #eef2f7; font-size: 12.5px; font-weight: 700; }
+.g-off { background: transparent; border: 1px dashed #c3ccd8; color: #8a92a0; text-decoration: line-through; }
+.g-map { width: 408px; height: 220px; border-radius: 12px; background: #e9f0f7; overflow: hidden; }
+table.g-m { border-collapse: collapse; font-size: 13.5px; }
+table.g-m th { text-align: left; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #5b6270; padding: 6px 12px; border-bottom: 1px solid #dfe7f0; }
+table.g-m td { padding: 7px 12px; border-bottom: 1px solid #eef2f7; font-weight: 600; vertical-align: middle; }
+.d-full { display: inline-block; width: 14px; height: 14px; border-radius: 999px; background: #2f5bd3; }
+.d-in { display: inline-block; width: 14px; height: 14px; border-radius: 999px; border: 3px solid #2f5bd3; box-sizing: border-box; background: linear-gradient(90deg, #2f5bd3 50%, transparent 50%); }
+.d-no { display: inline-block; width: 14px; height: 2px; background: #c3ccd8; vertical-align: middle; }
+.b { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: 0.03em; }
+.b-tx { background: #dff3e6; color: #1d6b3a; }
+.b-ask { background: #fff1d6; color: #8a5a00; }
+.b-ix { background: #e6ecfb; color: #2f5bd3; }
+.conf { letter-spacing: 1px; color: #2f5bd3; font-size: 12px; }
+.g-panel { width: 392px; box-sizing: border-box; padding: 14px; border-radius: 18px; background: #f7f9fb; box-shadow: 0 1px 2px rgba(20,30,50,0.1), 0 6px 18px rgba(20,30,50,0.12); display: flex; flex-direction: column; gap: 10px; }
+.g-btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; background: #c0352c; color: #fff; font-size: 14px; font-weight: 800; }
+.g-btn2 { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; background: #eef2f7; font-size: 14px; font-weight: 800; }
+.g-opt { flex: 1; box-sizing: border-box; padding: 16px; border-radius: 16px; border: 1px solid #dfe7f0; background: #f7f9fb; display: flex; flex-direction: column; gap: 8px; }
+.g-rec { border: 2px solid #2f5bd3; background: #ffffff; }
+.g-note { font-size: 13.5px; line-height: 1.45; color: #22252c; }
+.g-note li { margin-bottom: 4px; }
+.na { color: #8a92a0; font-weight: 600; font-size: 12.5px; }
+</style>
+</helmet>
+<div class="g-board">
+  <div class="g-col" style="gap:4px">
+    <div class="g-h1">Global · G1 · Four zoom levels and Compare places</div>
+    <div class="g-sub">Concept for review, not for build. One rule: a metric appears only on the level where every place is measured the same way. Values illustrative. Spec: docs/global-2026-10/concept.md</div>
+  </div>
+
+  <!-- 1. Zoom ladder -->
+  <section class="g-sec">
+    <div class="g-lab">1 · Zoom ladder · what the map colours at each level</div>
+    <div class="g-row">
+      <div class="g-card">
+        <div class="g-map"><svg width="408" height="220" viewBox="0 0 408 220" aria-hidden="true">
+          <path d="M30 70 Q60 40 110 52 L150 80 Q140 120 100 130 L60 120 Z" fill="#9db7e8" stroke="#fff" stroke-width="2"/>
+          <path d="M160 40 L230 36 L250 70 L210 96 L168 84 Z" fill="#5f86d9" stroke="#fff" stroke-width="2"/>
+          <path d="M170 100 L215 100 L230 160 L196 196 L172 150 Z" fill="#c9d8f2" stroke="#fff" stroke-width="2"/>
+          <path d="M255 46 L360 40 L380 96 L320 120 L262 96 Z" fill="#7da0e0" stroke="#fff" stroke-width="2"/>
+          <path d="M320 140 L370 146 L360 186 L322 180 Z" fill="#b3c8ee" stroke="#fff" stroke-width="2"/>
+          <path d="M248 72 L262 80 L256 92 L244 86 Z" fill="url(#hatch)" stroke="#8a92a0" stroke-width="1" stroke-dasharray="3 2"/>
+          <defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#eef2f7"/><line x1="0" y1="0" x2="0" y2="6" stroke="#8a92a0" stroke-width="2"/></pattern></defs>
+        </svg></div>
+        <div class="g-t">World · zoom 0–3 · countries</div>
+        <div class="g-s">Unit: country (Natural Earth). Disputed areas hatched, no colour.</div>
+        <div class="g-chips"><span class="g-chip">Price level (PPP)</span><span class="g-chip">Homicide /100k</span><span class="g-chip">Life expectancy</span><span class="g-chip">PM2.5</span><span class="g-chip">Income PPP</span><span class="g-chip">House prices ↗ index</span></div>
+        <div class="g-chips"><span class="g-chip g-off">Crime index</span><span class="g-chip g-off">£/m²</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-map"><svg width="408" height="220" viewBox="0 0 408 220" aria-hidden="true">
+          <path d="M60 20 L200 14 L210 80 L120 96 L52 70 Z" fill="#5f86d9" stroke="#fff" stroke-width="2"/>
+          <path d="M210 16 L340 26 L350 90 L214 82 Z" fill="#9db7e8" stroke="#fff" stroke-width="2"/>
+          <path d="M52 76 L120 100 L110 170 L40 160 Z" fill="#c9d8f2" stroke="#fff" stroke-width="2"/>
+          <path d="M124 100 L214 86 L230 150 L116 172 Z" fill="#7da0e0" stroke="#fff" stroke-width="2"/>
+          <path d="M218 86 L352 94 L360 180 L236 150 Z" fill="#b3c8ee" stroke="#fff" stroke-width="2"/>
+          <path d="M42 166 L230 156 L250 206 L60 210 Z" fill="#eef2f7" stroke="#c3ccd8" stroke-width="1"/>
+          <text x="100" y="194" font-size="11" font-weight="700" fill="#8a92a0" font-family="sans-serif">non-OECD: country value only</text>
+        </svg></div>
+        <div class="g-t">Region · zoom 4–6 · TL2/TL3, NUTS 2/3</div>
+        <div class="g-s">OECD + EU only. Elsewhere the country colour, greyed, with “no regional data”.</div>
+        <div class="g-chips"><span class="g-chip">Income /head</span><span class="g-chip">Unemployment</span><span class="g-chip">Life expectancy</span><span class="g-chip">PM2.5</span><span class="g-chip">Broadband</span><span class="g-chip">Tree cover</span></div>
+        <div class="g-chips"><span class="g-chip">Crime · within country ◐</span><span class="g-chip g-off">Price level</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-map"><svg width="408" height="220" viewBox="0 0 408 220" aria-hidden="true">
+          <rect width="408" height="220" fill="#e9f0f7"/>
+          <path d="M40 60 L130 40 L150 120 L70 140 Z" fill="#f1f4f8" stroke="#c3ccd8"/>
+          <circle cx="96" cy="88" r="26" fill="#5f86d9" stroke="#fff" stroke-width="3"/>
+          <path d="M200 70 L300 60 L320 150 L210 160 Z" fill="#f1f4f8" stroke="#c3ccd8"/>
+          <circle cx="262" cy="110" r="34" fill="#9db7e8" stroke="#fff" stroke-width="3"/>
+          <circle cx="352" cy="58" r="14" fill="#7da0e0" stroke="#fff" stroke-width="3"/>
+          <circle cx="150" cy="176" r="18" fill="#c9d8f2" stroke="#fff" stroke-width="3"/>
+          <text x="70" y="128" font-size="11" font-weight="700" fill="#5b6270" font-family="sans-serif">Lisbon</text>
+          <text x="236" y="160" font-size="11" font-weight="700" fill="#5b6270" font-family="sans-serif">Valencia</text>
+        </svg></div>
+        <div class="g-t">City · zoom 7–9 · urban centre / metro (FUA)</div>
+        <div class="g-s">Unit: GHSL urban centre, outline = OECD/EU functional urban area.</div>
+        <div class="g-chips"><span class="g-chip">Green share</span><span class="g-chip">PM2.5</span><span class="g-chip">Heat days</span><span class="g-chip">Density</span><span class="g-chip">£/m² <span class="b b-tx" style="margin-left:6px">Sales</span></span><span class="g-chip">Felt safe (EU survey)</span></div>
+        <div class="g-chips"><span class="g-chip g-off">Crime rate</span><span class="g-chip g-off">Schools</span></div>
+      </div>
+      <div class="g-card">
+        <div class="g-map"><svg width="408" height="220" viewBox="0 0 408 220" aria-hidden="true">
+          <rect width="408" height="220" fill="#e9f0f7"/>
+          <g stroke="#fff" stroke-width="2">
+            <path d="M20 20 L110 16 L104 84 L24 90 Z" fill="#5f86d9"/><path d="M110 16 L200 22 L196 80 L104 84 Z" fill="#9db7e8"/>
+            <path d="M200 22 L290 18 L296 92 L196 80 Z" fill="#c9d8f2"/><path d="M290 18 L390 24 L384 96 L296 92 Z" fill="#7da0e0"/>
+            <path d="M24 90 L104 84 L110 160 L30 170 Z" fill="#b3c8ee"/><path d="M104 84 L196 80 L190 150 L110 160 Z" fill="#5f86d9"/>
+            <path d="M196 80 L296 92 L290 170 L190 150 Z" fill="#9db7e8"/><path d="M296 92 L384 96 L380 176 L290 170 Z" fill="#c9d8f2"/>
+          </g>
+          <rect x="24" y="182" width="360" height="26" rx="13" fill="#ffffff"/>
+          <text x="40" y="199" font-size="11.5" font-weight="700" fill="#22252c" font-family="sans-serif">London today · next market: Paris (IRIS + DVF)</text>
+        </svg></div>
+        <div class="g-t">Neighbourhood · zoom 10+ · local markets</div>
+        <div class="g-s">Only where we hold local data (London now). Same layers as today; elsewhere the city stays.</div>
+        <div class="g-chips"><span class="g-chip">Crime</span><span class="g-chip">Schools</span><span class="g-chip">Commute</span><span class="g-chip">Green</span><span class="g-chip">Sale prices</span><span class="g-chip">Noise</span></div>
+        <div class="g-chips"><span class="g-chip g-off">Cross-city ranks</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Matrix -->
+  <section class="g-sec">
+    <div class="g-lab">2 · Where each metric is allowed · <span class="d-full"></span> comparable · <span class="d-in"></span> within one country only · <span class="d-no"></span> hidden</div>
+    <div class="g-row" style="gap:48px">
+      <table class="g-m">
+        <tr><th style="width:260px">Metric</th><th>World</th><th>Region</th><th>City</th><th>Nbhd</th><th style="width:420px">Why</th></tr>
+        <tr><td>Homicide per 100k</td><td><span class="d-full"></span></td><td><span class="d-in"></span></td><td><span class="d-in"></span></td><td><span class="d-no"></span></td><td class="na">UNODC harmonised for countries only</td></tr>
+        <tr><td>Recorded crime</td><td><span class="d-no"></span></td><td><span class="d-in"></span></td><td><span class="d-in"></span></td><td><span class="d-in"></span></td><td class="na">Police definitions differ by country</td></tr>
+        <tr><td>Price level / cost of living</td><td><span class="d-full"></span></td><td><span class="d-no"></span></td><td><span class="d-no"></span></td><td><span class="d-no"></span></td><td class="na">ICP / Eurostat PLI are national; no open city CoL</td></tr>
+        <tr><td>Home price per m²</td><td><span class="d-no"></span></td><td><span class="d-in"></span></td><td><span class="d-full"></span></td><td><span class="d-in"></span></td><td class="na">Cross-country only with a source badge + confidence</td></tr>
+        <tr><td>House-price change (index)</td><td><span class="d-full"></span></td><td><span class="d-in"></span></td><td><span class="d-no"></span></td><td><span class="d-no"></span></td><td class="na">BIS/OECD indices show change, never a level</td></tr>
+        <tr><td>PM2.5</td><td><span class="d-full"></span></td><td><span class="d-full"></span></td><td><span class="d-full"></span></td><td><span class="d-in"></span></td><td class="na">One satellite model everywhere; local monitors differ</td></tr>
+        <tr><td>Green / tree cover</td><td><span class="d-no"></span></td><td><span class="d-full"></span></td><td><span class="d-full"></span></td><td><span class="d-full"></span></td><td class="na">Same imagery (Copernicus / GHSL)</td></tr>
+        <tr><td>Life expectancy</td><td><span class="d-full"></span></td><td><span class="d-full"></span></td><td><span class="d-no"></span></td><td><span class="d-in"></span></td><td class="na">OECD regional; city rarely</td></tr>
+        <tr><td>Schools</td><td><span class="d-full"></span></td><td><span class="d-no"></span></td><td><span class="d-no"></span></td><td><span class="d-in"></span></td><td class="na">PISA is national; inspections are national systems</td></tr>
+        <tr><td>Commute / transit</td><td><span class="d-no"></span></td><td><span class="d-no"></span></td><td><span class="d-full"></span></td><td><span class="d-in"></span></td><td class="na">Computed the same way from OSM + GTFS</td></tr>
+      </table>
+      <div class="g-col" style="width:600px">
+        <div class="g-lab">Price per m²: always a source badge</div>
+        <div class="g-row" style="gap:10px; align-items:center"><span class="b b-tx">SALES</span><span class="g-s">Registered transactions (HMLR, DVF, Kadaster). <span class="conf">●●●</span></span></div>
+        <div class="g-row" style="gap:10px; align-items:center"><span class="b b-ask">ASKING</span><span class="g-s">Portal asking prices. Higher than sales, sample unknown. <span class="conf">●●○</span></span></div>
+        <div class="g-row" style="gap:10px; align-items:center"><span class="b b-ix">INDEX</span><span class="g-s">Change only. Never shown as €/m². <span class="conf">—</span></span></div>
+        <div class="g-s">Compare row mixes badges? Show both values, add “Not like for like: sales vs asking”. Never rank across badges.</div>
+        <div class="g-lab" style="margin-top:12px">Disputed borders</div>
+        <div class="g-s">Hatched, no fill, tooltip “Disputed: values not assigned”. Lines from Natural Earth default view. Local legal views (India, China…) behind a default-off flag.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Compare flow -->
+  <section class="g-sec">
+    <div class="g-lab">3 · Compare places · side panel 392 px · desktop</div>
+    <div class="g-row" style="gap:28px">
+      <div class="g-col"><div class="g-t">① Pick</div>
+        <div class="g-panel">
+          <div style="display:flex;align-items:center;gap:6px"><span style="flex:1;font-size:20px;font-weight:800;letter-spacing:-0.02em">Compare</span><span class="g-btn">Compare 3</span></div>
+          <div style="height:40px;border-radius:12px;background:#fff;border:1px solid #dfe7f0;display:flex;align-items:center;padding:0 12px;font-size:14px;font-weight:600;color:#5b6270">Add a country, region or city</div>
+          <div class="g-chips"><span class="g-chip">Lisbon ×</span><span class="g-chip">Valencia ×</span><span class="g-chip">Manchester ×</span></div>
+          <div class="g-s">Same level only. Mixing a city with a country asks: “Compare Portugal with Spain instead?”</div>
+          <div class="g-lab">Your priorities</div>
+          <div class="g-chips"><span class="g-chip">1 Safety</span><span class="g-chip">2 Green</span><span class="g-chip">3 Price</span><span class="g-chip">4 Air</span></div>
+          <div class="g-s">From your saved profile. Works in any city.</div>
+        </div>
+      </div>
+      <div class="g-col"><div class="g-t">② Read</div>
+        <div class="g-panel" style="width:560px">
+          <table class="g-m" style="width:100%">
+            <tr><th></th><th>Lisbon</th><th>Valencia</th><th>Manchester</th></tr>
+            <tr><td>Safety · country homicide</td><td>0.7</td><td>0.6</td><td>1.0</td></tr>
+            <tr><td colspan="4" class="na">City crime not comparable across countries · <u>why</u></td></tr>
+            <tr><td>Green share</td><td>22%</td><td>18%</td><td>31%</td></tr>
+            <tr><td>Price per m²</td><td>€5,100 <span class="b b-tx">SALES</span></td><td>€2,600 <span class="b b-ask">ASKING</span></td><td>£3,300 <span class="b b-tx">SALES</span></td></tr>
+            <tr><td colspan="4" class="na">Not like for like: Valencia is asking prices · <u>sources</u></td></tr>
+            <tr><td>PM2.5 µg/m³</td><td>8</td><td>11</td><td>9</td></tr>
+            <tr><td>Price level (country)</td><td>78</td><td>86</td><td>112</td></tr>
+          </table>
+          <div class="g-s">No overall score across countries. Each row keeps its own source in ☰.</div>
+        </div>
+      </div>
+      <div class="g-col"><div class="g-t">③ Go deeper</div>
+        <div class="g-panel" style="width:330px">
+          <div class="g-t">Manchester</div>
+          <div class="g-s">Neighbourhood data: not yet</div>
+          <span class="g-btn2">Notify me</span>
+          <div style="height:1px;background:#dfe7f0"></div>
+          <div class="g-t">London</div>
+          <div class="g-s">Neighbourhoods ready · uses your priorities</div>
+          <span class="g-btn">Open neighbourhoods</span>
+        </div>
+        <div class="g-panel" style="width:330px">
+          <div class="g-lab">Next steps · Partner</div>
+          <div class="g-s">Moving abroad? Money transfer · health insurance · relocation. Labelled, never changes the table.</div>
+        </div>
+      </div>
+      <div class="g-col"><div class="g-t">④ Ask Claude</div>
+        <div class="g-panel" style="width:300px;background:#22252c;color:#fff">
+          <div style="font-size:13px;font-weight:700;color:#c3ccd8">MCP · compare_places</div>
+          <div style="font-size:13px;line-height:1.45">“Lisbon or Valencia for a family?” → table + caveats[] + “not comparable” rows, same as the site.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Options -->
+  <section class="g-sec">
+    <div class="g-lab">4 · Where the global map starts · options</div>
+    <div class="g-row">
+      <div class="g-opt g-rec"><div class="g-t">A · City-first (recommended)</div><div class="g-s">Open on Europe at city level, 60–80 EU/UK cities with Urban Audit + GHSL + sale prices where open. Countries and regions as context.</div><div class="g-s"><b>Cost:</b> 4–5 weeks. Matches the “where do I move” question and our London depth.</div></div>
+      <div class="g-opt"><div class="g-t">B · World countries first</div><div class="g-s">Choropleth of ~190 countries, ten metrics. Fast, but it is Numbeo-lite and says little about where to live.</div><div class="g-s"><b>Cost:</b> 2 weeks.</div></div>
+      <div class="g-opt"><div class="g-t">C · Second neighbourhood market</div><div class="g-s">Paris to London depth (IRIS, DVF, INSEE, police). Proves the stack travels; no global map.</div><div class="g-s"><b>Cost:</b> 6–8 weeks.</div></div>
+    </div>
+  </section>
+
+  <section class="g-sec">
+    <div class="g-lab">5 · Portable profile · concepts, not London layers</div>
+    <div class="g-row" style="gap:40px">
+      <div class="g-col" style="width:820px">
+        <div class="g-s">Today #profile=v3 stores layer ids (“air-no2”, crime layers). Proposed: store the concept and let each market pick its best metric.</div>
+        <table class="g-m">
+          <tr><th>Concept</th><th>World</th><th>EU city</th><th>London</th></tr>
+          <tr><td>Safety</td><td>Homicide /100k</td><td>Felt safe (EU survey)</td><td>Police crime, own scale</td></tr>
+          <tr><td>Green</td><td>—</td><td>Green share (GHSL)</td><td>Green cover + parks</td></tr>
+          <tr><td>Schools</td><td>PISA</td><td>—</td><td>Ofsted + results</td></tr>
+          <tr><td>Commute</td><td>—</td><td>Transit access</td><td>Door-to-door minutes</td></tr>
+        </table>
+      </div>
+      <div class="g-col" style="width:900px">
+        <div class="g-lab">Rules on the board</div>
+        <ul class="g-note">
+          <li>A metric shows only on levels where it is comparable; elsewhere the chip is struck out with a reason.</li>
+          <li>Cross-country crime is homicide only. Never a crime index from surveys of opinion.</li>
+          <li>Money never changes data or order: partners only in Next steps.</li>
+          <li>Out of scope here: rankings of whole countries as “best”, travel prices (no open source; flag).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2000,"height":2160}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

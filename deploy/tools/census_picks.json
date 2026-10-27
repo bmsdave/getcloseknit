@@ -1,0 +1,3417 @@
+{
+ "floor": 1000,
+ "topics": [
+  {
+   "topic": "ethnicity-detailed",
+   "table": "TS022",
+   "geography": "msoa",
+   "item": "ethnicity",
+   "universe": "residents",
+   "prefix": "census-ethnic-",
+   "picks": [
+    {
+     "category": "asian-afghan",
+     "label": "Afghan (Asian)",
+     "words": "Asian: Afghan",
+     "perMille": 1.68
+    },
+    {
+     "category": "asian-african-unspecified",
+     "label": "African unspecified (Asian)",
+     "words": "Asian: African unspecified",
+     "perMille": 0.06
+    },
+    {
+     "category": "asian-african-asian",
+     "label": "African Asian (Asian)",
+     "words": "Asian: African Asian",
+     "perMille": 0.1
+    },
+    {
+     "category": "asian-arab",
+     "label": "Arab (Asian)",
+     "words": "Asian: Arab",
+     "perMille": 0.09
+    },
+    {
+     "category": "asian-asian-british",
+     "label": "Asian British (Asian)",
+     "words": "Asian: Asian British",
+     "perMille": 0.27
+    },
+    {
+     "category": "asian-bangladeshi-british-bangladeshi",
+     "label": "Bangladeshi, British Bangladeshi (Asian)",
+     "words": "Asian: Bangladeshi, British Bangladeshi",
+     "perMille": 11.14
+    },
+    {
+     "category": "asian-black-and-asian",
+     "label": "Black and Asian (Asian)",
+     "words": "Asian: Black and Asian",
+     "perMille": 0.03
+    },
+    {
+     "category": "asian-chinese",
+     "label": "Chinese (Asian)",
+     "words": "Asian: Chinese",
+     "perMille": 7.63
+    },
+    {
+     "category": "asian-filipino",
+     "label": "Filipino (Asian)",
+     "words": "Asian: Filipino",
+     "perMille": 2.76
+    },
+    {
+     "category": "asian-indian-or-british-indian",
+     "label": "Indian or British Indian (Asian)",
+     "words": "Asian: Indian or British Indian",
+     "perMille": 32.63
+    },
+    {
+     "category": "asian-indonesian",
+     "label": "Indonesian (Asian)",
+     "words": "Asian: Indonesian",
+     "perMille": 0.13
+    },
+    {
+     "category": "asian-iranian",
+     "label": "Iranian (Asian)",
+     "words": "Asian: Iranian",
+     "perMille": 0.67
+    },
+    {
+     "category": "asian-japanese",
+     "label": "Japanese (Asian)",
+     "words": "Asian: Japanese",
+     "perMille": 0.51
+    },
+    {
+     "category": "asian-kashmiri",
+     "label": "Kashmiri (Asian)",
+     "words": "Asian: Kashmiri",
+     "perMille": 0.69
+    },
+    {
+     "category": "asian-korean",
+     "label": "Korean (Asian)",
+     "words": "Asian: Korean",
+     "perMille": 0.37
+    },
+    {
+     "category": "asian-kurdish",
+     "label": "Kurdish (Asian)",
+     "words": "Asian: Kurdish",
+     "perMille": 0.21
+    },
+    {
+     "category": "asian-malaysian",
+     "label": "Malaysian (Asian)",
+     "words": "Asian: Malaysian",
+     "perMille": 0.22
+    },
+    {
+     "category": "asian-mauritian-seychellois-maldivian-sao-tomean-st-helenian",
+     "label": "Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian (Asian)",
+     "words": "Asian: Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian",
+     "perMille": 0.3
+    },
+    {
+     "category": "asian-mixed-south-asian",
+     "label": "Mixed South Asian (Asian)",
+     "words": "Asian: Mixed South Asian",
+     "perMille": 0.11
+    },
+    {
+     "category": "asian-myanmar-or-burmese",
+     "label": "Myanmar or Burmese (Asian)",
+     "words": "Asian: Myanmar or Burmese",
+     "perMille": 0.13
+    },
+    {
+     "category": "asian-nepali-includes-gurkha",
+     "label": "Nepali (includes Gurkha) (Asian)",
+     "words": "Asian: Nepali (includes Gurkha)",
+     "perMille": 1.54
+    },
+    {
+     "category": "asian-other-asian-asian-unspecified",
+     "label": "Other Asian, Asian unspecified (Asian)",
+     "words": "Asian: Other Asian, Asian unspecified",
+     "perMille": 0.41
+    },
+    {
+     "category": "asian-other-east-asian-east-asian-unspecified",
+     "label": "Other East Asian/ East Asian unspecified (Asian)",
+     "words": "Asian: Other East Asian/ East Asian unspecified",
+     "perMille": 0.25
+    },
+    {
+     "category": "asian-other-middle-east",
+     "label": "Other Middle East (Asian)",
+     "words": "Asian: Other Middle East",
+     "perMille": 0.24
+    },
+    {
+     "category": "asian-other-mixed",
+     "label": "Other Mixed (Asian)",
+     "words": "Asian: Other Mixed",
+     "perMille": 0.12
+    },
+    {
+     "category": "asian-pakistani-or-british-pakistani",
+     "label": "Pakistani or British Pakistani (Asian)",
+     "words": "Asian: Pakistani or British Pakistani",
+     "perMille": 27.8
+    },
+    {
+     "category": "asian-punjabi",
+     "label": "Punjabi (Asian)",
+     "words": "Asian: Punjabi",
+     "perMille": 0.14
+    },
+    {
+     "category": "asian-sikh",
+     "label": "Sikh (Asian)",
+     "words": "Asian: Sikh",
+     "perMille": 0.4
+    },
+    {
+     "category": "asian-sinhalese",
+     "label": "Sinhalese (Asian)",
+     "words": "Asian: Sinhalese",
+     "perMille": 0.04
+    },
+    {
+     "category": "asian-sri-lankan",
+     "label": "Sri Lankan (Asian)",
+     "words": "Asian: Sri Lankan",
+     "perMille": 2.6
+    },
+    {
+     "category": "asian-taiwanese",
+     "label": "Taiwanese (Asian)",
+     "words": "Asian: Taiwanese",
+     "perMille": 0.07
+    },
+    {
+     "category": "asian-tajikistani-kazakhstani-kyrgystani-turkmenistani-uzbekistani",
+     "label": "Tajikistani/Kazakhstani/Kyrgystani/Turkmenistani/Uzbekistani (Asian)",
+     "words": "Asian: Tajikistani/Kazakhstani/Kyrgystani/Turkmenistani/Uzbekistani",
+     "perMille": 0.06
+    },
+    {
+     "category": "asian-tamil",
+     "label": "Tamil (Asian)",
+     "words": "Asian: Tamil",
+     "perMille": 0.8
+    },
+    {
+     "category": "asian-thai",
+     "label": "Thai (Asian)",
+     "words": "Asian: Thai",
+     "perMille": 0.68
+    },
+    {
+     "category": "asian-turkish",
+     "label": "Turkish (Asian)",
+     "words": "Asian: Turkish",
+     "perMille": 0.13
+    },
+    {
+     "category": "asian-vietnamese",
+     "label": "Vietnamese (Asian)",
+     "words": "Asian: Vietnamese",
+     "perMille": 0.65
+    },
+    {
+     "category": "asian-any-other-ethnic-group",
+     "label": "Any other ethnic group (Asian)",
+     "words": "Asian: Any other ethnic group",
+     "perMille": 0.29
+    },
+    {
+     "category": "black-african-african-unspecified",
+     "label": "African unspecified (Black African)",
+     "words": "Black African: African unspecified",
+     "perMille": 10.72
+    },
+    {
+     "category": "black-african-angolan",
+     "label": "Angolan (Black African)",
+     "words": "Black African: Angolan",
+     "perMille": 0.09
+    },
+    {
+     "category": "black-african-black-british",
+     "label": "Black British (Black African)",
+     "words": "Black African: Black British",
+     "perMille": 0.87
+    },
+    {
+     "category": "black-african-cameroonian",
+     "label": "Cameroonian (Black African)",
+     "words": "Black African: Cameroonian",
+     "perMille": 0.07
+    },
+    {
+     "category": "black-african-cote-d-ivoire",
+     "label": "Cote D'Ivoire (Black African)",
+     "words": "Black African: Cote D'Ivoire",
+     "perMille": 0.05
+    },
+    {
+     "category": "black-african-democratic-republic-of-the-congo",
+     "label": "Democratic Republic of the Congo (Black African)",
+     "words": "Black African: Democratic Republic of the Congo",
+     "perMille": 0.43
+    },
+    {
+     "category": "black-african-english-welsh-scottish-northern-irish-british",
+     "label": "English/Welsh/Scottish/Northern Irish/British (Black African)",
+     "words": "Black African: English/Welsh/Scottish/Northern Irish/British",
+     "perMille": 0.06
+    },
+    {
+     "category": "black-african-eritrean",
+     "label": "Eritrean (Black African)",
+     "words": "Black African: Eritrean",
+     "perMille": 0.43
+    },
+    {
+     "category": "black-african-ethiopian",
+     "label": "Ethiopian (Black African)",
+     "words": "Black African: Ethiopian",
+     "perMille": 0.27
+    },
+    {
+     "category": "black-african-gambian",
+     "label": "Gambian (Black African)",
+     "words": "Black African: Gambian",
+     "perMille": 0.07
+    },
+    {
+     "category": "black-african-ghanaian",
+     "label": "Ghanaian (Black African)",
+     "words": "Black African: Ghanaian",
+     "perMille": 1.99
+    },
+    {
+     "category": "black-african-kenyan",
+     "label": "Kenyan (Black African)",
+     "words": "Black African: Kenyan",
+     "perMille": 0.26
+    },
+    {
+     "category": "black-african-mauritian-seychellois-maldivian-sao-tomean-st-helenian",
+     "label": "Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian (Black African)",
+     "words": "Black African: Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian",
+     "perMille": 0.06
+    },
+    {
+     "category": "black-african-nigerian",
+     "label": "Nigerian (Black African)",
+     "words": "Black African: Nigerian",
+     "perMille": 4.75
+    },
+    {
+     "category": "black-african-other-mixed",
+     "label": "Other Mixed (Black African)",
+     "words": "Black African: Other Mixed",
+     "perMille": 0.04
+    },
+    {
+     "category": "black-african-other-north-african",
+     "label": "Other North African (Black African)",
+     "words": "Black African: Other North African",
+     "perMille": 0.06
+    },
+    {
+     "category": "black-african-sierra-leone",
+     "label": "Sierra Leone (Black African)",
+     "words": "Black African: Sierra Leone",
+     "perMille": 0.14
+    },
+    {
+     "category": "black-african-somali",
+     "label": "Somali (Black African)",
+     "words": "Black African: Somali",
+     "perMille": 2.64
+    },
+    {
+     "category": "black-african-somalilander",
+     "label": "Somalilander (Black African)",
+     "words": "Black African: Somalilander",
+     "perMille": 0.43
+    },
+    {
+     "category": "black-african-south-african",
+     "label": "South African (Black African)",
+     "words": "Black African: South African",
+     "perMille": 0.14
+    },
+    {
+     "category": "black-african-sudanese",
+     "label": "Sudanese (Black African)",
+     "words": "Black African: Sudanese",
+     "perMille": 0.2
+    },
+    {
+     "category": "black-african-ugandan",
+     "label": "Ugandan (Black African)",
+     "words": "Black African: Ugandan",
+     "perMille": 0.29
+    },
+    {
+     "category": "black-african-zimbabwean",
+     "label": "Zimbabwean (Black African)",
+     "words": "Black African: Zimbabwean",
+     "perMille": 0.76
+    },
+    {
+     "category": "black-african-any-other-ethnic-group",
+     "label": "Any other ethnic group (Black African)",
+     "words": "Black African: Any other ethnic group",
+     "perMille": 0.47
+    },
+    {
+     "category": "black-caribbean-african-unspecified",
+     "label": "African unspecified (Black Caribbean)",
+     "words": "Black Caribbean: African unspecified",
+     "perMille": 0.44
+    },
+    {
+     "category": "black-caribbean-black-british",
+     "label": "Black British (Black Caribbean)",
+     "words": "Black Caribbean: Black British",
+     "perMille": 3.44
+    },
+    {
+     "category": "black-caribbean-black-african-american",
+     "label": "Black/African American (Black Caribbean)",
+     "words": "Black Caribbean: Black/African American",
+     "perMille": 0.05
+    },
+    {
+     "category": "black-caribbean-caribbean",
+     "label": "Caribbean (Black Caribbean)",
+     "words": "Black Caribbean: Caribbean",
+     "perMille": 10.95
+    },
+    {
+     "category": "black-caribbean-english-welsh-scottish-northern-irish-british",
+     "label": "English/Welsh/Scottish/Northern Irish/British (Black Caribbean)",
+     "words": "Black Caribbean: English/Welsh/Scottish/Northern Irish/British",
+     "perMille": 0.13
+    },
+    {
+     "category": "black-caribbean-ghanaian",
+     "label": "Ghanaian (Black Caribbean)",
+     "words": "Black Caribbean: Ghanaian",
+     "perMille": 0.04
+    },
+    {
+     "category": "black-caribbean-mixed-black",
+     "label": "Mixed Black (Black Caribbean)",
+     "words": "Black Caribbean: Mixed Black",
+     "perMille": 0.22
+    },
+    {
+     "category": "black-caribbean-nigerian",
+     "label": "Nigerian (Black Caribbean)",
+     "words": "Black Caribbean: Nigerian",
+     "perMille": 0.07
+    },
+    {
+     "category": "black-caribbean-other-black-black-unspecified",
+     "label": "Other Black, Black unspecified (Black Caribbean)",
+     "words": "Black Caribbean: Other Black, Black unspecified",
+     "perMille": 0.65
+    },
+    {
+     "category": "black-caribbean-somali",
+     "label": "Somali (Black Caribbean)",
+     "words": "Black Caribbean: Somali",
+     "perMille": 0.11
+    },
+    {
+     "category": "black-caribbean-any-other-ethnic-group",
+     "label": "Any other ethnic group (Black Caribbean)",
+     "words": "Black Caribbean: Any other ethnic group",
+     "perMille": 0.33
+    },
+    {
+     "category": "mixed-african-unspecified",
+     "label": "African unspecified (Mixed)",
+     "words": "Mixed: African unspecified",
+     "perMille": 0.07
+    },
+    {
+     "category": "mixed-african-asian",
+     "label": "African Asian (Mixed)",
+     "words": "Mixed: African Asian",
+     "perMille": 0.07
+    },
+    {
+     "category": "mixed-arab",
+     "label": "Arab (Mixed)",
+     "words": "Mixed: Arab",
+     "perMille": 0.13
+    },
+    {
+     "category": "mixed-asian-unspecified-and-european",
+     "label": "Asian (unspecified) and European (Mixed)",
+     "words": "Mixed: Asian (unspecified) and European",
+     "perMille": 0.05
+    },
+    {
+     "category": "mixed-black-and-asian",
+     "label": "Black and Asian (Mixed)",
+     "words": "Mixed: Black and Asian",
+     "perMille": 0.25
+    },
+    {
+     "category": "mixed-black-and-european",
+     "label": "Black and European (Mixed)",
+     "words": "Mixed: Black and European",
+     "perMille": 0.04
+    },
+    {
+     "category": "mixed-black-and-white-unspecified",
+     "label": "Black and White (unspecified) (Mixed)",
+     "words": "Mixed: Black and White (unspecified)",
+     "perMille": 0.31
+    },
+    {
+     "category": "mixed-brazilian",
+     "label": "Brazilian (Mixed)",
+     "words": "Mixed: Brazilian",
+     "perMille": 0.11
+    },
+    {
+     "category": "mixed-caribbean",
+     "label": "Caribbean (Mixed)",
+     "words": "Mixed: Caribbean",
+     "perMille": 0.13
+    },
+    {
+     "category": "mixed-caribbean-asian",
+     "label": "Caribbean Asian (Mixed)",
+     "words": "Mixed: Caribbean Asian",
+     "perMille": 0.13
+    },
+    {
+     "category": "mixed-chinese-and-white",
+     "label": "Chinese and White (Mixed)",
+     "words": "Mixed: Chinese and White",
+     "perMille": 0.13
+    },
+    {
+     "category": "mixed-english-welsh-scottish-northern-irish-british",
+     "label": "English/Welsh/Scottish/Northern Irish/British (Mixed)",
+     "words": "Mixed: English/Welsh/Scottish/Northern Irish/British",
+     "perMille": 0.2
+    },
+    {
+     "category": "mixed-european-and-black-african",
+     "label": "European and Black African (Mixed)",
+     "words": "Mixed: European and Black African",
+     "perMille": 0.06
+    },
+    {
+     "category": "mixed-european-and-black-caribbean",
+     "label": "European and Black Caribbean (Mixed)",
+     "words": "Mixed: European and Black Caribbean",
+     "perMille": 0.04
+    },
+    {
+     "category": "mixed-european-and-north-african-or-middle-eastern",
+     "label": "European and North African or Middle Eastern (Mixed)",
+     "words": "Mixed: European and North African or Middle Eastern",
+     "perMille": 0.05
+    },
+    {
+     "category": "mixed-european-mixed-european-unspecified-other-european",
+     "label": "European Mixed, European unspecified, other European (Mixed)",
+     "words": "Mixed: European Mixed, European unspecified, other European",
+     "perMille": 0.46
+    },
+    {
+     "category": "mixed-hispanic-or-latin-american",
+     "label": "Hispanic or Latin American (Mixed)",
+     "words": "Mixed: Hispanic or Latin American",
+     "perMille": 0.49
+    },
+    {
+     "category": "mixed-indian-or-british-indian",
+     "label": "Indian or British Indian (Mixed)",
+     "words": "Mixed: Indian or British Indian",
+     "perMille": 0.06
+    },
+    {
+     "category": "mixed-iranian",
+     "label": "Iranian (Mixed)",
+     "words": "Mixed: Iranian",
+     "perMille": 0.09
+    },
+    {
+     "category": "mixed-jewish",
+     "label": "Jewish (Mixed)",
+     "words": "Mixed: Jewish",
+     "perMille": 0.05
+    },
+    {
+     "category": "mixed-mauritian-seychellois-maldivian-sao-tomean-st-helenian",
+     "label": "Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian (Mixed)",
+     "words": "Mixed: Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian",
+     "perMille": 0.1
+    },
+    {
+     "category": "mixed-mixed-black",
+     "label": "Mixed Black (Mixed)",
+     "words": "Mixed: Mixed Black",
+     "perMille": 0.09
+    },
+    {
+     "category": "mixed-mixed-irish",
+     "label": "Mixed Irish (Mixed)",
+     "words": "Mixed: Mixed Irish",
+     "perMille": 0.08
+    },
+    {
+     "category": "mixed-mixed-white",
+     "label": "Mixed White (Mixed)",
+     "words": "Mixed: Mixed White",
+     "perMille": 0.11
+    },
+    {
+     "category": "mixed-other-asian-asian-unspecified",
+     "label": "Other Asian, Asian unspecified (Mixed)",
+     "words": "Mixed: Other Asian, Asian unspecified",
+     "perMille": 0.05
+    },
+    {
+     "category": "mixed-other-middle-east",
+     "label": "Other Middle East (Mixed)",
+     "words": "Mixed: Other Middle East",
+     "perMille": 0.06
+    },
+    {
+     "category": "mixed-other-mixed",
+     "label": "Other Mixed (Mixed)",
+     "words": "Mixed: Other Mixed",
+     "perMille": 1.87
+    },
+    {
+     "category": "mixed-other-white-white-unspecified",
+     "label": "Other White, White unspecified (Mixed)",
+     "words": "Mixed: Other White, White unspecified",
+     "perMille": 0.18
+    },
+    {
+     "category": "mixed-polynesian-micronesian-melanesian",
+     "label": "Polynesian/Micronesian/Melanesian (Mixed)",
+     "words": "Mixed: Polynesian/Micronesian/Melanesian",
+     "perMille": 0.08
+    },
+    {
+     "category": "mixed-south-american",
+     "label": "South American (Mixed)",
+     "words": "Mixed: South American",
+     "perMille": 0.1
+    },
+    {
+     "category": "mixed-south-asian-and-european",
+     "label": "South Asian and European (Mixed)",
+     "words": "Mixed: South Asian and European",
+     "perMille": 0.05
+    },
+    {
+     "category": "mixed-turkish",
+     "label": "Turkish (Mixed)",
+     "words": "Mixed: Turkish",
+     "perMille": 0.09
+    },
+    {
+     "category": "mixed-turkish-cypriot",
+     "label": "Turkish Cypriot (Mixed)",
+     "words": "Mixed: Turkish Cypriot",
+     "perMille": 0.04
+    },
+    {
+     "category": "mixed-white-and-arab",
+     "label": "White and Arab (Mixed)",
+     "words": "Mixed: White and Arab",
+     "perMille": 0.28
+    },
+    {
+     "category": "mixed-white-and-asian-unspecified",
+     "label": "White and Asian (unspecified) (Mixed)",
+     "words": "Mixed: White and Asian (unspecified)",
+     "perMille": 8.4
+    },
+    {
+     "category": "mixed-white-and-black-african",
+     "label": "White and Black African (Mixed)",
+     "words": "Mixed: White and Black African",
+     "perMille": 4.28
+    },
+    {
+     "category": "mixed-white-and-black-caribbean",
+     "label": "White and Black Caribbean (Mixed)",
+     "words": "Mixed: White and Black Caribbean",
+     "perMille": 8.84
+    },
+    {
+     "category": "mixed-white-and-north-african-or-middle-eastern",
+     "label": "White and North African or Middle Eastern (Mixed)",
+     "words": "Mixed: White and North African or Middle Eastern",
+     "perMille": 0.22
+    },
+    {
+     "category": "mixed-any-other-ethnic-group",
+     "label": "Any other ethnic group (Mixed)",
+     "words": "Mixed: Any other ethnic group",
+     "perMille": 0.94
+    },
+    {
+     "category": "white-albanian",
+     "label": "Albanian (White)",
+     "words": "White: Albanian",
+     "perMille": 0.72
+    },
+    {
+     "category": "white-algerian",
+     "label": "Algerian (White)",
+     "words": "White: Algerian",
+     "perMille": 0.03
+    },
+    {
+     "category": "white-arab",
+     "label": "Arab (White)",
+     "words": "White: Arab",
+     "perMille": 0.07
+    },
+    {
+     "category": "white-argentinian",
+     "label": "Argentinian (White)",
+     "words": "White: Argentinian",
+     "perMille": 0.04
+    },
+    {
+     "category": "white-armenian",
+     "label": "Armenian (White)",
+     "words": "White: Armenian",
+     "perMille": 0.07
+    },
+    {
+     "category": "white-australian-new-zealander",
+     "label": "Australian/New Zealander (White)",
+     "words": "White: Australian/New Zealander",
+     "perMille": 1.06
+    },
+    {
+     "category": "white-austrian",
+     "label": "Austrian (White)",
+     "words": "White: Austrian",
+     "perMille": 0.1
+    },
+    {
+     "category": "white-belarusian",
+     "label": "Belarusian (White)",
+     "words": "White: Belarusian",
+     "perMille": 0.04
+    },
+    {
+     "category": "white-belgian",
+     "label": "Belgian (White)",
+     "words": "White: Belgian",
+     "perMille": 0.13
+    },
+    {
+     "category": "white-brazilian",
+     "label": "Brazilian (White)",
+     "words": "White: Brazilian",
+     "perMille": 0.42
+    },
+    {
+     "category": "white-bulgarian",
+     "label": "Bulgarian (White)",
+     "words": "White: Bulgarian",
+     "perMille": 1.54
+    },
+    {
+     "category": "white-colombian",
+     "label": "Colombian (White)",
+     "words": "White: Colombian",
+     "perMille": 0.03
+    },
+    {
+     "category": "white-cornish",
+     "label": "Cornish (White)",
+     "words": "White: Cornish",
+     "perMille": 0.77
+    },
+    {
+     "category": "white-croatian",
+     "label": "Croatian (White)",
+     "words": "White: Croatian",
+     "perMille": 0.12
+    },
+    {
+     "category": "white-cypriot-part-not-stated",
+     "label": "Cypriot (part not stated) (White)",
+     "words": "White: Cypriot (part not stated)",
+     "perMille": 0.1
+    },
+    {
+     "category": "white-czech",
+     "label": "Czech (White)",
+     "words": "White: Czech",
+     "perMille": 0.42
+    },
+    {
+     "category": "white-danish",
+     "label": "Danish (White)",
+     "words": "White: Danish",
+     "perMille": 0.16
+    },
+    {
+     "category": "white-dutch",
+     "label": "Dutch (White)",
+     "words": "White: Dutch",
+     "perMille": 0.4
+    },
+    {
+     "category": "white-english-welsh-scottish-northern-irish-or-british",
+     "label": "English, Welsh, Scottish, Northern Irish or British (White)",
+     "words": "White: English, Welsh, Scottish, Northern Irish or British",
+     "perMille": 734.6
+    },
+    {
+     "category": "white-estonian",
+     "label": "Estonian (White)",
+     "words": "White: Estonian",
+     "perMille": 0.09
+    },
+    {
+     "category": "white-european-mixed",
+     "label": "European Mixed (White)",
+     "words": "White: European Mixed",
+     "perMille": 11.17
+    },
+    {
+     "category": "white-finnish",
+     "label": "Finnish (White)",
+     "words": "White: Finnish",
+     "perMille": 0.14
+    },
+    {
+     "category": "white-french",
+     "label": "French (White)",
+     "words": "White: French",
+     "perMille": 1.37
+    },
+    {
+     "category": "white-georgian",
+     "label": "Georgian (White)",
+     "words": "White: Georgian",
+     "perMille": 0.04
+    },
+    {
+     "category": "white-german",
+     "label": "German (White)",
+     "words": "White: German",
+     "perMille": 1.14
+    },
+    {
+     "category": "white-greek",
+     "label": "Greek (White)",
+     "words": "White: Greek",
+     "perMille": 1.28
+    },
+    {
+     "category": "white-greek-cypriot",
+     "label": "Greek Cypriot (White)",
+     "words": "White: Greek Cypriot",
+     "perMille": 0.52
+    },
+    {
+     "category": "white-gypsy-or-irish-traveller",
+     "label": "Gypsy or Irish Traveller (White)",
+     "words": "White: Gypsy or Irish Traveller",
+     "perMille": 1.06
+    },
+    {
+     "category": "white-hispanic-or-latin-american",
+     "label": "Hispanic or Latin American (White)",
+     "words": "White: Hispanic or Latin American",
+     "perMille": 0.56
+    },
+    {
+     "category": "white-hungarian",
+     "label": "Hungarian (White)",
+     "words": "White: Hungarian",
+     "perMille": 1.13
+    },
+    {
+     "category": "white-iranian",
+     "label": "Iranian (White)",
+     "words": "White: Iranian",
+     "perMille": 0.13
+    },
+    {
+     "category": "white-irish",
+     "label": "Irish (White)",
+     "words": "White: Irish",
+     "perMille": 8.75
+    },
+    {
+     "category": "white-israeli",
+     "label": "Israeli (White)",
+     "words": "White: Israeli",
+     "perMille": 0.05
+    },
+    {
+     "category": "white-italian",
+     "label": "Italian (White)",
+     "words": "White: Italian",
+     "perMille": 2.58
+    },
+    {
+     "category": "white-jewish",
+     "label": "Jewish (White)",
+     "words": "White: Jewish",
+     "perMille": 0.6
+    },
+    {
+     "category": "white-kosovan",
+     "label": "Kosovan (White)",
+     "words": "White: Kosovan",
+     "perMille": 0.23
+    },
+    {
+     "category": "white-kurdish",
+     "label": "Kurdish (White)",
+     "words": "White: Kurdish",
+     "perMille": 0.09
+    },
+    {
+     "category": "white-latvian",
+     "label": "Latvian (White)",
+     "words": "White: Latvian",
+     "perMille": 0.84
+    },
+    {
+     "category": "white-lithuanian",
+     "label": "Lithuanian (White)",
+     "words": "White: Lithuanian",
+     "perMille": 1.69
+    },
+    {
+     "category": "white-maltese",
+     "label": "Maltese (White)",
+     "words": "White: Maltese",
+     "perMille": 0.08
+    },
+    {
+     "category": "white-mixed-irish",
+     "label": "Mixed Irish (White)",
+     "words": "White: Mixed Irish",
+     "perMille": 0.35
+    },
+    {
+     "category": "white-mixed-white",
+     "label": "Mixed White (White)",
+     "words": "White: Mixed White",
+     "perMille": 0.05
+    },
+    {
+     "category": "white-moldovan",
+     "label": "Moldovan (White)",
+     "words": "White: Moldovan",
+     "perMille": 0.06
+    },
+    {
+     "category": "white-north-american",
+     "label": "North American (White)",
+     "words": "White: North American",
+     "perMille": 1.43
+    },
+    {
+     "category": "white-north-macedonian",
+     "label": "North Macedonian (White)",
+     "words": "White: North Macedonian",
+     "perMille": 0.06
+    },
+    {
+     "category": "white-norwegian",
+     "label": "Norwegian (White)",
+     "words": "White: Norwegian",
+     "perMille": 0.12
+    },
+    {
+     "category": "white-other-eastern-european",
+     "label": "Other Eastern European (White)",
+     "words": "White: Other Eastern European",
+     "perMille": 2.91
+    },
+    {
+     "category": "white-other-middle-east",
+     "label": "Other Middle East (White)",
+     "words": "White: Other Middle East",
+     "perMille": 0.11
+    },
+    {
+     "category": "white-other-mixed",
+     "label": "Other Mixed (White)",
+     "words": "White: Other Mixed",
+     "perMille": 0.37
+    },
+    {
+     "category": "white-other-north-african",
+     "label": "Other North African (White)",
+     "words": "White: Other North African",
+     "perMille": 0.06
+    },
+    {
+     "category": "white-other-white-white-unspecified",
+     "label": "Other White, White unspecified (White)",
+     "words": "White: Other White, White unspecified",
+     "perMille": 3.67
+    },
+    {
+     "category": "white-polish",
+     "label": "Polish (White)",
+     "words": "White: Polish",
+     "perMille": 10.49
+    },
+    {
+     "category": "white-portuguese",
+     "label": "Portuguese (White)",
+     "words": "White: Portuguese",
+     "perMille": 1.62
+    },
+    {
+     "category": "white-roma",
+     "label": "Roma (White)",
+     "words": "White: Roma",
+     "perMille": 1.76
+    },
+    {
+     "category": "white-romanian",
+     "label": "Romanian (White)",
+     "words": "White: Romanian",
+     "perMille": 5.97
+    },
+    {
+     "category": "white-russian",
+     "label": "Russian (White)",
+     "words": "White: Russian",
+     "perMille": 0.77
+    },
+    {
+     "category": "white-serbian",
+     "label": "Serbian (White)",
+     "words": "White: Serbian",
+     "perMille": 0.14
+    },
+    {
+     "category": "white-slovakian",
+     "label": "Slovakian (White)",
+     "words": "White: Slovakian",
+     "perMille": 0.63
+    },
+    {
+     "category": "white-slovenian",
+     "label": "Slovenian (White)",
+     "words": "White: Slovenian",
+     "perMille": 0.06
+    },
+    {
+     "category": "white-south-african",
+     "label": "South African (White)",
+     "words": "White: South African",
+     "perMille": 1.0
+    },
+    {
+     "category": "white-south-american",
+     "label": "South American (White)",
+     "words": "White: South American",
+     "perMille": 0.12
+    },
+    {
+     "category": "white-spanish",
+     "label": "Spanish (White)",
+     "words": "White: Spanish",
+     "perMille": 1.41
+    },
+    {
+     "category": "white-swedish",
+     "label": "Swedish (White)",
+     "words": "White: Swedish",
+     "perMille": 0.28
+    },
+    {
+     "category": "white-swiss",
+     "label": "Swiss (White)",
+     "words": "White: Swiss",
+     "perMille": 0.12
+    },
+    {
+     "category": "white-turkish",
+     "label": "Turkish (White)",
+     "words": "White: Turkish",
+     "perMille": 1.06
+    },
+    {
+     "category": "white-turkish-cypriot",
+     "label": "Turkish Cypriot (White)",
+     "words": "White: Turkish Cypriot",
+     "perMille": 0.17
+    },
+    {
+     "category": "white-ukrainian",
+     "label": "Ukrainian (White)",
+     "words": "White: Ukrainian",
+     "perMille": 0.28
+    },
+    {
+     "category": "white-white-african",
+     "label": "White African (White)",
+     "words": "White: White African",
+     "perMille": 0.35
+    },
+    {
+     "category": "white-white-caribbean",
+     "label": "White Caribbean (White)",
+     "words": "White: White Caribbean",
+     "perMille": 0.06
+    },
+    {
+     "category": "white-any-other-ethnic-group",
+     "label": "Any other ethnic group (White)",
+     "words": "White: Any other ethnic group",
+     "perMille": 0.38
+    },
+    {
+     "category": "other-afghan",
+     "label": "Afghan (Other)",
+     "words": "Other: Afghan",
+     "perMille": 0.36
+    },
+    {
+     "category": "other-african-unspecified",
+     "label": "African unspecified (Other)",
+     "words": "Other: African unspecified",
+     "perMille": 0.25
+    },
+    {
+     "category": "other-african-asian",
+     "label": "African Asian (Other)",
+     "words": "Other: African Asian",
+     "perMille": 0.04
+    },
+    {
+     "category": "other-albanian",
+     "label": "Albanian (Other)",
+     "words": "Other: Albanian",
+     "perMille": 0.08
+    },
+    {
+     "category": "other-algerian",
+     "label": "Algerian (Other)",
+     "words": "Other: Algerian",
+     "perMille": 0.03
+    },
+    {
+     "category": "other-arab",
+     "label": "Arab (Other)",
+     "words": "Other: Arab",
+     "perMille": 5.67
+    },
+    {
+     "category": "other-armenian",
+     "label": "Armenian (Other)",
+     "words": "Other: Armenian",
+     "perMille": 0.04
+    },
+    {
+     "category": "other-bangladeshi-british-bangladeshi",
+     "label": "Bangladeshi, British Bangladeshi (Other)",
+     "words": "Other: Bangladeshi, British Bangladeshi",
+     "perMille": 0.04
+    },
+    {
+     "category": "other-brazilian",
+     "label": "Brazilian (Other)",
+     "words": "Other: Brazilian",
+     "perMille": 0.1
+    },
+    {
+     "category": "other-bulgarian",
+     "label": "Bulgarian (Other)",
+     "words": "Other: Bulgarian",
+     "perMille": 0.12
+    },
+    {
+     "category": "other-caribbean",
+     "label": "Caribbean (Other)",
+     "words": "Other: Caribbean",
+     "perMille": 0.05
+    },
+    {
+     "category": "other-caribbean-asian",
+     "label": "Caribbean Asian (Other)",
+     "words": "Other: Caribbean Asian",
+     "perMille": 0.06
+    },
+    {
+     "category": "other-chinese",
+     "label": "Chinese (Other)",
+     "words": "Other: Chinese",
+     "perMille": 0.16
+    },
+    {
+     "category": "other-colombian",
+     "label": "Colombian (Other)",
+     "words": "Other: Colombian",
+     "perMille": 0.04
+    },
+    {
+     "category": "other-cornish",
+     "label": "Cornish (Other)",
+     "words": "Other: Cornish",
+     "perMille": 0.09
+    },
+    {
+     "category": "other-cypriot-part-not-stated",
+     "label": "Cypriot (part not stated) (Other)",
+     "words": "Other: Cypriot (part not stated)",
+     "perMille": 0.04
+    },
+    {
+     "category": "other-east-asian-east-asian-unspecified",
+     "label": "East Asian/ East Asian unspecified (Other)",
+     "words": "Other: East Asian/ East Asian unspecified",
+     "perMille": 0.08
+    },
+    {
+     "category": "other-english-welsh-scottish-northern-irish-british",
+     "label": "English/Welsh/Scottish/Northern Irish/British (Other)",
+     "words": "Other: English/Welsh/Scottish/Northern Irish/British",
+     "perMille": 0.08
+    },
+    {
+     "category": "other-european-mixed-european-unspecified-other-european",
+     "label": "European Mixed, European unspecified, other European (Other)",
+     "words": "Other: European Mixed, European unspecified, other European",
+     "perMille": 0.58
+    },
+    {
+     "category": "other-filipino",
+     "label": "Filipino (Other)",
+     "words": "Other: Filipino",
+     "perMille": 0.23
+    },
+    {
+     "category": "other-greek",
+     "label": "Greek (Other)",
+     "words": "Other: Greek",
+     "perMille": 0.07
+    },
+    {
+     "category": "other-greek-cypriot",
+     "label": "Greek Cypriot (Other)",
+     "words": "Other: Greek Cypriot",
+     "perMille": 0.26
+    },
+    {
+     "category": "other-hispanic-or-latin-american",
+     "label": "Hispanic or Latin American (Other)",
+     "words": "Other: Hispanic or Latin American",
+     "perMille": 1.32
+    },
+    {
+     "category": "other-indian-or-british-indian",
+     "label": "Indian or British Indian (Other)",
+     "words": "Other: Indian or British Indian",
+     "perMille": 0.17
+    },
+    {
+     "category": "other-iranian",
+     "label": "Iranian (Other)",
+     "words": "Other: Iranian",
+     "perMille": 0.94
+    },
+    {
+     "category": "other-italian",
+     "label": "Italian (Other)",
+     "words": "Other: Italian",
+     "perMille": 0.08
+    },
+    {
+     "category": "other-japanese",
+     "label": "Japanese (Other)",
+     "words": "Other: Japanese",
+     "perMille": 0.05
+    },
+    {
+     "category": "other-jewish",
+     "label": "Jewish (Other)",
+     "words": "Other: Jewish",
+     "perMille": 0.55
+    },
+    {
+     "category": "other-kashmiri",
+     "label": "Kashmiri (Other)",
+     "words": "Other: Kashmiri",
+     "perMille": 0.33
+    },
+    {
+     "category": "other-kurdish",
+     "label": "Kurdish (Other)",
+     "words": "Other: Kurdish",
+     "perMille": 1.3
+    },
+    {
+     "category": "other-mauritian-seychellois-maldivian-sao-tomean-st-helenian",
+     "label": "Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian (Other)",
+     "words": "Other: Mauritian/Seychellois/Maldivian/Sao Tomean/St Helenian",
+     "perMille": 0.23
+    },
+    {
+     "category": "other-moroccan",
+     "label": "Moroccan (Other)",
+     "words": "Other: Moroccan",
+     "perMille": 0.08
+    },
+    {
+     "category": "other-muslim",
+     "label": "Muslim (Other)",
+     "words": "Other: Muslim",
+     "perMille": 0.05
+    },
+    {
+     "category": "other-nepali-includes-gurkha",
+     "label": "Nepali (includes Gurkha) (Other)",
+     "words": "Other: Nepali (includes Gurkha)",
+     "perMille": 0.27
+    },
+    {
+     "category": "other-north-african",
+     "label": "North African (Other)",
+     "words": "Other: North African",
+     "perMille": 0.25
+    },
+    {
+     "category": "other-other-asian-asian-unspecified",
+     "label": "Other Asian, Asian unspecified (Other)",
+     "words": "Other: Other Asian, Asian unspecified",
+     "perMille": 0.26
+    },
+    {
+     "category": "other-other-eastern-european",
+     "label": "Other Eastern European (Other)",
+     "words": "Other: Other Eastern European",
+     "perMille": 0.12
+    },
+    {
+     "category": "other-other-middle-east",
+     "label": "Other Middle East (Other)",
+     "words": "Other: Other Middle East",
+     "perMille": 0.33
+    },
+    {
+     "category": "other-other-mixed",
+     "label": "Other Mixed (Other)",
+     "words": "Other: Other Mixed",
+     "perMille": 0.25
+    },
+    {
+     "category": "other-other-white-white-unspecified",
+     "label": "Other White, White unspecified (Other)",
+     "words": "Other: Other White, White unspecified",
+     "perMille": 0.14
+    },
+    {
+     "category": "other-pakistani-or-british-pakistani",
+     "label": "Pakistani or British Pakistani (Other)",
+     "words": "Other: Pakistani or British Pakistani",
+     "perMille": 0.09
+    },
+    {
+     "category": "other-polish",
+     "label": "Polish (Other)",
+     "words": "Other: Polish",
+     "perMille": 0.17
+    },
+    {
+     "category": "other-polynesia-micronesia-melanesia",
+     "label": "Polynesia/Micronesia/Melanesia (Other)",
+     "words": "Other: Polynesia/Micronesia/Melanesia",
+     "perMille": 0.09
+    },
+    {
+     "category": "other-portuguese",
+     "label": "Portuguese (Other)",
+     "words": "Other: Portuguese",
+     "perMille": 0.09
+    },
+    {
+     "category": "other-punjabi",
+     "label": "Punjabi (Other)",
+     "words": "Other: Punjabi",
+     "perMille": 0.15
+    },
+    {
+     "category": "other-romanian",
+     "label": "Romanian (Other)",
+     "words": "Other: Romanian",
+     "perMille": 0.39
+    },
+    {
+     "category": "other-sikh",
+     "label": "Sikh (Other)",
+     "words": "Other: Sikh",
+     "perMille": 1.35
+    },
+    {
+     "category": "other-slovakian",
+     "label": "Slovakian (Other)",
+     "words": "Other: Slovakian",
+     "perMille": 0.1
+    },
+    {
+     "category": "other-somali",
+     "label": "Somali (Other)",
+     "words": "Other: Somali",
+     "perMille": 0.2
+    },
+    {
+     "category": "other-south-american",
+     "label": "South American (Other)",
+     "words": "Other: South American",
+     "perMille": 0.17
+    },
+    {
+     "category": "other-spanish",
+     "label": "Spanish (Other)",
+     "words": "Other: Spanish",
+     "perMille": 0.07
+    },
+    {
+     "category": "other-sri-lankan",
+     "label": "Sri Lankan (Other)",
+     "words": "Other: Sri Lankan",
+     "perMille": 0.14
+    },
+    {
+     "category": "other-tamil",
+     "label": "Tamil (Other)",
+     "words": "Other: Tamil",
+     "perMille": 0.41
+    },
+    {
+     "category": "other-turkish",
+     "label": "Turkish (Other)",
+     "words": "Other: Turkish",
+     "perMille": 0.97
+    },
+    {
+     "category": "other-turkish-cypriot",
+     "label": "Turkish Cypriot (Other)",
+     "words": "Other: Turkish Cypriot",
+     "perMille": 0.35
+    },
+    {
+     "category": "other-vietnamese",
+     "label": "Vietnamese (Other)",
+     "words": "Other: Vietnamese",
+     "perMille": 0.05
+    },
+    {
+     "category": "other-any-other-ethnic-group",
+     "label": "Any other ethnic group (Other)",
+     "words": "Other: Any other ethnic group",
+     "perMille": 1.4
+    }
+   ]
+  },
+  {
+   "topic": "country-of-birth-extended",
+   "table": "COB190",
+   "geography": "msoa",
+   "item": "country-of-birth",
+   "universe": "residents",
+   "prefix": "census-birth-country-",
+   "picks": [
+    {
+     "category": "england",
+     "label": "England",
+     "words": "born in England",
+     "perMille": 803.48
+    },
+    {
+     "category": "northern-ireland",
+     "label": "Northern Ireland",
+     "words": "born in Northern Ireland",
+     "perMille": 3.37
+    },
+    {
+     "category": "scotland",
+     "label": "Scotland",
+     "words": "born in Scotland",
+     "perMille": 11.09
+    },
+    {
+     "category": "wales",
+     "label": "Wales",
+     "words": "born in Wales",
+     "perMille": 8.47
+    },
+    {
+     "category": "guernsey",
+     "label": "Guernsey",
+     "words": "born in Guernsey",
+     "perMille": 0.08
+    },
+    {
+     "category": "jersey",
+     "label": "Jersey",
+     "words": "born in Jersey",
+     "perMille": 0.1
+    },
+    {
+     "category": "channel-islands-not-otherwise-specified",
+     "label": "Channel Islands not otherwise specified",
+     "words": "born in Channel Islands not otherwise specified",
+     "perMille": 0.11
+    },
+    {
+     "category": "isle-of-man",
+     "label": "Isle of Man",
+     "words": "born in Isle of Man",
+     "perMille": 0.15
+    },
+    {
+     "category": "ireland",
+     "label": "Ireland",
+     "words": "born in Ireland",
+     "perMille": 5.57
+    },
+    {
+     "category": "austria",
+     "label": "Austria",
+     "words": "born in Austria",
+     "perMille": 0.29
+    },
+    {
+     "category": "belgium",
+     "label": "Belgium",
+     "words": "born in Belgium",
+     "perMille": 0.54
+    },
+    {
+     "category": "denmark",
+     "label": "Denmark",
+     "words": "born in Denmark",
+     "perMille": 0.36
+    },
+    {
+     "category": "finland",
+     "label": "Finland",
+     "words": "born in Finland",
+     "perMille": 0.24
+    },
+    {
+     "category": "france",
+     "label": "France",
+     "words": "born in France",
+     "perMille": 2.7
+    },
+    {
+     "category": "germany",
+     "label": "Germany",
+     "words": "born in Germany",
+     "perMille": 4.47
+    },
+    {
+     "category": "gibraltar",
+     "label": "Gibraltar",
+     "words": "born in Gibraltar",
+     "perMille": 0.16
+    },
+    {
+     "category": "greece",
+     "label": "Greece",
+     "words": "born in Greece",
+     "perMille": 1.39
+    },
+    {
+     "category": "italy",
+     "label": "Italy",
+     "words": "born in Italy",
+     "perMille": 4.82
+    },
+    {
+     "category": "netherlands",
+     "label": "Netherlands",
+     "words": "born in Netherlands",
+     "perMille": 1.16
+    },
+    {
+     "category": "portugal-including-madeira-and-the-azores",
+     "label": "Portugal (including Madeira and the Azores)",
+     "words": "born in Portugal (including Madeira and the Azores)",
+     "perMille": 2.7
+    },
+    {
+     "category": "spain-including-canary-islands",
+     "label": "Spain (including Canary Islands)",
+     "words": "born in Spain (including Canary Islands)",
+     "perMille": 2.9
+    },
+    {
+     "category": "sweden",
+     "label": "Sweden",
+     "words": "born in Sweden",
+     "perMille": 0.58
+    },
+    {
+     "category": "bulgaria",
+     "label": "Bulgaria",
+     "words": "born in Bulgaria",
+     "perMille": 2.6
+    },
+    {
+     "category": "cyprus",
+     "label": "Cyprus",
+     "words": "born in Cyprus",
+     "perMille": 1.26
+    },
+    {
+     "category": "czechia",
+     "label": "Czechia",
+     "words": "born in Czechia",
+     "perMille": 0.78
+    },
+    {
+     "category": "estonia",
+     "label": "Estonia",
+     "words": "born in Estonia",
+     "perMille": 0.17
+    },
+    {
+     "category": "hungary",
+     "label": "Hungary",
+     "words": "born in Hungary",
+     "perMille": 1.65
+    },
+    {
+     "category": "latvia",
+     "label": "Latvia",
+     "words": "born in Latvia",
+     "perMille": 1.55
+    },
+    {
+     "category": "lithuania",
+     "label": "Lithuania",
+     "words": "born in Lithuania",
+     "perMille": 2.86
+    },
+    {
+     "category": "malta",
+     "label": "Malta",
+     "words": "born in Malta",
+     "perMille": 0.42
+    },
+    {
+     "category": "poland",
+     "label": "Poland",
+     "words": "born in Poland",
+     "perMille": 12.71
+    },
+    {
+     "category": "romania",
+     "label": "Romania",
+     "words": "born in Romania",
+     "perMille": 9.39
+    },
+    {
+     "category": "slovakia",
+     "label": "Slovakia",
+     "words": "born in Slovakia",
+     "perMille": 1.27
+    },
+    {
+     "category": "slovenia",
+     "label": "Slovenia",
+     "words": "born in Slovenia",
+     "perMille": 0.06
+    },
+    {
+     "category": "albania",
+     "label": "Albania",
+     "words": "born in Albania",
+     "perMille": 1.2
+    },
+    {
+     "category": "armenia",
+     "label": "Armenia",
+     "words": "born in Armenia",
+     "perMille": 0.04
+    },
+    {
+     "category": "azerbaijan",
+     "label": "Azerbaijan",
+     "words": "born in Azerbaijan",
+     "perMille": 0.06
+    },
+    {
+     "category": "belarus",
+     "label": "Belarus",
+     "words": "born in Belarus",
+     "perMille": 0.11
+    },
+    {
+     "category": "bosnia-and-herzegovina",
+     "label": "Bosnia and Herzegovina",
+     "words": "born in Bosnia and Herzegovina",
+     "perMille": 0.14
+    },
+    {
+     "category": "croatia",
+     "label": "Croatia",
+     "words": "born in Croatia",
+     "perMille": 0.22
+    },
+    {
+     "category": "georgia",
+     "label": "Georgia",
+     "words": "born in Georgia",
+     "perMille": 0.09
+    },
+    {
+     "category": "kosovo",
+     "label": "Kosovo",
+     "words": "born in Kosovo",
+     "perMille": 0.54
+    },
+    {
+     "category": "north-macedonia",
+     "label": "North Macedonia",
+     "words": "born in North Macedonia",
+     "perMille": 0.13
+    },
+    {
+     "category": "moldova",
+     "label": "Moldova",
+     "words": "born in Moldova",
+     "perMille": 0.97
+    },
+    {
+     "category": "norway",
+     "label": "Norway",
+     "words": "born in Norway",
+     "perMille": 0.31
+    },
+    {
+     "category": "russia",
+     "label": "Russia",
+     "words": "born in Russia",
+     "perMille": 0.97
+    },
+    {
+     "category": "serbia",
+     "label": "Serbia",
+     "words": "born in Serbia",
+     "perMille": 0.2
+    },
+    {
+     "category": "switzerland",
+     "label": "Switzerland",
+     "words": "born in Switzerland",
+     "perMille": 0.4
+    },
+    {
+     "category": "turkey",
+     "label": "Turkey",
+     "words": "born in Turkey",
+     "perMille": 2.21
+    },
+    {
+     "category": "ukraine",
+     "label": "Ukraine",
+     "words": "born in Ukraine",
+     "perMille": 0.69
+    },
+    {
+     "category": "any-other-europe",
+     "label": "Any other Europe",
+     "words": "born in Any other Europe",
+     "perMille": 0.07
+    },
+    {
+     "category": "algeria",
+     "label": "Algeria",
+     "words": "born in Algeria",
+     "perMille": 0.52
+    },
+    {
+     "category": "egypt",
+     "label": "Egypt",
+     "words": "born in Egypt",
+     "perMille": 0.75
+    },
+    {
+     "category": "libya",
+     "label": "Libya",
+     "words": "born in Libya",
+     "perMille": 0.3
+    },
+    {
+     "category": "morocco",
+     "label": "Morocco",
+     "words": "born in Morocco",
+     "perMille": 0.57
+    },
+    {
+     "category": "sudan",
+     "label": "Sudan",
+     "words": "born in Sudan",
+     "perMille": 0.63
+    },
+    {
+     "category": "tunisia",
+     "label": "Tunisia",
+     "words": "born in Tunisia",
+     "perMille": 0.14
+    },
+    {
+     "category": "angola",
+     "label": "Angola",
+     "words": "born in Angola",
+     "perMille": 0.34
+    },
+    {
+     "category": "cameroon",
+     "label": "Cameroon",
+     "words": "born in Cameroon",
+     "perMille": 0.25
+    },
+    {
+     "category": "cape-verde",
+     "label": "Cape Verde",
+     "words": "born in Cape Verde",
+     "perMille": 0.05
+    },
+    {
+     "category": "congo",
+     "label": "Congo",
+     "words": "born in Congo",
+     "perMille": 0.06
+    },
+    {
+     "category": "congo-democratic-republic",
+     "label": "Congo (Democratic Republic)",
+     "words": "born in Congo (Democratic Republic)",
+     "perMille": 0.51
+    },
+    {
+     "category": "the-gambia",
+     "label": "The Gambia",
+     "words": "born in The Gambia",
+     "perMille": 0.3
+    },
+    {
+     "category": "ghana",
+     "label": "Ghana",
+     "words": "born in Ghana",
+     "perMille": 2.33
+    },
+    {
+     "category": "guinea",
+     "label": "Guinea",
+     "words": "born in Guinea",
+     "perMille": 0.07
+    },
+    {
+     "category": "guinea-bissau",
+     "label": "Guinea-Bissau",
+     "words": "born in Guinea-Bissau",
+     "perMille": 0.12
+    },
+    {
+     "category": "ivory-coast",
+     "label": "Ivory Coast",
+     "words": "born in Ivory Coast",
+     "perMille": 0.17
+    },
+    {
+     "category": "liberia",
+     "label": "Liberia",
+     "words": "born in Liberia",
+     "perMille": 0.07
+    },
+    {
+     "category": "nigeria",
+     "label": "Nigeria",
+     "words": "born in Nigeria",
+     "perMille": 4.72
+    },
+    {
+     "category": "senegal",
+     "label": "Senegal",
+     "words": "born in Senegal",
+     "perMille": 0.08
+    },
+    {
+     "category": "sierra-leone",
+     "label": "Sierra Leone",
+     "words": "born in Sierra Leone",
+     "perMille": 0.44
+    },
+    {
+     "category": "other-central-and-western-africa",
+     "label": "Other Central and Western Africa",
+     "words": "born in Other Central and Western Africa",
+     "perMille": 0.17
+    },
+    {
+     "category": "burundi",
+     "label": "Burundi",
+     "words": "born in Burundi",
+     "perMille": 0.08
+    },
+    {
+     "category": "eritrea",
+     "label": "Eritrea",
+     "words": "born in Eritrea",
+     "perMille": 0.63
+    },
+    {
+     "category": "ethiopia",
+     "label": "Ethiopia",
+     "words": "born in Ethiopia",
+     "perMille": 0.39
+    },
+    {
+     "category": "kenya",
+     "label": "Kenya",
+     "words": "born in Kenya",
+     "perMille": 2.36
+    },
+    {
+     "category": "malawi",
+     "label": "Malawi",
+     "words": "born in Malawi",
+     "perMille": 0.29
+    },
+    {
+     "category": "mauritius",
+     "label": "Mauritius",
+     "words": "born in Mauritius",
+     "perMille": 0.68
+    },
+    {
+     "category": "mozambique",
+     "label": "Mozambique",
+     "words": "born in Mozambique",
+     "perMille": 0.13
+    },
+    {
+     "category": "rwanda",
+     "label": "Rwanda",
+     "words": "born in Rwanda",
+     "perMille": 0.08
+    },
+    {
+     "category": "seychelles",
+     "label": "Seychelles",
+     "words": "born in Seychelles",
+     "perMille": 0.05
+    },
+    {
+     "category": "somalia",
+     "label": "Somalia",
+     "words": "born in Somalia",
+     "perMille": 1.89
+    },
+    {
+     "category": "south-africa",
+     "label": "South Africa",
+     "words": "born in South Africa",
+     "perMille": 3.74
+    },
+    {
+     "category": "tanzania",
+     "label": "Tanzania",
+     "words": "born in Tanzania",
+     "perMille": 0.61
+    },
+    {
+     "category": "uganda",
+     "label": "Uganda",
+     "words": "born in Uganda",
+     "perMille": 1.09
+    },
+    {
+     "category": "zambia",
+     "label": "Zambia",
+     "words": "born in Zambia",
+     "perMille": 0.45
+    },
+    {
+     "category": "zimbabwe",
+     "label": "Zimbabwe",
+     "words": "born in Zimbabwe",
+     "perMille": 2.15
+    },
+    {
+     "category": "africa-not-otherwise-specified",
+     "label": "Africa not otherwise specified",
+     "words": "born in Africa not otherwise specified",
+     "perMille": 0.09
+    },
+    {
+     "category": "bahrain",
+     "label": "Bahrain",
+     "words": "born in Bahrain",
+     "perMille": 0.1
+    },
+    {
+     "category": "iran",
+     "label": "Iran",
+     "words": "born in Iran",
+     "perMille": 1.89
+    },
+    {
+     "category": "iraq",
+     "label": "Iraq",
+     "words": "born in Iraq",
+     "perMille": 1.53
+    },
+    {
+     "category": "israel",
+     "label": "Israel",
+     "words": "born in Israel",
+     "perMille": 0.39
+    },
+    {
+     "category": "jordan",
+     "label": "Jordan",
+     "words": "born in Jordan",
+     "perMille": 0.15
+    },
+    {
+     "category": "kuwait",
+     "label": "Kuwait",
+     "words": "born in Kuwait",
+     "perMille": 0.38
+    },
+    {
+     "category": "lebanon",
+     "label": "Lebanon",
+     "words": "born in Lebanon",
+     "perMille": 0.35
+    },
+    {
+     "category": "occupied-palestinian-territories",
+     "label": "Occupied Palestinian Territories",
+     "words": "born in Occupied Palestinian Territories",
+     "perMille": 0.08
+    },
+    {
+     "category": "saudi-arabia",
+     "label": "Saudi Arabia",
+     "words": "born in Saudi Arabia",
+     "perMille": 0.53
+    },
+    {
+     "category": "syria",
+     "label": "Syria",
+     "words": "born in Syria",
+     "perMille": 0.72
+    },
+    {
+     "category": "united-arab-emirates",
+     "label": "United Arab Emirates",
+     "words": "born in United Arab Emirates",
+     "perMille": 0.39
+    },
+    {
+     "category": "yemen",
+     "label": "Yemen",
+     "words": "born in Yemen",
+     "perMille": 0.32
+    },
+    {
+     "category": "china",
+     "label": "China",
+     "words": "born in China",
+     "perMille": 3.12
+    },
+    {
+     "category": "hong-kong-special-administrative-region-of-china",
+     "label": "Hong Kong (Special Administrative Region of China)",
+     "words": "born in Hong Kong (Special Administrative Region of China)",
+     "perMille": 2.09
+    },
+    {
+     "category": "japan",
+     "label": "Japan",
+     "words": "born in Japan",
+     "perMille": 0.61
+    },
+    {
+     "category": "korea-south",
+     "label": "Korea (South)",
+     "words": "born in Korea (South)",
+     "perMille": 0.33
+    },
+    {
+     "category": "taiwan",
+     "label": "Taiwan",
+     "words": "born in Taiwan",
+     "perMille": 0.18
+    },
+    {
+     "category": "afghanistan",
+     "label": "Afghanistan",
+     "words": "born in Afghanistan",
+     "perMille": 1.5
+    },
+    {
+     "category": "bangladesh",
+     "label": "Bangladesh",
+     "words": "born in Bangladesh",
+     "perMille": 4.71
+    },
+    {
+     "category": "india",
+     "label": "India",
+     "words": "born in India",
+     "perMille": 16.05
+    },
+    {
+     "category": "nepal",
+     "label": "Nepal",
+     "words": "born in Nepal",
+     "perMille": 1.37
+    },
+    {
+     "category": "pakistan",
+     "label": "Pakistan",
+     "words": "born in Pakistan",
+     "perMille": 10.91
+    },
+    {
+     "category": "sri-lanka",
+     "label": "Sri Lanka",
+     "words": "born in Sri Lanka",
+     "perMille": 2.51
+    },
+    {
+     "category": "brunei",
+     "label": "Brunei",
+     "words": "born in Brunei",
+     "perMille": 0.08
+    },
+    {
+     "category": "myanmar-burma",
+     "label": "Myanmar (Burma)",
+     "words": "born in Myanmar (Burma)",
+     "perMille": 0.18
+    },
+    {
+     "category": "indonesia",
+     "label": "Indonesia",
+     "words": "born in Indonesia",
+     "perMille": 0.21
+    },
+    {
+     "category": "malaysia",
+     "label": "Malaysia",
+     "words": "born in Malaysia",
+     "perMille": 1.06
+    },
+    {
+     "category": "philippines",
+     "label": "Philippines",
+     "words": "born in Philippines",
+     "perMille": 2.65
+    },
+    {
+     "category": "singapore",
+     "label": "Singapore",
+     "words": "born in Singapore",
+     "perMille": 0.7
+    },
+    {
+     "category": "thailand",
+     "label": "Thailand",
+     "words": "born in Thailand",
+     "perMille": 0.84
+    },
+    {
+     "category": "vietnam",
+     "label": "Vietnam",
+     "words": "born in Vietnam",
+     "perMille": 0.64
+    },
+    {
+     "category": "other-south-east-asia",
+     "label": "Other South-East Asia",
+     "words": "born in Other South-East Asia",
+     "perMille": 0.28
+    },
+    {
+     "category": "kazakhstan",
+     "label": "Kazakhstan",
+     "words": "born in Kazakhstan",
+     "perMille": 0.1
+    },
+    {
+     "category": "uzbekistan",
+     "label": "Uzbekistan",
+     "words": "born in Uzbekistan",
+     "perMille": 0.07
+    },
+    {
+     "category": "bermuda",
+     "label": "Bermuda",
+     "words": "born in Bermuda",
+     "perMille": 0.1
+    },
+    {
+     "category": "canada",
+     "label": "Canada",
+     "words": "born in Canada",
+     "perMille": 1.18
+    },
+    {
+     "category": "united-states",
+     "label": "United States",
+     "words": "born in United States",
+     "perMille": 3.52
+    },
+    {
+     "category": "mexico",
+     "label": "Mexico",
+     "words": "born in Mexico",
+     "perMille": 0.23
+    },
+    {
+     "category": "other-central-america",
+     "label": "Other Central America",
+     "words": "born in Other Central America",
+     "perMille": 0.16
+    },
+    {
+     "category": "argentina",
+     "label": "Argentina",
+     "words": "born in Argentina",
+     "perMille": 0.29
+    },
+    {
+     "category": "bolivia",
+     "label": "Bolivia",
+     "words": "born in Bolivia",
+     "perMille": 0.13
+    },
+    {
+     "category": "brazil",
+     "label": "Brazil",
+     "words": "born in Brazil",
+     "perMille": 1.95
+    },
+    {
+     "category": "chile",
+     "label": "Chile",
+     "words": "born in Chile",
+     "perMille": 0.14
+    },
+    {
+     "category": "colombia",
+     "label": "Colombia",
+     "words": "born in Colombia",
+     "perMille": 0.66
+    },
+    {
+     "category": "ecuador",
+     "label": "Ecuador",
+     "words": "born in Ecuador",
+     "perMille": 0.34
+    },
+    {
+     "category": "guyana",
+     "label": "Guyana",
+     "words": "born in Guyana",
+     "perMille": 0.32
+    },
+    {
+     "category": "peru",
+     "label": "Peru",
+     "words": "born in Peru",
+     "perMille": 0.19
+    },
+    {
+     "category": "venezuela",
+     "label": "Venezuela",
+     "words": "born in Venezuela",
+     "perMille": 0.35
+    },
+    {
+     "category": "antigua-and-barbuda",
+     "label": "Antigua and Barbuda",
+     "words": "born in Antigua and Barbuda",
+     "perMille": 0.06
+    },
+    {
+     "category": "barbados",
+     "label": "Barbados",
+     "words": "born in Barbados",
+     "perMille": 0.27
+    },
+    {
+     "category": "cuba",
+     "label": "Cuba",
+     "words": "born in Cuba",
+     "perMille": 0.05
+    },
+    {
+     "category": "dominica",
+     "label": "Dominica",
+     "words": "born in Dominica",
+     "perMille": 0.1
+    },
+    {
+     "category": "dominican-republic",
+     "label": "Dominican Republic",
+     "words": "born in Dominican Republic",
+     "perMille": 0.14
+    },
+    {
+     "category": "grenada",
+     "label": "Grenada",
+     "words": "born in Grenada",
+     "perMille": 0.15
+    },
+    {
+     "category": "jamaica",
+     "label": "Jamaica",
+     "words": "born in Jamaica",
+     "perMille": 2.5
+    },
+    {
+     "category": "montserrat",
+     "label": "Montserrat",
+     "words": "born in Montserrat",
+     "perMille": 0.11
+    },
+    {
+     "category": "st-kitts-and-nevis",
+     "label": "St Kitts and Nevis",
+     "words": "born in St Kitts and Nevis",
+     "perMille": 0.08
+    },
+    {
+     "category": "st-lucia",
+     "label": "St Lucia",
+     "words": "born in St Lucia",
+     "perMille": 0.16
+    },
+    {
+     "category": "st-vincent-and-the-grenadines",
+     "label": "St Vincent and the Grenadines",
+     "words": "born in St Vincent and the Grenadines",
+     "perMille": 0.14
+    },
+    {
+     "category": "trinidad-and-tobago",
+     "label": "Trinidad and Tobago",
+     "words": "born in Trinidad and Tobago",
+     "perMille": 0.38
+    },
+    {
+     "category": "other-caribbean",
+     "label": "Other Caribbean",
+     "words": "born in Other Caribbean",
+     "perMille": 0.15
+    },
+    {
+     "category": "australia",
+     "label": "Australia",
+     "words": "born in Australia",
+     "perMille": 1.95
+    },
+    {
+     "category": "new-zealand",
+     "label": "New Zealand",
+     "words": "born in New Zealand",
+     "perMille": 0.85
+    },
+    {
+     "category": "fiji",
+     "label": "Fiji",
+     "words": "born in Fiji",
+     "perMille": 0.13
+    },
+    {
+     "category": "other-oceania",
+     "label": "Other Oceania",
+     "words": "born in Other Oceania",
+     "perMille": 0.07
+    }
+   ]
+  },
+  {
+   "topic": "religion-detailed",
+   "table": "TS031",
+   "geography": "msoa",
+   "item": "religion",
+   "universe": "residents",
+   "prefix": "census-belief-",
+   "picks": [
+    {
+     "category": "agnostic",
+     "label": "Agnostic",
+     "words": "Agnostic",
+     "perMille": 0.54
+    },
+    {
+     "category": "atheist",
+     "label": "Atheist",
+     "words": "Atheist",
+     "perMille": 0.23
+    },
+    {
+     "category": "humanist",
+     "label": "Humanist",
+     "words": "Humanist",
+     "perMille": 0.17
+    },
+    {
+     "category": "alevi",
+     "label": "Alevi",
+     "words": "Alevi",
+     "perMille": 0.45
+    },
+    {
+     "category": "baha-i",
+     "label": "Baha'i",
+     "words": "Baha'i",
+     "perMille": 0.08
+    },
+    {
+     "category": "jain",
+     "label": "Jain",
+     "words": "Jain",
+     "perMille": 0.44
+    },
+    {
+     "category": "mixed-religion",
+     "label": "Mixed Religion",
+     "words": "Mixed Religion",
+     "perMille": 0.19
+    },
+    {
+     "category": "other-religions",
+     "label": "Other religions",
+     "words": "Other religions",
+     "perMille": 1.12
+    },
+    {
+     "category": "pagan",
+     "label": "Pagan",
+     "words": "Pagan",
+     "perMille": 1.21
+    },
+    {
+     "category": "rastafarian",
+     "label": "Rastafarian",
+     "words": "Rastafarian",
+     "perMille": 0.1
+    },
+    {
+     "category": "ravidassia",
+     "label": "Ravidassia",
+     "words": "Ravidassia",
+     "perMille": 0.17
+    },
+    {
+     "category": "shamanism",
+     "label": "Shamanism",
+     "words": "Shamanism",
+     "perMille": 0.14
+    },
+    {
+     "category": "spiritual",
+     "label": "Spiritual",
+     "words": "Spiritual",
+     "perMille": 0.53
+    },
+    {
+     "category": "spiritualist",
+     "label": "Spiritualist",
+     "words": "Spiritualist",
+     "perMille": 0.55
+    },
+    {
+     "category": "wicca",
+     "label": "Wicca",
+     "words": "Wicca",
+     "perMille": 0.21
+    },
+    {
+     "category": "zoroastrian",
+     "label": "Zoroastrian",
+     "words": "Zoroastrian",
+     "perMille": 0.07
+    }
+   ]
+  },
+  {
+   "topic": "year-of-arrival",
+   "table": "TS015",
+   "geography": "lsoa",
+   "item": "year-of-arrival",
+   "universe": "residents",
+   "prefix": "census-arrival-",
+   "picks": [
+    {
+     "category": "born-in-the-uk",
+     "label": "Born in the UK",
+     "words": "born in the UK",
+     "perMille": 826.47
+    },
+    {
+     "category": "arrived-before-1951",
+     "label": "Before 1951",
+     "words": "arrived before 1951",
+     "perMille": 1.28
+    },
+    {
+     "category": "arrived-1951-to-1960",
+     "label": "1951–1960",
+     "words": "arrived 1951 to 1960",
+     "perMille": 4.02
+    },
+    {
+     "category": "arrived-1961-to-1970",
+     "label": "1961–1970",
+     "words": "arrived 1961 to 1970",
+     "perMille": 9.38
+    },
+    {
+     "category": "arrived-1971-to-1980",
+     "label": "1971–1980",
+     "words": "arrived 1971 to 1980",
+     "perMille": 9.61
+    },
+    {
+     "category": "arrived-1981-to-1990",
+     "label": "1981–1990",
+     "words": "arrived 1981 to 1990",
+     "perMille": 10.06
+    },
+    {
+     "category": "arrived-1991-to-2000",
+     "label": "1991–2000",
+     "words": "arrived 1991 to 2000",
+     "perMille": 18.94
+    },
+    {
+     "category": "arrived-2001-to-2010",
+     "label": "2001–2010",
+     "words": "arrived 2001 to 2010",
+     "perMille": 46.63
+    },
+    {
+     "category": "arrived-2011-to-2013",
+     "label": "2011–2013",
+     "words": "arrived 2011 to 2013",
+     "perMille": 15.24
+    },
+    {
+     "category": "arrived-2014-to-2016",
+     "label": "2014–2016",
+     "words": "arrived 2014 to 2016",
+     "perMille": 21.77
+    },
+    {
+     "category": "arrived-2017-to-2019",
+     "label": "2017–2019",
+     "words": "arrived 2017 to 2019",
+     "perMille": 24.87
+    },
+    {
+     "category": "arrived-2020-to-2021",
+     "label": "2020–2021",
+     "words": "arrived 2020 to 2021",
+     "perMille": 11.72
+    }
+   ]
+  },
+  {
+   "topic": "main-language",
+   "table": "LANG26",
+   "geography": "lsoa",
+   "item": "main-language",
+   "universe": "residents aged 3+",
+   "prefix": "census-language-",
+   "picks": [
+    {
+     "category": "english-english-or-welsh-if-in-wales",
+     "label": "English (English or Welsh if in Wales)",
+     "words": "main language English (English or Welsh if in Wales)",
+     "perMille": 907.95
+    },
+    {
+     "category": "any-other-uk-languages",
+     "label": "Any other UK languages",
+     "words": "main language Any other UK languages",
+     "perMille": 0.21
+    },
+    {
+     "category": "french",
+     "label": "French",
+     "words": "main language French",
+     "perMille": 2.17
+    },
+    {
+     "category": "portuguese",
+     "label": "Portuguese",
+     "words": "main language Portuguese",
+     "perMille": 4.04
+    },
+    {
+     "category": "spanish",
+     "label": "Spanish",
+     "words": "main language Spanish",
+     "perMille": 3.88
+    },
+    {
+     "category": "polish",
+     "label": "Polish",
+     "words": "main language Polish",
+     "perMille": 10.81
+    },
+    {
+     "category": "any-other-european-languages",
+     "label": "Any other European languages",
+     "words": "main language Any other European languages",
+     "perMille": 22.39
+    },
+    {
+     "category": "european-languages-non-eu",
+     "label": "European languages (non-EU)",
+     "words": "main language European languages (non-EU)",
+     "perMille": 1.77
+    },
+    {
+     "category": "russian",
+     "label": "Russian",
+     "words": "main language Russian",
+     "perMille": 1.64
+    },
+    {
+     "category": "turkish",
+     "label": "Turkish",
+     "words": "main language Turkish",
+     "perMille": 2.02
+    },
+    {
+     "category": "arabic",
+     "label": "Arabic",
+     "words": "main language Arabic",
+     "perMille": 3.57
+    },
+    {
+     "category": "west-or-central-asian-languages",
+     "label": "West or Central Asian languages",
+     "words": "main language West or Central Asian languages",
+     "perMille": 3.94
+    },
+    {
+     "category": "panjabi",
+     "label": "Panjabi",
+     "words": "main language Panjabi",
+     "perMille": 5.28
+    },
+    {
+     "category": "urdu",
+     "label": "Urdu",
+     "words": "main language Urdu",
+     "perMille": 4.89
+    },
+    {
+     "category": "bengali-with-sylheti-and-chatgaya",
+     "label": "Bengali (with Sylheti and Chatgaya)",
+     "words": "main language Bengali (with Sylheti and Chatgaya)",
+     "perMille": 3.56
+    },
+    {
+     "category": "gujarati",
+     "label": "Gujarati",
+     "words": "main language Gujarati",
+     "perMille": 3.44
+    },
+    {
+     "category": "tamil",
+     "label": "Tamil",
+     "words": "main language Tamil",
+     "perMille": 2.26
+    },
+    {
+     "category": "any-other-south-asian-languages",
+     "label": "Any other South Asian languages",
+     "words": "main language Any other South Asian languages",
+     "perMille": 5.39
+    },
+    {
+     "category": "mandarin-cantonese-and-other-chinese-languages",
+     "label": "Mandarin, Cantonese and other Chinese languages",
+     "words": "main language Mandarin, Cantonese and other Chinese languages",
+     "perMille": 3.61
+    },
+    {
+     "category": "any-other-east-asian-languages",
+     "label": "Any other East Asian languages",
+     "words": "main language Any other East Asian languages",
+     "perMille": 2.8
+    },
+    {
+     "category": "african-languages",
+     "label": "African languages",
+     "words": "main language African languages",
+     "perMille": 3.7
+    },
+    {
+     "category": "british-sign-language",
+     "label": "British Sign Language",
+     "words": "main language British Sign Language",
+     "perMille": 0.38
+    },
+    {
+     "category": "any-other-languages",
+     "label": "Any other languages",
+     "words": "main language Any other languages",
+     "perMille": 0.2
+    }
+   ]
+  },
+  {
+   "topic": "passports",
+   "table": "TS013",
+   "geography": "msoa",
+   "item": "passports",
+   "universe": "residents",
+   "prefix": "census-passport-",
+   "picks": [
+    {
+     "category": "united-kingdom",
+     "label": "United Kingdom",
+     "words": "passport: United Kingdom",
+     "perMille": 766.3
+    },
+    {
+     "category": "ireland",
+     "label": "Ireland",
+     "words": "passport: Ireland",
+     "perMille": 6.28
+    },
+    {
+     "category": "france",
+     "label": "France",
+     "words": "passport: France",
+     "perMille": 2.86
+    },
+    {
+     "category": "germany",
+     "label": "Germany",
+     "words": "passport: Germany",
+     "perMille": 2.06
+    },
+    {
+     "category": "italy",
+     "label": "Italy",
+     "words": "passport: Italy",
+     "perMille": 6.44
+    },
+    {
+     "category": "portugal",
+     "label": "Portugal",
+     "words": "passport: Portugal",
+     "perMille": 4.99
+    },
+    {
+     "category": "spain",
+     "label": "Spain",
+     "words": "passport: Spain",
+     "perMille": 3.78
+    },
+    {
+     "category": "lithuania",
+     "label": "Lithuania",
+     "words": "passport: Lithuania",
+     "perMille": 3.23
+    },
+    {
+     "category": "poland",
+     "label": "Poland",
+     "words": "passport: Poland",
+     "perMille": 13.0
+    },
+    {
+     "category": "romania",
+     "label": "Romania",
+     "words": "passport: Romania",
+     "perMille": 9.6
+    },
+    {
+     "category": "other-eu-countries",
+     "label": "Other EU countries",
+     "words": "passport: Other EU countries",
+     "perMille": 15.06
+    },
+    {
+     "category": "turkey",
+     "label": "Turkey",
+     "words": "passport: Turkey",
+     "perMille": 0.78
+    },
+    {
+     "category": "other-europe",
+     "label": "Other Europe",
+     "words": "passport: Other Europe",
+     "perMille": 2.21
+    },
+    {
+     "category": "north-africa",
+     "label": "North Africa",
+     "words": "passport: North Africa",
+     "perMille": 0.93
+    },
+    {
+     "category": "ghana",
+     "label": "Ghana",
+     "words": "passport: Ghana",
+     "perMille": 0.84
+    },
+    {
+     "category": "nigeria",
+     "label": "Nigeria",
+     "words": "passport: Nigeria",
+     "perMille": 2.04
+    },
+    {
+     "category": "other-central-and-western-africa",
+     "label": "Other Central and Western Africa",
+     "words": "passport: Other Central and Western Africa",
+     "perMille": 0.51
+    },
+    {
+     "category": "kenya",
+     "label": "Kenya",
+     "words": "passport: Kenya",
+     "perMille": 0.18
+    },
+    {
+     "category": "south-africa",
+     "label": "South Africa",
+     "words": "passport: South Africa",
+     "perMille": 0.87
+    },
+    {
+     "category": "zimbabwe",
+     "label": "Zimbabwe",
+     "words": "passport: Zimbabwe",
+     "perMille": 0.52
+    },
+    {
+     "category": "other-south-and-eastern-africa",
+     "label": "Other South and Eastern Africa",
+     "words": "passport: Other South and Eastern Africa",
+     "perMille": 0.62
+    },
+    {
+     "category": "iran",
+     "label": "Iran",
+     "words": "passport: Iran",
+     "perMille": 0.28
+    },
+    {
+     "category": "iraq",
+     "label": "Iraq",
+     "words": "passport: Iraq",
+     "perMille": 0.17
+    },
+    {
+     "category": "other-middle-east",
+     "label": "Other Middle East",
+     "words": "passport: Other Middle East",
+     "perMille": 0.76
+    },
+    {
+     "category": "china",
+     "label": "China",
+     "words": "passport: China",
+     "perMille": 1.86
+    },
+    {
+     "category": "hong-kong-special-administrative-region-of-china",
+     "label": "Hong Kong (Special Administrative Region of China)",
+     "words": "passport: Hong Kong (Special Administrative Region of China)",
+     "perMille": 0.33
+    },
+    {
+     "category": "japan",
+     "label": "Japan",
+     "words": "passport: Japan",
+     "perMille": 0.49
+    },
+    {
+     "category": "other-eastern-asia",
+     "label": "Other Eastern Asia",
+     "words": "passport: Other Eastern Asia",
+     "perMille": 0.33
+    },
+    {
+     "category": "afghanistan",
+     "label": "Afghanistan",
+     "words": "passport: Afghanistan",
+     "perMille": 0.25
+    },
+    {
+     "category": "bangladesh",
+     "label": "Bangladesh",
+     "words": "passport: Bangladesh",
+     "perMille": 1.04
+    },
+    {
+     "category": "india",
+     "label": "India",
+     "words": "passport: India",
+     "perMille": 6.43
+    },
+    {
+     "category": "pakistan",
+     "label": "Pakistan",
+     "words": "passport: Pakistan",
+     "perMille": 2.91
+    },
+    {
+     "category": "sri-lanka",
+     "label": "Sri Lanka",
+     "words": "passport: Sri Lanka",
+     "perMille": 0.62
+    },
+    {
+     "category": "other-southern-asia",
+     "label": "Other Southern Asia",
+     "words": "passport: Other Southern Asia",
+     "perMille": 0.82
+    },
+    {
+     "category": "malaysia",
+     "label": "Malaysia",
+     "words": "passport: Malaysia",
+     "perMille": 0.56
+    },
+    {
+     "category": "philippines",
+     "label": "Philippines",
+     "words": "passport: Philippines",
+     "perMille": 0.91
+    },
+    {
+     "category": "singapore",
+     "label": "Singapore",
+     "words": "passport: Singapore",
+     "perMille": 0.16
+    },
+    {
+     "category": "other-south-east-asia",
+     "label": "Other South-East Asia",
+     "words": "passport: Other South-East Asia",
+     "perMille": 0.62
+    },
+    {
+     "category": "central-asia",
+     "label": "Central Asia",
+     "words": "passport: Central Asia",
+     "perMille": 0.08
+    },
+    {
+     "category": "canada",
+     "label": "Canada",
+     "words": "passport: Canada",
+     "perMille": 0.61
+    },
+    {
+     "category": "united-states",
+     "label": "United States",
+     "words": "passport: United States",
+     "perMille": 2.13
+    },
+    {
+     "category": "central-america",
+     "label": "Central America",
+     "words": "passport: Central America",
+     "perMille": 0.19
+    },
+    {
+     "category": "south-america",
+     "label": "South America",
+     "words": "passport: South America",
+     "perMille": 1.51
+    },
+    {
+     "category": "jamaica",
+     "label": "Jamaica",
+     "words": "passport: Jamaica",
+     "perMille": 0.5
+    },
+    {
+     "category": "other-caribbean",
+     "label": "Other Caribbean",
+     "words": "passport: Other Caribbean",
+     "perMille": 0.29
+    },
+    {
+     "category": "australia",
+     "label": "Australia",
+     "words": "passport: Australia",
+     "perMille": 0.89
+    },
+    {
+     "category": "new-zealand",
+     "label": "New Zealand",
+     "words": "passport: New Zealand",
+     "perMille": 0.37
+    },
+    {
+     "category": "other-antarctica-and-oceania",
+     "label": "Other Antarctica and Oceania",
+     "words": "passport: Other Antarctica and Oceania",
+     "perMille": 0.07
+    },
+    {
+     "category": "no-passport-held",
+     "label": "No passport held",
+     "words": "passport: No passport held",
+     "perMille": 131.64
+    }
+   ]
+  },
+  {
+   "topic": "national-identity",
+   "table": "TS028",
+   "geography": "msoa",
+   "item": "national-identity",
+   "universe": "residents",
+   "prefix": "census-identity-",
+   "picks": [
+    {
+     "category": "british-only-identity",
+     "label": "British only identity",
+     "words": "identity: British only identity",
+     "perMille": 568.3
+    },
+    {
+     "category": "english-only-identity",
+     "label": "English only identity",
+     "words": "identity: English only identity",
+     "perMille": 152.51
+    },
+    {
+     "category": "english-and-british-only-identity",
+     "label": "English and British only identity",
+     "words": "identity: English and British only identity",
+     "perMille": 142.64
+    },
+    {
+     "category": "welsh-only-identity",
+     "label": "Welsh only identity",
+     "words": "identity: Welsh only identity",
+     "perMille": 3.41
+    },
+    {
+     "category": "welsh-and-british-only-identity",
+     "label": "Welsh and British only identity",
+     "words": "identity: Welsh and British only identity",
+     "perMille": 1.54
+    },
+    {
+     "category": "scottish-only-identity",
+     "label": "Scottish only identity",
+     "words": "identity: Scottish only identity",
+     "perMille": 4.11
+    },
+    {
+     "category": "scottish-and-british-only-identity",
+     "label": "Scottish and British only identity",
+     "words": "identity: Scottish and British only identity",
+     "perMille": 1.92
+    },
+    {
+     "category": "northern-irish-only-identity",
+     "label": "Northern Irish only identity",
+     "words": "identity: Northern Irish only identity",
+     "perMille": 1.34
+    },
+    {
+     "category": "northern-irish-and-british-only-identity",
+     "label": "Northern Irish and British only identity",
+     "words": "identity: Northern Irish and British only identity",
+     "perMille": 0.54
+    },
+    {
+     "category": "cornish-only-identity",
+     "label": "Cornish only identity",
+     "words": "identity: Cornish only identity",
+     "perMille": 1.56
+    },
+    {
+     "category": "cornish-and-british-only-identity",
+     "label": "Cornish and British only identity",
+     "words": "identity: Cornish and British only identity",
+     "perMille": 0.19
+    },
+    {
+     "category": "any-other-combination-of-uk-identities-uk-only",
+     "label": "Any other combination of UK identities (UK only)",
+     "words": "identity: Any other combination of UK identities (UK only)",
+     "perMille": 1.82
+    },
+    {
+     "category": "other-identity-and-at-least-one-uk-identity",
+     "label": "Other identity and at least one UK identity",
+     "words": "identity: Other identity and at least one UK identity",
+     "perMille": 19.4
+    },
+    {
+     "category": "irish-only-identity",
+     "label": "Irish only identity",
+     "words": "identity: Irish only identity",
+     "perMille": 5.15
+    },
+    {
+     "category": "irish-and-at-least-one-uk-identity",
+     "label": "Irish and at least one UK identity",
+     "words": "identity: Irish and at least one UK identity",
+     "perMille": 1.07
+    },
+    {
+     "category": "french",
+     "label": "French",
+     "words": "identity: French",
+     "perMille": 2.23
+    },
+    {
+     "category": "german",
+     "label": "German",
+     "words": "identity: German",
+     "perMille": 1.48
+    },
+    {
+     "category": "italian",
+     "label": "Italian",
+     "words": "identity: Italian",
+     "perMille": 5.01
+    },
+    {
+     "category": "portuguese",
+     "label": "Portuguese",
+     "words": "identity: Portuguese",
+     "perMille": 4.12
+    },
+    {
+     "category": "spanish-including-canary-islander",
+     "label": "Spanish (including Canary Islander)",
+     "words": "identity: Spanish (including Canary Islander)",
+     "perMille": 3.1
+    },
+    {
+     "category": "other-member-countries-in-march-2001",
+     "label": "Other member countries in March 2001",
+     "words": "identity: Other member countries in March 2001",
+     "perMille": 4.29
+    },
+    {
+     "category": "lithuanian",
+     "label": "Lithuanian",
+     "words": "identity: Lithuanian",
+     "perMille": 2.54
+    },
+    {
+     "category": "polish",
+     "label": "Polish",
+     "words": "identity: Polish",
+     "perMille": 10.12
+    },
+    {
+     "category": "romanian",
+     "label": "Romanian",
+     "words": "identity: Romanian",
+     "perMille": 8.32
+    },
+    {
+     "category": "other-member-countries",
+     "label": "Other member countries",
+     "words": "identity: Other member countries",
+     "perMille": 6.95
+    },
+    {
+     "category": "turkish",
+     "label": "Turkish",
+     "words": "identity: Turkish",
+     "perMille": 0.92
+    },
+    {
+     "category": "other-european",
+     "label": "Other European",
+     "words": "identity: Other European",
+     "perMille": 7.34
+    },
+    {
+     "category": "north-african",
+     "label": "North African",
+     "words": "identity: North African",
+     "perMille": 1.12
+    },
+    {
+     "category": "ghanaian",
+     "label": "Ghanaian",
+     "words": "identity: Ghanaian",
+     "perMille": 0.83
+    },
+    {
+     "category": "nigerian",
+     "label": "Nigerian",
+     "words": "identity: Nigerian",
+     "perMille": 1.75
+    },
+    {
+     "category": "other-central-and-western-african",
+     "label": "Other Central and Western African",
+     "words": "identity: Other Central and Western African",
+     "perMille": 1.21
+    },
+    {
+     "category": "kenyan",
+     "label": "Kenyan",
+     "words": "identity: Kenyan",
+     "perMille": 0.17
+    },
+    {
+     "category": "somali",
+     "label": "Somali",
+     "words": "identity: Somali",
+     "perMille": 0.39
+    },
+    {
+     "category": "south-african",
+     "label": "South African",
+     "words": "identity: South African",
+     "perMille": 0.75
+    },
+    {
+     "category": "zimbabwean",
+     "label": "Zimbabwean",
+     "words": "identity: Zimbabwean",
+     "perMille": 0.56
+    },
+    {
+     "category": "other-south-and-eastern-african",
+     "label": "Other South and Eastern African",
+     "words": "identity: Other South and Eastern African",
+     "perMille": 1.04
+    },
+    {
+     "category": "kurdish",
+     "label": "Kurdish",
+     "words": "identity: Kurdish",
+     "perMille": 0.41
+    },
+    {
+     "category": "iranian",
+     "label": "Iranian",
+     "words": "identity: Iranian",
+     "perMille": 0.63
+    },
+    {
+     "category": "iraqi",
+     "label": "Iraqi",
+     "words": "identity: Iraqi",
+     "perMille": 0.3
+    },
+    {
+     "category": "other-middle-eastern",
+     "label": "Other Middle Eastern",
+     "words": "identity: Other Middle Eastern",
+     "perMille": 1.18
+    },
+    {
+     "category": "chinese",
+     "label": "Chinese",
+     "words": "identity: Chinese",
+     "perMille": 2.11
+    },
+    {
+     "category": "hong-kong-chinese",
+     "label": "Hong Kong Chinese",
+     "words": "identity: Hong Kong Chinese",
+     "perMille": 0.47
+    },
+    {
+     "category": "japanese",
+     "label": "Japanese",
+     "words": "identity: Japanese",
+     "perMille": 0.47
+    },
+    {
+     "category": "other-eastern-asian",
+     "label": "Other Eastern Asian",
+     "words": "identity: Other Eastern Asian",
+     "perMille": 0.34
+    },
+    {
+     "category": "afghan",
+     "label": "Afghan",
+     "words": "identity: Afghan",
+     "perMille": 0.54
+    },
+    {
+     "category": "bangladeshi",
+     "label": "Bangladeshi",
+     "words": "identity: Bangladeshi",
+     "perMille": 1.18
+    },
+    {
+     "category": "indian",
+     "label": "Indian",
+     "words": "identity: Indian",
+     "perMille": 6.61
+    },
+    {
+     "category": "pakistani",
+     "label": "Pakistani",
+     "words": "identity: Pakistani",
+     "perMille": 3.11
+    },
+    {
+     "category": "sri-lankan",
+     "label": "Sri Lankan",
+     "words": "identity: Sri Lankan",
+     "perMille": 0.81
+    },
+    {
+     "category": "other-southern-asian",
+     "label": "Other Southern Asian",
+     "words": "identity: Other Southern Asian",
+     "perMille": 0.96
+    },
+    {
+     "category": "filipino",
+     "label": "Filipino",
+     "words": "identity: Filipino",
+     "perMille": 0.97
+    },
+    {
+     "category": "malaysian",
+     "label": "Malaysian",
+     "words": "identity: Malaysian",
+     "perMille": 0.46
+    },
+    {
+     "category": "singaporean",
+     "label": "Singaporean",
+     "words": "identity: Singaporean",
+     "perMille": 0.14
+    },
+    {
+     "category": "other-south-east-asian",
+     "label": "Other South-East Asian",
+     "words": "identity: Other South-East Asian",
+     "perMille": 0.78
+    },
+    {
+     "category": "central-asian",
+     "label": "Central Asian",
+     "words": "identity: Central Asian",
+     "perMille": 0.08
+    },
+    {
+     "category": "asian-not-otherwise-specified",
+     "label": "Asian not otherwise specified",
+     "words": "identity: Asian not otherwise specified",
+     "perMille": 0.7
+    },
+    {
+     "category": "canadian",
+     "label": "Canadian",
+     "words": "identity: Canadian",
+     "perMille": 0.53
+    },
+    {
+     "category": "us-citizen",
+     "label": "US Citizen",
+     "words": "identity: US Citizen",
+     "perMille": 1.9
+    },
+    {
+     "category": "central-american",
+     "label": "Central American",
+     "words": "identity: Central American",
+     "perMille": 0.2
+    },
+    {
+     "category": "south-american",
+     "label": "South American",
+     "words": "identity: South American",
+     "perMille": 1.56
+    },
+    {
+     "category": "jamaican",
+     "label": "Jamaican",
+     "words": "identity: Jamaican",
+     "perMille": 0.51
+    },
+    {
+     "category": "other-caribbean",
+     "label": "Other Caribbean",
+     "words": "identity: Other Caribbean",
+     "perMille": 0.45
+    },
+    {
+     "category": "australian",
+     "label": "Australian",
+     "words": "identity: Australian",
+     "perMille": 0.96
+    },
+    {
+     "category": "new-zealander",
+     "label": "New Zealander",
+     "words": "identity: New Zealander",
+     "perMille": 0.45
+    },
+    {
+     "category": "other-oceanian",
+     "label": "Other Oceanian",
+     "words": "identity: Other Oceanian",
+     "perMille": 0.08
+    },
+    {
+     "category": "other",
+     "label": "Other",
+     "words": "identity: Other",
+     "perMille": 1.33
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>v3 Fix 8, explain Nature</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #22252c; } a:hover { color: #22252c; }
+.ck-row:hover { background: #eef2f7 !important; }
+.ck-tip { display: none; }
+.ck-tipwrap:hover .ck-tip { display: block; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #2f5bd3; outline-offset: 2px; }
+input::placeholder { color: #5b6270; }
+</style>
+</helmet>
+<div style="width: 1740px; height: 1160px; box-sizing: border-box; padding: 56px; display: flex; flex-direction: column; gap: 28px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;">
+<div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px;"><div style="font-size: 22px; font-weight: 800; letter-spacing: -0.02em;">v3 · Fix 8 · Explain Nature</div><span style="flex: none; display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; background: #dff3ea; color: #1f6e58; font-size: 13px; font-weight: 800; letter-spacing: 0; text-transform: none;">Ready for build · 2026-10-17</span></div><section style="display: flex; flex-direction: column; gap: 10px;"><div style="font-size: 13.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270;">Today</div><div style="display: flex; gap: 24px; align-items: flex-start;"><div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 4px 0 16px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><span style="font-size: 13.5px; font-weight: 800; margin-right: 6px;">Nature</span><span style="font-size: 13.5px; font-weight: 700;">Lower</span><span aria-hidden="true" style="display: flex; gap: 3px;"><span style="width: 20px; height: 13px; background-color: #e7f4ef;"></span><span style="width: 20px; height: 13px; background-color: #c9e8dc;"></span><span style="width: 20px; height: 13px; background-color: #a3d6c3;"></span><span style="width: 20px; height: 13px; background-color: #78c0a6;"></span><span style="width: 20px; height: 13px; background-color: #4fa78a;"></span><span style="width: 20px; height: 13px; background-color: #2f8f73;"></span><span style="width: 20px; height: 13px; background-color: #1f6e58;"></span></span><span style="font-size: 13.5px; font-weight: 700;">Higher</span><span aria-hidden="true" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;"><span style="width: 26px; height: 26px; border-radius: 999px; background: #eef2f7; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;">?</span></span></div><div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 18px 0 16px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><span style="font-size: 13.5px; font-weight: 800; margin-right: 6px;">Hedgehog</span><span style="font-size: 13.5px; font-weight: 700;">Few</span><span aria-hidden="true" style="display: flex; gap: 3px;"><span style="width: 20px; height: 13px; background-color: #e7f4ef;"></span><span style="width: 20px; height: 13px; background-color: #c9e8dc;"></span><span style="width: 20px; height: 13px; background-color: #a3d6c3;"></span><span style="width: 20px; height: 13px; background-color: #78c0a6;"></span><span style="width: 20px; height: 13px; background-color: #4fa78a;"></span><span style="width: 20px; height: 13px; background-color: #2f8f73;"></span><span style="width: 20px; height: 13px; background-color: #1f6e58;"></span></span><span style="font-size: 13.5px; font-weight: 700;">Many</span></div><div style="display: flex; flex-direction: column; gap: 6px; align-self: center; font-size: 15px; font-weight: 700; color: #3d434e;"><span>“Nature” = ?</span><span style="color: #5b6270; font-weight: 600;">No sighting ≠ no hedgehogs</span></div></div></section><section style="display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; align-items: center; gap: 16px;"><div style="font-size: 13.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270;">After</div><button type="button" role="switch" aria-checked="{{N.area}}" onClick="{{N.flipArea}}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 6px 0 14px; border: 0; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); font: inherit; font-size: 14.5px; font-weight: 800; color: #22252c; cursor: pointer;">Highbury East selected<span aria-hidden="true" style="position: relative; display: block; width: 40px; height: 24px; border-radius: 999px; background: {{N.track}};"><span style="position: absolute; top: 3px; left: {{N.knob}}; width: 18px; height: 18px; border-radius: 999px; background: #ffffff; transition: left 200ms ease;"></span></span></button></div><div style="display: flex; gap: 32px; align-items: flex-start;"><div style="display: flex; flex-direction: column; gap: 8px; flex: none;"><div style="font-size: 14px; font-weight: 700; color: #3d434e;">Layers · Nature</div><div role="dialog" aria-label="Layers" style="width: 340px; flex: none; box-sizing: border-box; padding: 8px; border-radius: 18px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); display: flex; flex-direction: column; gap: 2px; align-self: flex-start;"><label style="display: flex; align-items: center; gap: 8px; height: 40px; flex: none; margin-bottom: 4px; padding: 0 12px; box-sizing: border-box; border-radius: 999px; background: #eef2f7;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><input type="search" aria-label="Search layers" placeholder="Search layers" value="{{M.q}}" onChange="{{M.search}}" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: inherit; font-size: 14px; color: #22252c;"></label><sc-for list="{{M.groups}}" as="g" hint-placeholder-count="11"><sc-if value="{{g.isNone}}" hint-placeholder-val="{{ false }}"><button type="button" class="ck-row" aria-pressed="{{g.on}}" onClick="{{g.pick}}" style="display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: {{g.bg}}; font: inherit; font-size: 15px; font-weight: 700; color: {{g.fg}}; text-align: left; cursor: pointer;"><span style="flex: 1;">None</span><sc-if value="{{g.on}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg></sc-if></button></sc-if><sc-if value="{{g.notNone}}" hint-placeholder-val="{{ true }}"><div style="display: flex; flex-direction: column;"><button type="button" class="ck-row" aria-expanded="{{g.open}}" onClick="{{g.toggle}}" style="display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; font: inherit; font-size: 15px; font-weight: 700; color: #22252c; text-align: left; cursor: pointer;"><span style="flex: 1;">{{g.label}}</span><sc-if value="{{g.hasDot}}"><span style="font-size: 13px; font-weight: 600; color: #5b6270; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{g.selLabel}}</span><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 999px; background: #c0352c;"></span></sc-if><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transform: {{g.chev}}; transition: transform 160ms ease;"><path d="m6 9 6 6 6-6"></path></svg></button><sc-if value="{{g.open}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 2px; padding: 0 0 8px 8px;"><sc-for list="{{g.items}}" as="it" hint-placeholder-count="3"><sc-if value="{{it.pill}}" hint-placeholder-val="{{ false }}"><div style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 12px; border-radius: 999px; background: #22252c; color: #ffffff;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><button type="button" aria-pressed="true" onClick="{{it.pick}}" style="flex: 1; min-width: 0; height: 44px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 15px; font-weight: 800; color: #ffffff; text-align: left; cursor: pointer;">{{it.label}}</button><a href="#" style="display: flex; align-items: center; min-height: 32px; padding: 0 2px; font-size: 13.5px; font-weight: 700; color: {{it.tfg}}; white-space: nowrap; text-decoration: underline; text-decoration-style: dashed; text-decoration-color: #c0352c; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">Top 10 →</a></div></sc-if><sc-if value="{{it.plain}}" hint-placeholder-val="{{ true }}"><button type="button" class="ck-row" aria-pressed="false" onClick="{{it.pick}}" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; font: inherit; font-size: 15px; font-weight: 600; color: #22252c; text-align: left; cursor: pointer;">{{it.label}}</button></sc-if><sc-if value="{{it.hasViews}}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: 4px; padding: 4px 10px 8px 12px; border-radius: 14px; background: {{it.rowBg}};"><div style="display: flex; align-items: center; gap: 8px; min-height: 36px;"><button type="button" aria-pressed="{{it.on}}" onClick="{{it.pick}}" style="flex: 1; min-width: 0; height: 36px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 15px; font-weight: {{it.weight}}; color: #22252c; text-align: left; cursor: pointer;">{{it.label}}</button><sc-if value="{{it.latest}}"><span style="padding: 2px 8px; border-radius: 999px; background: #ffffff; border: 1px solid #dfe7f0; font-size: 12.5px; font-weight: 700; color: #5b6270;">Latest</span></sc-if><sc-if value="{{it.top10}}"><a href="#" style="display: flex; align-items: center; min-height: 32px; padding: 0 2px; font-size: 13.5px; font-weight: 700; color: {{it.tfg}}; white-space: nowrap; text-decoration: underline; text-decoration-style: dashed; text-decoration-color: #c0352c; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">Top 10 →</a></sc-if></div><div role="group" aria-label="{{it.label}} view" style="display: flex; flex-wrap: wrap; gap: 4px;"><sc-for list="{{it.views}}" as="v" hint-placeholder-count="3"><button type="button" aria-pressed="{{v.on}}" onClick="{{v.pick}}" style="height: 40px; padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer;"><span style="display: flex; align-items: center; height: 32px; padding: 0 11px; border-radius: 999px; background: {{v.bg}}; color: {{v.fg}}; border: 1px solid {{v.bd}}; box-sizing: border-box; font-size: 13.5px; font-weight: 700; white-space: nowrap;">{{v.label}}</span></button></sc-for></div><sc-if value="{{it.wins}}" hint-placeholder-val="{{ false }}"><div role="group" aria-label="Change over" style="display: flex; align-items: center; gap: 4px; font-size: 13.5px; font-weight: 700; color: #5b6270;"><span style="margin-right: 2px;">over</span><sc-for list="{{it.winList}}" as="w" hint-placeholder-count="3"><button type="button" aria-pressed="{{w.on}}" onClick="{{w.pick}}" style="height: 40px; padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer;"><span style="display: flex; align-items: center; justify-content: center; min-width: 32px; height: 28px; padding: 0 8px; box-sizing: border-box; border-radius: 999px; background: {{w.bg}}; color: {{w.fg}}; font-size: 13.5px; font-weight: 800;">{{w.label}}</span></button></sc-for><span style="margin-left: 2px;">years</span></div></sc-if><sc-if value="{{it.timeline}}" hint-placeholder-val="{{ false }}"><div role="group" aria-label="Price timeline" style="display: flex; align-items: center; gap: 8px; opacity: {{it.tl.op}};"><button type="button" aria-label="{{it.tl.playLabel}}" onClick="{{it.tl.play}}" style="flex: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: #22252c; cursor: pointer; padding: 0;"><sc-if value="{{it.tl.playing}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"></path></svg></sc-if><sc-if value="{{it.tl.paused}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M7 4.5v15l12-7.5Z"></path></svg></sc-if></button><div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0;"><input type="range" min="0" max="240" step="1" value="{{it.tl.idx}}" onChange="{{it.tl.seek}}" aria-label="Price month" style="width: 100%; margin: 0; accent-color: #22252c;"><div style="display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: #5b6270;"><span>2006</span><span style="color: #22252c;">{{it.tl.label}}</span><span>2026</span></div></div></div></sc-if></div></sc-if></sc-for></div></sc-if></div></sc-if></sc-for></div></div><div style="display: flex; flex-direction: column; gap: 8px; flex: none; width: 400px;"><div style="font-size: 14px; font-weight: 700; color: #3d434e;">Green &amp; trees · ? open</div><div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;"><sc-if value="{{E.open}}" hint-placeholder-val="{{ true }}"><div role="dialog" aria-label="About {{E.name}}" onKeyDown="{{E.key}}" style="width: 400px; max-width: 100%; box-sizing: border-box; padding: 12px 8px 14px 16px; border-radius: 16px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; align-items: center; gap: 6px;"><span style="flex: 1; font-size: 17px; font-weight: 800; letter-spacing: -0.01em;">{{E.name}}</span><button type="button" aria-label="Close" onClick="{{E.close}}" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div><span style="margin-top: -6px; padding-right: 8px; font-size: 14.5px; font-weight: 600; line-height: 1.4; color: #3d434e;">{{E.line}}</span><ul style="margin: 0; padding: 0 8px 0 0; list-style: none; display: flex; flex-direction: column; gap: 8px;"><sc-for list="{{E.bullets}}" as="b" hint-placeholder-count="3"><li style="display: flex; align-items: flex-start; gap: 10px;"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 999px; background: {{b.c}};"></span><div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 14.5px; font-weight: 700;">{{b.text}}</span><span style="font-size: 12.5px; font-weight: 600; color: #5b6270;">{{b.src}}</span></div><sc-if value="{{b.hasVal}}"><span style="flex: none; font-size: 14px; font-weight: 800;">{{b.val}}</span></sc-if></li></sc-for></ul><div style="position: relative; height: 62px; margin: 2px 8px 0 0;"><sc-if value="{{E.area}}"><div style="position: absolute; left: {{E.areaPos}}%; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 1px;"><span style="font-size: 12.5px; font-weight: 800; white-space: nowrap;">{{E.areaLabel}}</span><span aria-hidden="true" style="width: 12px; height: 12px; box-sizing: border-box; border-radius: 999px; background: #22252c; border: 2px solid #ffffff; box-shadow: 0 0 0 1px #22252c;"></span></div></sc-if><div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 24px; display: flex; gap: 2px;"><sc-for list="{{E.ramp}}" as="c" hint-placeholder-count="7"><span style="flex: 1; height: 10px; background-color: {{c.color}};"></span></sc-for></div><div style="position: absolute; left: {{E.avgPos}}%; top: 36px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0;"><svg width="12" height="10" viewBox="0 0 12 10" aria-hidden="true"><path d="M6 0 12 10H0Z" fill="#5b6270"></path></svg><span style="font-size: 12px; font-weight: 700; color: #5b6270; white-space: nowrap;">London average {{E.avgLabel}}</span></div></div><a href="{{E.href}}" style="align-self: flex-start; display: flex; align-items: center; min-height: 36px; font-size: 14px; font-weight: 700; color: #22252c; text-decoration: underline; text-decoration-style: dashed; text-decoration-color: #c0352c; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">More in the guide →</a></div></sc-if><div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 4px 0 16px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); align-self: flex-start;"><span style="font-size: 13.5px; font-weight: 800; margin-right: 6px; white-space: nowrap;">{{E.name}}</span><span style="font-size: 13.5px; font-weight: 700;">{{E.lo}}</span><span aria-hidden="true" style="display: flex; gap: 3px;"><sc-for list="{{E.ramp}}" as="c" hint-placeholder-count="7"><span style="width: 20px; height: 13px; background-color: {{c.color}};"></span></sc-for></span><span style="font-size: 13.5px; font-weight: 700;">{{E.hi}}</span><button type="button" aria-label="About this layer" aria-expanded="{{E.open}}" onClick="{{E.flip}}" style="flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer; padding: 0;"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: {{E.qBg}}; color: {{E.qFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;">?</span></button></div></div><a href="V3-12-layer-explainer.dc.html" style="display: flex; align-items: center; min-height: 40px; font-size: 14px; font-weight: 700;">Same panel for every layer: Fix 12 →</a><div style="height: 24px;"></div><div style="font-size: 14px; font-weight: 700; color: #3d434e;">Wildlife seen</div><div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-start;"><sc-if value="{{N.wOpen}}" hint-placeholder-val="{{ false }}"><div role="dialog" aria-label="About wildlife records" style="width: 320px; box-sizing: border-box; padding: 12px 14px; border-radius: 14px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); font-size: 14px; font-weight: 600; line-height: 1.4; color: #3d434e;">Records come from people’s sightings (GBIF), so there are more where more people look.</div></sc-if><div style="display: flex; flex-direction: column; gap: 0; padding: 6px 4px 4px 16px; border-radius: 22px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><div style="display: flex; align-items: center; gap: 8px; height: 40px; padding-right: 12px;"><span style="font-size: 13.5px; font-weight: 800; margin-right: 6px;">Hedgehog</span><span style="font-size: 13.5px; font-weight: 700;">Few</span><span aria-hidden="true" style="display: flex; gap: 3px;"><span style="width: 20px; height: 13px; background-color: #e7f4ef;"></span><span style="width: 20px; height: 13px; background-color: #c9e8dc;"></span><span style="width: 20px; height: 13px; background-color: #a3d6c3;"></span><span style="width: 20px; height: 13px; background-color: #78c0a6;"></span><span style="width: 20px; height: 13px; background-color: #4fa78a;"></span><span style="width: 20px; height: 13px; background-color: #2f8f73;"></span><span style="width: 20px; height: 13px; background-color: #1f6e58;"></span></span><span style="font-size: 13.5px; font-weight: 700;">Many</span></div><div style="display: flex; align-items: center; gap: 2px;"><span style="font-size: 13px; font-weight: 600; color: #5b6270;">Seen, not absent</span><button type="button" aria-label="About wildlife records" aria-expanded="{{N.wOpen}}" onClick="{{N.flipW}}" style="flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer; padding: 0;"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: {{N.wBg}}; color: {{N.wFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;">?</span></button></div></div></div></div><div style="display: flex; flex-direction: column; gap: 8px; flex: none;"><div style="font-size: 14px; font-weight: 700; color: #3d434e;">Desktop</div><div style="width: 806px; height: 504px; overflow: hidden; border-radius: 8px; border: 1px solid #c8d0da; box-sizing: content-box; background: #e9eef3;"><div style="position: relative; width: 1440px; height: 900px; overflow: hidden; transform: scale(0.56); transform-origin: 0 0; background: #e9eef3; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;"><div aria-hidden="true" style="position: absolute; inset: 0; background: #eceff3;"></div><div aria-hidden="true" style="position: absolute; left: 610px; top: 200px; width: 170px; height: 110px; border-radius: 44% 56% 50% 50%; background: #d3ead6;"></div><div aria-hidden="true" style="position: absolute; left: 1100px; top: 660px; width: 210px; height: 130px; border-radius: 50% 40% 55% 45%; background: #d3ead6;"></div><div aria-hidden="true" style="position: absolute; left: 150px; top: 690px; width: 150px; height: 90px; border-radius: 50%; background: #d3ead6;"></div><sc-for list="{{F.zones}}" as="z" hint-placeholder-count="10"><div aria-hidden="true" style="position: absolute; left: {{z.x}}px; top: {{z.y}}px; width: {{z.w}}px; height: {{z.h}}px; box-sizing: border-box; border-radius: {{z.r}}; background: {{z.c}}; opacity: {{z.op}}; border: 2px solid #ffffff;"></div></sc-for><svg aria-hidden="true" width="1440" height="900" viewBox="0 0 1440 900" style="position: absolute; left: 0; top: 0; pointer-events: none;"><path d="M-20 560 C 200 500 330 640 560 590 S 900 470 1080 560 S 1330 640 1460 590" fill="none" stroke="#c9d8ea" stroke-width="34" stroke-linecap="round"></path><path d="M180 -10 L 420 900 M 980 -10 L 760 900 M -10 300 L 1450 250" fill="none" stroke="#ffffff" stroke-width="5" stroke-opacity="0.9"></path></svg><div aria-hidden="true" style="position: absolute; left: 700px; top: 140px; width: 340px; height: 270px; box-sizing: border-box; border-radius: 40% 60% 52% 48% / 55% 45% 55% 45%; border: 4px solid #22252c; opacity: {{F.ring}};"></div><div style="position: absolute; left: 16px; top: 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px;"><div style="display: flex; align-items: center; gap: 4px; height: 56px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><button type="button" aria-label="Menu" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button><a href="#" style="display: flex; align-items: center; gap: 7px; height: 44px; padding: 0 10px 0 4px; text-decoration: none; color: #22252c;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5.5 9.5V20h13V9.5"></path><path d="M10 20v-5h4v5" fill="#f6c445"></path></svg><span style="font-size: 21px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;">close knit</span></a><label style="display: flex; align-items: center; gap: 8px; width: 240px; height: 44px; padding: 0 14px; box-sizing: border-box; border-radius: 999px; background: #eef2f7;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg><input type="search" aria-label="Search" placeholder="Search" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: inherit; font-size: 15px; color: #22252c;"></label></div></div><button type="button" aria-label="Saved, 3" style="position: absolute; top: 22px; right: 12px; display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px 0 13px; box-sizing: border-box; border: 0; border-radius: 999px; background: #ffffff; color: #22252c; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); font: inherit; font-size: 15px; font-weight: 800; cursor: pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span>3</span></button><div style="position: absolute; top: 84px; right: 12px; display: flex; flex-direction: column; gap: 10px;"><button type="button" aria-label="My match" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #c0352c; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="21" height="21" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></button><button type="button" aria-label="Layers" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #ffffff; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></button><button type="button" aria-label="Show" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #ffffff; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></button></div><div style="position: absolute; right: 12px; bottom: 56px; display: flex; flex-direction: column; gap: 10px;"><div style="margin-bottom: 8px;"><button type="button" aria-label="My location" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #ffffff; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#2f5bd3" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.5" fill="#2f5bd3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></button></div><button type="button" aria-label="Zoom in" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #ffffff; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><button type="button" aria-label="Zoom out" style="width: 44px; height: 44px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 1px solid #dfe7f0; border-radius: 999px; background: #ffffff; color: #22252c; cursor: pointer; padding: 0; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"></path></svg></button></div><div style="position: absolute; left: 16px; bottom: 16px;"><div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start;"><sc-if value="{{X.open}}" hint-placeholder-val="{{ true }}"><div role="dialog" aria-label="About {{X.name}}" onKeyDown="{{X.key}}" style="width: 380px; max-width: 100%; box-sizing: border-box; padding: 12px 8px 14px 16px; border-radius: 16px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); display: flex; flex-direction: column; gap: 10px;"><div style="display: flex; align-items: center; gap: 6px;"><span style="flex: 1; font-size: 17px; font-weight: 800; letter-spacing: -0.01em;">{{X.name}}</span><button type="button" aria-label="Close" onClick="{{X.close}}" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5b6270" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div><span style="margin-top: -6px; padding-right: 8px; font-size: 14.5px; font-weight: 600; line-height: 1.4; color: #3d434e;">{{X.line}}</span><ul style="margin: 0; padding: 0 8px 0 0; list-style: none; display: flex; flex-direction: column; gap: 8px;"><sc-for list="{{X.bullets}}" as="b" hint-placeholder-count="3"><li style="display: flex; align-items: flex-start; gap: 10px;"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; margin-top: 6px; border-radius: 999px; background: {{b.c}};"></span><div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 14.5px; font-weight: 700;">{{b.text}}</span><span style="font-size: 12.5px; font-weight: 600; color: #5b6270;">{{b.src}}</span></div><sc-if value="{{b.hasVal}}"><span style="flex: none; font-size: 14px; font-weight: 800;">{{b.val}}</span></sc-if></li></sc-for></ul><div style="position: relative; height: 62px; margin: 2px 8px 0 0;"><sc-if value="{{X.area}}"><div style="position: absolute; left: {{X.areaPos}}%; top: 0; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 1px;"><span style="font-size: 12.5px; font-weight: 800; white-space: nowrap;">{{X.areaLabel}}</span><span aria-hidden="true" style="width: 12px; height: 12px; box-sizing: border-box; border-radius: 999px; background: #22252c; border: 2px solid #ffffff; box-shadow: 0 0 0 1px #22252c;"></span></div></sc-if><div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 24px; display: flex; gap: 2px;"><sc-for list="{{X.ramp}}" as="c" hint-placeholder-count="7"><span style="flex: 1; height: 10px; background-color: {{c.color}};"></span></sc-for></div><div style="position: absolute; left: {{X.avgPos}}%; top: 36px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0;"><svg width="12" height="10" viewBox="0 0 12 10" aria-hidden="true"><path d="M6 0 12 10H0Z" fill="#5b6270"></path></svg><span style="font-size: 12px; font-weight: 700; color: #5b6270; white-space: nowrap;">London average {{X.avgLabel}}</span></div></div><a href="{{X.href}}" style="align-self: flex-start; display: flex; align-items: center; min-height: 36px; font-size: 14px; font-weight: 700; color: #22252c; text-decoration: underline; text-decoration-style: dashed; text-decoration-color: #c0352c; text-decoration-thickness: 1.5px; text-underline-offset: 4px;">More in the guide →</a></div></sc-if><div style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 4px 0 16px; box-sizing: border-box; border-radius: 999px; background: #ffffff; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); align-self: flex-start;"><span style="font-size: 13.5px; font-weight: 800; margin-right: 6px; white-space: nowrap;">{{X.name}}</span><span style="font-size: 13.5px; font-weight: 700;">{{X.lo}}</span><span aria-hidden="true" style="display: flex; gap: 3px;"><sc-for list="{{X.ramp}}" as="c" hint-placeholder-count="7"><span style="width: 20px; height: 13px; background-color: {{c.color}};"></span></sc-for></span><span style="font-size: 13.5px; font-weight: 700;">{{X.hi}}</span><button type="button" aria-label="About this layer" aria-expanded="{{X.open}}" onClick="{{X.flip}}" style="flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 999px; background: transparent; cursor: pointer; padding: 0;"><span aria-hidden="true" style="width: 26px; height: 26px; border-radius: 999px; background: {{X.qBg}}; color: {{X.qFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800;">?</span></button></div></div></div></div></div></div></div></section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1740,"height":1160}}'>
+class Component extends DCLogic {
+
+  zoneGeo() {
+    return [
+      [60, 150, 330, 250, '46% 54% 40% 60% / 50% 38% 62% 50%', 'Stoke Newington'], [360, 110, 360, 260, '58% 42% 55% 45% / 45% 60% 40% 55%', 'Stamford Hill'],
+      [700, 140, 340, 270, '40% 60% 52% 48% / 55% 45% 55% 45%', 'Clapton'], [1010, 200, 330, 240, '55% 45% 50% 50% / 50% 50% 50% 50%', 'Leyton'],
+      [140, 380, 360, 230, '50% 50% 45% 55% / 40% 55% 45% 60%', 'Dalston'], [480, 330, 380, 250, '46% 54% 40% 60% / 50% 38% 62% 50%', 'Hackney Downs'],
+      [850, 400, 360, 230, '58% 42% 55% 45% / 45% 60% 40% 55%', 'Hackney Wick'], [60, 600, 380, 240, '40% 60% 52% 48% / 55% 45% 55% 45%', 'Haggerston'],
+      [430, 590, 400, 250, '55% 45% 50% 50% / 50% 50% 50% 50%', 'London Fields'], [820, 610, 420, 240, '50% 50% 45% 55% / 40% 55% 45% 60%', 'Victoria Park']
+    ];
+  }
+
+  pals() {
+    return {
+      price: ['#dbe6f2', '#b9d3ec', '#8fbbe3', '#f9e7b0', '#f6c445', '#f28b30', '#e2453c'],
+      change: ['#2f5bd3', '#6f9ae0', '#b9d3ec', '#eef1f4', '#f9d5a8', '#f28b30', '#c0352c'],
+      crime: ['#fde9e6', '#f8cfc9', '#f3b0a7', '#ec8b7f', '#e2453c', '#c0352c', '#8f2a22'],
+      purple: ['#efe9f7', '#ddd2ef', '#c7b6e4', '#ac94d6', '#8f72c6', '#7a52c7', '#5d3ca3'],
+      blue: ['#e6f1fa', '#c6e0f3', '#9ccbea', '#6fb2df', '#4aa3df', '#2f7fc4', '#2f5bd3'],
+      pink: ['#fdeef4', '#fad6e4', '#f6b9d0', '#f08bb0', '#e46b98', '#c2457e', '#9a3463'],
+      teal: ['#e7f4ef', '#c9e8dc', '#a3d6c3', '#78c0a6', '#4fa78a', '#2f8f73', '#1f6e58']
+    };
+  }
+
+  zones(pal, pick) {
+    const idx = [2, 4, 1, 5, 3, 6, 0, 4, 2, 5];
+    return this.zoneGeo().map((z, i) => ({
+      x: z[0], y: z[1], w: z[2], h: z[3], r: z[4], name: z[5],
+      c: pal ? pal[idx[i]] : 'transparent', op: pal ? 0.9 : 0,
+      pick: pick ? () => pick(z[5]) : () => {}
+    }));
+  }
+
+  groupsData() {
+    const it = (id, label, extra) => Object.assign({ id: id, label: label }, extra || {});
+    return [
+      { id: 'none', label: 'None' },
+      { id: 'cost', label: 'Cost', pal: 'price', items: [
+        it('ppsm', 'Price per m²', { views: [['actual', 'Actual'], ['rank', 'Rank'], ['change', 'Change']], timeline: true }),
+        it('typical', 'Typical price', { views: [['all', 'All'], ['flats', 'Flats'], ['terraced', 'Terraced'], ['semi', 'Semi'], ['detached', 'Detached']], latest: true })
+      ] },
+      { id: 'transport', label: 'Transport', pal: 'blue', items: [it('station', 'Station walk'), it('cycling', 'Cycling'), it('ev', 'EV charging')] },
+      { id: 'crime', label: 'Crime', pal: 'crime', items: [it('crime', 'Crime')] },
+      { id: 'food', label: 'Food & drink', pal: 'pink', items: [it('coffee', 'Specialty coffee'), it('coffee-kebab', 'Coffee vs kebab'), it('indie', 'Independent vs chain cafés'),
+        it('pret', 'Sandwich vs bakery chains'), it('kebab-cafe', 'Kebab shops vs cafés'), it('bakery', 'Bakeries vs betting shops'), it('variety', 'Variety of cuisines'),
+        it('takeaways', 'Takeaways'), it('hygiene', 'Food hygiene')] },
+      { id: 'out', label: 'Going out', pal: 'purple', items: [it('nightlife', 'Nightlife'), it('quiet', 'Fewer bars & pubs'), it('culture', 'Culture')] },
+      { id: 'everyday', label: 'Everyday life', pal: 'pink', items: [it('family', 'Families'), it('gyms', 'Gyms'), it('dogs', 'Dog-friendly'), it('cowork', 'Coworking'),
+        it('markets', 'Markets'), it('unis', 'Universities')] },
+      { id: 'nature', label: 'Nature', pal: 'teal', items: [it('nature', 'Green & trees'), it('greenstreets', 'Green streets'), it('canopy', 'Canopy'), it('wildlife', 'Wildlife seen', { views: [['hedgehog', 'Hedgehog'], ['bats', 'Bats'],
+        ['fox', 'Fox'], ['deer', 'Deer'], ['kingfisher', 'Kingfisher'], ['woodpecker', 'Woodpecker'], ['owl', 'Owl'], ['heron', 'Heron'], ['swift', 'Swift'],
+        ['sparrow', 'House sparrow'], ['frog', 'Frog'], ['newt', 'Newt']] })] },
+      { id: 'homes', label: 'Homes & area', pal: 'purple', items: [it('income', 'Income'), it('deprivation', 'Deprivation'), it('noise', 'Noise'), it('tenure', 'Tenure'),
+        it('accommodation', 'Accommodation type')] },
+      { id: 'people', label: 'People', pal: 'pink', items: [it('ethnicity', 'Ethnic makeup'), it('birth', 'Country of birth'), it('religion', 'Religion'), it('age', "Residents' age"),
+        it('household', 'Household type'), it('arrival', 'Year of arrival'), it('language', 'Main language'), it('passports', 'Passports held'), it('identity', 'National identity')] },
+      { id: 'mine', label: 'My criteria', pal: 'blue', items: [it('byo', 'Build your own')] }
+    ];
+  }
+
+  monthLabel(m) {
+    const names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const k = 5 + m;
+    return names[k % 12] + ' ' + (2006 + Math.floor(k / 12));
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      const s = this.state || {};
+      if (!s.playing) return;
+      const m = s.m === undefined ? 240 : s.m;
+      if (m >= 240) { this.setState({ playing: false }); return; }
+      this.setState({ m: Math.min(240, m + 2) });
+    }, 70);
+  }
+
+  componentWillUnmount() { clearInterval(this.timer); }
+
+  findItem(sel) {
+    let found = null;
+    this.groupsData().forEach((g) => (g.items || []).forEach((it) => { if (it.id === sel.item) found = { g: g, it: it }; }));
+    return found;
+  }
+
+  selName(sel, win) {
+    const f = this.findItem(sel);
+    if (!f) return 'None';
+    if (!f.it.views) return f.it.label;
+    const v = f.it.views.find((x) => x[0] === sel.view) || f.it.views[0];
+    return f.it.label + ' · ' + (v[0] === 'change' ? 'Change over ' + win + ' years' : v[1]);
+  }
+
+  layerPal(sel) {
+    const f = this.findItem(sel);
+    if (!f) return null;
+    const p = this.pals();
+    if (sel.item === 'ppsm' && sel.view === 'change') return p.change;
+    return p[f.g.pal];
+  }
+
+  itemVals(it, sel, s, set) {
+    const on = sel.item === it.id;
+    const has = !!it.views;
+    const win = s.win || 5;
+    const m = s.m === undefined ? 240 : s.m;
+    const all = it.views || [];
+    const folded = all.length > 6 && !(s.more || {})[it.id];
+    const views = (folded ? all.slice(0, 5) : all).map((v) => {
+      const vOn = on && sel.view === v[0];
+      return { label: v[1], on: vOn, bg: vOn ? '#22252c' : '#ffffff', fg: vOn ? '#ffffff' : '#22252c', bd: vOn ? '#22252c' : '#c8d0da',
+        pick: () => set({ sel: { item: it.id, view: v[0] } }) };
+    });
+    if (folded) views.push({ label: '+' + (all.length - 5), on: false, bg: '#ffffff', fg: '#22252c', bd: '#c8d0da',
+      pick: () => set({ more: Object.assign({}, s.more, { [it.id]: true }) }) });
+    return {
+      label: it.label, on: on, weight: on ? 800 : 600,
+      pill: on && !has, plain: !on && !has, hasViews: has,
+      rowBg: on ? '#eef2f7' : 'transparent', tfg: on && !has ? '#ffffff' : '#22252c',
+      views: views, latest: !!it.latest, top10: on,
+      pick: () => set({ sel: { item: it.id, view: has ? it.views[0][0] : '' } }),
+      wins: on && sel.view === 'change',
+      winList: [1, 5, 10].map((y) => ({ label: String(y), on: y === win, bg: y === win ? '#22252c' : '#ffffff', fg: y === win ? '#ffffff' : '#22252c',
+        pick: () => set({ win: y }) })),
+      timeline: !!it.timeline,
+      tl: {
+        idx: m, label: this.monthLabel(m), op: on ? 1 : 0.45,
+        playing: !!s.playing, paused: !s.playing, playLabel: s.playing ? 'Pause timeline' : 'Play timeline',
+        play: () => set({ playing: !s.playing, m: !s.playing && m >= 240 ? 0 : m, sel: on ? sel : { item: 'ppsm', view: 'actual' } }),
+        seek: (e) => set({ m: Number(e.target.value), playing: false })
+      }
+    };
+  }
+
+  menuVals(opts) {
+    const s = Object.assign({}, opts.state);
+    const set = opts.set;
+    const sel = s.sel;
+    const open = s.open;
+    const q = (s.q || '').trim().toLowerCase();
+    const groups = [];
+    this.groupsData().forEach((g) => {
+      if (g.id === 'none') {
+        if (q && 'none plain map'.indexOf(q) < 0) return;
+        const on = sel.item === 'none';
+        groups.push({ isNone: true, notNone: false, on: on, bg: on ? '#22252c' : 'transparent', fg: on ? '#ffffff' : '#22252c',
+          pick: () => set({ sel: { item: 'none', view: '' } }), items: [] });
+        return;
+      }
+      const items = g.items.filter((it) => !q || (g.label + ' ' + it.label).toLowerCase().indexOf(q) >= 0);
+      if (q && !items.length) return;
+      const isOpen = q ? true : open === g.id;
+      const selIt = g.items.find((it) => it.id === sel.item);
+      groups.push({
+        isNone: false, notNone: true, label: g.label, open: isOpen, chev: isOpen ? 'rotate(180deg)' : 'none',
+        hasDot: !!selIt && !isOpen, selLabel: selIt ? selIt.label : '',
+        toggle: () => set({ open: open === g.id ? '' : g.id }),
+        items: items.map((it) => this.itemVals(it, sel, s, set))
+      });
+    });
+    return {
+      groups: groups, q: s.q || '', menu: s.menu !== false,
+      search: (e) => set({ q: e.target.value }),
+      close: () => set({ menu: false }),
+      key: (e) => { if (e.key === 'Escape') set({ menu: false }); }
+    };
+  }
+
+  layerInfo(id) {
+    const p = this.pals();
+    const L = {
+      price: { name: 'Price per m²', line: 'What homes here sold for, per square metre of floor.', lo: '£5k', hi: '£20k', pal: p.price, href: '/guide/price-per-m2',
+        avg: [17, '£7,600'], area: [36, '£10,400'], bullets: [
+          ['Sale price ÷ floor area of each home sold', 'HM Land Registry Price Paid · EPC floor areas'],
+          ['Typical value of the last 12 months', 'Sales to Jun 2026']] },
+      crime: { name: 'Crime', line: 'Crimes police recorded here for every 1,000 people who live here.', lo: 'Low', hi: 'High', pal: p.crime, href: '/guide/crime',
+        avg: [45, '95'], area: [55, '112 per 1,000'], bullets: [
+          ['Crimes recorded over 12 months', 'police.uk, to [MONTH 2026]'],
+          ['Per 1,000 residents', 'ONS population estimates'],
+          ['Busy centres with few residents come out high', 'Read with care near stations and high streets']] },
+      gyms: { name: 'Gyms and sports centres', line: 'How many gyms and sports centres each area has.', lo: '0', hi: '9+', href: '/guide/your-match',
+        pal: ['#fdeef4', '#fbdde9', '#f8c8da', '#f4b0c9', '#f08bb0', '#e46b98', '#cf5285', '#b23c70', '#9a3463'],
+        avg: [33, '3'], area: [55, '5'], bullets: [
+          ['Counted from OpenStreetMap: gyms, sports centres', 'OpenStreetMap contributors, ODbL'],
+          ['Count per area, 0 to 9 or more', 'One scale: the legend’s']] },
+      green: { name: 'Green & trees', line: 'Green land, street trees and a nature site nearby, as one score.', lo: 'Lower', hi: 'Higher', pal: p.teal, href: '/guide/nature',
+        avg: [50, '50th'], area: [44, '44th'], bullets: [
+          ['Green land', 'Sentinel-2 summer NDVI ≥ 0.4, 10 m grid', '34th', '#4fa78a'],
+          ['Street trees per hectare', 'GLA public realm trees (council, TfL, Royal Parks)', '58th', '#2f8f73'],
+          ['Nature site nearby', 'Natural England: Local Nature Reserve, SSSI', '41st', '#1f6e58'],
+          ['Three equal parts, ranked across London', 'No score if a part is missing']] }
+    };
+    return L[id];
+  }
+
+  explainerVals(id, area, open, flip, close) {
+    const L = this.layerInfo(id);
+    return {
+      name: L.name, line: L.line, lo: L.lo, hi: L.hi, href: L.href, open: open, flip: flip, close: close,
+      key: (e) => { if (e.key === 'Escape') close(); },
+      qBg: open ? '#22252c' : '#eef2f7', qFg: open ? '#ffffff' : '#22252c',
+      ramp: L.pal.map((c) => ({ color: c })),
+      bullets: L.bullets.map((b) => ({ text: b[0], src: b[1], hasVal: area && !!b[2], val: b[2] || '', c: b[3] || '#7a8494' })),
+      area: area, areaPos: L.area[0], areaLabel: 'Highbury East · ' + L.area[1],
+      avgPos: L.avg[0], avgLabel: L.avg[1]
+    };
+  }
+
+  renderVals() {
+    const s = this.state || {};
+    const st = Object.assign({ sel: { item: 'nature', view: '' }, open: 'nature' }, s.menuState || {});
+    const set = (o) => this.setState({ menuState: Object.assign({}, st, o) });
+    const M = this.menuVals({ state: st, set: set });
+    M.groups = M.groups.filter((g) => !g.isNone);
+    const area = s.area !== false;
+    const qOpen = s.q !== false;
+    const wOpen = !!s.w;
+    const ord = (n) => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
+    const parts = [
+      ['Green land', 'Sentinel-2 summer, NDVI ≥ 0.4', 34, '#4fa78a'],
+      ['Street trees', 'GLA public realm trees, per hectare', 58, '#2f8f73'],
+      ['Nature site nearby', 'Natural England: Local Nature Reserve, SSSI', 41, '#1f6e58']
+    ];
+    return {
+      M: M,
+      N: {
+        area: area, flipArea: () => this.setState({ area: !area }),
+        track: area ? '#c0352c' : '#c8d0da', knob: area ? '19px' : '3px',
+        qOpen: qOpen, flipQ: () => this.setState({ q: !qOpen }), qBg: qOpen ? '#22252c' : '#eef2f7', qFg: qOpen ? '#ffffff' : '#22252c',
+        wOpen: wOpen, flipW: () => this.setState({ w: !wOpen }), wBg: wOpen ? '#22252c' : '#eef2f7', wFg: wOpen ? '#ffffff' : '#22252c',
+        parts: parts.map((p) => ({ name: p[0], src: p[1], pct: ord(p[2]), w: p[2], c: p[3] }))
+      },
+      E: this.explainerVals('green', area, qOpen, () => this.setState({ q: !qOpen }), () => this.setState({ q: false })),
+      X: this.explainerVals('green', area, s.x !== false, () => this.setState({ x: s.x === false }), () => this.setState({ x: false })),
+      F: { zones: this.zones(this.pals().teal), ring: area ? 1 : 0 }
+    };
+  }
+}
+</script>
+</body>
+</html>

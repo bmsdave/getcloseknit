@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/properties/100000000001",
+ "status": 404,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"detail\":{\"error\":\"property-not-found\",\"message\":\"unknown property: 100000000001\"}}"
+}

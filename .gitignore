@@ -1,0 +1,36 @@
+# macOS metadata
+.DS_Store
+
+# Local secrets and credentials
+**/.env*
+!/deploy/.env.example
+**/*.pem
+
+# Playwright's own run output.
+test-results/
+
+# Real-data runtime: local Postgres cluster files, API venv, server logs,
+# pid files and the launcher bundle created by start-real.sh.
+/.pgdata/
+/.ae-venv/
+/*.log
+/api/*.log
+/*.pid
+/Starter.app/
+
+# Build/packaging output and database dumps.
+*.egg-info/
+*.dump
+*.dump.sha256
+
+# Built skill ZIP for claude.ai uploads (agents/claude/build-skill-zip.sh)
+/agents/claude/dist/
+.playwright-mcp/
+
+# Python bytecode and pip build output
+__pycache__/
+# coverage.py data and the per-module report gate.sh writes
+.coverage
+/api/coverage.txt
+*.pyc
+api/build/

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "area-summary.v1",
+  "productReleaseId": "official-2026-06",
+  "summary": {
+    "geographyId": "uk:lsoa:E01000001",
+    "name": "Westminster 001A",
+    "metricId": "crime",
+    "period": "2026-06",
+    "value": 48.5,
+    "regionPercentile": 61,
+    "londonPercentile": 61,
+    "countryPercentile": 44,
+    "englandPercentile": 44,
+    "sampleCount": 120,
+    "breakdown": {
+      "burglary": 10.7,
+      "violence": 19.9,
+      "other": 17.9
+    },
+    "quality": "observed",
+    "sourceVersion": "police-uk-2026-06",
+    "carrier": "lsoa"
+  },
+  "parentId": "uk:msoa:E02000001",
+  "priceTimeline": [],
+  "metricTimeline": [
+    {
+      "geographyId": "uk:lsoa:E01000001",
+      "name": "Westminster 001A",
+      "metricId": "crime",
+      "period": "2026-05",
+      "value": 47.9,
+      "regionPercentile": 60,
+      "londonPercentile": 60,
+      "countryPercentile": 43,
+      "englandPercentile": 43,
+      "sampleCount": 118,
+      "quality": "observed",
+      "sourceVersion": "police-uk-2026-05",
+      "carrier": "lsoa"
+    },
+    {
+      "geographyId": "uk:lsoa:E01000001",
+      "name": "Westminster 001A",
+      "metricId": "crime",
+      "period": "2026-06",
+      "value": 48.5,
+      "regionPercentile": 61,
+      "londonPercentile": 61,
+      "countryPercentile": 44,
+      "englandPercentile": 44,
+      "sampleCount": 120,
+      "quality": "observed",
+      "sourceVersion": "police-uk-2026-06",
+      "carrier": "lsoa"
+    }
+  ]
+}

@@ -1,0 +1,978 @@
+{
+  "uid": "close-knit-journeys",
+  "title": "Close Knit · Journeys",
+  "description": "Critical user journeys as funnels (docs/critical-user-journeys.md).",
+  "tags": [
+    "close-knit"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "",
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "close-knit"
+      ],
+      "asDropdown": false,
+      "title": "Dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "type": "row",
+      "title": "1 · Find my area: questions → shortlist → an area → act",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 1
+    },
+    {
+      "type": "table",
+      "title": "Find my area",
+      "description": "The main happy path. Strict: each step counts people who also did every step before it.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 12,
+        "h": 11
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'wizard_open') AS s1, bool_or(name = 'wizard_review') AS s2, bool_or(name = 'wizard_show') AS s3, bool_or(name = 'match_run' AND (props->>'results')::int > 0) AS s4, bool_or(name = 'area_open') AS s5, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS s6 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened Find my area' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 answered the basics' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 asked for areas' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got a shortlist' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 opened an area from it' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f UNION ALL SELECT 6 AS n, '6 acted ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5 AND s6) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "step"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "people"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of previous"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "id": 2
+    },
+    {
+      "type": "table",
+      "title": "Look up a place: search → area page → portal",
+      "description": "For people who already have a place in mind.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 12,
+        "h": 6
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'search' AND props->>'kind' <> 'home') AS s1, bool_or(name = 'page_view' AND props->>'path' ~ '^/(area|postcode)/') AS s2, bool_or(name = 'portal_click') AS s3 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 searched for a place' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 opened an area or postcode page' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 clicked out to a portal' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "step"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "people"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of previous"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "id": 3
+    },
+    {
+      "type": "table",
+      "title": "Check a home: home → portal or sold prices",
+      "description": "Someone weighing up a particular home.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 7,
+        "w": 12,
+        "h": 5
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or((name = 'search' AND props->>'kind' = 'home') OR (name = 'page_view' AND props->>'path' = '/property/:id')) AS s1, bool_or(name = 'portal_click' AND props->>'from' = 'home') AS s2 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened a home' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 followed its portal links' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "step"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "people"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of previous"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "id": 4
+    },
+    {
+      "type": "row",
+      "title": "2 · Claude: a conversation from shortlist to listings",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 5
+    },
+    {
+      "type": "table",
+      "title": "Claude conversation",
+      "description": "Per MCP conversation (a session tag). Step 5 comes from /go links opened by a person.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT session_id AS who, bool_or(name = 'tool_call') AS s1, bool_or(name = 'tool_call' AND props->>'tool' IN ('find_areas', 'match_areas', 'find_similar_areas', 'open_shared_search') AND (props->>'ok')::boolean) AS s2, bool_or(name = 'tool_call' AND props->>'tool' = 'get_area_overview') AS s3, bool_or(name = 'tool_call' AND props->>'tool' = 'get_listing_search_links') AS s4, bool_or(name = 'portal_click') AS s5 FROM product_event WHERE channel = 'mcp' AND session_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 used a tool' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 shortlisted areas' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 looked closer at an area' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got listing links' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 someone opened a listing ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "step"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "people"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of previous"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "id": 6
+    },
+    {
+      "type": "table",
+      "title": "Share and come back",
+      "description": "Not a strict funnel: each line is its own share of everyone in the period.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 13,
+        "w": 12,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'brief_share') AS shared, bool_or(name = 'page_view' AND props ? 'shared') AS opened_shared, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted, count(DISTINCT occurred_at::date) AS days FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, 'people in the period' AS step, count(*) AS people FROM f UNION ALL SELECT 2, 'shared a link', count(*) FILTER (WHERE shared) FROM f UNION ALL SELECT 3, 'arrived through a shared link', count(*) FILTER (WHERE opened_shared) FROM f UNION ALL SELECT 4, '…and then acted ★', count(*) FILTER (WHERE opened_shared AND acted) FROM f UNION ALL SELECT 5, 'came back on another day', count(*) FILTER (WHERE days > 1) FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\" FROM steps ORDER BY n"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "step"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 230
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "people"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "gauge",
+                  "mode": "basic",
+                  "valueDisplayMode": "text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "blue"
+                }
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% of previous"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md"
+      },
+      "id": 7
+    },
+    {
+      "type": "row",
+      "title": "3 · Time to value and entry channels",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 8
+    },
+    {
+      "type": "stat",
+      "title": "New people who found an area or home",
+      "description": "People first seen in the period who opened an area, home or postcode page, or got a shortlist.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 23,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE found_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 9
+    },
+    {
+      "type": "stat",
+      "title": "Median time to first area",
+      "description": "From a new person's first page to their first area, home or shortlist.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 23,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM found_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND found_at IS NOT NULL"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 10
+    },
+    {
+      "type": "stat",
+      "title": "New people who clicked out",
+      "description": "People first seen in the period who followed a portal link (so far).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 23,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE out_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 11
+    },
+    {
+      "type": "stat",
+      "title": "Median time to first click-out",
+      "description": "From a new person's first page to their first portal click: minutes means one sitting, days means they came back.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 27,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM out_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND out_at IS NOT NULL"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 12
+    },
+    {
+      "type": "stat",
+      "title": "Opened Find my area but never asked",
+      "description": "Opened the questions but never asked for areas.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 27,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH f AS (SELECT visitor_id, bool_or(name = 'wizard_open') AS opened, bool_or(name = 'wizard_show') AS showed FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT count(*) FILTER (WHERE opened AND NOT showed)::float / nullif(count(*) FILTER (WHERE opened), 0) FROM f"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 13
+    },
+    {
+      "type": "stat",
+      "title": "Shortlists with no area",
+      "description": "Area matches that ranked nothing: the search was too strict.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 27,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'results')::int = 0)::float / nullif(count(*), 0) FROM product_event WHERE name = 'match_run' AND $__timeFilter(occurred_at)"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 14
+    },
+    {
+      "type": "table",
+      "title": "By entry channel: where people drop off",
+      "description": "Each person's channel is where their very first visit came from (invite, claude, google, direct…).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 31,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "WITH entry AS ( SELECT DISTINCT ON (visitor_id) visitor_id, coalesce(props->>'source', 'direct') AS source FROM product_event WHERE name = 'page_view' AND visitor_id IS NOT NULL ORDER BY visitor_id, occurred_at), f AS (SELECT visitor_id, bool_or(name IN ('search', 'match_run', 'wizard_open')) AS searched, bool_or(name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found, bool_or(name = 'portal_click') AS clicked_out, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT e.source AS \"came from\", count(*) AS people, round(100.0 * count(*) FILTER (WHERE searched) / count(*)) AS \"searched %\", round(100.0 * count(*) FILTER (WHERE found) / count(*)) AS \"found %\", round(100.0 * count(*) FILTER (WHERE clicked_out) / count(*)) AS \"clicked out %\", round(100.0 * count(*) FILTER (WHERE acted) / count(*)) AS \"acted ★ %\" FROM f JOIN entry e USING (visitor_id) GROUP BY 1 ORDER BY people DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 15
+    }
+  ]
+}

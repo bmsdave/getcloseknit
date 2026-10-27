@@ -1,0 +1,290 @@
+[
+ {
+  "url": "https://www.apur.org/sites/default/files/2025-06/rapport-impact_encadrement_loyers_paris.pdf",
+  "title": "Rapport: impact de l'encadrement des loyers à Paris (évaluation 2025)",
+  "type": "paper",
+  "publisher": "APUR / CESAER (Breuillé, Le Gallo et al.)",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "Paris rent control cut rents 5-5.2% (2019-24), strongest for studios; 43.2% of listings above cap; no durable supply effect."
+ },
+ {
+  "url": "https://www.frbsf.org/economic-research/wp-content/uploads/sites/4/Effect_second_generation_rent_Monras.pdf",
+  "title": "The Effect of Second-Generation Rent Controls: New Evidence from Catalonia",
+  "type": "paper",
+  "publisher": "Monras & Montalvo (UPF), FRBSF-hosted working paper",
+  "year": "2022",
+  "read_fully": true,
+  "key_point": "Catalan cap cut rents ~5%, rental supply ~15%; above-reference units vanished; heavy non-compliance."
+ },
+ {
+  "url": "https://repec.iza.org/dp16857.pdf",
+  "title": "All That Glitters? Golden Visas and Real Estate (IZA DP 16857)",
+  "type": "paper",
+  "publisher": "IZA (Pereira dos Santos & Strohmaier)",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "Portugal golden visa: 60% more bunching at EUR500k threshold; price premium over fiscal value ~EUR38-50k."
+ },
+ {
+  "url": "https://ideas.repec.org/p/arz/wpaper/eres2023_225.html",
+  "title": "PARIS2019: The impact of rent control on the Parisian rental market",
+  "type": "paper",
+  "publisher": "ERES working paper (Morin, Regnaud, Breuillé, Le Gallo); JHE 2025",
+  "year": "2023",
+  "read_fully": false,
+  "key_point": "Abstract only: DiD on 422,874 SeLoger listings finds -3.2% rent effect, larger for small flats."
+ },
+ {
+  "url": "https://hal.inrae.fr/hal-05315123v1",
+  "title": "PARIS2019: The impact of rent control on the Parisian rental market (Journal of Housing Economics)",
+  "type": "paper",
+  "publisher": "HAL INRAE",
+  "year": "2025",
+  "read_fully": false,
+  "key_point": "Blocked by anti-bot; snippet: rents down 3.7-4.2% on 559,300 observations, stronger for small apartments."
+ },
+ {
+  "url": "https://www.precarite-energie.org/wp-content/uploads/2022/05/cp-etude-dpe-seloger-meilleursagents.pdf",
+  "title": "Étude Meilleurs Agents x SeLoger - DPE (communiqué)",
+  "type": "journal",
+  "publisher": "MeilleursAgents / SeLoger",
+  "year": "2022",
+  "read_fully": true,
+  "key_point": "F/G flats 13% cheaper than A/B nationally, but +1.1% dearer in Paris (historic charm); Paris F/G listings +34%."
+ },
+ {
+  "url": "https://paris.notaires.fr/fr/presse/communication-immobiliere-mensuelle/conjoncture-immobiliere-en-ile-de-france-de-mars-mai-2026",
+  "title": "Conjoncture immobilière en Ile-de-France de mars à mai 2026",
+  "type": "journal",
+  "publisher": "Notaires du Grand Paris",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Paris apartments EUR9,520/m2 (+0.1% y/y); IdF EUR6,120/m2; Paris volumes -2%; stable but fragile market."
+ },
+ {
+  "url": "https://www.spanishpropertyinsight.com/2026/02/24/barcelona-rent-controls-nine-months-into-2025",
+  "title": "Barcelona rent controls nine months into 2025",
+  "type": "journal",
+  "publisher": "Spanish Property Insight",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Declared rent -2.4% but +2.35%/m2; contracts -9.4%; Idealista asking rents +12% to EUR23.73/m2."
+ },
+ {
+  "url": "https://www.spanishpropertyinsight.com/2025/06/21/barcelonas-rent-controls-one-year-on-prices-down-access-collapsed/",
+  "title": "Barcelona's rent controls one year on: prices down, access collapsed",
+  "type": "journal",
+  "publisher": "Spanish Property Insight",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "Q1 2025 contracts -23% to record low 7,615; declared rents -8.9%; asking rents +13.6% to EUR23.60/m2."
+ },
+ {
+  "url": "https://www.idealista.com/news/node/903549",
+  "title": "Los expertos alertan: las zonas tensionadas reducen precios, pero se alquilan pisos más pequeños",
+  "type": "web",
+  "publisher": "idealista/news (citing Fedea, OBS)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Barcelona listings -22.2%, flats 5% smaller (71.4 m2), 462 enquiries per listing vs 103 in Madrid."
+ },
+ {
+  "url": "https://www.idealista.com/news/node/910591",
+  "title": "AMADEI alerta de la tensión residencial en Madrid: más de 200 interesados por cada piso de alquiler",
+  "type": "web",
+  "publisher": "idealista/news (AMADEI)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Madrid: 200+ applicants per rental; landlords require permanent contract, effort <30-35%, insurance, extra guarantees."
+ },
+ {
+  "url": "https://edito.seloger.com/conseils-d-experts/acheter/l-impact-d-un-etage-prix-d-un-appartement-paris-article-16840.html",
+  "title": "Quel est l'impact d'un étage sur le prix de vente d'un appartement à Paris ?",
+  "type": "web",
+  "publisher": "SeLoger",
+  "year": "2023",
+  "read_fully": true,
+  "key_point": "With lift: 6th floor +1.5% vs lower; without lift 6th floor -2.6% vs 2nd; ground floor discounted."
+ },
+ {
+  "url": "https://www.boursedescredits.com/actualite-valeur-verte-passoire-thermique-poids-diagnostic-energetique-prix-vente-29334.php",
+  "title": "Valeur verte: le poids du diagnostic énergétique sur le prix de vente",
+  "type": "web",
+  "publisher": "Boursedescredits (relaying Notaires de France)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Notaires green value: A-B +16%, F-G -12% vs class D, in almost all French metro areas."
+ },
+ {
+  "url": "https://ufe.org/article-feed/proprietaires-expatries-dpe/",
+  "title": "Propriétaires expatriés : le DPE peut-il faire baisser le prix de votre appartement à Paris ?",
+  "type": "web",
+  "publisher": "UFE (Hugues de Poulpiquet, Fairway)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Paris: A-D neutral, E -5%, F -5-10%, G -10-20%; buyers first check Carrez surface, works cost, DPE."
+ },
+ {
+  "url": "https://habity.fr/blog/prix-immobilier-fiabilite-dvf-seloger-meilleursagents",
+  "title": "Prix immobilier: fiabilité DVF, SeLoger, MeilleursAgents",
+  "type": "web",
+  "publisher": "Habity",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Asking 5-8% above sold; DVF 6-month lag, lacks floor/lift/view; estimates within ±5% for ~70% of communes."
+ },
+ {
+  "url": "https://www.data.gouv.fr/fr/datasets/demandes-de-valeurs-foncieres/",
+  "title": "Demandes de valeurs foncières (DVF)",
+  "type": "data",
+  "publisher": "data.gouv.fr / DGFiP",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Open notarised sale prices, 5 years, updated April/October, excludes Alsace-Moselle and Mayotte, Licence Ouverte 2.0."
+ },
+ {
+  "url": "https://www.service-public.gouv.fr/particuliers/vosdroits/F16096",
+  "title": "Diagnostic de performance énergétique (DPE) - location",
+  "type": "gov",
+  "publisher": "Service-Public.fr",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "G banned from new leases 2025, F 2028, E 2034; F/G rent freeze; 2026 electricity factor 2.3 to 1.9."
+ },
+ {
+  "url": "https://www.service-public.gouv.fr/particuliers/actualites/A17759?lang=fr",
+  "title": "Garantie VISALE : ce qui change en 2026",
+  "type": "gov",
+  "publisher": "Service-Public.fr",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Free guarantee; under-30s any income; IdF rent ceiling EUR1,940 (students EUR1,000); cover limited to 3 years."
+ },
+ {
+  "url": "https://www.statistiques.developpement-durable.gouv.fr/encadrement-des-loyers-paris-une-contrainte-plus-forte-pour-certains-logements-0",
+  "title": "Encadrement des loyers à Paris : une contrainte plus forte pour certains logements",
+  "type": "gov",
+  "publisher": "SDES (Ministère de la Transition écologique)",
+  "year": "2019",
+  "read_fully": true,
+  "key_point": "2015-17 scheme: 20% of rents above cap; small-room flats rents -3%, others stable."
+ },
+ {
+  "url": "https://taxdown.es/propietario/zonas-tensionadas",
+  "title": "Zonas tensionadas: qué son, dónde hay y cómo saber si tu vivienda está en una",
+  "type": "web",
+  "publisher": "TaxDown",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "317 tensioned municipalities (Catalonia 271), none in Madrid; caps at previous rent; large landlords use reference index."
+ },
+ {
+  "url": "https://www.moneyvox.fr/immobilier/actualites/102765/dpe-selon-la-note-de-votre-logement-voici-de-combien-sa-valeur-chute-dans-ces-grandes-villes",
+  "title": "DPE : selon la note de votre logement, voici de combien sa valeur chute dans ces grandes villes",
+  "type": "web",
+  "publisher": "MoneyVox (citing Ithaque)",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "F/G apartments in big cities discounted EUR237-667/m2; no Paris-specific figure."
+ },
+ {
+  "url": "https://news.ycombinator.com/item?id=39765692",
+  "title": "Paris preserves its mixed society by pouring billions into public housing (HN discussion)",
+  "type": "forum",
+  "publisher": "Hacker News",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "308 participants: Paris middle class squeezed to suburbs; city pre-emption right; social rents 15-20% below market."
+ },
+ {
+  "url": "https://news.ycombinator.com/item?id=34832045",
+  "title": "Portugal proposes to end Golden Visas, curtail Airbnb rentals (HN discussion)",
+  "type": "forum",
+  "publisher": "Hacker News",
+  "year": "2023",
+  "read_fully": true,
+  "key_point": "182 participants: Lisbon pressure blamed on short-term lets and nomads more than small golden-visa volumes."
+ },
+ {
+  "url": "https://news.ycombinator.com/item?id=46313266",
+  "title": "Spain fines Airbnb EUR65M: why the government is cracking down (HN discussion)",
+  "type": "forum",
+  "publisher": "Hacker News",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "89 participants debate tourist lets absorbing central supply vs under-building in Madrid/Barcelona."
+ },
+ {
+  "url": "https://droit-finances.commentcamarche.com/forum/affich-7019273-2016-2-ou-3-fois-le-loyer",
+  "title": "2016: 2 ou 3 fois le loyer",
+  "type": "forum",
+  "publisher": "CommentCaMarche Droit-Finances",
+  "year": "2016",
+  "read_fully": true,
+  "key_point": "Income of 3x rent is agency/insurer practice, not law; agencies wrongly cite a 'new law'."
+ },
+ {
+  "url": "https://www.forumconstruire.com/construire/topic-438906-achat-appartement-prix-ravalement.php",
+  "title": "Achat appartement prix ravalement",
+  "type": "forum",
+  "publisher": "ForumConstruire",
+  "year": "2022",
+  "read_fully": true,
+  "key_point": "Buyer pricing future façade works; advice: check syndic plans and AG minutes before discounting offer."
+ },
+ {
+  "url": "https://www.spanishpropertyinsight.com/discussion/forum-topic/barcelona-prices-per-square-metre/",
+  "title": "Barcelona prices per square metre (forum)",
+  "type": "forum",
+  "publisher": "Spanish Property Insight forum",
+  "year": "2007",
+  "read_fully": true,
+  "key_point": "Barcelona m2 usually usable not built; Idealista asking vs tasación data; new-build vs resale distinction."
+ },
+ {
+  "url": "https://www.apur.org/en/housing-dwelling/housing-stock-evolution/impact-rent-control-Paris-2023",
+  "title": "Impact of rent control in Paris (2023)",
+  "type": "gov",
+  "publisher": "APUR",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "Average rent EUR1,469 vs EUR1,533 counterfactual (EUR64/month saving); moderation 2.5% (2020) to 5.9% (2023)."
+ },
+ {
+  "url": "https://www.pap.fr/actualites/paris-ces-arrondissements-ou-les-prix-ont-vraiment-augmente-en-2026/a29652",
+  "title": "Paris : ces arrondissements où les prix ont (vraiment) augmenté en 2026",
+  "type": "web",
+  "publisher": "PAP",
+  "year": "2026",
+  "read_fully": false,
+  "key_point": "403; snippet: 6e >EUR14,000/m2 vs 19e <EUR7,500-8,200; ~1.9% average annual rise."
+ },
+ {
+  "url": "https://www.pap.fr/acheteur/compromis-vente/erreur-de-superficie-pouvez-vous-exiger-une-baisse-du-prix-apres-la-promesse-de-vente/a26767",
+  "title": "Erreur de superficie : pouvez-vous exiger une baisse du prix ?",
+  "type": "web",
+  "publisher": "PAP",
+  "year": "",
+  "read_fully": false,
+  "key_point": "403; snippet: Carrez error >5% gives proportional price cut, action within one year, buyer bears proof."
+ },
+ {
+  "url": "https://www.immobiliare.it/mercato-immobiliare/lombardia/milano/",
+  "title": "Mercato immobiliare Milano",
+  "type": "data",
+  "publisher": "Immobiliare.it",
+  "year": "2026",
+  "read_fully": false,
+  "key_point": "403; Milan not covered in this stream."
+ },
+ {
+  "url": "https://www.expat.com/forum/viewtopic.php?id=1025466",
+  "title": "Expat.com forum thread on renting in Lisbon",
+  "type": "forum",
+  "publisher": "Expat.com",
+  "year": "",
+  "read_fully": false,
+  "key_point": "403 Forbidden; not read. Intended forum source on Lisbon rental search."
+ }
+]

@@ -1,0 +1,45 @@
+{
+  "note": "Area-level portal searches by postcode district, with the search's market, price ceiling and bedrooms, and Rightmove's sold prices for the district. api/area_api/home_search.py portal_links (and area_api.usage go_target for sold) and web/src/lib/listing-links.ts areaListingLinks / districtSoldPricesUrl must both produce exactly these. Formats checked by hand 2026-10-06.",
+  "cases": [
+    {
+      "name": "buy-two-beds",
+      "outcode": "e8",
+      "market": "buy",
+      "maxPrice": 650000,
+      "minBedrooms": 2,
+      "links": {
+        "rightmove": "https://www.rightmove.co.uk/property-for-sale/E8.html?maxPrice=650000&minBedrooms=2",
+        "zoopla": "https://www.zoopla.co.uk/for-sale/property/e8/?price_max=650000&beds_min=2&q=E8",
+        "onthemarket": "https://www.onthemarket.com/for-sale/property/e8/?max-price=650000&min-bedrooms=2"
+      },
+      "sold": "https://www.rightmove.co.uk/house-prices/e8.html"
+    },
+    {
+      "name": "rent-one-bed",
+      "outcode": "N16",
+      "market": "rent",
+      "maxPrice": 2500,
+      "minBedrooms": 1,
+      "links": {
+        "rightmove": "https://www.rightmove.co.uk/property-to-rent/N16.html?maxPrice=2500&minBedrooms=1",
+        "zoopla": "https://www.zoopla.co.uk/to-rent/property/n16/?price_frequency=per_month&price_max=2500&beds_min=1&q=N16",
+        "onthemarket": "https://www.onthemarket.com/to-rent/property/n16/?max-price=2500&min-bedrooms=1",
+        "openrent": "https://www.openrent.co.uk/properties-to-rent/n16?prices_max=2500&bedrooms_min=1"
+      },
+      "sold": "https://www.rightmove.co.uk/house-prices/n16.html"
+    },
+    {
+      "name": "buy-any-size",
+      "outcode": "SW1A",
+      "market": "buy",
+      "maxPrice": 1200000,
+      "minBedrooms": 0,
+      "links": {
+        "rightmove": "https://www.rightmove.co.uk/property-for-sale/SW1A.html?maxPrice=1200000&minBedrooms=0",
+        "zoopla": "https://www.zoopla.co.uk/for-sale/property/sw1a/?price_max=1200000&beds_min=0&q=SW1A",
+        "onthemarket": "https://www.onthemarket.com/for-sale/property/sw1a/?max-price=1200000&min-bedrooms=0"
+      },
+      "sold": "https://www.rightmove.co.uk/house-prices/sw1a.html"
+    }
+  ]
+}

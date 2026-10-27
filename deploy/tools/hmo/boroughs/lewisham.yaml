@@ -1,0 +1,26 @@
+# Lewisham: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000023
+slug: lewisham
+name: Lewisham
+register:
+  status: published
+  url: https://lewisham.gov.uk/-/media/services/housing/hmo-register.xlsx
+  page: https://lewisham.gov.uk/myservices/housing/landlords/hmo/register-of-licensed-houses-in-multiple-occupation--hmos
+  format: xlsx
+  sheet: null
+  postcode_column: FULLADDR
+  rows: 1326
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2022-04-05
+  end: 2027-04-04
+  url: https://lewisham.gov.uk/myservices/housing/private-tenants-and-landlords/landlords/hmo/which-houses-in-multiple-occupation--hmos--need-a-licence
+notes: >-
+  One sheet, header in row 1, all rows are current HMO licences (mandatory and additional). FULLADDR is the
+  property address and ends with its postcode (1312 of 1326 rows); SRCFULLADDR is the licence holder's
+  address and must not be used. File data runs to Nov 2025 and the council says some register data is
+  not showing; the file carries no updated date. End date of the additional scheme is from a council summary.

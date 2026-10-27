@@ -1,0 +1,30 @@
+# Croydon: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000008
+slug: croydon
+name: Croydon
+register:
+  status: search-only
+  url: https://landlordlicensing.croydon.gov.uk/public-register
+  page: https://www.croydon.gov.uk/housing/landlords-and-managing-agents/houses-multiple-occupation-hmo/check-whether-hmo-licensed
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-09-25
+  end: 2031-09-01
+  url: https://www.croydon.gov.uk/housing/landlords-and-managing-agents/property-licensing-schemes/about-our-new-housing-licensing-schemes
+- kind: selective
+  wards: [Addiscombe East, Addiscombe West, Bensham Manor, Broad Green, Fairfield, Norbury & Pollards Hill, Norbury Park, Selhurst, South Croydon, South Norwood, Thornton Heath, Waddon, West Thornton, Woodside]
+  start: 2026-09-25
+  end: 2031-09-01
+  url: https://www.croydon.gov.uk/housing/landlords-and-managing-agents/property-licensing-schemes/selective-licensing-scheme-2026
+notes: >-
+  Two postcode-search portals with reCAPTCHA: new (landlordlicensing) and legacy mandatory (propertylicensing.croydon.gov.uk/public-register),
+  to be merged. A PDF copy is sold for GBP 57 (also viewable at offices); an old free PDF from November 2022 is stale.
+  Designation PDFs say in force 1 Sept 2026, the council page says 25 Sept 2026; both end 1 Sept 2031.

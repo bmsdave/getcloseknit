@@ -1,0 +1,39 @@
+{
+  "name": "close-knit-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "predev": "node scripts/copy-maplibre-worker.mjs",
+    "dev": "next dev --hostname 127.0.0.1 --port ${PORT:-4180}",
+    "prebuild": "node scripts/copy-maplibre-worker.mjs",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 4180",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "perf:layers": "node scripts/perf-layers.mjs",
+    "perf:interaction": "node scripts/perf-interaction.mjs",
+    "perf:pages": "PERF_STRICT_PAGES=${PERF_STRICT_PAGES:-1} playwright test -c playwright.perf.config.ts page-load",
+    "baseline": "tsx scripts/capture-baseline.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "maplibre-gl": "^6.6.0",
+    "next": "^16.3.4",
+    "pmtiles": "^4.5.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^22.19.19",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "openapi-typescript": "7.13.0",
+    "tsx": "^4.20.6",
+    "typescript": "5.9.3"
+  }
+}

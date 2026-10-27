@@ -1,0 +1,7 @@
+# NYC claim verification
+
+- **1. FARE Act: rents +1.1% (~$38-46/mo), avoided fee $5,454-5,862, full pass-through ~11%** — unreachable. Both StreetEasy URLs return HTTP 403 (WebFetch and curl), so none of the figures could be checked.
+- **2. Condo premium 8.8%, 13.4% vs unrestricted co-ops, 25.4% discount vs no-financing co-ops** — supported. The 2006 paper gives 8.8% for a typical condo, 13.4% against co-ops with no financing restriction and no flip tax, and a 25.4% discount against co-ops that allow no financing. It also gives 10.6% against co-ops that permit 60-79% financing.
+- **3. $150k income: $999k at 43% DTI vs $475k at 25% co-op DTI** — supported. Hauseit's affordability article states these exact numbers. It assumes $1k/month maintenance, a 30-year loan at 5% and 20% down. The co-op-vs-condo page gives the 25-30% DTI norms but not the price example.
+- **4. RGB 0% for 1- and 2-year leases, Oct 2026-Sep 2027, ~1M units** — partially. Order #58 confirms 0% for both lease terms and for lofts, on leases starting Oct 1, 2026 to Sep 30, 2027. The page gives no unit count, so the "~1 million units" figure has no source.
+- **5. Record $4,199 median (May 2026), +63.6% inquiries vs 2019; Jan 2026 Manhattan vacancy 2.44%, 16.4% bidding wars, +9.9% premium** — partially. The Miller Samuel January 2026 report confirms vacancy of 2.44%, 16.4% bidding wars (down from 20.9%) and a 9.9% average premium. The StreetEasy figures ($4,199 and 63.6%) could not be checked because the page returns 403.

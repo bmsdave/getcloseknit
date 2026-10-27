@@ -1,0 +1,36 @@
+# Greenwich: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000011
+slug: greenwich
+name: Greenwich
+register:
+  status: published
+  url: https://www.royalgreenwich.gov.uk/sites/default/files/2026-07/The%20Royal%20Borough%20of%20Greenwich%20-%20Landlord%20Licence%20Public%20Register%20July%202026.pdf
+  page: https://www.royalgreenwich.gov.uk/housing/letting-out-your-property/search-landlord-licence-public-register
+  format: pdf
+  sheet: null
+  postcode_column: null
+  # One record per licence from its type (column one); selective licences are not HMOs.
+  record_start: ^(Selective licence|Mandatory HMO|Additional HMO)
+  include: ^(Mandatory HMO|Additional HMO)
+  rows: 4890
+  updated: 2026-07-27
+  terms: none stated
+  retrieved: 2026-10-18
+# Selective scheme designated on pre-May 2022 wards: their current successors (approximate, by area).
+ward_aliases:
+  Woolwich Riverside: [Woolwich Arsenal, Woolwich Dockyard]
+schemes:
+- kind: additional
+  wards: all
+  start: 2024-01-01
+  end: 2028-12-31
+  url: https://www.royalgreenwich.gov.uk/sites/default/files/2025-09/additional-licensing-designation-of-area-public-notice.pdf
+- kind: selective
+  wards: [Woolwich Riverside, Woolwich Common, Shooters Hill, Plumstead Common, Plumstead Glyndon]
+  start: 2022-10-01
+  end: 2027-10-01
+  url: https://www.royalgreenwich.gov.uk/sites/default/files/2025-09/selective-licensing-designation-of-area-public%20notice.pdf
+notes: >-
+  377-page PDF (pdftotext -layout), one record per licence; the property postcode ends the address cell, often wrapped
+  onto its own line, so about 4,500 of 4,890 licences show a postcode in the text. Mixed types: about 830 mandatory, 710
+  additional, 3,350 selective (use the Licence type column). Selective scheme expansion to 18 wards was in consultation, not in force.

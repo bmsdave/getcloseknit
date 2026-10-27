@@ -1,0 +1,19 @@
+# The usage tables, read as close_knit_analytics (migration 050: SELECT on product_event,
+# profile_analytics_event and mcp_feedback only, read-only transactions, 30 s statements).
+apiVersion: 1
+datasources:
+  - name: Close Knit analytics
+    uid: close-knit-analytics
+    type: grafana-postgresql-datasource
+    url: database:5432
+    user: close_knit_analytics
+    isDefault: true
+    editable: false
+    jsonData:
+      database: close_knit
+      sslmode: disable
+      postgresVersion: 1500
+      maxOpenConns: 4
+      timeInterval: 1h
+    secureJsonData:
+      password: $CLOSE_KNIT_GRAFANA_DB_PASSWORD

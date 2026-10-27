@@ -1,0 +1,65 @@
+/* The first view (#7, #9): the value line, a three-step row, "Find my area" with
+   the Claude link beside it, and the proof strip. Layered on the card in
+   layout.css (position, grid, the × in column 2); tokens only, Day and Night. */
+.first-visit-intro .first-visit-intro__lead { grid-column: 1; }
+.first-visit-intro :is(.first-visit-intro__steps, .first-visit-intro__actions, .first-visit-intro__proof) { grid-column: 1 / -1; }
+.first-visit-intro .first-visit-intro__proof { padding-right: 10px; }
+.first-visit-intro .first-visit-intro__lead { text-wrap: balance; }
+.first-visit-intro__steps {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 2px; margin: 0; padding: 0; list-style: none;
+  color: var(--ink); font: 700 12px/1.35 var(--font-sans);
+}
+.first-visit-intro__steps li { display: inline-flex; align-items: center; gap: 3px; }
+.first-visit-intro__steps li + li::before { content: "→"; color: var(--muted); font-weight: 600; }
+.explorer-shell .first-visit-intro { row-gap: 8px; }
+.first-visit-intro__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; }
+.first-visit-intro__claude {
+  display: inline-flex; align-items: center; min-height: 44px; color: var(--ink);
+  font: 700 12.5px/1.25 var(--font-sans); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--muted);
+}
+.first-visit-intro__claude:hover { text-decoration-color: var(--ink); }
+.first-visit-intro__claude:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.first-visit-intro .first-visit-intro__proof { margin: 0; color: var(--muted); font: 500 12px/1.4 var(--font-sans); letter-spacing: 0; }
+/* Desktop: a little wider so the steps and the Claude link sit on one row each. */
+@media (min-width: 801px), (max-height: 499px) and (orientation: landscape) { .explorer-shell .first-visit-intro { width: min(408px, calc(100vw - 420px)); } }
+/* The value line is the page's h1 (contract 6), styled as the card's lead line was. */
+.first-visit-intro h1.first-visit-intro__lead { margin: 0; font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; }
+/* The empty evidence line steps down to h2 so the page keeps one h1; it looks as it did. */
+h2.evidence-empty-line { margin: 0; }
+h2.evidence-empty-line:focus-visible { outline: none; }
+/* Steps: a yarn icon before each label. */
+/* Steps: a yarn icon before each label stands in for the arrows between them. */
+.first-visit-intro .first-visit-intro__steps { gap: 4px 14px; }
+.first-visit-intro__steps li { gap: 4px; }
+.first-visit-intro__steps .first-visit-intro__step-icon { flex: none; width: 16px; height: 16px; }
+.first-visit-intro__steps li + li::before { content: none; }
+/* "Find my area": the card's one primary, labelled; the round My match button steps back meanwhile. */
+.first-visit-intro .first-visit-intro__find {
+  min-height: 44px; padding: 0 18px; border-radius: 12px; font: 800 14px/1 var(--font-sans); cursor: pointer;
+}
+/* "Try an example": a quiet text action beside it. */
+.first-visit-intro .first-visit-intro__example {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: var(--ink);
+  font: 700 13px/1.25 var(--font-sans); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--muted); cursor: pointer;
+}
+.first-visit-intro .first-visit-intro__example:hover { text-decoration-color: var(--ink); }
+.first-visit-intro .first-visit-intro__example:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.first-visit-intro__short { display: none; }
+/* Phones: three lines of value line at most, then one row each for the steps, the actions and the
+   proof strip (short, on one line). Hidden copies are display: none, so they leave the accessible name. */
+@media (max-width: 640px) {
+  .first-visit-intro__long { display: none; }
+  .first-visit-intro__short { display: inline; }
+  .explorer-shell .first-visit-intro { row-gap: 6px; padding-top: 12px; padding-bottom: 10px; }
+  /* The steps wrap (never run to the card's edge): 8px between them and the proof strip's inset on the right. */
+  .first-visit-intro .first-visit-intro__steps { gap: var(--space-2, 8px); padding-right: 10px; font-weight: 600; letter-spacing: -0.01em; }
+  .first-visit-intro__steps li { white-space: nowrap; }
+  .first-visit-intro__steps li { gap: 2px; }
+  .first-visit-intro__steps .first-visit-intro__step-icon { width: 14px; height: 14px; }
+  .first-visit-intro__actions { gap: 0 14px; }
+  .first-visit-intro .first-visit-intro__proof { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+}
+/* The narrowest phones: the short proof wraps rather than losing "no paid placement". */
+@media (max-width: 379px) {
+  .first-visit-intro .first-visit-intro__proof { white-space: normal; }
+}

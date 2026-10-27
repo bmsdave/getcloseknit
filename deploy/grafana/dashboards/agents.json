@@ -1,0 +1,568 @@
+{
+  "uid": "close-knit-agents",
+  "title": "Close Knit · Claude and agents",
+  "description": "MCP and agent API use: tools, conversations, errors, click-outs and feedback.",
+  "tags": [
+    "close-knit"
+  ],
+  "editable": false,
+  "timezone": "browser",
+  "schemaVersion": 41,
+  "version": 1,
+  "refresh": "",
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "links": [
+    {
+      "type": "dashboards",
+      "tags": [
+        "close-knit"
+      ],
+      "asDropdown": false,
+      "title": "Dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "type": "row",
+      "title": "Claude and the agent API",
+      "collapsed": false,
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 24,
+        "h": 1
+      },
+      "panels": [],
+      "id": 1
+    },
+    {
+      "type": "stat",
+      "title": "Conversations, 7d",
+      "description": "Distinct MCP sessions (one-way tags) with a tool call.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(DISTINCT session_id) FROM product_event WHERE channel = 'mcp' AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 2
+    },
+    {
+      "type": "stat",
+      "title": "Tool calls, 7d",
+      "description": "MCP and /api/v2/tools.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 3
+    },
+    {
+      "type": "stat",
+      "title": "Errors, 7d",
+      "description": "Share of tool calls that returned an error code.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE)::float / nullif(count(*), 0) FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 4
+    },
+    {
+      "type": "stat",
+      "title": "Clicked out, 7d",
+      "description": "Conversations whose listing links (through /go) someone opened.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(DISTINCT coalesce(session_id, id::text)) FROM product_event WHERE name = 'portal_click' AND channel <> 'web' AND occurred_at >= now() - interval '7 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 5
+    },
+    {
+      "type": "stat",
+      "title": "Feedback, 30d",
+      "description": "Items sent with send_feedback.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT count(*) FROM mcp_feedback WHERE created_at >= now() - interval '30 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 6
+    },
+    {
+      "type": "stat",
+      "title": "Median rating",
+      "description": "1–5, last 90 days.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 1,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY rating) FROM mcp_feedback WHERE rating IS NOT NULL AND created_at >= now() - interval '90 days'"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "colorMode": "none",
+        "graphMode": "none",
+        "textMode": "value"
+      },
+      "id": 7
+    },
+    {
+      "type": "timeseries",
+      "title": "Tool calls per day",
+      "description": "By tool.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 5,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "time_series",
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), props->>'tool' AS metric, count(*) AS value FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 30,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "id": 8
+    },
+    {
+      "type": "timeseries",
+      "title": "Conversations and click-outs per day",
+      "description": "Conversations that used a tool, and those that led someone to a portal.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 5,
+        "w": 12,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "time_series",
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), count(DISTINCT session_id) FILTER (WHERE name = 'tool_call' AND channel = 'mcp') AS \"conversations\", count(DISTINCT coalesce(session_id, id::text)) FILTER (WHERE name = 'portal_click' AND channel <> 'web') AS \"clicked out\" FROM product_event WHERE $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "id": 9
+    },
+    {
+      "type": "table",
+      "title": "Tools",
+      "description": "Empty answers: confidence 'none' (nothing found).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 13,
+        "w": 16,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'tool' AS tool, count(*) AS calls, count(DISTINCT session_id) AS conversations, count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE) AS errors, count(*) FILTER (WHERE props->>'confidence' = 'none') AS \"empty answers\", round(percentile_cont(0.5) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"median ms\", round(percentile_cont(0.95) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"p95 ms\" FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY calls DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 10
+    },
+    {
+      "type": "table",
+      "title": "Clients",
+      "description": "The client name from MCP initialize (e.g. claude-ai).",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 13,
+        "w": 8,
+        "h": 9
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT channel, coalesce(props->>'client', 'unknown') AS client, count(DISTINCT session_id) AS conversations, count(*) AS calls FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY calls DESC"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 11
+    },
+    {
+      "type": "table",
+      "title": "Errors by tool and code",
+      "description": "Codes as the REST mirror returns them.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 22,
+        "w": 10,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT props->>'tool' AS tool, props->>'code' AS code, count(*) AS times, max(occurred_at) AS \"last\" FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND (props->>'ok')::boolean IS FALSE AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 12
+    },
+    {
+      "type": "table",
+      "title": "Feedback from assistants",
+      "description": "send_feedback items: about the product, contact details removed before storing.",
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "close-knit-analytics"
+      },
+      "gridPos": {
+        "x": 10,
+        "y": 22,
+        "w": 14,
+        "h": 8
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "close-knit-analytics"
+          },
+          "editorMode": "code",
+          "rawQuery": true,
+          "format": "table",
+          "rawSql": "SELECT created_at AS \"when\", kind, rating, array_to_string(tools, ', ') AS tools, client, message FROM mcp_feedback WHERE $__timeFilter(created_at) ORDER BY created_at DESC LIMIT 50"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm"
+      },
+      "id": 13
+    }
+  ]
+}

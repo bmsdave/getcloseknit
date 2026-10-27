@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gap register v4</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #2f5bd3; } a:hover { color: #22252c; }
+</style>
+</helmet>
+<div style="width: 2000px; height: 2300px; box-sizing: border-box; padding: 72px 64px; display: flex; flex-direction: column; gap: 40px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="font-size: 13.5px; font-weight: 650; color: #5b6270; letter-spacing: 0.04em; text-transform: uppercase;">close knit · design review · gap register v4</div>
+      <h1 style="margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02;">Where the journeys break, v4</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.45; color: #5b6270;">38 gaps from <a href="Gaps-v2.dc.html">v2</a>. All closed by gap PRs 1–8 (#65–#74, 16 Oct). Status after v3 (shipped 17 Oct) and v4 (planned).</p>
+      <div style="display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; margin-top: 4px;"><span style="display: flex; gap: 8px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task N</span><span style="color: #5b6270;">final form planned in v4</span></span><span style="display: flex; gap: 8px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix N</span><span style="color: #5b6270;">final form shipped in v3</span></span><span style="display: flex; gap: 8px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR N · #NN</span><span style="color: #5b6270;">first closed, 16 Oct</span></span><span style="display: flex; gap: 8px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span><span style="color: #5b6270;">still open after v4</span></span></div>
+    </div>
+    <div style="display: flex; gap: 14px; align-items: stretch; flex-shrink: 0;">
+      <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 20px; border-radius: 14px; background: #e7ecfb; min-width: 200px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #2f5bd3; text-transform: uppercase; letter-spacing: 0.04em;">fixed v3</span>
+        <span style="font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: #2f5bd3;">3</span>
+        <span style="font-size: 14px; font-weight: 650; color: #5b6270;">Critical 1 · Major 1 · Minor 1</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 20px; border-radius: 14px; background: #efe7fb; min-width: 200px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #6b3fb3; text-transform: uppercase; letter-spacing: 0.04em;">fixed by v4</span>
+        <span style="font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: #6b3fb3;">8</span>
+        <span style="font-size: 14px; font-weight: 650; color: #5b6270;">Critical 1 · Major 2 · Minor 5</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 20px; border-radius: 14px; background: #e3f4ea; min-width: 200px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #1a7a43; text-transform: uppercase; letter-spacing: 0.04em;">shipped before v3</span>
+        <span style="font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: #1a7a43;">27</span>
+        <span style="font-size: 14px; font-weight: 650; color: #5b6270;">Critical 5 · Major 14 · Minor 8</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 20px; border-radius: 14px; background: #fbe3e1; min-width: 200px;">
+        <span style="font-size: 13.5px; font-weight: 700; color: #a32a22; text-transform: uppercase; letter-spacing: 0.04em;">open</span>
+        <span style="font-size: 56px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: #a32a22;">0</span>
+        <span style="font-size: 14px; font-weight: 650; color: #5b6270;">none</span>
+      </div>
+    </div>
+  </div>
+
+    <section style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 22px; border-radius: 16px; background: #6b3fb3; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Changed by v4</h2>
+        <span style="font-size: 15px; font-weight: 650;">Critical 1 · Major 2 · Minor 5</span>
+        <span style="font-size: 28px; font-weight: 800;">8</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 24px; align-items: start;">
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G01</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ01-find-my-area-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-01 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Tailor not in the wizard.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">No wizard. Budget · Travel to · What matters in one list; Kids? Drive? pre-order chips.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V4-21c-match-no-wizard.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 21c</a> <a href="V4-21d-match-priority.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 21d</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G22</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ13-commute-places-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-13 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Places page orphaned.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">Local places ends with All places →. Places page in the area frame, 1120 wide.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 28</a> <a href="V4-16-one-width.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 16</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G23</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ14-returning-visitor-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-14 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No Saved count on the map.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">♡ N top-right; in the right panel's header while it is open.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 1 · #65</span> <a href="V4-14-desktop-panel-top.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 14</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G28</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Back to the map resets the map.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">Every return restores layer, view, Show and filters. URL › saved › default.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 1 · #65</span> <a href="V4-18-remember-map.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 18</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G11</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ05-rankings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-05 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Borough rows: thin page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">Borough page in the area frame: tags, 12 tiles, Areas table.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-17-cleanup.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 17</a> <a href="V4-17-borough-page.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 17</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G26</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ15-report-data-error-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-15 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Map panel: report folded away.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">One area view in the sheet. Report by each figure.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V3-22-duplicates.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 22</a> <a href="V4-12-one-area-view.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 12</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G31</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Zone drawing only in My match edit.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">Where card in My match; slim drawing bar. Gone from Show.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V4-08-where-zones.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 8</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G35</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ05-rankings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-05 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">MSOA page is thinner than the area page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #f6f1fd; font-size: 14px; line-height: 1.4;">Same 1120 frame and one sticky chip bar as the area page.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 28</a> <a href="V4-16-one-width.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 16</a></div>
+        </article>
+      </div>
+    </section>
+
+  <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; align-items: start;">
+    <section style="grid-column: span 3; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 22px; border-radius: 16px; background: #2f5bd3; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Changed by v3</h2>
+        <span style="font-size: 15px; font-weight: 650;">Critical 1 · Major 1 · Minor 1</span>
+        <span style="font-size: 28px; font-weight: 800;">3</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 24px; align-items: start;">
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G10</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ05-rankings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-05 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No click reaches Rankings.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef3fb; font-size: 14px; line-height: 1.4;">≡ › Find a place › Rankings. Grouped tiles, top 3 each.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 1 · #65</span> <a href="V3-17-cleanup.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 17</a> <a href="V3-15-rankings.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 15</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G25</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ15-report-data-error-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-15 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Area page: thumbs only.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef3fb; font-size: 14px; line-height: 1.4;">Report by each figure. Thumbs removed.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-22-duplicates.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 22</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G21</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ14-returning-visitor-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-14 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No theme switch on subpages.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef3fb; font-size: 14px; line-height: 1.4;">≡ foot: Theme [Auto | Day | Night].</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 1 · #65</span> <a href="V3-13-menu-foot.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 13</a></div>
+        </article>
+      </div>
+    </section>
+    <section style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 22px; border-radius: 16px; background: #a32a22; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Still open</h2>
+        <span style="font-size: 15px; font-weight: 650;">gaps 0 · side items 2</span>
+        <span style="font-size: 28px; font-weight: 800;">0</span>
+      </div>
+      <div style="padding: 10px 14px; border-radius: 12px; background: #ffffff; border: 1px dashed #c5cfdb; font-size: 14.5px; color: #5b6270;">No gap open. Two non-gap items from <a href="GapsFix-minor-other-v4.dc.html">GapsFix minor v4</a>:</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 24px; align-items: start;">
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <a href="CUJ12-watch-listings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-12 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35;">Watch alerts only in the AI agent.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #fdf0ef; font-size: 14px; line-height: 1.4;">Blocked: needs login (e-mail alerts, sync).</div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <a href="CUJ08-agent-hands-back-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-08 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35;">Unreadable #profile= link fails silently.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #fdf0ef; font-size: 14px; line-height: 1.4;">Not built; no v4 task.</div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+    <section style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 22px; border-radius: 16px; background: #1a7a43; color: #ffffff;">
+        <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.02em;">Shipped before v3 · gap PRs</h2>
+        <span style="font-size: 15px; font-weight: 650;">Critical 5 · Major 14 · Minor 8</span>
+        <span style="font-size: 28px; font-weight: 800;">27</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 24px; align-items: start;">
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G27</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Open on map drops zoom and layer.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Open on map keeps view and layer.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V4-18-remember-map.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 18</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G29</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No noise layer.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Noise layer, one tap in Layers.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V4-21-my-match.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 21</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G30</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Criterion layers: no area page link.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Area card links the area page on every layer.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V4-12-one-area-view.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 12</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G32</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ16-explore-the-map-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-16 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Phone centre tap hits the empty sheet.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Empty phone sheet is a peek bar.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span> <a href="V3-1-empty-panel.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 1</a> <a href="V4-13-one-sheet.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 13</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G33</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ02-check-a-home-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-02 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">"SW1A": no postcode page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">"SW1A" offers full postcodes' pages.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 3 · #69</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G17</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ09-listing-from-portal-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-09 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Saved home missing on its area page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Area page: Saved homes here.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-17-cleanup.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 17</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G20</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ12-watch-listings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-12 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Watch only on the postcode page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Watch on the area page and card (in ⋯).</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 27</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G37</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ05-rankings-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-05 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Ranking rows open a thin MSOA page.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Ranking rows open the full area card.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span> <a href="V3-15-rankings.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 15</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G03</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ02-check-a-home-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-02 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Home page: no way into Check a home.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Check this home · £570k under the price band.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G04</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ02-check-a-home-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-02 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Stamp duty lost the price.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Stamp duty opens with the home's price.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G05</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ02-check-a-home-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-02 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Postcode page: no home links.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Homes here near the top; each opens /property.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G08</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ04-schools-first-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-04 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">School ranking linked only to DfE, Ofsted.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Names open /school. DfE, Ofsted small.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span> <a href="V3-15-rankings.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 15</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G09</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ04-schools-first-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-04 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No path from an area to its homes.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">What's next › Inside: Homes.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span> <a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 28</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G12</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ06-tools-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-06 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Tools end in a dead end.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Tools end: Find areas · Check a home.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span> <a href="V3-18-tools-width.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 18</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G16</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ08-agent-hands-back-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-08 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Bare profile link: no banner.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Any #profile= opens My match + banner.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span> <a href="V4-21d-match-priority.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 21d</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G19</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ11-learn-then-act-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-11 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">15 guide articles: no action.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Each article ends with its layer or tool.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G36</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ02-check-a-home-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-02 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Home's next steps far below the fold.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">What's next under the price band.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 5 · #71</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G02</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ01-find-my-area-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-01 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No Save in My match.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">♡ on each match row and the area card.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 6 · #72</span> <a href="V3-22-duplicates.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 22</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G06</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ03-compare-decide-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-03 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Brief: download only.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Compare › Brief › Copy link.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 6 · #72</span> <a href="V3-22-duplicates.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 22</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G07</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ03-compare-decide-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-03 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Share shortlist sent the map.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Share shortlist shares /brief.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 6 · #72</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G24</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ14-returning-visitor-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-14 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Saved hidden without a profile.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Saved shows all. No profile needed.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 6 · #72</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G38</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="Saved-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">Saved v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Saved shortlists unstyled.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Shortlist rows: name, count, Open · Share · Delete.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 6 · #72</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G13</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c0352c;"></span>Critical</span>
+            <a href="CUJ07-ai-agent-install-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-07 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">ChatGPT, Codex: READMEs only.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">/agents: Claude · ChatGPT · Codex · Any agent.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 7 · #73</span> <a href="V3-17-cleanup.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 17</a></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G14</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ07-ai-agent-install-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-07 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">No page for any other agent.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Any agent: MCP, OpenAPI, llms.txt; Gemini, Grok.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 7 · #73</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G15</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ07-ai-agent-install-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-07 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Claude sample brief opens an explainer.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Sample brief opens a filled brief.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 7 · #73</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G18</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>
+            <a href="CUJ10-search-landing-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-10 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Sitemap lacks postcode, home, places.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Sitemap: places, pack, postcode and home shards.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 8 · #74</span></div>
+        </article>
+        <article style="display: flex; flex-direction: column; gap: 8px; padding: 14px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G34</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>
+            <a href="CUJ04-schools-first-v4.dc.html" style="margin-left: auto; font-size: 13.5px; font-weight: 650;">CUJ-04 v4</a>
+          </div>
+          <p style="margin: 0; font-size: 15px; font-weight: 650; line-height: 1.35; color: #5b6270;">Demo school's area link: 404.</p>
+          <div style="padding: 8px 12px; border-radius: 9px; background: #eef8f2; font-size: 14px; line-height: 1.4;">Demo school links a demo area that exists.</div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 8 · #74</span></div>
+        </article>
+      </div>
+    </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2000,"height":2300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+# Harrow (310): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 310
+slug: harrow
+name: Harrow
+licence:
+  statement: The content we publish is free to re-use under the Open Government Licence.
+  url: https://www.harrow.gov.uk/terms
+licence_decision: approved
+aliases:
+  Camrose Primary School and Nursery: '102188'
+  St George's Catholic Primary School: '146176'
+  St Jérôme Church of England Bilingual School: '142904'
+  Stag Lane Infant and Nursery School: '102209'
+  Bentley Wood: '137178'
+  Nower Hill: '137028'
+  Sacred Heart: '146245'
+  Salvatorian College: '138458'
+docs:
+- phase: primary
+  year: 2019
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  accept:
+  - '''Moriah Jewish Day School'': no URN'
+  accept_note: The Moriah Jewish Day School (131229, academy 146664) closed in August 2021 with no successor in GIAS; left out.
+  url: https://web.archive.org/web/20220123151307/https://www.harrow.gov.uk/downloads/file/23682/how-primary-places-were-allocated-2019-20
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2020
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  accept:
+  - '''Moriah Jewish Day School'': no URN'
+  accept_note: The Moriah Jewish Day School (131229, academy 146664) closed in August 2021 with no successor in GIAS; left out.
+  url: https://web.archive.org/web/20231004101828/https://www.harrow.gov.uk/downloads/file/27329/primary-school-allocations-2020-21-revised-
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2021
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://web.archive.org/web/20231004102538/https://www.harrow.gov.uk/downloads/file/28831/primary-school-allocations-2021-22
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2022
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://web.archive.org/web/20240224183417/https://www.harrow.gov.uk/downloads/file/30194/R5___How_places_were_allocated_table_22_23.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2023
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/31543/R5___How_places_were_allocated_table_23_24_Landscape.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2024
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/32427/R5___How_places_were_allocated_table_24_25_Landscape__002_.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2025
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/33045/Reception_2025___How_places_were_allocated_at_Harrow_Schools.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: primary
+  year: 2026
+  note: Applicants are the applications received (every preference naming the school); offers are the total offered on offer day; refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/33701/primary-school-allocations-2026-27
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - faith
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2019
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://web.archive.org/web/20240718163023/https://www.harrow.gov.uk/downloads/file/26411/secondary-school-allocations-2019-20.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2020
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://web.archive.org/web/20240718134416/https://www.harrow.gov.uk/downloads/file/27225/secondary-school-allocations-2020-21-corrected.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2021
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://web.archive.org/web/20240718195334/https://www.harrow.gov.uk/downloads/file/28604/secondary-school-allocations-2021-22.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2022
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://web.archive.org/web/20230325193317/https://www.harrow.gov.uk/downloads/file/29994/Secondary_school_place_allocations_2022_23.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2023
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/31344/How_places_were_allocated_22_23__website_ns.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2024
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/32426/How_places_were_allocated_2024_25_secondary.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2025
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/32972/How_places_were_allocated_25_26.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+- phase: secondary
+  year: 2026
+  note: Applicants are the applications received (every preference naming the school); offers and refusals are not printed.
+  url: https://www.harrow.gov.uk/downloads/file/33603/how-places-were-allocated-in-2026-27
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - places
+  - ehcp
+  - looked_after
+  - social_medical
+  - medical_parent
+  - siblings
+  - staff
+  - feeder
+  - random
+  - faith
+  - distance_offers
+catchment_maps: null
+notes: 'Every PDF header states the offer date (e.g. "for September 2026 on 2 March 2026"; primary "on
+  16th April 2026"), i.e. national offer day. Filenames are misleading: file 31344 "22_23" is actually
+  Sept 2023 entry (verified); duplicates exist (32261 = 2023, 32116 = 2024, 32970 = 2025, 30858 = 2022
+  primary, archived). 2019-2022 docs are no longer live (404) - Wayback only. Straight-line stated in
+  2019 secondary and 2026 docs. Live listing pages: /schools-learning/apply-secondary-school-place/4 and
+  /schools-learning/apply-primary-school-place/4. Count columns vary by year (Hindu/ISKCON faith columns
+  in later years).'

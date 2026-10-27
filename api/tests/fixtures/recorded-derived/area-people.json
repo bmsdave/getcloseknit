@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/uk:lsoa:E01000900/people",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-people.v1\",\"productReleaseId\":\"fixture-2026-06\",\"geographyId\":\"uk:lsoa:E01000900\",\"name\":\"Camden 001A\",\"kind\":\"lsoa\",\"population\":null,\"censusYear\":2021,\"topics\":[{\"id\":\"ethnicity\",\"total\":null,\"categories\":[]},{\"id\":\"religion\",\"total\":null,\"categories\":[]},{\"id\":\"qualification\",\"total\":null,\"categories\":[]},{\"id\":\"occupation\",\"total\":null,\"categories\":[]},{\"id\":\"economic-activity\",\"total\":null,\"categories\":[]},{\"id\":\"tenure\",\"total\":null,\"categories\":[]},{\"id\":\"accommodation\",\"total\":null,\"categories\":[]},{\"id\":\"age\",\"total\":null,\"categories\":[]},{\"id\":\"household-type\",\"total\":null,\"categories\":[]},{\"id\":\"country-of-birth\",\"total\":null,\"categories\":[]}],\"sources\":[],\"rankScope\":{\"code\":\"E12000007\",\"name\":\"London\"}}"
+}

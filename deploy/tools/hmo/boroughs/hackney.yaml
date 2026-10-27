@@ -1,0 +1,50 @@
+# Hackney: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000012
+slug: hackney
+name: Hackney
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://drive.google.com/uc?export=download&id=1P4u6RHcXqJHrdp7P52o71nrx2RoKXrZp
+  page: https://www.hackney.gov.uk/housing/private-tenants-and-landlords/private-tenants/help-private-sector-tenants
+  format: pdf
+  sheet: null
+  postcode_column: null    # pdf: one record per licence, "Postcode" column holds the property postcode on the record's first line
+  # One record per licence from its reference; the property postcode comes before the holder's.
+  record_start: ^HAC-
+  rows: 2871
+  updated: 2026-04-01
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-05-01
+  end: 2031-04-30
+  url: https://www.hackney.gov.uk/property-licensing
+- kind: selective
+  wards:
+  - Brownswood
+  - Cazenove
+  - Clissold
+  - Dalston
+  - De Beauvoir
+  - Hackney Central
+  - Hackney Downs
+  - Hackney Wick
+  - Homerton
+  - King's Park
+  - Lea Bridge
+  - London Fields
+  - Shacklewell
+  - Springfield
+  - Stamford Hill West
+  - Stoke Newington
+  - Victoria
+  start: 2026-05-01
+  end: 2031-04-30
+  url: https://www.hackney.gov.uk/property-licensing
+notes: >-
+  HMO register is a Google Drive PDF (72 pages, PDF created 2026-04-01) of about 2,870 mandatory and
+  additional licences; the "Postcode" column is the property postcode. A separate selective licence
+  register PDF (about 1,240 rows, Drive id 1JWuCU8rlpkQ6cGR1PlQudWYDB_4tWzUh) is linked on the same page and is not an HMO file.
+  The PDF predates the May 2026 schemes, so newer licences are missing.

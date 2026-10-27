@@ -1,0 +1,29 @@
+# Merton: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000024
+slug: merton
+name: Merton
+register:
+  status: not-found
+  url: https://merton.gov.uk/council-tax-benefits-and-housing/private-housing/licensing
+  page: https://merton.gov.uk/council-tax-benefits-and-housing/private-housing/licensing
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: [Colliers Wood, Cricket Green, Figge's Marsh, Graveney, Lavender Fields, Longthornton, Pollards Hill]
+  start: 2023-09-24
+  end: 2028-09-23
+  url: https://www.merton.gov.uk/system/files/2023.06.19_additional_licensing_public_notice_final-web.pdf
+- kind: selective
+  wards: [Figge's Marsh, Graveney, Longthornton, Pollards Hill]
+  start: 2023-09-24
+  end: 2028-09-23
+  url: https://www.merton.gov.uk/system/files/2023.06.19_selective_licensing_public_notice_final-web.pdf
+notes: >-
+  No public register page or file on merton.gov.uk; the licensing pages and designation notices say a
+  s.232 register is kept but link to none. Third-party pages suggest copies by email (unverified for Merton).

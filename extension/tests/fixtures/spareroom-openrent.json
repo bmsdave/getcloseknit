@@ -1,0 +1,13 @@
+{
+  "_note": "Trimmed from live pages on 2026-10-18 (curl): SpareRoom's tracking-script propertyType and OpenRent page titles.",
+  "spareroom": {
+    "16647628": "var propertyType ='4 bed ' +\n                       '' +\n                       'house';",
+    "17106996": "var propertyType ='3 bed ' +\n                       '' +\n                       'flat';"
+  },
+  "openrent": {
+    "3067386": "Hackney - 1 Bed Flat, Queensbridge Road, E8 - To Rent Now for £2,200.00 p/m",
+    "3066986": "London - 3 Bed Semi-Detached House, Celandine Drive, E8 - To Rent Now for £3,800.00 p/m",
+    "3035419": "London - 3 Bed Terraced House, Pownall Road, E8 - To Rent Now for £4,950.00 p/m",
+    "3066681": "London - Room in a Shared Flat, Mare St, E8 - To Rent Now for £1,275.00 p/m"
+  }
+}

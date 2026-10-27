@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "area-summary.v1",
+  "dataMode": "demo",
+  "summary": {
+    "geographyId": "uk:msoa:E02000002",
+    "name": "North London preview",
+    "metricId": "price-per-square-metre",
+    "period": "2026-06",
+    "value": 6800,
+    "regionPercentile": 38,
+    "londonPercentile": 38,
+    "countryPercentile": null,
+    "englandPercentile": null,
+    "sampleCount": 18,
+    "breakdown": {
+      "allSales": 22,
+      "matchedSales": 18,
+      "excludedSales": 4,
+      "newBuild": 2,
+      "flats": 9
+    },
+    "quality": "fallback",
+    "sourceVersion": "preview-2026-06",
+    "carrier": "msoa",
+    "displayPrecision": 0
+  },
+  "parentId": "uk:lad:E09000002",
+  "priceTimeline": [
+    {
+      "geographyId": "uk:msoa:E02000002",
+      "name": "North London preview",
+      "metricId": "price-per-square-metre",
+      "period": "2026-05",
+      "value": 6780,
+      "regionPercentile": 37,
+      "londonPercentile": 37,
+      "countryPercentile": null,
+      "englandPercentile": null,
+      "sampleCount": 17,
+      "quality": "fallback",
+      "sourceVersion": "preview-2026-06",
+      "carrier": "msoa"
+    }
+  ],
+  "metricTimeline": []
+}

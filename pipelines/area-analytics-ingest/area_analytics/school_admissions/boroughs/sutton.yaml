@@ -1,0 +1,85 @@
+# Sutton (319): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 319
+slug: sutton
+name: Sutton
+licence:
+  statement: null
+  url: null
+licence_decision: unresolved
+aliases:
+  St Mary's Catholic Nursery and Infants: '102995'
+  Muschamp Primary: '130934'
+docs:
+- phase: primary
+  year: 2025
+  note: Furthest distance (metres) from the council page; 'All' read as all applicants offered, 'N/A' as no distance (selective and faith schools); no counts.
+  accept:
+  - '''Nonsuch Primary'': no URN'
+  accept_note: Nonsuch Primary School (102985, academy 152302 from 2026) is not in table school; left out.
+  url: https://web.archive.org/web/20260109184206/https://www.sutton.gov.uk/w/primary-school-allocation-information
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+- phase: primary
+  year: 2026
+  note: Furthest distance (metres) from the council page; 'All' read as all applicants offered, 'N/A' as no distance (selective and faith schools); no counts.
+  accept:
+  - '''Nonsuch Primary'': no URN'
+  accept_note: Nonsuch Primary School (102985, academy 152302 from 2026) is not in table school; left out.
+  url: https://www.sutton.gov.uk/w/primary-school-allocation-information
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+- phase: secondary
+  year: 2024
+  note: Furthest distance (metres) from the council page; 'All' read as all applicants offered, 'N/A' as no distance (selective and faith schools); no counts.
+  accept:
+  - '''Nonsuch High School for Girls'': no URN'
+  accept_note: Nonsuch High School for Girls (136795, selective) is not in table school; left out.
+  url: https://web.archive.org/web/20240524011538/https://www.sutton.gov.uk/w/secondary-school-allocation-information
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+- phase: secondary
+  year: 2025
+  note: Furthest distance (metres) from the council page; 'All' read as all applicants offered, 'N/A' as no distance (selective and faith schools); no counts.
+  accept:
+  - '''Nonsuch High School for Girls'': no URN'
+  accept_note: Nonsuch High School for Girls (136795, selective) is not in table school; left out.
+  url: https://web.archive.org/web/20250424082027/https://www.sutton.gov.uk/w/secondary-school-allocation-information
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+- phase: secondary
+  year: 2026
+  note: Furthest distance (metres) from the council page; 'All' read as all applicants offered, 'N/A' as no distance (selective and faith schools); no counts.
+  accept:
+  - '''Nonsuch High School for Girls'': no URN'
+  accept_note: Nonsuch High School for Girls (136795, selective) is not in table school; left out.
+  url: https://www.sutton.gov.uk/w/secondary-school-allocation-information
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+catchment_maps: null
+notes: A single HTML page per phase is overwritten each year. It shows PAN and 'Furthest Distance (Metres)',
+  or 'All' / 'N/A' (selective and faith schools). Cheam High has a separate 'Worcester Park places' figure.
+  The secondary page does not state the year, so years come from capture dates and changed values; the
+  primary page states the closing date (15 Jan 2025 / 15 Jan 2026). A junior page also exists. 2019-2023
+  not recovered. The 2020 'information sheet' PDFs (downloads/file/4480 starting_primary_school_2020,
+  downloads/file/4435 transfer_to_secondary_information_2020) are referenced from WB pages, but the PDFs
+  themselves are not archived. The 2022 Liferay pages (/-/transfer-to-secondary-school-2022-allocation-information)
+  are not archived. No copyright/OGL page found; footer links only to data-and-privacy. Measurement method
+  is not stated on the pages.

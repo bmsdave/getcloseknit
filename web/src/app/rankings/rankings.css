@@ -1,0 +1,74 @@
+/* /rankings: a compact grouped page of tiles with the top three: one column on a phone, more on
+   wider screens. Colours are tokens; group dots and bars are yarn. */
+.rankings-index__head { display: grid; gap: 4px; margin-top: 18px; }
+.rankings-index__head h1 { margin: 0; font: 800 var(--fs-2xl)/1.1 var(--font-display); letter-spacing: -0.03em; }
+.rankings-index__head p { margin: 0; color: var(--muted); font-size: var(--fs-md); font-weight: 600; }
+
+/* The group chips stay in reach while the page scrolls. */
+.rankings-index__bar {
+  position: sticky; z-index: 5; top: 0; display: flex; align-items: center; gap: 6px; margin: 10px 0 0; padding: 10px 0;
+  overflow-x: auto; scrollbar-width: none; background: var(--paper);
+}
+.rankings-index__bar::-webkit-scrollbar { display: none; }
+.rankings-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-sm); font-weight: 700; text-decoration: none; white-space: nowrap;
+}
+.rankings-chip:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.rankings-dot { flex: none; width: 10px; height: 10px; border-radius: var(--radius-pill); }
+
+.rankings-index__groups { display: grid; gap: 22px; margin-top: 8px; }
+.rankings-group { scroll-margin-top: 64px; }
+.rankings-group__head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.rankings-group__head h2 { margin: 0; font: 800 var(--fs-lg)/1.2 var(--font-display); letter-spacing: -0.02em; }
+.rankings-group__count { color: var(--muted); font-size: var(--fs-xs); font-weight: 600; }
+
+.rankings-tiles { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.rankings-tile {
+  position: relative; display: flex; flex-direction: column; gap: 8px; min-height: 112px; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface);
+}
+.rankings-tile:hover { background: color-mix(in srgb, var(--surface) 94%, var(--ink)); }
+.rankings-tile__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 8px; }
+.rankings-tile__name {
+  min-width: 0; color: var(--ink); font-size: var(--fs-md); font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; text-decoration: none;
+}
+/* The whole tile opens the ranking; the switches sit above the link. */
+.rankings-tile__name::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.rankings-tile__name:focus-visible { outline: none; }
+.rankings-tile:has(.rankings-tile__name:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.rankings-tile__level {
+  padding: 2px 8px; border-radius: var(--radius-pill); color: var(--muted); background: var(--chip); font-size: var(--fs-2xs); font-weight: 700;
+}
+/* The pair (Highest | Lowest) and type (Flat | Terraced …) switches sit under the name. */
+.rankings-tile__switches { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.rankings-seg {
+  position: relative; z-index: 1; display: inline-flex; justify-self: start; align-self: flex-start; gap: 1px; padding: 2px;
+  border-radius: var(--radius-pill); background: var(--chip);
+}
+.rankings-seg button {
+  height: 28px; padding: 0 10px; border: 0; border-radius: var(--radius-pill); color: var(--muted); background: transparent;
+  font: inherit; font-size: var(--fs-2xs); font-weight: 700; white-space: nowrap; cursor: pointer;
+}
+.rankings-seg button:hover:not(:disabled) { color: var(--ink); }
+.rankings-seg button[aria-pressed="true"] { color: var(--ink); background: var(--seg-on); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.12); }
+.rankings-seg button:disabled { cursor: not-allowed; text-decoration: line-through; }
+.rankings-seg button:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+
+.rankings-tile__top { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-xs); }
+.rankings-tile__top li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rankings-tile__rank { flex: none; width: 18px; color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+.rankings-tile__area { flex: 1; min-width: 0; overflow: hidden; color: var(--ink); white-space: nowrap; text-overflow: ellipsis; }
+.rankings-tile__bar { flex: none; width: 56px; height: 8px; }
+.rankings-tile__value { flex: none; color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* r3 #36 (CUJ04 board step 1): a desktop shows the phone's tiles, top three included, in columns. */
+@media (min-width: 720px) {
+  .rankings-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 960px) {
+  .rankings-index__head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
+  .rankings-index__head p { font-size: var(--fs-sm); }
+  .rankings-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

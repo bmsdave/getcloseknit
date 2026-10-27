@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/custom-criteria/presets/gyms/pack?level=msoa",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": "@1792972800",
+ "body": "{\"schemaVersion\":\"custom-criterion-pack.v1\",\"productReleaseId\":\"fixture-2026-06\",\"sourceReleaseId\":\"\",\"criterion\":{\"schemaVersion\":\"custom-criterion.v1\",\"id\":\"gyms\",\"label\":\"Nearest gym or sports centre\",\"sets\":{\"a\":{\"label\":\"Gyms and sports centres\",\"any\":[{\"leisure\":[\"fitness_centre\",\"sports_centre\"]}]}},\"formula\":\"nearest\",\"radiusMetres\":1000},\"unit\":\"minutes\",\"legend\":[{\"value\":0.0,\"colour\":\"#2f5bd3\",\"label\":\"0 min\"},{\"value\":0.001,\"colour\":\"#5c84e0\",\"label\":\"\"},{\"value\":0.002,\"colour\":\"#8cabeb\",\"label\":\"\"},{\"value\":0.003,\"colour\":\"#bfd1f3\",\"label\":\"\"},{\"value\":0.004,\"colour\":\"#f4f7fa\",\"label\":\"0 min\"}],\"bivariate\":null,\"summary\":{\"areas\":0,\"regionMedian\":null,\"places\":0,\"top\":[],\"bottom\":[],\"tied\":{\"top\":0,\"bottom\":0},\"londonMedian\":null},\"sources\":[],\"caveats\":[\"This counts places on the map, not who lives in an area; it never describes residents.\",\"Places come from OpenStreetMap, which volunteers keep up to date; a new shop may be missing and a closed one still listed.\",\"Minutes are a straight-line walking estimate from each area's centre point to the nearest place (up to 5 km), not a route.\"],\"values\":[],\"level\":\"msoa\"}"
+}

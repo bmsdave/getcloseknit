@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/area-values/crime/2026-06",
+ "status": 422,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"carrier\"],\"msg\":\"Field required\",\"input\":null}]}"
+}

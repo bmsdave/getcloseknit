@@ -1,0 +1,36 @@
+/* Tailor (components/tailor-card.tsx, tailor-wizard.tsx): the overview header's chip, its small
+   answers card and the four one-tap steps. The dialog, header and footer are Find my area's
+   (styles/match-panel.css); options are .chip-button (pressed = ink fill with a running stitch). */
+
+.tailor { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 6px; min-width: 0; }
+/* A long "Tailored to: Buy ≤ £650k · 2-bed · King's Cross St Pancras ✎" wraps inside the panel, never past
+   its edge (round-2 finding 51): the column above is the panel's width, not the chip's. */
+.tailor-chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; height: auto; text-align: left; }
+.tailor-chip > span { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.tailor-chip__icon { flex: none; width: 14px; height: 14px; }
+
+.tailor-card {
+  width: min(100%, 420px); padding: 10px 12px; border: 1px solid var(--rule); border-radius: 12px;
+  background: var(--surface); color: var(--ink);
+}
+.tailor-card dl { display: grid; gap: 4px; margin: 0; }
+.tailor-card dl > div { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 8px; font-size: var(--fs-2xs); }
+.tailor-card dt { color: var(--muted); font-weight: 700; }
+.tailor-card dd { margin: 0; font-weight: 800; overflow-wrap: anywhere; }
+.tailor-card__note { margin: 8px 0 0; color: var(--muted); font-size: var(--fs-2xs); }
+.tailor-card__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+.tailor-note { margin: 16px 0 0; color: var(--muted); font-size: 13px; }
+.tailor-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
+.tailor-options .chip-button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; justify-self: stretch;
+  min-height: 52px; border-radius: 12px; font-size: 15px;
+}
+.tailor-options .chip-button:disabled { color: var(--muted); cursor: not-allowed; }
+.tailor-suggested { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+/* Back sits left; Skip and Done stay together on the right. */
+.tailor-wizard .wizard-nav > [data-testid="tailor-skip"] { margin-right: 0; }
+/* Phones: the full-screen sheet is solid, so the area page never shows through it. */
+@media (max-width: 600px) {
+  .preference-panel.area-wizard.tailor-wizard, .tailor-wizard .wizard-nav { background: var(--panel-solid); }
+}

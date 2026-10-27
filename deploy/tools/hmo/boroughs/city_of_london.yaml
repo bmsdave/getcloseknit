@@ -1,0 +1,19 @@
+# City of London: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000001
+slug: city_of_london
+name: City of London
+register:
+  status: on-request
+  url: https://www.cityoflondon.gov.uk/services/environmental-health/public-registers
+  page: https://www.cityoflondon.gov.uk/services/environmental-health/public-registers
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes: []
+notes: >-
+  The register page says the online link is not working; email the team or view by appointment at Guildhall.
+  Only mandatory HMO licensing is offered; no additional or selective scheme found.

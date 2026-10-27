@@ -1,0 +1,88 @@
+/* Knitted menu, controls and tags (DESIGN.md › Knitted components, › Buttons).
+   Knitted glyphs are <KnitIcon> (components/knit/knit-icon.tsx); Colours are tokens. */
+
+/* Knitted glyphs sit in their box like the old text glyphs. */
+.knit-glyph, .top-menu-knit, .find-my-area__star, .layer-option-check, .topic-group__icon { display: block; flex: none; }
+/* A thread icon set in a line of text (marks, map keys, map labels), in its text colour. */
+.knit-inline { display: inline-block; flex: none; vertical-align: -0.12em; }
+.search-summary__weight { display: inline-flex; gap: 1px; vertical-align: middle; }
+
+/* The search field's ring is knitted (explorer-header.tsx), replacing the drawn gradient ring. */
+.search-wrap input { background-image: none; }
+.search-wrap .search-ring { position: absolute; z-index: 1; top: 15px; left: 15px; pointer-events: none; }
+
+/* Menu A (site-menu.tsx): folds, one open; then one settings block (on the map Map and
+   Colours, then Theme) as label-left rows with 36px segmented pills, and on the map one small links line. */
+.site-menu { display: grid; gap: 2px; }
+.site-menu__fold { min-height: 48px; padding: 0 12px 0 14px; font-size: var(--fs-md); font-weight: 800; letter-spacing: -0.01em; }
+.site-menu__fold:focus-visible, .site-menu__link:focus-visible, .site-menu__legal a:focus-visible,
+.menu-row--button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.site-menu__links { display: grid; padding-bottom: 4px; }
+.site-menu__link {
+  display: flex; align-items: center; min-height: 44px; padding: 0 12px 0 26px; border-radius: var(--radius-md);
+  color: var(--ink); font-size: var(--fs-sm); font-weight: 500; text-decoration: none;
+}
+.site-menu__link:hover { background: var(--chip); }
+/* Menu v5: a top-level link reads like a fold's head (same height, weight and inset), without a caret. */
+.site-menu__top { min-height: 48px; padding-left: 14px; font-size: var(--fs-md); font-weight: 800; letter-spacing: -0.01em; }
+.site-menu__link[aria-current="page"] { font-weight: 800; background: var(--chip); }
+/* The page shown (MenuA-v4): a small primary dot at the row's end; the words and aria-current carry it. */
+.site-menu__link[aria-current="page"]::after {
+  content: ""; flex: none; width: 7px; height: 7px; margin-left: auto; border-radius: 50%; background: var(--primary);
+}
+.site-menu__settings { display: grid; margin-top: 4px; padding: 4px 6px 0 14px; border-top: 1px solid var(--rule); }
+.site-menu__map { display: grid; }
+.menu-row { display: flex; align-items: center; gap: 10px; min-height: 48px; }
+.menu-row__label { flex: 1; min-width: 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; text-align: left; }
+.menu-row--button { width: 100%; padding: 0; border: 0; border-radius: var(--radius-md); color: var(--ink); background: none; font: inherit; cursor: pointer; }
+/* Colours: a chevron pointing right that turns down once the list is open (board V3-13). */
+.menu-row--button .top-menu-caret { flex: none; transform: rotate(-90deg); transition: transform 160ms ease; }
+.menu-row--button[aria-expanded="true"] .top-menu-caret { transform: none; }
+/* Segmented pill: a chip track, the chosen one a raised thumb (Map 2D|3D, Theme Auto|Day|Night). MenuA-v4 draws
+   32px thumbs in a 36px pill: min-height undoes the bare-button 44px (knit-ui.css). */
+.menu-seg { flex: none; display: flex; gap: 2px; padding: 2px; border-radius: var(--radius-pill); background: var(--chip); }
+.menu-seg button {
+  min-width: 48px; height: 32px; min-height: 0; padding: 0 12px; border: 0; border-radius: var(--radius-pill);
+  color: var(--muted); background: transparent; font: inherit; font-size: var(--fs-xs); font-weight: 700; cursor: pointer;
+}
+.menu-seg button:hover { color: var(--ink); }
+.menu-seg button[aria-pressed="true"] { color: var(--ink); background: var(--seg-on); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.12); }
+.menu-seg button:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+/* The palette list opens in place under Colours: name left, swatches right. */
+.menu-colours .appearance-menu { padding: 0 0 6px; }
+.menu-colours .appearance-menu button { justify-content: space-between; min-height: 40px; padding: 0 10px; font-size: var(--fs-sm); font-weight: 600; }
+.menu-colours .appearance-menu button[aria-pressed="true"] { font-weight: 800; }
+/* The chosen palette is the chip fill alone here: the block keeps no stitched outlines. */
+.menu-colours .appearance-menu button[aria-pressed="true"]::after { content: none; }
+/* A thin rule, then Privacy · Terms · Feedback as one small muted line (the map only). */
+.site-menu__legal {
+  display: flex; flex-wrap: wrap; align-items: center; margin: 4px 0 0 -6px; padding-top: 2px; border-top: 1px solid var(--rule);
+  color: var(--muted); font-size: var(--fs-xs); font-weight: 600;
+}
+.site-menu__legal a, .site-menu__credits .link-button {
+  display: flex; align-items: center; min-height: 44px; padding: 0 6px; border-radius: var(--radius-sm);
+  color: var(--muted); text-decoration: none;
+}
+.site-menu__legal a:hover, .site-menu__credits .link-button:hover { color: var(--ink); text-decoration: underline; }
+.site-menu__credits .link-button:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+/* "Map credits": only a phone on its side, whose map has no ⓘ. */
+.site-menu__credits { display: none; align-items: center; }
+@media (max-height: 499px) and (orientation: landscape) { .site-menu__credits { display: inline-flex; } }
+
+/* ♡ N, the saved areas (site-header-client.tsx), on the map's bar and in every page's header. */
+a.saved-link {
+  display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 44px; padding: 0 12px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font-size: var(--fs-sm); font-weight: 800; text-decoration: none;
+}
+a.saved-link:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+a.saved-link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.saved-link__icon { display: block; flex: none; }
+/* On the map's bar it leads the right-hand group, so the ≡ menu sits right after it. */
+.explorer-header .saved-link { margin-left: auto; }
+.explorer-header .saved-link + .top-menu { margin-left: 0; }
+
+svg.top-menu-caret { border: 0; transform: none; }
+.top-menu-row[aria-expanded="true"] svg.top-menu-caret { transform: rotate(180deg); }
+
+/* The star on the primary "Find my area" is knitted in the stitch colour: sun on sun would vanish at night. */
+.find-my-area .find-my-area__star { color: var(--stitch); }

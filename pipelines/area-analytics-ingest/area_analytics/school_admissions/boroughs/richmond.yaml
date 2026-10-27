@@ -1,0 +1,156 @@
+# Richmond upon Thames (318): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 318
+slug: richmond
+name: Richmond upon Thames
+licence:
+  statement: No part of this website may be copied, broadcast, adapted or used in any way without the
+    prior permission of the London Borough of Richmond Upon Thames
+  url: https://www.richmond.gov.uk/help/terms-and-conditions
+licence_decision: unresolved
+aliases:
+  Carlisle Infants School: '102883'
+  Christ's: '102929'
+  Hampton Infants: '102888'
+  Hampton Wick Infants: '102889'
+  Heathfield Infants: '102891'
+  Orleans Orimary School: '102895'
+  Richmond Park Academy: '136208'
+  Trafalgar Infants School: '102901'
+  St Richard Reynolds: '149297'
+docs:
+- phase: primary
+  year: 2019
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://web.archive.org/web/20220104093108/https://www.richmond.gov.uk/media/17682/how_primary_places_were_offered.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts:
+  - places
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2020
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://web.archive.org/web/20220104093108/https://www.richmond.gov.uk/media/17682/how_primary_places_were_offered.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts:
+  - places
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2021
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://www.richmond.gov.uk/media/wqskgp2n/how_primary_places_were_offered.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts:
+  - places
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2022
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  accept:
+  - '''Hampton Hill Junior'': distance 23800 m over 10 miles'
+  accept_note: Printed '23.8 km' for the last child offered on offer day (waiting list 6.850 km); kept as printed.
+  url: https://www.richmond.gov.uk/media/wqskgp2n/how_primary_places_were_offered.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts:
+  - places
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+  - distance_offers
+  - appeals
+- phase: primary
+  year: 2023
+  note: Rolling three-year document; the configured year's 'distance of the last child offered under the distance criterion at offer date' is read (km). Community schools only; no counts.
+  url: https://www.richmond.gov.uk/media/wqskgp2n/how_primary_places_were_offered.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts:
+  - places
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+  - distance_offers
+  - appeals
+- phase: secondary
+  year: 2019
+  note: Rolling three-year document; the configured year's cut-off at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://web.archive.org/web/20220227224004/https://www.richmond.gov.uk/media/22396/lbr_tss_furthest_distance_offers_2021_2019.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2020
+  note: Rolling three-year document; the configured year's cut-off at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://web.archive.org/web/20220227224004/https://www.richmond.gov.uk/media/22396/lbr_tss_furthest_distance_offers_2021_2019.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2021
+  note: Rolling three-year document; the configured year's cut-off at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://www.richmond.gov.uk/media/utmdtytx/lbr_tss_furthest_distance_offers.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2022
+  note: Rolling three-year document; the configured year's cut-off at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://www.richmond.gov.uk/media/utmdtytx/lbr_tss_furthest_distance_offers.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2023
+  note: Rolling three-year document; the configured year's cut-off at national offer day is read (km); the end-of-coordination distance is not. No counts.
+  url: https://www.richmond.gov.uk/media/utmdtytx/lbr_tss_furthest_distance_offers.pdf
+  format: pdf-table
+  units: km
+  method: walking
+  counts: []
+catchment_maps: null
+notes: 'Rolling 3-year PDFs on richmond.gov.uk. Old numeric URLs (/media/17682/, /media/25749/) redirect
+  to the live ones. Primary covers only community infant/primary/junior schools: offers per criterion,
+  distance of last child at offer date, furthest distance from waiting list at end of national coordination,
+  appeals. Secondary covers all borough secondaries: NOD cut-off and end-of-coordination (31 Aug) distance,
+  sometimes with criterion (e.g. ''Crit 10 - 4.547 kms''). Method: shortest route by road and/or maintained
+  footpath (GIS), per 2024-25 determined arrangements. No 2024-2026 editions found: admissions moved to
+  AfC (kr.afcinfo.org.uk) and neither its admissions pages nor the 2026 schools brochure (rackcdn attachment
+  18825) has cut-off tables. Kingston is covered by another agent. Also available: notes_to_parents_following_*_allocation
+  PDFs 2021-2023 (not checked for distances).'

@@ -1,0 +1,139 @@
+# Greenwich (203): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 203
+slug: greenwich
+name: Greenwich
+licence:
+  statement: Permission is granted to electronically download, copy and print ... portions of our site
+    solely for private or educational use (within the classroom)
+  url: https://www.royalgreenwich.gov.uk/terms-and-privacy
+licence_decision: unresolved
+aliases:
+  Christ Church Shooters Hill CE: '100166'
+  Christ Church Blackwall CE: '100165'
+  James Wolfe: '131246'
+  James Wolfe Primary School: '131246'
+  Greenacres: '145210'
+  Greenacres Primary School: '145210'
+  St Pauls Academy: '105135'
+  Royal GreenwichTrust School: '143927'
+  Stationer's Crown Woods Academy: '141309'   # Leigh Stationers' Academy (LAESTAB 203/4271)
+  Stationers' Crown Woods Academy: '141309'
+  The Halley Academy: '145315'                # Leigh Academy Halley
+  Leigh HalleyAcademy: '145315'
+docs:
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20240615043643/https://www.royalgreenwich.gov.uk/download/downloads/id/6171/primary_school_admissions_data_and_statistics_2022_to_2023.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'Gallions Mount' [Distance]: no URN"
+  - "'Holy Family RC' [Faith School]: no URN"
+  accept_note: Gallions Mount (closed 31-08-2025) and Holy Family Catholic Primary (closed 31-08-2024)
+    have no successor in GIAS; left out.
+  ignore_distance:
+    Haimo: printed 23627.28 m (14.7 miles), over the 10-mile review limit
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240615051231/https://www.royalgreenwich.gov.uk/download/downloads/id/6172/primary_school_admissions_data_and_statistics_2023_to_2024.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'Gallions Mount' [Distance]: no URN"
+  - "'Holy Family RC' [Faith School]: no URN"
+  accept_note: Gallions Mount (closed 31-08-2025) and Holy Family Catholic Primary (closed 31-08-2024)
+    have no successor in GIAS; left out.
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20250414205936/https://www.royalgreenwich.gov.uk/download/downloads/id/7752/primary_school_admission_data_and_statistics_2024_to_2025.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'Gallions Mount' [Distance]: no URN"
+  accept_note: Gallions Mount (closed 31-08-2025) has no successor in GIAS; left out.
+  ignore_distance:
+    Heronsgate: printed 53781.35 m (33.4 miles), over the 10-mile review limit
+    Bishop John Robinson CE: printed '21437.68 (Open Band)' m (13.3 miles), over the 10-mile review limit
+- phase: primary
+  year: 2026
+  url: https://www.royalgreenwich.gov.uk/site/custom_scripts/data/GIS/school-catchment-radius/coords-radii-primary.json
+  format: html
+  units: metres
+  method: straight-line
+  counts: []
+  accept:
+  - "'Gallions Mount Primary School': no URN"
+  accept_note: Gallions Mount (closed 31-08-2025) has no successor in GIAS and no distance; left out.
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240610103142/https://www.royalgreenwich.gov.uk/download/downloads/id/6169/admissions_data_2022_to_2023_school_places.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240610143951/https://www.royalgreenwich.gov.uk/download/downloads/id/6170/admissions_data_2023_to_2024_school_places.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20250414193233/https://www.royalgreenwich.gov.uk/download/downloads/id/7797/admissions_data_2024_to_2025_school_places.xlsx
+  format: xlsx
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  ignore_distance:
+    Woolwich Polytechnic School for Girls: printed 49621.24 m (30.8 miles), not oversubscribed, over the
+      10-mile review limit
+- phase: secondary
+  year: 2025
+  url: https://www.royalgreenwich.gov.uk/sites/default/files/2026-02/secondary%20school%20booklet%2026%2027.pdf
+  format: pdf-text
+  units: km
+  method: straight-line
+  counts:
+  - applicants
+- phase: secondary
+  year: 2026
+  url: https://www.royalgreenwich.gov.uk/site/custom_scripts/data/GIS/school-catchment-radius/coords-radii-secondary.json
+  format: html
+  units: metres
+  method: straight-line
+  counts: []
+catchment_maps: https://royalgreenwich.gov.uk/info/200286/apply_for_a_school_place/1361/primary_school_offers_interactive_map
+notes: 'Best source: the "admission data and statistics" xlsx files (per school: PAN, applications by
+  preference 1-6, offers by preference, criterion of the last place offered, "Last distance offered in
+  metres, using a straight line"); file "2022_to_2023" = NOD 2022, and so on. The secondary xlsx has a
+  second sheet, "Offers by Band". The JSON behind the offers map is machine-readable (school, easting/northing,
+  "Last distance offered (m)", "year": "2026"); "html" is used as the nearest format code. A Wayback copy
+  of the primary JSON (.js, 20250825220056) holds year 2024. The JSON is the only 2026 source, and the
+  map page does not state a year. Booklets duplicate the figures: primary 2023/24 booklet (download/downloads/id/5917,
+  entry 2022) and 2024/25 (media/2545, entry 2023) give "Distance of last offer (m)"; secondary 2024/25
+  (media/2546, entry 2023) and 2026/27 (entry 2025) give "Last offer on distance (km)" per band. Gaps:
+  primary 2019-2021 and 2025; secondary 2019-2021. The 2025/26 booklets (download/downloads/id/7546, 7547,
+  CDX 2025-04) were not opened. Old xlsx download URLs now 404 live (Wayback only). James Wolfe distances
+  are measured to Meridian House.'

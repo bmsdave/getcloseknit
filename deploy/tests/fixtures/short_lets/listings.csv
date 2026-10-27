@@ -1,0 +1,9 @@
+id,listing_url,host_id,host_name,name,latitude,longitude,room_type,price,number_of_reviews,number_of_reviews_ltm
+1,https://www.airbnb.com/rooms/1,9,Pat,Flat in Camden,51.5390,-0.1426,Entire home/apt,$120.00,40,5
+2,https://www.airbnb.com/rooms/2,9,Pat,"Room, Camden",51.5391,-0.1427,Private room,$50.00,3,0
+3,https://www.airbnb.com/rooms/3,8,Sam,Hotel,51.5100,-0.1300,Hotel room,$200.00,0,
+4,https://www.airbnb.com/rooms/4,7,Lee,"Shared, Hackney",51.5450,-0.0550,Shared room,$30.00,12,2
+5,https://www.airbnb.com/rooms/5,6,Kim,Out of London,52.2000,0.1200,Entire home/apt,$90.00,1,1
+6,https://www.airbnb.com/rooms/6,5,Ash,No point,,,Entire home/apt,$90.00,1,1
+7,https://www.airbnb.com/rooms/7,4,Jo,"Multi-line
+description, ""quoted""",51.4600,-0.1150,Entire home/apt,$80.00,20,notanumber

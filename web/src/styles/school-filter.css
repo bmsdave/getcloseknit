@@ -1,0 +1,47 @@
+/* Schools filter v2 (board "School filter · 5 UI options"): the chip rows the /schools hub and the map's Show › Schools
+   share (components/schools/school-filter-chips.tsx), the filter's head, its measure slider and the colour key.
+   Tokens only, Day and Night alike; the measure ramp is map hex (DESIGN.md › Map marker colours). */
+.schools-filters { display: grid; gap: 6px; margin-top: 12px; }
+.schools-filters__row { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.schools-filters__label { flex: none; width: 58px; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.schools-filters__chips { display: flex; gap: 6px; min-width: 0; padding: 2px; overflow-x: auto; scrollbar-width: none; }
+.schools-filters__chips::-webkit-scrollbar { display: none; }
+.schools-chip {
+  position: relative; flex: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 0;
+  border-radius: var(--radius-pill); color: var(--ink); background: var(--chip); font: inherit; font-size: var(--fs-sm); font-weight: 700;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+}
+.schools-chip:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+/* The chosen chip is the primary with its running stitch (DESIGN.md › Buttons and controls). */
+.schools-chip[aria-current="true"], .schools-chip[aria-pressed="true"] { color: var(--on-primary); background: var(--primary); }
+.schools-chip[aria-current="true"]::after, .schools-chip[aria-pressed="true"]::after {
+  content: ""; position: absolute; inset: 3px; border: 1.5px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.schools-chip:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Show › Schools: the live count and Reset, then the filter read back in words. */
+.school-filter__head { display: flex; align-items: center; gap: 8px; }
+.school-filter__count { flex: 1; min-width: 0; font-weight: 800; font-variant-numeric: tabular-nums; }
+.school-filter__summary { margin: 0; color: var(--muted); font-size: var(--fs-xs); font-weight: 600; }
+.school-filter__group { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.school-filter__group > legend { padding: 0; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.school-filter__group .schools-filters { margin-top: 0; }
+.school-filter__measure { display: grid; gap: 6px; }
+.school-filter__measure select { width: 100%; }
+.school-filter__threshold { display: grid; gap: 4px; font-size: var(--fs-sm); font-weight: 700; }
+.school-filter__threshold input[type="range"] { width: 100%; min-height: 32px; accent-color: var(--ink); }
+.school-filter__match { width: 100%; }
+
+/* The measure's colour key: four steps light to dark, then "no data", each a swatch and its words. */
+.school-measure-key { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-2xs); font-weight: 700; }
+.school-measure-key li { display: inline-flex; align-items: center; gap: 4px; }
+.school-measure-key__swatch {
+  flex: none; width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--ink); box-sizing: border-box;
+}
+.school-measure-key__swatch[data-none] { opacity: 0.5; }
+/* On the map: bottom-left with the legend chip (DESIGN.md › the legend chip), above the phone sheet's peek. */
+.school-measure-legend {
+  display: grid; gap: 4px; max-width: min(300px, calc(100vw - 32px)); padding: 8px 10px; border-radius: var(--radius-md);
+  background: var(--panel-solid); color: var(--ink); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.1), 0 6px 18px rgb(var(--ink-rgb) / 0.12);
+}
+.school-measure-legend__title { margin: 0; font-size: var(--fs-xs); font-weight: 800; }

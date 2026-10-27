@@ -1,0 +1,247 @@
+/* The v3 area page (components/area-full-page.tsx, area-standouts.tsx, people-section.tsx):
+   header with verdict and tags, the 12 fixed tiles with mini London strips, one sticky chip bar,
+   sections in one frame, and the category rows. Tokens only, Day and Night. */
+
+/* Header: name, borough, verdict and tags on the left; the one row of actions on the right. */
+.area-head { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--space-3) var(--space-4); margin-top: var(--space-2); }
+.area-head__main { flex: 1 1 420px; display: grid; gap: var(--space-1); min-width: 0; }
+.area-head__borough { margin: 0; color: var(--muted); font-size: var(--fs-sm); font-weight: 600; }
+.area-head .area-page-actions { flex: 0 1 auto; margin: 0; }
+/* One row that never scrolls (the ⋯ menu must not be clipped): four compact controls fit a 320px phone. */
+.area-page-actions .area-save-actions__row { align-items: center; flex-wrap: nowrap; margin: 0; padding: 0; overflow: visible; }
+.area-page-actions__icon { justify-content: center; min-width: 44px; padding: 0; }
+.area-page-actions__more .area-full__menu { left: auto; right: 0; }
+.area-full__menu .area-full__menu-item {
+  display: flex; align-items: center; width: 100%; min-height: 44px; padding: 0 10px; border: 0; border-radius: 8px;
+  background: none; color: var(--ink); font: 700 14px/1.2 var(--font-sans); text-align: left; text-decoration: none; cursor: pointer;
+}
+.area-full__menu .area-full__menu-item:hover { background: var(--chip); }
+.area-full__menu .area-full__menu-item:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+
+/* Verdict and tags: green pros, amber cons; the household's own carry a running stitch. */
+.area-verdict { display: grid; gap: var(--space-2); }
+.area-verdict__line { margin: 2px 0 0; font-size: var(--fs-lg); font-weight: 700; line-height: 1.35; }
+.area-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.area-tag {
+  position: relative; display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 12px;
+  border-radius: var(--radius-pill); color: var(--ink); font-size: var(--fs-xs); font-weight: 800; text-decoration: none; white-space: nowrap;
+}
+.area-tag[data-kind="pro"] { background: color-mix(in srgb, var(--pro) 16%, var(--surface)); }
+.area-tag[data-kind="con"] { background: color-mix(in srgb, var(--con) 18%, var(--surface)); }
+.area-tag[data-kind="pro"] .area-tag__sign { color: var(--pro); }
+.area-tag[data-kind="con"] .area-tag__sign { color: var(--con); }
+.area-tag__sign { font-weight: 800; }
+/* The household's own tag is marked ▸, as its rows are; a stitch would read as chosen. */
+.area-tag[data-mine]::before { content: "▸" / ""; color: var(--muted); font-weight: 700; }
+.area-tag:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+.area-tag:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Phones: two tags a row, each wrapping inside its own pill, so four tags take two rows, not four,
+   and the tiles stay above the fold. */
+@media (max-width: 600px) {
+  .area-tags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .area-tags > li { display: flex; min-width: 0; }
+  .area-tag {
+    flex: 1; align-items: center; min-height: 44px; padding: 6px 10px; border-radius: var(--radius-md);
+    font-size: var(--fs-2xs); line-height: 1.3; white-space: normal;
+  }
+  .area-tag__sign { line-height: inherit; }
+}
+
+.page-tailor { margin-top: var(--space-3); }
+.page-tailor__types { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.tailor-card__title { margin: 0; color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; }
+
+/* The 12 fixed tiles: 4×3 on a desktop; two columns and the first six on a phone ("Show all 12"). */
+.standout-tiles-wrap { display: grid; gap: var(--space-2); margin-top: var(--space-4); scroll-margin-top: 64px; }
+.standout-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.standout-tiles--loading { min-height: 280px; }
+.standout-tiles-wrap > .standout-tiles__more { display: none; }
+.standout-tile {
+  display: grid; align-content: space-between; gap: 6px; height: 100%; min-height: 84px; padding: 10px 12px;
+  border-radius: var(--radius-lg); background: var(--surface); box-shadow: 0 0 0 1px var(--rule); color: var(--ink); text-decoration: none;
+}
+.standout-tile:hover { box-shadow: 0 0 0 1.5px var(--ink); }
+.standout-tile:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Title and value share a row; a value too long for it moves under the title, never over it. */
+.standout-tile__head { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; }
+.standout-tile__icon { flex: none; width: 16px; height: 16px; }
+.standout-tile__label { flex: none; color: var(--muted); font-size: var(--fs-xs); font-weight: 800; }
+.standout-tile__value {
+  flex: 1 0 auto; max-width: 100%; display: inline-flex; justify-content: flex-end; align-items: center; gap: 4px;
+  font-size: var(--fs-sm); font-weight: 800; text-align: right; white-space: nowrap;
+}
+.standout-tile[data-empty] .standout-tile__value { color: var(--muted); font-weight: 700; }
+.standout-tile__trend { display: inline-flex; }
+.standout-tile__arrow { width: 14px; height: 14px; }
+@media (max-width: 760px) {
+  .standout-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+  .standout-tiles:not([data-all]) > li[data-phone-extra] { display: none; }
+  .standout-tiles-wrap > .standout-tiles__more { display: inline-flex; justify-self: start; }
+  .standout-tile { padding: 8px 10px; }
+  .standout-tile__head { flex-wrap: wrap; }
+  .standout-tile__value { flex-basis: 100%; justify-content: flex-start; text-align: left; white-space: normal; }
+}
+@media print {
+  .standout-tiles > li[data-phone-extra] { display: list-item !important; }
+  .standout-tiles-wrap > .standout-tiles__more, .page-tailor, .area-section__map, .area-section__report, .area-full .text-button { display: none !important; }
+  .standout-tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Mini London strip: felt track, London's middle as a tick, the area as a dot (right = better or higher). */
+.london-strip { position: relative; display: block; height: 14px; }
+.london-strip__track { position: absolute; left: 0; right: 0; top: 5px; height: 4px; border-radius: var(--radius-pill); background: var(--wool); }
+.london-strip__middle { position: absolute; left: 50%; top: 1px; width: 2px; height: 12px; margin-left: -1px; border-radius: 1px; background: var(--muted); }
+.london-strip__dot { position: absolute; top: 1px; width: 12px; height: 12px; margin-left: -6px; line-height: 0; }
+.london-strip__dot .dot { display: block; }
+
+/* One frame per section: title row, one chart, rows, ⓘ sources. */
+.area-section__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-1) var(--space-3); }
+.area-section__headline { font-size: var(--fs-md); font-weight: 800; }
+.london-chip {
+  display: inline-flex; align-items: center; min-height: 28px; padding: 0 10px; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font-size: var(--fs-2xs); font-weight: 700;
+}
+.area-section__map {
+  margin-left: auto; display: inline-flex; align-items: center; min-height: 44px; color: var(--ink);
+  font-size: var(--fs-xs); font-weight: 700; text-decoration-color: var(--stitch-quiet); text-underline-offset: 3px;
+}
+/* Rows are one list (label · value), never columns of pairs: at most five, read top to bottom. */
+.area-section .key-numbers { grid-template-columns: minmax(0, 1fr); }
+.area-section .key-numbers > div { grid-template-columns: minmax(0, 13em) minmax(0, 1fr); }
+@media (max-width: 600px) { .area-section .key-numbers > div { grid-template-columns: minmax(0, 9em) minmax(0, 1fr); } }
+.key-numbers__mark { color: var(--muted); }
+.key-numbers > div[data-mine] dt { color: var(--ink); font-weight: 800; }
+.area-section .area-section__more { min-height: 44px; }
+
+/* Buttons that read as text: dashed cherry underline, 44px target. */
+.text-button {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--ink);
+  font: 700 var(--fs-sm)/1.2 var(--font-sans); cursor: pointer;
+  text-decoration: underline dashed var(--stitch-quiet) 1.5px; text-underline-offset: 4px;
+}
+.text-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Category rows: label · bar · London tick · share · chip, one row per category. */
+.share-rows { display: grid; grid-template-columns: minmax(0, 240px) minmax(72px, 1fr) 48px 48px; column-gap: 10px; row-gap: 4px; margin: 0; padding: 0; list-style: none; }
+.share-row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; min-height: 30px; font-size: var(--fs-sm); }
+/* A long label ("Flat in a purpose-built block") wraps to a second line rather than losing its end. */
+.share-row__label {
+  display: -webkit-box; min-width: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+  line-height: 1.25; overflow-wrap: anywhere; font-weight: 600;
+}
+.share-row__mark { color: var(--muted); }
+.share-row__track { position: relative; height: 12px; }
+.share-row__satin { display: block; width: 100%; height: 100%; }
+.share-row__tick { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--ink); box-shadow: 0 0 0 1px var(--panel-solid); }
+.share-row__value { text-align: right; font-weight: 800; white-space: nowrap; }
+.share-row__chip { display: flex; justify-content: flex-start; }
+.diff-chip { padding: 1px 7px; border-radius: var(--radius-pill); background: var(--chip); font-size: var(--fs-2xs); font-weight: 800; white-space: nowrap; }
+.share-rows[data-highlighting] .share-row:not([data-highlight]) { opacity: .62; }
+.share-row[data-highlight] .share-row__label { font-weight: 800; }
+/* Rates per 1,000: the figure ("1,153.6") and London's own ("London ▲ 902.0") size to their text. */
+.share-rows--rates { grid-template-columns: minmax(0, 240px) minmax(72px, 1fr) auto auto; }
+@media (max-width: 600px) {
+  .share-rows { grid-template-columns: minmax(0, 1fr) minmax(64px, 34%) 40px 40px; column-gap: 8px; }
+  .share-rows--rates { grid-template-columns: minmax(0, 1fr) minmax(40px, 24%) auto auto; }
+  .share-row { font-size: var(--fs-xs); }
+}
+/* A section lays out by its own width too (the map's side panel at any width the visitor drags it to, never the
+   window's): the same narrow rows as a phone's when the section is narrow. */
+.area-section { container-type: inline-size; }
+@container (max-width: 560px) {
+  .share-rows { grid-template-columns: minmax(0, 1fr) minmax(56px, 30%) 40px 40px; column-gap: 8px; }
+  .share-rows--rates { grid-template-columns: minmax(0, 1fr) minmax(40px, 24%) auto auto; }
+  .share-row { font-size: var(--fs-xs); }
+  .area-section .key-numbers > div { grid-template-columns: minmax(0, 9em) minmax(0, 1fr); }
+}
+/* "Report" in a section's title row (CUJ15 board): right-aligned beside On map; its form takes the next line. */
+.area-section__head > .area-section__report { margin-left: auto; }
+.area-section__head > .area-section__report + .area-section__map { margin-left: 0; }
+.area-section__head > .area-section__report:has(.correction-form) { order: 1; flex: 1 0 100%; margin-left: 0; }
+.area-section__report .overview-about__report {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; border: 0; background: none; color: var(--ink);
+  font: inherit; font-size: var(--fs-xs); font-weight: 700; text-decoration: underline; text-decoration-color: var(--stitch-quiet);
+  text-underline-offset: 3px; cursor: pointer;
+}
+.area-section__report .overview-about__report:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.correction-form__figure { margin: -4px 0 8px; color: var(--muted); font-size: var(--fs-sm); font-weight: 700; }
+.share-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin: 0; color: var(--muted); font-size: var(--fs-xs); font-weight: 700; }
+.share-legend__item { display: inline-flex; align-items: center; gap: 6px; }
+.share-legend__swatch { display: inline-block; width: 16px; height: 10px; border-radius: 2px; }
+.share-legend__tick { display: inline-block; width: 2px; height: 14px; border-radius: 1px; background: var(--ink); }
+.share-legend__note { font-weight: 600; }
+.share-topics { display: grid; }
+.share-topic { display: grid; gap: 4px; padding: var(--space-3) 0; border-top: 1px solid var(--rule); }
+.share-topic h3 { margin: 0; font-size: var(--fs-md); font-weight: 800; letter-spacing: normal; text-transform: none; color: var(--ink); }
+.share-topic__lead { margin: 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 600; }
+.share-topic__fold { justify-self: start; }
+.fact-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.fact-chips li { padding: 3px 10px; border-radius: var(--radius-pill); background: var(--chip); font-size: var(--fs-xs); font-weight: 700; }
+.safety-types { display: grid; gap: var(--space-2); }
+
+/* Price by type: four numbers with their middle-half band on one shared scale. Two-up until the block itself
+   (the side panel at its width, or the page) has room for four: a container query, never the window's width. */
+.price-types {
+  display: grid; gap: var(--space-3); container-type: inline-size;
+  --market-all: var(--ink);
+  --market-D: var(--chart-1); --market-S: var(--chart-2); --market-T: var(--chart-4); --market-F: var(--chart-5); --market-O: var(--chart-6);
+}
+.price-types__lead { margin: 0; color: var(--muted); font-size: var(--fs-xs); font-weight: 600; }
+.price-types__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+@container (min-width: 600px) { .price-types__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-3); } }
+.price-type { display: grid; min-width: 0; }
+/* Each type is a button (its line on the chart): the same card and affordance for all four. */
+.price-type__button {
+  display: grid; align-content: start; gap: 2px; min-width: 0; padding: 10px 12px; border: 0; border-radius: var(--radius-md);
+  color: var(--ink); background: var(--chip); font: inherit; text-align: left; cursor: pointer;
+}
+.price-type__button:hover { box-shadow: inset 0 0 0 1.5px var(--muted); }
+.price-type__button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.price-type__button[aria-pressed="true"] { background: var(--surface); box-shadow: inset 0 0 0 2.5px var(--ink); }
+.price-type__label { color: var(--muted); font-size: var(--fs-xs); font-weight: 800; }
+.price-type__median { font-size: var(--fs-xl); font-weight: 800; letter-spacing: -0.01em; }
+.price-type__sales, .price-type__range { color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; }
+.price-type__band { display: grid; gap: 4px; margin-top: 4px; }
+.price-type__track { position: relative; height: 12px; }
+.price-type__satin { display: block; width: 100%; height: 100%; }
+.price-type__budget, .price-types__budget-key { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--ink); }
+.price-types__budget-key { position: relative; display: inline-block; top: 2px; height: 14px; margin: 0 6px 0 2px; }
+.price-types__key { margin: 0; color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+/* The household's types: first, marked ▸ and ringed; never dimmed, nor are the others. Few sales lightens the band only. */
+.price-type[data-mine] .price-type__button:not([aria-pressed="true"]) { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.price-type[data-mine] .price-type__label { color: var(--ink); }
+.price-type[data-few] .price-type__track { opacity: .66; }
+
+/* Schools: Primary | Secondary, then rows with the distance in words (no scale). */
+.school-phases { display: grid; gap: var(--space-2); }
+.phase-toggle { display: flex; flex-wrap: wrap; gap: 6px; }
+.people > .phase-toggle { margin-bottom: var(--space-2); }
+/* Board V3-33b: Ofsted mark · name · Top 10% · distance, one line (the name takes two at most). */
+.school-phases .school-row { display: flex; align-items: center; gap: var(--space-2); min-height: 36px; padding: 4px 0; }
+/* No padding on the name: its two-line clamp clips at the padding edge, which would show the top of a third line. */
+.school-phases .school-row__name { flex: 1 1 auto; min-width: 0; min-height: 24px; }
+.school-row__ofsted { flex: none; width: 22px; height: 12px; overflow: visible; }
+.school-row__top {
+  flex: none; display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: var(--radius-pill);
+  background: var(--ink); color: var(--on-ink); font: 800 var(--fs-2xs, .75rem)/1 var(--font-sans); white-space: nowrap;
+}
+/* Source links in the page's footer are 24px targets too. */
+.area-full__rank-sources a { display: inline-block; padding-block: 4px; }
+.school-phases .school-row__meta { flex: none; min-width: 4.5em; text-align: right; color: var(--ink); font-weight: 800; }
+
+/* Nearest essentials: a list, no bars. */
+.essentials { display: grid; margin: 0; padding: 0; list-style: none; }
+.essentials__row {
+  display: grid; grid-template-columns: 6.5em minmax(0, 1fr) auto; gap: var(--space-2); align-items: baseline;
+  padding: 7px 0; border-bottom: 1px solid var(--rule); font-size: var(--fs-sm);
+}
+.essentials__label { color: var(--muted); }
+.essentials__name { min-width: 0; overflow-wrap: anywhere; }
+.essentials__walk { font-weight: 800; white-space: nowrap; }
+
+/* Places and Evidence pack pages: the way back to the area page. */
+.area-back {
+  display: inline-flex; align-items: center; min-height: 44px; margin-top: var(--space-1); color: var(--ink);
+  font-weight: 800; text-decoration: none;
+}
+.area-back:hover { text-decoration: underline; }

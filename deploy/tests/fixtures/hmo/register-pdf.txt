@@ -1,0 +1,7 @@
+                      LONDON BOROUGH OF EXAMPLE - REGISTER OF LICENSED HMOS
+Licence no   Property                                   Storeys   Households
+HMO/0001     12 Fake Road, London SE15 4AA              3         5
+HMO/0002     Flat A, 7 Test Street
+             London SE15 4AB                            2         6
+HMO/0003     21 Fake Road, SE15 4AA                     3         4
+Page 1 of 1

@@ -1,0 +1,48 @@
+/* Tables (DESIGN.md › Components): plain text cells, rows divided by stem stitch.
+   - Where a React wrapper exists, a <StemDivider className="stem-divider table-stem">
+     sits right before the <table> as its top edge.
+   - A divider can't sit between <tr>s, so row and head dividers are the same
+     stem stitch in CSS: 5px stitches 1.25px apart in --field-line at half
+     strength, like StemDivider (lib/satin.ts › STEM_DASH).
+   Tables stay inside their own scroll wrappers, so a phone never scrolls the page sideways. */
+
+:is(.market-table, .market-sales, .chart-table table, .sales-table, .places-table, .civic-tax, .area-page__table,
+  .comparison-table, .tools-table, .brief-table, .flood-risk table) :is(th, td) {
+  border-top: 0;
+  border-bottom: 0;
+  background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--field-line) 50%, transparent) 0 5px, transparent 5px 6.25px);
+  background-size: 100% 1.3px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+}
+:is(.market-table, .market-sales, .chart-table table, .sales-table, .places-table, .civic-tax, .area-page__table,
+  .comparison-table, .tools-table, .brief-table, .flood-risk table) tbody tr:last-child :is(th, td) {
+  background-image: none;
+}
+
+/* The head's lower edge: the same stem stitch, a little stronger. */
+:is(.market-table, .market-sales, .chart-table table, .sales-table, .places-table, .civic-tax, .area-page__table,
+  .comparison-table, .tools-table, .brief-table, .flood-risk table) thead tr:last-child th {
+  padding-bottom: 7px;
+  background-image: repeating-linear-gradient(90deg, color-mix(in srgb, var(--field-line) 80%, transparent) 0 5px, transparent 5px 6.25px);
+  background-size: 100% 1.6px;
+}
+
+/* A StemDivider edges this table's top. */
+.table-stem { margin: 0 0 2px; }
+
+/* Crime categories (area page): a grid of small swatches with a quiet edge. */
+.metric-breakdown div { border: 1px solid var(--rule); font-size: var(--fs-2xs); }
+
+/* School inspections and results: one stem stitch between entries. */
+.school-card__evidence > small + small {
+  padding-top: 4px;
+  background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--field-line) 50%, transparent) 0 5px, transparent 5px 6.25px) left top / 100% 1.3px no-repeat;
+}
+
+/* Recent sales on a phone are stacked cards (styles/market.css): one stem stitch between cards. */
+@container (max-width: 520px) {
+  .market .market-sales td { background-image: none; }
+  .market .market-sales tr { background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--field-line) 50%, transparent) 0 5px, transparent 5px 6.25px) left bottom / 100% 1.3px no-repeat; }
+  .market .market-sales tbody tr:last-child { background: none; }
+}

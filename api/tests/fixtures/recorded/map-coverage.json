@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/map/coverage",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"map-coverage.v1\",\"coverage\":\"england\",\"productReleaseId\":\"fixture-2026-06\",\"bounds\":[[-6.45,49.86],[1.77,55.82]],\"regions\":[{\"id\":\"E12000006\",\"name\":\"East of England\",\"bbox\":[0.04,51.64,0.16,51.7]},{\"id\":\"E12000007\",\"name\":\"London\",\"bbox\":[-0.17,51.52,-0.11,51.56]}],\"chunks\":[{\"id\":\"E12000007\",\"region\":\"E12000007\",\"bbox\":[-0.17,51.52,-0.11,51.56],\"areas\":30},{\"id\":\"E07000072\",\"region\":\"E12000006\",\"bbox\":[0.04,51.64,0.16,51.7],\"areas\":6}],\"areaTiles\":{\"release\":\"a2-72aab1db232b\",\"minzoom\":5,\"maxzoom\":12,\"url\":\"/api/v1/tiles/areas/a2-72aab1db232b/{kind}/{z}/{x}/{y}.mvt\"}}"
+}

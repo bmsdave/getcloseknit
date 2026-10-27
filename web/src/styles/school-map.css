@@ -1,0 +1,46 @@
+/* Show › Schools: the hover popup (components/school/school-map-popup.tsx) and the key
+   under its Show row (school-legend.tsx). The icons themselves are map images. */
+.school-pop {
+  position: absolute; z-index: 9; width: min(270px, calc(100% - 32px)); box-sizing: border-box;
+  padding: 10px 8px 10px 12px; border-radius: var(--radius-lg); background: var(--panel-solid); color: var(--ink);
+  box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.1), 0 6px 18px rgb(var(--ink-rgb) / 0.12);
+  display: grid; gap: var(--space-2);
+  /* A peek: it takes no pointer (a click goes to the cap under it and opens the card). */
+  pointer-events: none;
+  /* Above the cap with a gap, so it never covers it; below it near the top edge. */
+  transform: translate(-50%, calc(-100% - 26px));
+}
+/* The school card's Ofsted swatch sits in its name (components/map-cards.tsx). */
+.map-card__name { display: inline-flex; align-items: center; gap: 6px; }
+.map-card__ofsted { flex: none; overflow: visible; }
+.school-pop[data-below] { transform: translate(-50%, 26px); }
+/* Opened from its keyboard link (SchoolMapKeys, out of sight): the popup carries the focus ring. */
+.school-pop[data-focused] { outline: 3px solid var(--focus); outline-offset: 2px; }
+.school-pop__head { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.school-pop__ofsted { flex: none; overflow: visible; }
+.school-pop__name {
+  flex: 1; min-width: 0; font-size: var(--fs-md); font-weight: 800; letter-spacing: -0.01em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.school-pop__tags { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: 0; padding: 0; list-style: none; }
+.school-pop__tags li {
+  padding: 2px 8px; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+  font-size: var(--fs-2xs); font-weight: 700;
+}
+/* The rank tag is the one that stands out: ink chip, inverted in Night by the tokens. */
+.school-pop__tags li[data-top] { background: var(--ink); color: var(--panel-solid); }
+
+.school-key { gap: var(--space-2); }
+.school-key__row { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0; padding: 0; list-style: none; font-weight: 700; }
+.school-key__row li { display: flex; align-items: center; gap: var(--space-1); }
+/* The cap's canvas is 56 units with the 32-unit cap in the middle (lib/school-icons.ts): 63 px = the map's 36 px cap. */
+.school-key__cap { width: 63px; height: 63px; margin: -13.5px; flex: none; overflow: visible; }
+/* Show › Schools filters: one row per choice, the swatch as the real marker, the count right. */
+.school-key__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; }
+.school-key__list label { display: flex; align-items: center; gap: 6px; min-height: 32px; cursor: pointer; font-weight: 600; }
+.school-key__list input { flex: none; width: 16px; height: 16px; margin: 0; accent-color: var(--ink); }
+.school-key__name { flex: 1; min-width: 0; }
+.school-key__count { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+.school-key__top { flex: none; overflow: visible; }
+.school-key__awards li { gap: 2px; }
+@media (max-width: 420px) { .school-key__list { grid-template-columns: minmax(0, 1fr); } }

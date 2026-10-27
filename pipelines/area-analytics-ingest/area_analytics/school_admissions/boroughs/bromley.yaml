@@ -1,0 +1,143 @@
+# Bromley (305): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 305
+slug: bromley
+name: Bromley
+licence:
+  statement: '"These pages, unless otherwise stated, are copyright protected. All rights reserved. (c)
+    London Borough of Bromley." (not OGL)'
+  url: https://www.bromley.gov.uk/websites/terms-disclaimer
+licence_decision: unresolved
+aliases:
+  Bullers Wood School for Girls: '136709'
+  St George's CE Primary School: '143097'
+  Eden Park High School: '144465'
+  Ravensworth Primary School: '142233'
+  Ravensworth Primary School (formerly Mottingham Primary): '142233'
+docs:
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20240114161911/https://www.bromley.gov.uk/downloads/file/28/primary-education-in-bromley-2023-2024
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: '''Distances and appeals'' table in the booklet, covering 2023/2022/2021'
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20250502210615/https://www.bromley.gov.uk/downloads/file/28/applying-for-a-school-place-2022
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: the snapshot is actually the 2025-26 Primary booklet (2024/2023/2022)
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20251012052414/https://www.bromley.gov.uk/downloads/file/28/primary-education-in-bromley-2026-2027
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: 'covers 2025/2024/2023; footnote: ''as at the relevant national offer day'''
+- phase: primary
+  year: 2024
+  url: https://www.bromley.gov.uk/downloads/file/3970/primary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: live; covers 2026/2025/2024 at national offer day
+- phase: primary
+  year: 2025
+  url: https://www.bromley.gov.uk/downloads/file/3970/primary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+- phase: primary
+  year: 2026
+  url: https://www.bromley.gov.uk/downloads/file/3970/primary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20240114162520/https://www.bromley.gov.uk/downloads/file/1863/secondary-education-in-bromley-2023-2024
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: covers 2023/2022/2021; grammar schools broken down by band
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240114162520/https://www.bromley.gov.uk/downloads/file/1863/secondary-education-in-bromley-2023-2024
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20251110231319/https://www.bromley.gov.uk/downloads/file/1863/secondary-education-in-bromley-2026-2027
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: covers 2025/2024/2023
+- phase: secondary
+  year: 2024
+  url: https://www.bromley.gov.uk/downloads/file/3972/secondary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - appeals_heard
+  - appeals_upheld
+  note: live; covers 2026/2025/2024; straight-line unless the school's arrangements say otherwise
+- phase: secondary
+  year: 2025
+  url: https://www.bromley.gov.uk/downloads/file/3972/secondary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - appeals_heard
+  - appeals_upheld
+- phase: secondary
+  year: 2026
+  url: https://www.bromley.gov.uk/downloads/file/3972/secondary-education-in-bromley-2027-2028
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - appeals_heard
+  - appeals_upheld
+catchment_maps: null
+notes: 'Data comes only from the annual booklets, as a 3-year rolling ''Distances and appeals'' table.
+  Jadu reuses each file id (28, 1863) and changes the slug, so a snapshot''s slug year does not match
+  its content. Several other snapshots are cut off at 1 MB. No catchment areas. ''N/A'' means all applicants
+  offered. Missing: 2019-2020, both phases. Adapter notes: only the configured year column of the 3-year
+  table is read. N/A is all offered only where the booklet prints its legend (every primary booklet and
+  the 2023-24 secondary booklet read for 2021 and 2022); the 2026-27 and 2027-28 secondary booklets have
+  none, so its N/A rows are left out. Grammar test-score and banded schools (band tables) are not read.
+  Juniors are Year 3 entry.'

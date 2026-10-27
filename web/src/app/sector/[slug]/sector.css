@@ -1,0 +1,47 @@
+/* Postcode sector page (app/sector/[slug]/page.tsx, components/sector-charts.tsx).
+   Builds on the postcode page's panels, stats and chart legend (postcode.css). Mobile first. */
+.sector-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
+.sector-page .sector-head h1 { max-width: 650px; margin: 38px 0 8px; font: 700 clamp(2.625rem, 8vw, 4.875rem)/.92 var(--font-display); letter-spacing: -.05em; }
+.sector-head__name { color: var(--muted); font-size: clamp(1.5rem, 4.5vw, 2.625rem); letter-spacing: -.02em; }
+.sector-head__where { margin: 0; color: var(--muted); font-size: var(--fs-sm); }
+.sector-head__map { flex: none; }
+.sector-head__shape { fill: var(--chart-1); fill-opacity: .85; stroke: color-mix(in srgb, var(--chart-1) 60%, var(--ink)); stroke-width: 1.5; stroke-linejoin: round; }
+
+.sector-change { display: inline-flex; align-items: center; gap: 6px; }
+.sector-change__icon { width: 22px; height: 22px; }
+
+/* Charts */
+.sector-chart__base { stroke: var(--rule); stroke-width: 1; }
+.sector-chart__median { fill: var(--ink); stroke: var(--surface); stroke-width: 1; }
+.sector-chart__nominal { fill: none; stroke: var(--tone); stroke-width: 1.6; stroke-dasharray: 1 4.5; stroke-linecap: round; opacity: .9; }
+.sector-chart__end { fill: var(--tone); stroke: var(--surface); stroke-width: 1.5; }
+.sector-chart__key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--tone); }
+.sector-chart__style { width: 18px; height: 4px; overflow: visible; }
+
+.sector-figures { display: grid; gap: 6px; margin: 10px 0 8px; }
+.sector-figures > div { display: grid; grid-template-columns: minmax(5.5em, auto) 1fr; gap: 10px; align-items: baseline; }
+.sector-figures dt { color: var(--muted); font-size: 13px; font-weight: 700; }
+.sector-figures dd { margin: 0; color: var(--ink); font-size: 14px; font-variant-numeric: tabular-nums; }
+
+/* Nearby sectors: name, the shared-scale bar, the range as text. */
+.sector-rows { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.sector-rows li {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name value" "bar bar";
+  gap: 4px 12px; align-items: center; padding: 8px 6px; border-bottom: 1px solid var(--rule); border-radius: 8px;
+}
+.sector-rows li[data-self] { background: color-mix(in srgb, var(--chart-1) 10%, var(--surface)); }
+.sector-rows__name { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 .35em; grid-area: name; min-width: 0; color: var(--ink); font-size: 14px; }
+.sector-rows__name span { color: var(--muted); }
+a.sector-rows__name { min-height: 32px; text-underline-offset: 3px; }
+.sector-rows__bar { grid-area: bar; overflow: visible; }
+.sector-rows__value { grid-area: value; color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (min-width: 640px) {
+  .sector-rows li { grid-template-columns: minmax(10em, 1fr) auto minmax(9.5em, auto); grid-template-areas: "name bar value"; }
+}
+
+.sector-returns td, .sector-streets td { font-variant-numeric: tabular-nums; }
+.sector-streets .satin-value-bar { display: inline-flex; align-items: center; gap: 8px; }
+.sector-streets .satin-value-bar__bar { flex: none; }
+
+/* Row headers are names (streets), not labels: keep their case. */
+.sector-streets tbody th { text-transform: none; letter-spacing: normal; }

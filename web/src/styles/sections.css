@@ -1,0 +1,42 @@
+/* The area panel's one column: summary, a fold-all row, then bold
+   collapsible sections (components/evidence-sections.tsx). */
+.evidence-fold-row { display: flex; justify-content: flex-end; gap: var(--space-1); margin: 10px 0 2px; }
+.evidence-fold-row button {
+  min-width: 44px; min-height: 44px; padding: 0 10px; border: 0; border-radius: 99px;
+  color: var(--muted); background: transparent; cursor: pointer; font: 700 var(--fs-2xs)/1 var(--font-sans);
+}
+.evidence-fold-row button:hover { color: var(--ink); background: var(--chip); }
+
+.evidence-sections { display: grid; }
+.evidence-section { border-top: 1px solid var(--rule); scroll-margin-top: 8px; }
+.evidence-section:last-child { border-bottom: 1px solid var(--rule); }
+.evidence-section__heading { margin: 0; font: inherit; }
+.evidence-section__toggle {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: var(--space-2);
+  width: 100%; min-height: 52px; padding: 8px 2px; border: 0; color: var(--ink); background: transparent;
+  cursor: pointer; text-align: left; scroll-margin-top: 8px;
+}
+.evidence-section__toggle .chart-icon { width: 18px; height: 18px; }
+.evidence-section__title { font: 800 var(--fs-md)/1.2 var(--font-sans); letter-spacing: -0.01em; white-space: nowrap; }
+.evidence-section__figure {
+  overflow: hidden; color: var(--muted); font-size: var(--fs-2xs); font-weight: 600; font-variant-numeric: tabular-nums;
+  text-align: right; text-overflow: ellipsis; white-space: nowrap;
+}
+.evidence-section__chevron {
+  width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  color: var(--muted); transform: rotate(-90deg); transition: transform .15s ease;
+}
+.evidence-section__toggle[aria-expanded="true"] .evidence-section__chevron { transform: none; }
+.evidence-section__toggle:hover .evidence-section__chevron { color: var(--ink); }
+.evidence-section__body { display: grid; gap: var(--space-3); padding: 2px 0 16px; }
+.evidence-section__body[hidden] { display: none; }
+/* About a loaded section's height, so sections loading during a jump
+   do not shove the rest of the column around. */
+.evidence-section__pending { min-height: 360px; border-radius: 12px; background: rgb(var(--ink-rgb) / .04); }
+.overview-card__head h3 { margin: 0; color: var(--muted); font: 800 var(--fs-2xs)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+
+.evidence-more { margin-top: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .evidence-section__chevron { transition: none; }
+}

@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gap fixes: minor and other v4</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #2f5bd3; } a:hover { color: #22252c; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: #e9eef4; padding: 0 4px; border-radius: 4px; overflow-wrap: anywhere; }
+</style>
+</helmet>
+<div style="width: 2400px; height: 4650px; box-sizing: border-box; padding: 72px 64px; display: flex; flex-direction: column; gap: 40px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 56px;">
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 900px;">
+      <div style="font-size: 13.5px; font-weight: 650; color: #5b6270; letter-spacing: 0.04em; text-transform: uppercase;">close knit · implementation handoff · minor gaps and code-only items · v4</div>
+      <h1 style="margin: 0; font-size: 56px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02;">Closing the rest, card by card, v4</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.45; color: #5b6270;">Every Minor gap, every gap design couldn't close, and 5 code items. All gap cards shipped in gap PRs 1–8 (16 Oct); status after v3 + v4 from <a href="Gaps-v4.dc.html">Gaps v4</a>. Paths are from <code>c8a0500</code>: history.</p>
+      <div style="display: flex; gap: 28px; align-items: baseline; font-weight: 800; letter-spacing: -0.03em; margin-top: 6px;">
+        <span style="font-size: 56px;">20</span><span style="font-size: 18px; font-weight: 650; color: #5b6270; letter-spacing: 0;">cards</span>
+        <span style="font-size: 40px; color: #5b6270;">·</span>
+        <span style="font-size: 40px;">15</span><span style="font-size: 18px; font-weight: 650; color: #5b6270; letter-spacing: 0;">gap cards</span>
+        <span style="font-size: 40px;">5</span><span style="font-size: 18px; font-weight: 650; color: #5b6270; letter-spacing: 0;">other items</span>
+        <span style="font-size: 40px;">8</span><span style="font-size: 18px; font-weight: 650; color: #5b6270; letter-spacing: 0;">PRs</span>
+      </div>
+    </div>
+    <ol style="margin: 0; padding: 20px 24px 20px 44px; border-radius: 16px; background: #ffffff; border: 1px solid #dfe7f0; display: flex; flex-direction: column; gap: 8px; font-size: 15.5px; line-height: 1.45; max-width: 1080px;">
+      <li><b>One section = one themed PR.</b> Branch from main, close every card in it, ship it on its own.</li>
+      <li><b>Design:</b> open the linked v2 board on this canvas and match it. No board: build the short text spec on the card.</li>
+      <li><b>Change:</b> paths are under <code>web/</code> unless they start <code>api/</code>, <code>deploy/</code> or <code>agents/</code>. Line numbers are from <code>c8a0500</code>: grep the quoted code before editing. Reuse the named helpers; add no new ones unless the card says so.</li>
+      <li><b>Done when:</b> add or update that check and make it pass. Then <code>cd web &amp;&amp; npm run typecheck &amp;&amp; npm test</code> and the named spec.</li>
+    </ol>
+  </div>
+
+    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;"><span style="font-size: 13.5px; font-weight: 750; color: #5b6270; text-transform: uppercase; letter-spacing: 0.04em;">After v3 + v4</span><div style="display: flex; align-items: baseline; gap: 12px; padding: 12px 20px; border-radius: 14px; background: #e7ecfb;"><span style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: #2f5bd3;">1</span><span style="font-size: 15px; font-weight: 700; color: #2f5bd3;">fixed v3</span></div><div style="display: flex; align-items: baseline; gap: 12px; padding: 12px 20px; border-radius: 14px; background: #efe7fb;"><span style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: #6b3fb3;">5</span><span style="font-size: 15px; font-weight: 700; color: #6b3fb3;">fixed by v4</span></div><div style="display: flex; align-items: baseline; gap: 12px; padding: 12px 20px; border-radius: 14px; background: #e3f4ea;"><span style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: #1a7a43;">9</span><span style="font-size: 15px; font-weight: 700; color: #1a7a43;">shipped before v3</span></div><div style="display: flex; align-items: baseline; gap: 12px; padding: 12px 20px; border-radius: 14px; background: #fbe3e1;"><span style="font-size: 44px; font-weight: 800; letter-spacing: -0.03em; color: #a32a22;">0</span><span style="font-size: 15px; font-weight: 700; color: #a32a22;">open</span></div><span style="font-size: 15px; color: #5b6270;">Items: 3 shipped · 2 open</span></div>
+
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 20px; align-items: stretch;">
+
+    <!-- PR 1 + key -->
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <section style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+          <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 1</span>
+          <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Nav shell</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #65 · 16 Oct</span>
+          <span style="margin-left: auto; font-size: 15px; font-weight: 650;">1</span>
+        </div>
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G21</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 1</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef3fb;"><span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed v3 (Fix 13)</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 1 · #65</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> ≡ foot: Theme [Auto | Day | Night].</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Subpages have no day/night switch.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="MenuA-v2.dc.html">MenuA v2</a>: Auto · Day · Night at the menu foot. <a href="SubpageHeader-v2.dc.html">Subpage header v2</a>: ≡ only.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/site-header.tsx:15</code> <code>SiteHeader</code>: swap the Guide/Tools/Claude links (:16-20) for PR 1's ≡ menu (<code>src/lib/site-nav.ts</code>, untracked draft; new <code>src/components/site-menu.tsx</code>).</li>
+              <li>Menu foot: 3-way radio from <code>useUiTheme()</code> (<code>src/components/appearance-menu.tsx:11</code>) over <code>UI_THEMES</code> (<code>src/lib/ui-themes.ts:16</code>); it already saves <code>close-knit.ui-theme</code> (:23). Board words: Auto · Day · Night.</li>
+              <li>Same menu on the map in <code>src/components/top-bar-menu.tsx</code>; keep its test ids.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/theme-choice.spec.ts</code>: on /guide, ≡ › Night sets <code>html[data-ui-theme="night"]</code> and it survives a reload.</div>
+        </article>
+      </section>
+
+      <aside style="display: flex; flex-direction: column; gap: 10px; padding: 18px 20px; border-radius: 14px; background: #ffffff; border: 1px dashed #c5cfdb; font-size: 14px; line-height: 1.4;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 800;">Key</h3>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task N</span>Final form in v4.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed v3 (Fix N)</span>Final form in v3.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR N</span>Closed 16 Oct.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span>Still open after v4.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>Not a gap. From the plan or a CUJ.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #e6e9ee; color: #4a515e; font-size: 13px; font-weight: 750;">Not design</span>Code or data only.</div>
+        <div style="display: flex; gap: 10px; align-items: center;"><span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">Blocked</span>Waits on another track.</div>
+        <div style="display: flex; gap: 16px; align-items: center; color: #5b6270; font-weight: 650;"><span style="display: flex; gap: 6px; align-items: center;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span><span style="display: flex; gap: 6px; align-items: center;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span></div>
+      </aside>
+    </div>
+
+    <!-- PR 2 -->
+    <section style="grid-column: span 3; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 2</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Map controls</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #68 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">5</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G01</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 2</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f1fd;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task 21d</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span><a href="V4-21c-match-no-wizard.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 21c</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> No wizard. Budget · Travel to · What matters in one list; Kids? Drive? pre-order chips.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Tailor is not in the My match wizard; only the area page's chip opens it.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design · text spec</span>No board (<a href="CUJ01-find-my-area-v2.dc.html">CUJ-01 v2</a> step 3 marks it open). On step 2 of 2, under the priority toggles: one quiet link "Fine-tune: kids, gym, commute". It opens Tailor's four steps; Save returns to step 2.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/preference-panel.tsx:180-183</code> (section "What matters"): add a link-style button <code>data-testid="wizard-tailor-open"</code>.</li>
+              <li>It opens <code>TailorWizard</code> (<code>src/components/tailor-wizard.tsx:25</code>), loaded with <code>next/dynamic</code> as in <code>src/components/tailor-card.tsx:17</code>; <code>onSave={props.onChange}</code>.</li>
+              <li>Keep the existing echo <code>wizard-tailor-summary</code> (:173).</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/tailor.spec.ts</code>: My match › Continue › <code>wizard-tailor-open</code> opens Tailor; after Save, Back shows <code>wizard-tailor-summary</code>.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G26</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 2</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f1fd;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task 12</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span><a href="V3-22-duplicates.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 22</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> One area view in the sheet. Report by each figure.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Map panel: "Report a wrong figure" hides inside folded About this data.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ15-report-data-error-v2.dc.html">CUJ-15 v2</a> (area page). Map panel foot not drawn: one small text button "Report a wrong figure", always visible, under the About this data fold.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/evidence-panel.tsx:611</code>: move <code>&lt;CorrectionSection …/&gt;</code> out of <code>&lt;details data-testid="about-this-data"&gt;</code> (:588) to just after <code>&lt;/details&gt;</code>, still inside <code>div.overview-about</code>.</li>
+              <li>No new component; the dialog (:670 on) is unchanged.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/data-health.spec.ts</code>: on <code>/?selected=uk:lsoa:E01000001</code>, <code>correction-report-open</code> is visible while <code>about-this-data</code> is closed.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G30</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 2</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 2 · #68</span><a href="V4-12-one-area-view.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v4 Task 12</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Area card links the area page on every layer.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Custom-criterion layers: an area tap has no link to the area page.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ16-explore-the-map-v2.dc.html">CUJ-16 v2</a> step 4: the same area card on every layer, criterion figure on top.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/match/criterion-focus.tsx:88</code>: beside "Open its card in My match" add <code>&lt;Link data-testid="open-area-page"&gt;</code> "Open area page".</li>
+              <li>href: <code>areaPageHref(selected)</code> (<code>src/lib/area-brief.ts:81</code>), as <code>src/components/evidence-panel.tsx:415/436</code>. <code>selected</code> is a <code>GeographyId</code> (:37).</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/map-comparisons.spec.ts</code>: on <code>layer=custom:quiet-nights</code>, tap an area: <code>criterion-selected</code> holds one <code>open-area-page</code> to <code>/area/lsoa/…</code>.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G31</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 2</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f1fd;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task 8</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 2 · #68</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Where card in My match; slim drawing bar. Gone from Show.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Drawing a zone works only inside My match edit mode.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ16-explore-the-map-v2.dc.html">CUJ-16 v2</a> step 1: Show › Draw area on the map controls.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/match/your-search.tsx:278</code> <code>DrawnZones</code> is file-local; its <code>draw-zone</code> button (:300) renders only while editing (:95). Export it.</li>
+              <li>Render "Draw an area" in the Show panel, <code>src/components/map-data-selector.tsx</code> beside <code>places-toggle</code> (:405). It calls the same <code>onDrawing([])</code>; the zone lands in My match's profile.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/my-match.spec.ts</code>: with My match closed, Show › <code>draw-zone</code> is visible; drawing one adds a zone to the profile.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 8px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800;">Legend</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 2</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 2 · #68</span><a href="V3-12-layer-explainer.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 12</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Legend = scale + ?; no caption, no No data row.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Legend repeats the Layers tag as a caption and shows a "No data" row.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="HomeDesktop-v2.dc.html">HomeDesktop v2</a>: legend is the scale plus a small "?" with source and note.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/map-legend.tsx</code> <code>LegendDetails</code> (:140), all layers: delete the caption <code>&lt;p className="legend-details-title"&gt;</code> (:148) and the "No data" row (:157-160).</li>
+              <li>Keep the caption's words: first line of the "?" list (<code>more</code>, :150-154). Keep London typical (:162). Drop <code>.legend-details-title</code> in <code>src/styles/layout.css:318</code>.</li>
+              <li><code>e2e/map-legend.spec.ts:21</code> and <code>:102</code>: expect <code>not.toContainText("No data")</code>.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>npx playwright test e2e/map-legend.spec.ts e2e/price-layer.spec.ts</code> passes (price-layer :226 reads <code>legend-details</code> text).</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PR 3 -->
+    <section style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 3</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Search</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #69 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">1</span>
+      </div>
+      <article style="flex-grow: 1; display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G33</span>
+          <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>          <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 3</span>
+        </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 3 · #69</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> "SW1A" offers full postcodes' pages.</span></div>
+        <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">A partial postcode ("SW1A") offers no postcode page.</p>
+        <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ02-check-a-home-v2.dc.html">CUJ-02 v2</a> step 1: results grouped Postcode · Homes · Areas. Partial not drawn: under Postcode, up to 5 full postcodes, each "SW1A 1AA · prices &amp; sales".</div>
+        <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+          <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+            <li><code>src/lib/postcode-search.ts:156</code> <code>searchOptions</code>: only a full, confirmed postcode gets a row (:158-169).</li>
+            <li>For an outcode or sector query, take distinct full postcodes from each result's <code>label</code> + <code>secondaryLabel</code> (the text <code>confirmsPostcode</code> reads, :276), max 5. Push the same row shape, href <code>/postcode/${postcodeSlug(pc)}</code> (<code>src/lib/postcode-page.ts:39</code>).</li>
+          </ul>
+        </div>
+        <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>tests/postcode-search.test.ts</code>: <code>searchOptions("SW1A", …)</code> with results naming SW1A 1AA and SW1A 1AB returns rows to <code>/postcode/SW1A-1AA</code> and <code>/postcode/SW1A-1AB</code>.</div>
+      </article>
+    </section>
+
+    <!-- PR 4 -->
+    <section style="grid-column: span 3; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 4</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Entity pages</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #70 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">3</span>
+      </div>
+      <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G11</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 4</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f1fd;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task 17</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span><a href="V3-17-cleanup.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 17</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Borough page in the area frame: tags, 12 tiles, Areas table.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Borough rows open a thin guide page; its map link is plain text, no test id.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ05-rankings-v2.dc.html">CUJ-05 v2</a>: borough page with breadcrumb, Open on map button, What's next.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/app/area/[carrier]/[code]/page.tsx:69</code> sends boroughs and MSOAs to <code>AreaGuidePage</code>.</li>
+              <li><code>src/components/area-pages-guide.tsx:63</code>: replace the text link with the full card's button, <code>&lt;Link className="area-full__primary" data-testid="open-on-map"&gt;</code> (as <code>src/components/area-full-page.tsx:146</code>), keeping <code>mapLink</code> (:35).</li>
+              <li>Mount PR 4's shared What's next block after <code>&lt;AreaProfile&gt;</code> (:67). Breadcrumb already there (:56).</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/area-pages.spec.ts</code>: <code>/area/borough/E09000033</code> has one <code>open-on-map</code> and a What's next block.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G37</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 4</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 4 · #70</span><a href="V3-15-rankings.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 15</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Ranking rows open the full area card.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Ranking rows open the thin MSOA page: no save, plain map link.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ05-rankings-v2.dc.html">CUJ-05 v2</a>, <a href="CUJ10-search-landing-v2.dc.html">CUJ-10 v2</a>: ranking rows open the full area card.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li>Same file and button as G11 (<code>src/components/area-pages-guide.tsx:62-65</code> actions row).</li>
+              <li>Add <code>&lt;AreaSaveActions&gt;</code> (<code>src/components/area-save-actions.tsx:35</code>, used at <code>src/components/area-full-page.tsx:155</code>) to that row.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/area-pages.spec.ts</code>: <code>/area/msoa/E02000001</code> has <code>open-on-map</code> and <code>save-area</code>.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G35</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 4</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #f6f1fd;"><span style="padding: 2px 10px; border-radius: 999px; background: #efe7fb; color: #6b3fb3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">fixed by v4 Task 16</span><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">gap PR 4 · #70</span><a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 28</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Same 1120 frame and one sticky chip bar as the area page.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">The MSOA page is thinner than the area page: no tabs.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ05-rankings-v2.dc.html">CUJ-05 v2</a>: same frame as the LSOA card. Tabs not drawn: the LSOA tab strip, keeping only tabs with MSOA data.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li>Builds on G37's frame (map button, Save).</li>
+              <li>Tabs: lift <code>SectionTabs</code> (<code>src/components/area-full-page.tsx:308</code>, nav <code>area-tabs</code> :320) into a shared component; MSOA passes its own section ids.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/area-pages.spec.ts</code>: <code>/area/msoa/E02000001</code> has <code>area-tabs</code>.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PR 5 -->
+    <section style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 5</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Quick links</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #71 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">2</span>
+      </div>
+      <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G09</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 5</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 5 · #71</span><a href="V3-27g-area-tags.dc.html" style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">v3 Fix 28</a><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> What's next › Inside: Homes.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">No click path from an area to its homes; the homes list opens only by URL.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ04-schools-first-v2.dc.html">CUJ-04 v2</a>: What's next › Inside › Homes on the area page.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/market-section.tsx:488</code>: the recent-sales address cell links to <code>postcodeHomesPath(sale.postcode)</code> (<code>src/lib/property-profile.ts:153</code>; <code>RecentSale.postcode</code>, <code>src/lib/market.ts:77</code>).</li>
+              <li>What's next › Inside › Homes on <code>src/components/area-full-page.tsx</code> uses the same helper with the first sale's postcode. <code>HomesHere</code> (:470) keeps its portal links.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/area-card.spec.ts</code>: <code>/area/lsoa/E01000001</code> has a link to <code>/postcode/*/homes</code>; clicking it shows the homes list.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G36</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 5</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 5 · #71</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> What's next under the price band.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">A home's next steps sit far below the fold (y=2422 desktop, 2998 phone).</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ02-check-a-home-v2.dc.html">CUJ-02 v2</a> step 3: Check this home · £570k and Stamp duty · £570k right under the title, above the price band.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/property-profile.tsx:99</code>: move <code>&lt;NextSteps&gt;</code> up, after <code>nav.property-actions</code> (:69-83), before <code>&lt;AreaPricesCard&gt;</code> (:84).</li>
+              <li>Prices in those links are G03/G04 (<code>checkHomeHref</code>, <code>src/lib/tools.ts:90</code>; <code>next-stamp-duty</code> :151): same PR if not merged yet.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/property-profile.spec.ts</code>: at 1440×900, <code>next-stamp-duty</code> top &lt; 900 px on <code>/property/100000000001</code>.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PR 6 -->
+    <section style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 6</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Saved + compare</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #72 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">2</span>
+      </div>
+      <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G38</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #f6c445;"></span>Major</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 6</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 6 · #72</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Shortlist rows: name, count, Open · Share · Delete.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Named saved shortlists render unstyled; name and date run together.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="Saved-v2.dc.html">Saved v2</a> row style. Named shortlists not drawn: a "Shortlists" block in Saved, one row each: name (bold) / "3 areas · Saved 1 Oct" (muted) / Open · Share · Delete as design-system buttons.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/shortlists.tsx:222-232</code> <code>ShortlistList</code>: keep <code>&lt;strong&gt;</code> name; replace the joined area names (:226) and date (:227) with one line "{n} areas · Saved {formatSavedTime}". Buttons :229-231 read Open, Share, Delete (keep aria-labels).</li>
+              <li>Style: add <code>.shortlist-list</code>, <code>.shortlist-actions</code> to the knit button selectors in <code>src/styles/knit-ui.css:12</code> and <code>:65</code>; <code>li</code> a flex column with gap.</li>
+              <li>Mounted today in <code>src/components/personal-match-panel.tsx:250</code> (inside <code>saved-areas-costs</code> :248); move it to Saved with PR 6.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/area-save.spec.ts</code>: a saved shortlist row has the name and "1 area · Saved …" as separate elements; <code>e2e/accessibility.spec.ts</code> passes.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 8px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800;">CUJ-12</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e6e9ee; color: #4a515e; font-size: 13px; font-weight: 750;">Not design</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">Blocked</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 6</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #fdf0ef;"><span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Blocked: needs login (e-mail alerts, sync). No v4 task.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">No watch alerts inside the site; watches run only in the user's AI agent.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ12-watch-listings-v2.dc.html">CUJ-12 v2</a> marks it open. Nothing to draw until login exists.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li>Blocked by the login track (plan: e-mail on new listings, cross-device sync, UK GDPR export/delete). Close Knit stores no listings or e-mails today (<code>src/components/watch-listings.tsx</code> header).</li>
+              <li>This round: nothing beyond G20's Watch sheet. With login: store watches per account, list them in Saved › Watches, e-mail new matches; reuse the MCP <code>build_watch_spec</code> shape.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span>Login PR opens with an "in-site alerts" task linking here; no code in PR 6.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PR 7 -->
+    <section style="grid-column: span 4; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 7</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">AI agents</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #73 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">4</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G14</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 7</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 7 · #73</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Any agent: MCP, OpenAPI, llms.txt; Gemini, Grok.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">No page for any other agent: <code>/agents</code> is 404.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ07-ai-agent-install-v2.dc.html">CUJ-07 v2</a> step 3: <code>/agents</code>, tabs Claude · ChatGPT · Codex · Any agent.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li>New <code>src/app/agents/page.tsx</code>; G13 fills the per-agent tabs from <code>agents/*/README.md</code>.</li>
+              <li>Any agent tab: three <code>CopyField</code>s (<code>src/components/copy-field.tsx:11</code>): <code>${origin}/mcp</code> (built as <code>src/app/claude/page.tsx:47</code>), <code>/openapi.json</code>, <code>/llms.txt</code>.</li>
+              <li>Add <code>"/agents"</code> to <code>sitemapPaths</code> (<code>src/lib/seo.ts:116</code>) and to the ≡ menu (<code>src/lib/site-nav.ts</code>).</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span>New <code>e2e/agents-page.spec.ts</code>: <code>/agents</code> returns 200; Any agent shows 3 copy fields ending <code>/mcp</code>, <code>/openapi.json</code>, <code>/llms.txt</code>.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G15</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 7</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 7 · #73</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Sample brief opens a filled brief.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Claude's "sample brief" link opens the explainer, not a brief.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span><a href="CUJ07-ai-agent-install-v2.dc.html">CUJ-07 v2</a> step 5: a real example brief, 3 areas, Share link and Download.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/app/claude/page.tsx:109</code> <code>claude-chat-brief</code>: href <code>/brief</code> → <code>/brief${encodeSharedShortlist(SAMPLE)}</code> (<code>src/lib/saved-shortlists.ts:220</code>, prefix <code>#shortlist=v1.</code> :23).</li>
+              <li><code>SAMPLE</code>: a <code>SavedShortlist</code> with <code>exampleProfile()</code> (<code>src/lib/profile-state.ts:461</code>) and 3 demo areas. The board's <code>#profile=</code> is not read by /brief; <code>#shortlist=</code> is (<code>src/components/brief/brief-page.tsx:35</code>).</li>
+              <li>Not <code>shortlistBriefHref</code>: <code>src/components/first-visit-intro.tsx</code> is "use client".</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/claude-page.spec.ts</code>: clicking <code>claude-chat-brief</code> lands on a shortlist brief with 3 areas, not the explainer.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 8px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800;">CUJ-07</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e6e9ee; color: #4a515e; font-size: 13px; font-weight: 750;">Not design</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 7</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 7 · #73</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> /openapi.json proxied; Gemini and Grok rows on /agents.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;"><code>/openapi.json</code> 404s on the web host; no Gemini or Grok steps.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design · text spec</span>Under <a href="CUJ07-ai-agent-install-v2.dc.html">CUJ-07 v2</a>'s Any agent tab: two rows, Gemini and Grok, each 2–3 numbered steps plus one copy field.</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li>Prod already routes it to the API (<code>deploy/Caddyfile:63</code>). Web-only hosts 404: add <code>src/app/openapi.json/route.ts</code> returning <code>fetchApi("/openapi.json")</code> (<code>src/lib/deployment.ts:76</code>) when <code>evidenceServiceUrl()</code> is set, else 404. <code>src/lib/llms-txt.ts:57</code> already links it.</li>
+              <li>Gemini, Grok: 0 mentions in the repo. Check each vendor's current remote-MCP docs before writing; no remote MCP → steps paste <code>/llms.txt</code> or <code>/openapi.json</code>. Add rows to <code>agents/README.md</code>.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span>With the API up, <code>curl -s localhost:3000/openapi.json | jq -r .openapi</code> prints <code>3.1.x</code>; <code>/agents</code> shows Gemini and Grok rows.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 8px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800;">CUJ-08</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 7</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #fdf0ef;"><span style="padding: 2px 10px; border-radius: 999px; background: #fbe3e1; color: #a32a22; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">open</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Not built (no shared-unreadable status). No v4 task.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">An unreadable <code>#profile=</code> link fails silently: the map opens as if no link.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design · text spec</span><a href="CUJ08-agent-hands-back-v2.dc.html">CUJ-08 v2</a> marks it open. In My match, one status line: "This shared search link can't be read. Nothing was changed. Ask for the link again."</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/components/use-explorer-controller.ts:358</code> <code>useSharedProfile</code>: if the hash starts <code>#profile=</code> and <code>decodeSharedProfile</code> (<code>src/lib/profile-state.ts:203</code>) returns null, set <code>sharedUnreadable</code> and open My match.</li>
+              <li>Render <code>role="status" data-testid="shared-unreadable"</code> where <code>shared-banner</code> sits (<code>src/components/personal-match-panel.tsx:739</code>). Copy mirrors <code>src/components/brief/brief-page.tsx:65</code>.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>e2e/share-status.spec.ts</code>: <code>/?layer=personal-match#profile=v1.xx</code> shows <code>shared-unreadable</code>; the saved profile is unchanged.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PR 8 -->
+    <section style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; gap: 12px; align-items: baseline; padding: 14px 20px; border-radius: 14px; background: #22252c; color: #ffffff;">
+        <span style="font-size: 15px; font-weight: 750; color: #b9c6ff;">PR 8</span>
+        <h2 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Data / SEO</h2><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped #74 · 16 Oct</span>
+        <span style="margin-left: auto; font-size: 15px; font-weight: 650;">2</span>
+      </div>
+      <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch;">
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 13px; font-weight: 750;">G18</span>
+            <span style="display: flex; gap: 6px; align-items: center; font-size: 13px; font-weight: 650; color: #5b6270;"><span style="width: 10px; height: 10px; border-radius: 3px; background: #b7c2d0;"></span>Minor</span>            <span style="padding: 2px 10px; border-radius: 999px; background: #e6e9ee; color: #4a515e; font-size: 13px; font-weight: 750;">Not design</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 8</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 8 · #74</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> Sitemap: places, pack, postcode and home shards.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Sitemap lacks postcode, homes, property, places and pack pages.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Design</span>None (<a href="CUJ10-search-landing-v2.dc.html">CUJ-10 v2</a>: code only). Postcode and property pages are indexed (release decision, 2026-10).</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>src/lib/seo.ts:110</code> <code>sitemapPaths</code>: per LSOA add <code>${areaPath}/places</code> and <code>/pack</code> (routes exist under <code>src/app/area/[carrier]/[code]/</code>).</li>
+              <li>Add <code>/postcode/{slug}</code>, <code>/postcode/{slug}/homes</code>, <code>/property/{uprn}</code>. Ids: demo from fixtures; real from a new API index like <code>/api/v1/schools/index</code> (<code>api/area_api/app.py:499</code>), fetched in <code>src/app/sitemap.ts:22</code> as <code>schoolUrns</code> (:14).</li>
+              <li>Over 50,000 URLs: split with Next <code>generateSitemaps</code>.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span><code>tests/seo.test.ts</code>: <code>sitemapPaths</code> holds <code>/area/lsoa/E01000001/places</code>, <code>…/pack</code>, a <code>/postcode/…/homes</code> and a <code>/property/…</code>; <code>e2e/seo.spec.ts:49</code> finds <code>/postcode/</code> in sitemap.xml.</div>
+        </article>
+
+        <article style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border-radius: 14px; background: #ffffff; border: 1px solid #dfe7f0;">
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span style="padding: 2px 10px; border-radius: 8px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800;">Religion</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e7ecfb; color: #2f5bd3; font-size: 13px; font-weight: 750;">item</span>
+            <span style="padding: 2px 10px; border-radius: 999px; background: #e6e9ee; color: #4a515e; font-size: 13px; font-weight: 750;">Not design</span>
+            <span style="margin-left: auto; font-size: 13px; font-weight: 750; color: #2f5bd3;">PR 8</span>
+          </div>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; border-radius: 10px; background: #eef8f2;"><span style="padding: 2px 10px; border-radius: 999px; background: #e3f4ea; color: #1a7a43; font-size: 13px; font-weight: 750; white-space: nowrap; text-decoration: none;">shipped · gap PR 8 · #74</span><span style="flex-basis: 100%; font-size: 13.5px; line-height: 1.4;"><b>Now:</b> MCP and guide say: descriptive only.</span></div>
+          <p style="margin: 0; font-size: 16px; font-weight: 700; line-height: 1.35;">Census religion layer: descriptive only; MCP instructions don't say so.</p>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef3fb; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Already guarded</span>Web: <code>src/lib/census-layers.ts:11-13</code> (neutral, never ranked, never a My match criterion; <code>tests/census-layers.test.ts:150</code>). API: <code>is_descriptive_only</code> (<code>api/area_api/evidence.py:28</code>) blocks ranking (<code>api/area_api/tools.py:118</code>; <code>api/tests/test_tools.py:121</code>) and matching (<code>api/tests/test_matching.py:429</code>); custom criteria refuse religion (<code>api/area_api/custom_criteria.py:47</code>). Licence row: <code>DATA-LICENCES.md:40</code> (TS030).</div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #f8fafc; border: 1px solid #e6ecf3; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; margin-bottom: 3px;">Change</span>
+            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+              <li><code>api/area_api/guidance.py:19</code> (MCP <code>INSTRUCTIONS</code>, used at <code>api/area_api/mcp_server.py:33</code>): add "Census layers (census-*, religion included; ONS Census 2021) are descriptive facts for one area: quote the share with source and year; never a filter, weight, rank or custom criterion."</li>
+              <li>Keep :13 "never build one about religion" and :19 "never infer who lives in an area". Change nothing in the guards above.</li>
+            </ul>
+          </div>
+          <div style="padding: 10px 12px; border-radius: 10px; background: #eef8f2; font-size: 14px; line-height: 1.45;"><span style="display: block; font-size: 11.5px; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; color: #1a7a43; margin-bottom: 3px;">Done when</span>New api test asserts <code>guidance.INSTRUCTIONS</code> holds the Census sentence; <code>pytest api/tests -k "census or guidance"</code> passes.</div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Checks -->
+    <aside style="grid-column: span 2; display: flex; flex-direction: column; gap: 12px; padding: 22px 26px; border-radius: 14px; background: #ffffff; border: 1px dashed #c5cfdb; font-size: 15px; line-height: 1.45;">
+      <h3 style="margin: 0; font-size: 20px; font-weight: 800;">Before each PR merges</h3>
+      <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px;">
+        <li><code>cd web &amp;&amp; npm run typecheck &amp;&amp; npm test</code></li>
+        <li><code>npx playwright test</code> on the specs named in the section, plus <code>e2e/accessibility.spec.ts</code>.</li>
+        <li>Every new link opens a real <code>src/app/**/page.tsx</code> (PR 1 adds <code>tests/site-nav.test.ts</code>).</li>
+        <li>By eye on demo data: phone 390×844 and desktop 1440×900, day and night.</li>
+        <li>API cards (CUJ-07, G18, Religion): <code>pytest api/tests</code>.</li>
+        <li>One themed PR per section; title starts with its PR number and theme.</li>
+      </ul>
+    </aside>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2400,"height":4650}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

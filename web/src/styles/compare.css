@@ -1,0 +1,76 @@
+/* /compare (components/compare-view.tsx, Compare v2): one kind side by side, best value bold with a tag. */
+.compare-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.compare-head h1 { margin: 0; }
+.compare-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+/* Places | Schools | Homes: a segmented pill, the chosen thumb --seg-on on a --chip track
+   (as the ≡ menu's Map and Theme). Its own grid, not .segmented, so no other sheet can collapse it. */
+.compare-kinds {
+  display: grid; grid-template-columns: repeat(3, minmax(max-content, 1fr)); gap: 2px; width: fit-content; max-width: 100%;
+  margin: var(--space-3) 0; padding: 3px; border-radius: var(--radius-pill); background: var(--chip);
+}
+.compare-kinds a {
+  display: grid; place-items: center; min-height: 44px; padding: 0 var(--space-4); border-radius: var(--radius-pill);
+  color: var(--muted); font-size: var(--fs-sm); font-weight: 700; text-decoration: none; white-space: nowrap;
+}
+.compare-kinds a:hover { color: var(--ink); }
+.compare-kinds a[aria-current="page"] { background: var(--seg-on); color: var(--ink); font-weight: 800; box-shadow: 0 1px 2px rgb(var(--ink-rgb) / 0.12); }
+.compare-kinds a:focus-visible, .compare-col__remove:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.compare-empty { color: var(--muted); }
+/* Phones: the columns scroll sideways under the fixed labels; the page itself never does. */
+.compare-scroll { overflow-x: auto; margin: 0 -16px; padding: 0 16px; }
+.compare-table { border-collapse: collapse; min-width: 100%; font-size: var(--fs-sm, .875rem); }
+.compare-table th, .compare-table td { padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.compare-table thead th { position: relative; min-width: 128px; padding-right: 40px; vertical-align: bottom; }
+.compare-table tbody th { position: sticky; left: 0; z-index: 1; background: var(--paper); color: var(--muted); font-weight: 700; white-space: nowrap; }
+.compare-col { display: grid; gap: 2px; }
+.compare-col__name { color: var(--ink); font-weight: 800; }
+.compare-col__tag { color: var(--muted); font-weight: 600; }
+.compare-col__remove {
+  position: absolute; top: 0; right: 0; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--radius-pill); color: var(--muted);
+}
+.compare-col__remove:hover { background: var(--chip); color: var(--ink); }
+.compare-cell { display: flex; align-items: center; gap: var(--space-2); }
+.compare-cell strong { font-weight: 800; }
+/* The row's winner: a check in a primary circle beside its bold value (its name stays "Best"). */
+/* position: relative holds the sr-only "Best" inside the sideways scroller, not the page. */
+.compare-best {
+  position: relative; display: inline-grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--primary);
+}
+.compare-bar { display: block; margin-top: 4px; }
+/* "Tailored to: Buy ≤ £650k · 2-bed · King's Cross ✎" (CUJ03 board step 2). */
+.compare-tailored { margin: 0 0 var(--space-3); }
+.compare-tailored .tailor-chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; min-height: 44px; text-decoration: none; }
+/* Phones: two areas fit side by side with no sideways scroll; names drop their district and wrap to
+   two lines at most; three or four still scroll under the fixed labels. */
+@media (max-width: 600px) {
+  .compare-table { font-size: var(--fs-xs, .8125rem); }
+  .compare-table th, .compare-table td { padding: var(--space-2) 6px; }
+  .compare-table tbody th { width: 76px; min-width: 76px; max-width: 76px; white-space: normal; overflow-wrap: anywhere; }
+  .compare-table thead th { min-width: 108px; padding-right: 6px; }
+  .compare-scroll[data-columns="2"] .compare-table { width: 100%; table-layout: fixed; }
+  .compare-scroll[data-columns="2"] .compare-table thead th { min-width: 0; }
+  .compare-scroll[data-columns="2"] .compare-table thead td { width: 76px; }
+  .compare-table thead th:has(.compare-col__remove) { padding-right: 40px; }
+  .compare-col__district { display: none; }
+  .compare-col__name { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow-wrap: anywhere; }
+  .compare-cell { flex-wrap: wrap; gap: 4px; }
+  .compare-table .compare-bar { max-width: 100%; }
+  .compare-next__links { display: grid; gap: 4px; }
+}
+
+/* The map's "Compare · N" tray: sticky at the top of the dock's content. */
+.compare-tray {
+  position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); padding: 4px 4px 4px 14px;
+  border-radius: var(--radius-lg); background: var(--ink); color: var(--on-ink);
+}
+.compare-tray__count { flex: 1; font-size: var(--fs-sm, .875rem); }
+.compare-tray__hint { font-size: var(--fs-xs, .8125rem); opacity: .85; }
+.compare-tray__open {
+  position: relative; display: inline-grid; place-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+  background: var(--on-ink); color: var(--ink); font-weight: 800; text-decoration: none;
+}
+.compare-tray__clear {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill);
+  background: transparent; color: var(--on-ink); cursor: pointer; --icon-yarn: var(--on-ink);
+}
+.compare-tray__open:focus-visible, .compare-tray__clear:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

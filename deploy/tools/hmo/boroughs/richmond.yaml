@@ -1,0 +1,20 @@
+# Richmond upon Thames: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000027
+slug: richmond
+name: Richmond upon Thames
+register:
+  status: search-only
+  url: https://rspandlp.merton.gov.uk/registers/index.html?fa=licence_register
+  page: https://www.richmond.gov.uk/services/housing/private_housing/privately_rented_properties/hmo/hmo_register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: PDF copy of full register costs 50 pounds (Housing Act 2004 s.232); no CSV or Excel.
+  retrieved: 2026-10-18
+schemes: []
+notes: >-
+  Register is viewed on a shared Regulatory Services Hub run by Merton, behind a CAPTCHA, so it cannot be fetched
+  automatically. A full PDF copy is available by email request for 50 pounds. No additional or selective licensing
+  found on the council HMO pages.

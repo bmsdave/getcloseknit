@@ -1,0 +1,267 @@
+# Lambeth (208): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 208
+slug: lambeth
+name: Lambeth
+licence:
+  statement: The site, including sub-sites of the lambeth.gov.uk domain, and its content, photography
+    and design are covered by copyright and the Open Government Licence.
+  url: https://www.lambeth.gov.uk/about-council/using-website/copyright
+licence_decision: approved
+aliases:
+  Christ Church SW9 Church of England Primary School: '100610'
+  Lark Hall Primary School: '100576'      # GIAS: Larkhall Primary Campus, the open community school
+  Wyvil Primary School: '100591'
+  Christ Church (Brixton) Church of England Primary School: '100610'  # 2019 name of Christ Church SW9
+  Van Gogh Primary (formally Durand Academy): '146368'
+  Oasis Academy Johanna: '137430'         # GIAS: renamed Oasis Academy South Bank Primary (LAESTAB 2332)
+docs:
+- phase: primary
+  year: 2026
+  url: https://www.lambeth.gov.uk/sites/default/files/2026-04/nod-rec26-how-offers-were-made-community-schools.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2026-04/nod-rec26-how-offers-were-made-foundation-schools.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-04/nod-rec-26-how-offers-were-made-voluntary-aid.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-04/nod-rec26-how-offers-were-made-academies%20%282%29.pdf
+  - https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/primary-school-admissions/how-offers-were-made-lambeth-primary-schools-national-offer-day-16-april-2026
+- phase: primary
+  year: 2025
+  url: https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/primary-school-admissions/how-offers-were-made-lambeth-primary-schools-national-offer-day-16-april-2025/lambeth-community-schools
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/primary-school-admissions/how-offers-were-made-lambeth-primary-schools-national-offer-day-16-april-2025/lambeth-foundation-schools
+  - https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/primary-school-admissions/how-offers-were-made-lambeth-primary-schools-national-offer-day-16-april-2025/lambeth-voluntary-aided-schools
+  - https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/primary-school-admissions/how-offers-were-made-lambeth-primary-schools-national-offer-day-16-april-2025/lambeth-academies
+- phase: primary
+  year: 2024
+  url: https://www.lambeth.gov.uk/sites/default/files/2024-04/how%20offers%20were%20made%20community%20schools.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2024-04/how%20offers%20were%20made%20foundation%20schools.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-04/how%20offers%20were%20made%20voluntary%20aid%20schools.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-04/how%20offers%20were%20made%20academies.pdf
+  note: Julian's (Streatham) last distance is given as shortest walking route; other schools use straight
+    line.
+  accept:
+  - '100601 reception main: listed 2 times'
+  accept_note: Kings Avenue Primary School is printed beside Glenbrook Primary School, which it later
+    merged into (GIAS link); the resolver maps both to Glenbrook's URN, and only Glenbrook's own row
+    is loaded.
+- phase: primary
+  year: 2023
+  url: https://www.lambeth.gov.uk/sites/default/files/2023-04/nod-rec23-how-offers-were-made-foundation-school.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2023-04/nod-rec-23-how-offers-were-made-voluntary-aid.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2023-05/nod-rec23-how-offers-were-made-academies_-_up.pdf
+  note: No 2023 community-schools file found, live or in the CDX.
+- phase: primary
+  year: 2020
+  url: https://www.lambeth.gov.uk/sites/default/files/NOD-Rec20-how-offers-were-made-community-schools..pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/NOD-Rec20-how-offers-were-made-foundation-schools.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/NOD-Rec20-how-offers-were-made-voluntary-aided-schools.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/NOD-Rec20-how-offers-were-%20made-academies.pdf
+  accept:
+  - '100601 reception main: listed 2 times'
+  accept_note: Kings Avenue Primary School is printed beside Glenbrook Primary School, which it later
+    merged into (GIAS link); the resolver maps both to Glenbrook's URN, and only Glenbrook's own row
+    is loaded.
+- phase: primary
+  year: 2019
+  url: https://www.lambeth.gov.uk/sites/default/files/Rec19-HowOffersMade-community-schools.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://web.archive.org/web/20200927072627/https://www.lambeth.gov.uk/sites/default/files/NOD-rec19-how-offers-made-academies-_1.pdf
+  - https://web.archive.org/web/20200927074006/https://www.lambeth.gov.uk/sites/default/files/NOD-rec19-how-offers-made-foundation-schools.pdf
+  - https://web.archive.org/web/20200927075145/https://www.lambeth.gov.uk/sites/default/files/NOD-rec19-how-offers-made-voluntary-aided-schools-_0.pdf
+  note: 'The community file is live. The academy, foundation and VA files are Wayback-only (live 404).
+    Units are inferred from later years: values such as 4,414.6 under ''Last distance - straight line''.'
+  accept:
+  - '100601 reception main: listed 2 times'
+  accept_note: Kings Avenue Primary School is printed beside Glenbrook Primary School, which it later
+    merged into (GIAS link); the resolver maps both to Glenbrook's URN, and only Glenbrook's own row
+    is loaded.
+- phase: secondary
+  year: 2026
+  url: https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/secondary-school-admissions/how-offers-were-made-lambeth-secondary-schools-national-offer-day-2-march-2026
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/the-elmgreen-school-national-offer-day-2026-d_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/Dunraven%20National%20Offer%20Day%20Information%20Year_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/Lilian-Baylis-National-Offer-Day-2026-offer-d_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/Norwood-National-Offer-Day-2026-offer-details_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/The%20Elms%20Academy-National-Offer-Day-2026-offe_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/ark-evelyn-grace-academy-national-offer-day-2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/bishop-thomas-grant-school-national-offer-day_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/city-heights-academy-national-offer-day-2026-_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/harris-academy-clapham-national-offer-day-2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/la-retraite-national-offer-day-2026-offer-det_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/lns-national-offer-day-2026-offer-details_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/oasis-south-bank-national-offer-day-2026-offe_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/platanos-college-national-offer-day-2026-offe_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/sgc-national-offer-day-2026-offer-details_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/trinity-academy-national-offer-day-2026-offer_2026.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2026-05/woodmansterne-school-year-7-national-offer-day_2026.pdf
+  note: The index page links 16 per-school PDFs (2026-05 folder). Each lists PAN, on-time applications,
+    offers by criterion and 'last distance'.
+- phase: secondary
+  year: 2025
+  url: https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/secondary-school-admissions/how-offers-were-made-lambeth-secondary-schools-national-offer-day-3-march-2025
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/lns-national-offer-day-2025-offer-details_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/Dunraven_National_Offer_Day_Information_Year_Philip_Mcqueen_3.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/Lilian-Baylis-National-Offer-Day-2025-offer-d_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/Norwood-National-Offer-Day-2025-offer-details_Philip_Mcqueen%20%281%29.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/The_Elms_Academy-National-Offer-Day-2025-offe_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/ark-evelyn-grace-academy-national-offer-day-2_Philip_Mcqueen_3%20%281%29.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/bishop-thomas-grant-school-national-offer-day_Philip_Mcqueen_1.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/city-heights-academy-national-offer-day-2025-_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/harris-academy-clapham-national-offer-day-202_Philip_Mcqueen_3.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/la-retraite-national-offer-day-2025-offer-det_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/oasis-south-bank-national-offer-day-2025-offe_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/platanos-college-national-offer-day-2025-offe_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/sgc-national-offer-day-2025-offer-details_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/the-elmgreen-school-national-offer-day-2025-d_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/trinity-academy-national-offer-day-2025-offer_Philip_Mcqueen.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2025-03/woodmansterne-school-year-7-national-offer-da_Philip_Mcqueen_2.pdf
+  note: Index page plus per-school PDFs (2025-03 folder; about 15 files, listed in the CDX).
+- phase: secondary
+  year: 2024
+  url: https://www.lambeth.gov.uk/schools-and-education/school-admissions-and-appeals/secondary-school-admissions/how-offers-were-made-lambeth-secondary-schools-national-offer-day-1-march-2024
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  source: live
+  other_urls:
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/lns%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Ark%20evelyn%20grace%20academy%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/City%20heights%20academy%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Dunravens%20National%20Offers%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Elmgreen%20National%20Offers%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Harris%20academy%20clapham%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Norwood%20National%20Offer%20Day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Oasis%20south%20bank%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Platanos%20college%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/SGC%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/The%20Elms%20Academy%20National%20Offer%20Day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Trinity%20academy%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/Woodmansterne%20school%20year%207%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-03/la%20retraite%20national%20offer%20day%202024.pdf
+  - https://www.lambeth.gov.uk/sites/default/files/2024-05/Lilian-Baylis-National-Offer-Day-2024-offer-.pdf
+  note: Index page plus per-school PDFs in the 2024-03 folder, and Lilian Baylis in 2024-05.
+- phase: secondary
+  year: 2023
+  url: https://www.lambeth.gov.uk/sites/default/files/2023-03/dunraven-national-offer-day-2023.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: Per-school PDFs in the 2023-03 folder (about 16 schools, e.g. ark-evelyn-grace, elmgreen, trinity,
+    woodmansterne), with Norwood in 2023-05. There is no index of these files. Dunraven's banded table
+    says 'Max. distance (in metres, straight line)'.
+    The other per-school files of this year (15 PDFs in the same folders, listed from the
+    Wayback CDX and downloaded on 2026-10-11) are not loaded. They would change this release sha256, and source releases are
+    immutable once registered; they need a new release id.
+- phase: secondary
+  year: 2022
+  url: https://www.lambeth.gov.uk/sites/default/files/2023-08/Norwood-National-Offer-Day-2022-offer-details.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: Per-school PDFs for 2022 were re-uploaded to the 2023-08 folder (about 14 schools).
+    The other per-school files of this year (15 PDFs in the same folders, listed from the
+    Wayback CDX and downloaded on 2026-10-11) are not loaded. They would change this release sha256, and source releases are
+    immutable once registered; they need a new release id.
+- phase: secondary
+  year: 2021
+  url: https://www.lambeth.gov.uk/sites/default/files/2021-03/bishop-thomas-grant-school-national-offer-day-2021-offer-details.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: Only one school (Bishop Thomas Grant, a faith school) was found. Its offers are mostly by faith
+    criteria, so it is incomplete for the LA. Units are not printed ('Last distance offered on NOD
+    3387.020'); metres as in the other Lambeth secondaries' files.
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20191115101927/https://www.lambeth.gov.uk/sites/default/files/Norwood-National-Offer-Day-2019-offer-details_0.pdf
+  format: pdf-text
+  units: metres
+  method: null
+  counts: null
+  source: wayback
+  note: Single school only (Norwood). Units are not printed; metres as in Norwood's later files
+    ('last distance (straight-line in metres)'), values such as 2329.08. The CDX lists it with 200 but it was not fetched, so its format
+    is inferred from the series.
+catchment_maps: null
+notes: 'Primary: 2019, 2020 and 2023-2026 (2023 has no community file). No 2021 or 2022 primary data was
+  found: the booklets of those years point to web pages that are not archived as files. Secondary: per-school
+  PDFs for 2022-2026, plus single schools for 2019 and 2021; nothing for 2020. Each year''s secondary
+  data is spread across about 15 files.'

@@ -1,0 +1,8 @@
+{
+ "url": "https://www.openrent.co.uk/properties-to-rent/hackney-london",
+ "scripts": [
+  "var PROPERTYIDS = [ 2972018,3069480,3076056,2877994,3044003 ];\nvar PROPERTYLISTLATITUDES = [ 51.548786,51.549644,51.550026,51.548134,51.548122 ];\nvar PROPERTYLISTLONGITUDES = [ -0.059813,-0.0635241,-0.064430445,-0.0647711,-0.0567497 ];\nvar prices = [ 4250,1200,1820,3000,2995 ];\nvar bedrooms = [ 2,3,1,1,3 ];\nvar isstudio = [ 0,0,1,0,0 ];\nvar isshared = [ 0,1,0,0,0 ];"
+ ],
+ "nextData": null,
+ "listingData": []
+}

@@ -1,0 +1,30 @@
+# Barking and Dagenham: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000002
+slug: barking_dagenham
+name: Barking and Dagenham
+register:
+  status: search-only
+  url: https://lbbd.metastreet.co.uk/public-register
+  page: https://www.lbbd.gov.uk/private-sector-housing/property-licensing/search-public-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-01-09
+  end: 2030-01-08
+  url: https://www.lbbd.gov.uk/news/2024/barking-and-dagenham-council-implement-new-additional-hmo-licensing-scheme-improve
+- kind: selective
+  wards: [Abbey, Alibon, Barking Riverside, Beam, Becontree, Chadwell Heath, Eastbrook & Rush Green, Eastbury, Gascoigne, Goresbrook, Heath, Longbridge, Mayesbrook, Northbury, Parsloes, Thames View, Valence, Village, Whalebone]
+  start: 2025-04-06
+  end: 2030-04-05
+  url: https://www.lbbd.gov.uk/sites/default/files/2025-01/Public%20Notice%20-%20Selective%20Licensing%20Designation.pdf
+notes: >-
+  Register is a postcode search with reCAPTCHA (no bulk file). Selective wards read from a poorly
+  OCR'd notice (three areas; "Eastbrook" and "Eastbury" spellings corrected), so verify the list.
+  Additional-scheme dates from council news and NRLA, not the designation itself.

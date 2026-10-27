@@ -1,0 +1,21 @@
+@font-face { font-family: "Close Knit Bricolage"; src: url("../fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+:root { --paper: #f4f7fa; --chip: #eef2f7; --ink: #22252c; --muted: #5b6270; --primary: #c0352c; --wool: #dfe7f0; --focus: #2f5bd3; }
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #16203a; --chip: #26324f; --ink: #f4f7fa; --muted: #b8c3d6; --primary: #f6c445; --wool: #3b4a70; --focus: #7fb8f0; }
+}
+body { margin: 0; background: var(--paper); color: var(--ink); font: 14px/1.45 "Close Knit Bricolage", system-ui, sans-serif; }
+.ck-popup { width: 320px; padding: 14px 16px; display: grid; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 8px; }
+.brand img { border-radius: 7px; }
+.wordmark { font-weight: 800; letter-spacing: -0.03em; font-size: 16px; }
+p { margin: 0; }
+.muted, details p { color: var(--muted); font-size: 13px; }
+.switch { display: flex; gap: 8px; align-items: center; font-weight: 600; }
+.switch input { width: 18px; height: 18px; accent-color: var(--primary); }
+.button { display: inline-flex; border: 0; border-radius: 999px; padding: 7px 14px; background: var(--chip); color: var(--ink);
+  font: inherit; font-weight: 650; text-decoration: none; cursor: pointer; }
+#profile { display: grid; gap: 8px; padding: 10px 12px; border: 1px solid var(--wool); border-radius: 10px; }
+summary { cursor: pointer; font-weight: 600; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }

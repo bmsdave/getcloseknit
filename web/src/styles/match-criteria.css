@@ -1,0 +1,178 @@
+/* v3 My match (Fixes 19, 20, 30b): Your search with range criteria, the pages of ten, the relaxed block and
+   the tapped area's popup. Tokens only, so Day and Night both hold (styles/match-panel.css has the rest). */
+
+/* Your search, open: the title, Share and Reset as quiet icons, and the one primary "See matches". */
+.your-search--open .your-search-head { align-items: center; gap: 6px; }
+.your-search--open .your-search-head h2 { flex: 1; min-width: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.01em; white-space: nowrap; }
+.your-search .search-icon-button {
+  flex: none; display: inline-grid; place-items: center; width: 40px; min-width: 40px; min-height: 40px; padding: 0; border: 0;
+  border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+}
+.your-search .see-matches {
+  flex: none; width: auto; min-height: 40px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: var(--primary);
+  color: var(--on-primary); font-size: var(--fs-sm); font-weight: 800; white-space: nowrap;
+}
+.your-search .see-matches:hover { background: color-mix(in srgb, var(--primary) 86%, black); }
+.search-reset {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin: 8px 0 0; padding: 8px 12px;
+  border-radius: var(--radius-md); background: var(--note); color: var(--ink); font-size: 13px; font-weight: 700;
+}
+.search-chips--lead { margin-top: 10px; }
+.your-search .search-chips--lead button.search-chip { min-height: 36px; padding: 0 12px; border: 0; font-size: 13.5px; font-weight: 700; }
+.your-search .search-chips--lead button.search-chip-strong { background: var(--ink); color: var(--on-ink); }
+.your-search .search-chips--lead li.search-chip { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; font-size: 13px; }
+.home-types { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0 0; }
+.your-search .home-types button { min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 700; }
+
+/* Criteria: chips for the folded ones, one open card, the live count and the cut hint. */
+.criteria-editor { display: grid; gap: 8px; margin: 12px 0 4px; }
+.criteria-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.your-search .criteria-chip-button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--wool);
+  border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700; text-align: left;
+}
+.criterion-impact { font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.criterion-card { display: grid; gap: 6px; padding: 12px 12px 10px 14px; border: 1px solid var(--wool); border-radius: 16px; background: var(--surface); }
+.criterion-card__head { display: flex; align-items: center; gap: var(--space-2); }
+.criterion-card__name { flex: 1; min-width: 0; margin: 0; font-size: 15px; font-weight: 800; overflow-wrap: break-word; }
+.your-search .criterion-must {
+  min-height: 32px; padding: 0 12px; border: 1.5px solid var(--field-line); border-radius: var(--radius-pill);
+  background: transparent; color: var(--muted); font-size: 13px; font-weight: 800;
+}
+.your-search .criterion-must[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+.your-search .criterion-remove {
+  display: inline-grid; place-items: center; width: 32px; min-width: 32px; min-height: 32px; padding: 0; border: 0;
+  border-radius: var(--radius-pill); background: transparent; color: var(--ink);
+}
+.your-search .criterion-remove:hover { background: var(--chip); }
+.criterion-card__line { display: flex; align-items: baseline; gap: var(--space-2); margin: 0; font-size: 14px; font-weight: 700; }
+.criterion-card__line > span:first-child { flex: 1; min-width: 0; }
+.criterion-card__rename input { width: 100%; font-weight: 700; }
+.criterion-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+
+/* The histogram of London's areas: the layer's own colours; out of range is unworked felt. */
+.range-histogram { display: flex; align-items: flex-end; gap: 1px; height: 50px; }
+.range-histogram > span { flex: 1; min-width: 0; border-radius: 2px 2px 0 0; }
+.range-histogram__out { background: var(--wool); }
+.range-histogram--empty { border-bottom: 1px dashed var(--field-line); }
+
+/* Two lanes: the range's round handles on top (a solid ink band), the soft edges' square handles below
+   (a lighter band reaching past each end). The inputs stack, and only their handles take the pointer. */
+.range-slider { position: relative; height: 52px; }
+.range-slider__track { position: absolute; left: 0; right: 0; top: 10px; height: 4px; border-radius: var(--radius-pill); background: var(--wool); }
+.range-slider__soft { position: absolute; top: 8px; height: 8px; border-radius: var(--radius-pill); background: rgb(var(--ink-rgb) / .2); }
+.range-slider__in { position: absolute; top: 9px; height: 6px; border-radius: var(--radius-pill); background: var(--ink); }
+.range-slider::after { content: ""; position: absolute; left: 0; right: 0; top: 38px; border-top: 1px dashed var(--field-line); pointer-events: none; }
+.match-panel .range-slider .range-input {
+  position: absolute; left: 0; top: 0; width: 100%; height: 24px; min-height: 24px; margin: 0; padding: 0;
+  background: transparent; pointer-events: none; -webkit-appearance: none; appearance: none;
+}
+.match-panel .range-slider .range-input--edge { top: 26px; }
+.range-slider .range-input::-webkit-slider-runnable-track { height: 24px; background: transparent; }
+.range-slider .range-input::-moz-range-track { height: 24px; background: transparent; }
+.range-slider .range-input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 22px; height: 22px; margin-top: 1px; border: 3px solid var(--surface); border-radius: 50%;
+  background: var(--ink); box-shadow: 0 1px 3px rgb(var(--ink-rgb) / .35); cursor: grab; pointer-events: auto;
+}
+.range-slider .range-input::-moz-range-thumb {
+  width: 16px; height: 16px; border: 3px solid var(--surface); border-radius: 50%; background: var(--ink); cursor: grab; pointer-events: auto;
+}
+.range-slider .range-input--edge::-webkit-slider-thumb {
+  width: 18px; height: 18px; margin-top: 3px; border: 2.5px solid var(--ink); border-radius: 4px; background: var(--surface); box-shadow: none;
+}
+.range-slider .range-input--edge::-moz-range-thumb { width: 13px; height: 13px; border: 2.5px solid var(--ink); border-radius: 4px; background: var(--surface); }
+.range-slider .range-input:focus-visible { outline: none; }
+.range-slider .range-input:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--focus); outline-offset: 1px; }
+.range-slider .range-input:focus-visible::-moz-range-thumb { outline: 3px solid var(--focus); outline-offset: 1px; }
+/* No area left and this criterion cuts the most: its handles glow. */
+.range-slider--cut .range-input::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--accent); }
+.range-slider--cut .range-input::-moz-range-thumb { box-shadow: 0 0 0 4px var(--accent); }
+.range-ends { display: flex; justify-content: space-between; margin: -4px 0 0; color: var(--muted); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Importance: five dots, filled up to the choice. */
+.importance-dots { display: flex; align-items: center; gap: 0; }
+.importance-dots__label { margin-right: 6px; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.your-search .importance-dots button {
+  display: inline-grid; place-items: center; width: 24px; min-width: 24px; min-height: 32px; padding: 0; border: 0;
+  border-radius: var(--radius-pill); background: transparent;
+}
+.your-search .importance-dots button[aria-pressed="true"] { background: transparent; }
+.your-search .importance-dots button[aria-pressed="true"]::after { content: none; }
+.importance-dot { width: 11px; height: 11px; box-sizing: border-box; border: 2px solid var(--ink); border-radius: 50%; }
+.importance-dot--on { background: var(--ink); }
+
+.criteria-count { margin: 0; color: var(--ink); font-size: 13.5px; font-weight: 700; }
+.criteria-count strong { font-size: 17px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.criteria-hint { margin: 0; padding: 8px 12px; border-radius: 12px; background: var(--note); color: var(--ink); font-size: 13.5px; font-weight: 800; }
+.your-search .criteria-add { justify-self: start; display: inline-flex; align-items: center; gap: 6px; border: 0; background: var(--chip); font-size: 14px; font-weight: 800; }
+.criteria-menu {
+  display: grid; gap: 10px; max-height: min(60vh, 520px); overflow: auto; padding: 10px 12px;
+  border: 1px solid var(--wool); border-radius: var(--radius-lg); background: var(--surface);
+}
+.criteria-menu__group h4 { margin: 0 0 4px; color: var(--muted); font-size: 12.5px; font-weight: 800; }
+.criteria-menu__items { display: flex; flex-wrap: wrap; gap: 4px; }
+.your-search .criteria-menu__items button { min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 700; }
+.your-search .criteria-menu__first { justify-self: start; min-height: 40px; border: 1.5px solid var(--ink); background: var(--surface); font-size: 14px; font-weight: 800; }
+
+/* A place as a card: the trip as chips that open their choices in place. */
+.trip-chips { display: grid; gap: 6px; }
+.place-chips, .place-options { display: flex; flex-wrap: wrap; gap: 4px; }
+.your-search .place-chip { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 12px; border: 0; background: var(--chip); font-size: 13px; font-weight: 700; }
+.place-chip--fixed { border-radius: var(--radius-pill); color: var(--muted); }
+.your-search .place-options button { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0 12px; font-size: 13px; font-weight: 700; }
+
+/* The fit at the end of each row, and the pages of ten. */
+.match-panel .match-ranking > li > button:first-child { grid-template-columns: auto minmax(0, 1fr) auto; }
+.match-fit { display: inline-flex; align-items: center; gap: 4px; align-self: center; color: var(--ink); font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.match-fit small { color: var(--muted); font-size: 12px; font-weight: 700; }
+.ranking-pager { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-2); margin: 8px 0 4px; }
+.ranking-pager > button {
+  min-height: 44px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
+}
+.ranking-pager > :first-child { justify-self: start; }
+.ranking-pager > :last-child { justify-self: end; }
+.ranking-pager__here { color: var(--muted); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* What the limits did, compact. */
+.limits-block { display: grid; gap: 8px; margin: 10px 0; }
+.relaxed-block { display: grid; gap: 6px; padding: 10px 12px; border: 1px solid var(--wool); border-radius: 14px; background: var(--surface); }
+.limits-block__title { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 14px; font-weight: 800; }
+.limits-block__count {
+  display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: var(--radius-pill);
+  background: var(--chip); font-size: 12px; font-variant-numeric: tabular-nums;
+}
+.limit-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.limit-chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 2px 0 12px; border: 1px solid var(--wool);
+  border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 700;
+}
+.limit-chip .restore-button {
+  min-height: 32px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+  font: inherit; font-size: 12.5px; font-weight: 800; cursor: pointer;
+}
+.limit-chip .restore-button:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.limit-chip .restore-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.area-list > summary { display: flex; align-items: center; gap: 6px; min-height: 44px; font-size: 14px; font-weight: 800; cursor: pointer; }
+.area-list ul { display: grid; gap: 4px; margin: 0 0 6px; padding: 0; list-style: none; }
+.area-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 13.5px; }
+.area-list__name { font-weight: 700; overflow-wrap: break-word; }
+.reason-tag { padding: 1px 8px; border-radius: var(--radius-pill); background: var(--chip); color: var(--muted); font-size: 12.5px; font-weight: 700; }
+/* "Loosen to see more": chips that read as buttons on the panel in both themes. */
+.match-panel .limits-block .relax-controls button { min-height: 36px; border-color: transparent; background: var(--chip); }
+.match-panel .limits-block .relax-controls button:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+
+/* The tapped area's popup on the map (V3-30b frame 4), in the theme's panel colours. */
+.match-fit-popup .maplibregl-popup-content {
+  padding: 10px 30px 10px 12px; border-radius: 12px; background: var(--panel-solid); color: var(--ink);
+  box-shadow: 0 6px 20px rgb(var(--ink-rgb) / .22); font-family: var(--font-sans);
+}
+.match-fit-popup .maplibregl-popup-tip { display: none; }
+.match-fit-popup .maplibregl-popup-close-button { width: 28px; height: 28px; color: var(--ink); font-size: 18px; }
+.fit-popup__head { display: flex; align-items: baseline; gap: 8px; margin: 0 0 6px; font-size: 14px; }
+.fit-popup__out { padding: 0 8px; border-radius: var(--radius-pill); font-size: 12.5px; font-weight: 800; } /* the hatch: globals.css .verdict-out */
+.fit-popup__score { font-size: 14px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.fit-popup__score small { color: var(--muted); font-size: 12px; }
+.fit-popup__rows { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: 13px; }
+.fit-popup__row { display: grid; grid-template-columns: 16px minmax(0, 1fr); align-items: center; gap: 6px; }
+.fit-popup__edge { display: inline-grid; place-items: center; width: 14px; font-size: 15px; line-height: 1; }

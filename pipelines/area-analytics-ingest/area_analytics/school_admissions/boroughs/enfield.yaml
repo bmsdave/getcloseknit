@@ -1,0 +1,167 @@
+# Enfield (308): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 308
+slug: enfield
+name: Enfield
+licence:
+  statement: '"Those works are protected by copyright laws and treaties around the world. All such rights
+    are reserved." (personal-use copy only; not OGL)'
+  url: https://web.archive.org/web/20260916000128/https://www.enfield.gov.uk/terms-of-use
+licence_decision: unresolved
+aliases:
+  Tottenhall: '102006'
+  Latymer all Saints: '102041'
+  Carterhatch: '101983'
+  Broomfield School: '102056'
+  Aylward Academy: '136147'
+  St. Andrew's CE Enfield: '102029'
+  St Andrew's CE Primary Enfield: '102029'
+  Hazelwood: '101997'
+  Raglan: '102004'
+sites:
+  Cuckoo Hall Academy: Cuckoo Hall
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20230202114503/https://www.enfield.gov.uk/__data/assets/pdf_file/0014/30182/Admission-to-primary-previous-allocations-2022-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+  note: breakdown as at April offer day for Sept 2022/2021/2020/2019 (community, academies, free schools)
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20230202114503/https://www.enfield.gov.uk/__data/assets/pdf_file/0014/30182/Admission-to-primary-previous-allocations-2022-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20250117062046/https://www.enfield.gov.uk/__data/assets/pdf_file/0019/64801/Reception-Allocation-Breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+  note: covers Sept 2024/2023/2022/2021; includes a priority zone criterion
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20250117062046/https://www.enfield.gov.uk/__data/assets/pdf_file/0019/64801/Reception-Allocation-Breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20250117062046/https://www.enfield.gov.uk/__data/assets/pdf_file/0019/64801/Reception-Allocation-Breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20250117062046/https://www.enfield.gov.uk/__data/assets/pdf_file/0019/64801/Reception-Allocation-Breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20250512124219/https://www.enfield.gov.uk/__data/assets/pdf_file/0034/92599/Admission-to-primary-school-2025-and-allocation-information-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - offers_by_criterion
+  - refused
+  note: 2-page info sheet with only about 7 distance values, so it may list oversubscribed schools only
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20221007160047/https://www.enfield.gov.uk/__data/assets/pdf_file/0031/28678/Transfer-to-secondary-previous-allocation-breakdown.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+  note: breakdown at National Offer Day for Sept 2022/2021/2020/2019
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20221007160047/https://www.enfield.gov.uk/__data/assets/pdf_file/0031/28678/Transfer-to-secondary-previous-allocation-breakdown.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20240929004441/https://www.enfield.gov.uk/__data/assets/pdf_file/0024/63195/Secondary-transfer-allocation-breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+  note: covers Sept 2024/2023/2022/2021
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240929004441/https://www.enfield.gov.uk/__data/assets/pdf_file/0024/63195/Secondary-transfer-allocation-breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240929004441/https://www.enfield.gov.uk/__data/assets/pdf_file/0024/63195/Secondary-transfer-allocation-breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240929004441/https://www.enfield.gov.uk/__data/assets/pdf_file/0024/63195/Secondary-transfer-allocation-breakdown-Education.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - pan
+  - offers_by_criterion
+  - refused
+catchment_maps: null
+notes: 'enfield.gov.uk returns 403 to curl and WebFetch, so everything here is Wayback. Search results
+  show a live ''Reception-previous-allocation-breakdown-Education.pdf'' (__data/assets/pdf_file/0011/103043/)
+  covering Sept 2022-2025. It returns 403 and is not in the CDX, so it is not recorded. Secondary allocation-information
+  sheets also exist: 2020 (0013/5800), 2021 (0028/18694), 2023 (0023/33773) and 2024 (0018/53721) are
+  text PDFs; 2022 (0022/20389) is scanned. Primary allocation sheets for 2020-2023 (18690, 18691, 20388,
+  35110) are scanned PDFs. Missing: primary 2026, secondary 2025-2026. Primary priority zones exist, but
+  no map URL was found. Adapter notes: ''Cuckoo Hall Academy'' (2019, 2020) merged into Woodpecker Hall
+  Primary Academy 136952 in 2021 (GIAS); its rows are kept under 136952 as site ''Cuckoo Hall'' (config
+  sites) so they do not overwrite Woodpecker Hall''s own. Broomfield School is Laurel Park School 102056
+  (same URN, renamed). ''Carterhatch'' in the reception table is Carterhatch Infant School. Schools in
+  the ''It has been possible to meet the demand ...'' paragraph are all offered. Secondary prose rows
+  (Enfield County quota, Latymer test rank, St Anne''s and St Ignatius faith criteria with a distance)
+  are not read.'

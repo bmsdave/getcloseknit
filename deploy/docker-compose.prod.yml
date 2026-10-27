@@ -1,0 +1,119 @@
+# Production overlay: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# Adds Caddy (TLS, one public door) and unpublishes every other port so the
+# API's X-Forwarded-For trust (CLOSE_KNIT_TRUST_PROXY=1) cannot be abused.
+services:
+  caddy:
+    image: caddy:2
+    environment:
+      CLOSE_KNIT_DOMAIN: ${CLOSE_KNIT_DOMAIN:?set CLOSE_KNIT_DOMAIN in deploy/.env}
+      CLOSE_KNIT_REDIRECT_DOMAINS: ${CLOSE_KNIT_REDIRECT_DOMAINS:-http://redirect.localhost}
+      CLOSE_KNIT_SITES_HOST: ${CLOSE_KNIT_SITES_HOST:-http://sites.localhost}
+      CLOSE_KNIT_ACCESS: ${CLOSE_KNIT_ACCESS:-public}
+      CLOSE_KNIT_ACCESS_USER: ${CLOSE_KNIT_ACCESS_USER:-}
+      CLOSE_KNIT_ACCESS_HASH: ${CLOSE_KNIT_ACCESS_HASH:-}
+      CLOSE_KNIT_INVITE_TOKEN: ${CLOSE_KNIT_INVITE_TOKEN:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./access-public.caddy:/etc/caddy/access-public.caddy:ro
+      - ./access-private.caddy:/etc/caddy/access-private.caddy:ro
+      - close-knit-caddy-data:/data
+      - /var/log/close-knit:/var/log/caddy
+      - close-knit-caddy-config:/config
+      # Other sites on this host (the CLOSE_KNIT_SITES_HOST block imports
+      # sites/*.caddy): their
+      # files, and the unix sockets of their apps.
+      - /srv/caddy-sites:/etc/caddy/sites:ro
+      - /srv/sites:/srv/sites:ro
+      - /run/caddy-upstreams:/run/caddy-upstreams:ro
+      # The map's area tiles: static archives deploy/tools/area_pmtiles.py builds (ship.sh), served at /tiles/.
+      - /srv/close-knit-tiles:/srv/tiles:ro
+    ports: ["80:80", "443:443", "443:443/udp"]
+    depends_on:
+      web:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+      mcp:
+        condition: service_healthy
+    logging:  # same as x-logging in docker-compose.yml (anchors do not cross files): <= 30 days in practice
+      driver: json-file
+      options: {max-size: "1m", max-file: "3"}
+    restart: unless-stopped
+
+  database:
+    restart: unless-stopped
+
+  web:
+    ports: !reset []
+    environment:
+      CLOSE_KNIT_PUBLIC_URL: ${CLOSE_KNIT_PUBLIC_URL:?set CLOSE_KNIT_PUBLIC_URL (https://…) in deploy/.env}
+    restart: unless-stopped
+
+  api:
+    ports: !reset []
+    environment:
+      # Same default as caddy: feature flags left unset are off once the site is public (FLAGS.md).
+      CLOSE_KNIT_ACCESS: ${CLOSE_KNIT_ACCESS:-public}
+      CLOSE_KNIT_PUBLIC_URL: ${CLOSE_KNIT_PUBLIC_URL:?set CLOSE_KNIT_PUBLIC_URL (https://…) in deploy/.env}
+      # Invite links (api/area_api/invites.py) set this as the access cookie.
+      CLOSE_KNIT_INVITE_TOKEN: ${CLOSE_KNIT_INVITE_TOKEN:-}
+    restart: unless-stopped
+
+  # The MCP endpoint's process (docker-compose.yml mcp): the api's production settings.
+  mcp:
+    ports: !reset []
+    environment:
+      # Same default as caddy: feature flags left unset are off once the site is public (FLAGS.md).
+      CLOSE_KNIT_ACCESS: ${CLOSE_KNIT_ACCESS:-public}
+      CLOSE_KNIT_PUBLIC_URL: ${CLOSE_KNIT_PUBLIC_URL:?set CLOSE_KNIT_PUBLIC_URL (https://…) in deploy/.env}
+      # Invite links (api/area_api/invites.py) set this as the access cookie.
+      CLOSE_KNIT_INVITE_TOKEN: ${CLOSE_KNIT_INVITE_TOKEN:-}
+    restart: unless-stopped
+
+  # Internal analytics UI (docs/product-analytics.md): only with COMPOSE_PROFILES=analytics,
+  # published on the host's loopback only and reached through an SSH tunnel
+  # (ssh -N -L 3300:127.0.0.1:3300 ubuntu@host). It reads the usage tables as the read-only
+  # close_knit_analytics role (migration 050, tools/grafana-role.sh), behind its own login, with
+  # sign-up, anonymous access, snapshots, public dashboards, plugin installs and phoning home off.
+  grafana:
+    image: grafana/grafana-oss:12.4.3
+    profiles: ["analytics"]
+    # Refuse to start with Grafana's default admin password or no database password.
+    entrypoint: ["/bin/sh", "-c", "[ $${#GF_SECURITY_ADMIN_PASSWORD} -ge 16 ] && [ $${#CLOSE_KNIT_GRAFANA_DB_PASSWORD} -ge 16 ] || { echo 'grafana: set CLOSE_KNIT_GRAFANA_ADMIN_PASSWORD and CLOSE_KNIT_GRAFANA_DB_PASSWORD in deploy/.env' >&2; exit 1; }; exec /run.sh"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${CLOSE_KNIT_GRAFANA_ADMIN_PASSWORD:-}
+      CLOSE_KNIT_GRAFANA_DB_PASSWORD: ${CLOSE_KNIT_GRAFANA_DB_PASSWORD:-}
+      GF_SERVER_ROOT_URL: http://localhost:3300/
+      GF_SECURITY_COOKIE_SAMESITE: strict
+      GF_SECURITY_DISABLE_GRAVATAR: "true"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_USERS_ALLOW_ORG_CREATE: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_ANALYTICS_FEEDBACK_LINKS_ENABLED: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/dashboards/product.json
+      GF_LOG_LEVEL: warn
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+      - close-knit-grafana:/var/lib/grafana
+    ports: ["127.0.0.1:3300:3000"]
+    depends_on:
+      database:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options: {max-size: "1m", max-file: "3"}
+    restart: unless-stopped
+
+volumes:
+  close-knit-caddy-data:
+  close-knit-caddy-config:
+  close-knit-grafana:

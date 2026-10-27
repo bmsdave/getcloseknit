@@ -1,0 +1,44 @@
+# Islington: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000019
+slug: islington
+name: Islington
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: https://propertylicensing.islington.gov.uk/public-register
+  page: https://www.islington.gov.uk/housing/private-sector-housing/landlords/property-licensing
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-02-01
+  end: 2031-01-31
+  url: https://www.islington.gov.uk/housing/private-sector-housing/landlords/property-licensing
+- kind: selective
+  wards:
+  - Finsbury Park
+  - Hillrise
+  - Tollington
+  start: 2024-05-20
+  end: 2029-05-19
+  url: https://www.islington.gov.uk/housing/private-sector-housing/landlords/property-licensing
+- kind: selective
+  wards:
+  - Barnsbury
+  - Caledonian
+  - Highbury
+  - Junction
+  - Laycock
+  - Mildmay
+  - Tufnell Park
+  start: 2026-11-23
+  end: 2031-11-22
+  url: https://www.islington.gov.uk/housing/private-sector-housing/landlords/property-licensing
+notes: >-
+  Register is a postcode search (Metastreet portal, reCAPTCHA); no download found. The 2024 selective dates come from a search summary of the
+  council's public notice, not re-read on the council site; the 2026 selective designation PDF confirms 2026-11-23 to 2031-11-22.

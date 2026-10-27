@@ -1,0 +1,45 @@
+# Westminster: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000033
+slug: westminster
+name: Westminster
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: https://westminster.metastreet.co.uk/public-register
+  page: https://westminster.gov.uk/housing/private-sector-housing/houses-multiple-occupation-hmo/public-hmo-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: 2025-11-19
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-08-31
+  end: 2031-08-30
+  url: https://www.westminster.gov.uk/housing/private-sector-housing/houses-multiple-occupation-hmo/additional-licensing-scheme-renewal
+- kind: selective
+  wards:
+  - Abbey Road
+  - Bayswater
+  - Church Street
+  - Harrow Road
+  - Hyde Park
+  - Knightsbridge and Belgravia
+  - Lancaster Gate
+  - Little Venice
+  - Maida Vale
+  - Marylebone
+  - Pimlico North
+  - Queen's Park
+  - Regent's Park
+  - West End
+  - Westbourne
+  start: 2025-11-24
+  end: 2030-11-23
+  url: https://www.westminster.gov.uk/housing/private-sector-housing/houses-multiple-occupation-hmo/additional-licensing-scheme-renewal
+notes: >-
+  Register is a Metastreet postcode search (reCAPTCHA v3/v2), no bulk download listed on the council page; covers mandatory and additional licences.
+  Previous additional scheme (2021-08-30 to 2026-08-30) has expired; licences granted under it stay valid to their own expiry. Selective covers 15 of 18 wards;
+  its end date is inferred from five years (third-party guide), not stated on the council page fetched.

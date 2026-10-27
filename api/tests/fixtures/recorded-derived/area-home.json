@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/uk:lsoa:E01000900/home",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-home.v1\",\"productReleaseId\":\"fixture-2026-06\",\"geographyId\":\"uk:lsoa:E01000900\",\"available\":false,\"notes\":[],\"sources\":[],\"caveats\":[\"Shares are of the area's land; the borough's own maps and planning team are the authority on what needs permission.\",\"Article 4 counts only directions that remove householder rights (extensions, roofs, porches, windows), and only from councils that publish them to planning.data.gov.uk.\",\"Conservation areas outside London are as councils publish them to planning.data.gov.uk; a council that publishes none shows no conservation share (unknown).\",\"Listed buildings are counted by list entry; one entry can be a terrace. Listing covers the whole building, inside and out.\",\"Broadband is availability (a line can be ordered), not take-up or speed in use; full fibre is the council area's figure.\",\"Settledness is from Census day, 21 March 2021, during the pandemic: students and some renters were away.\"],\"rankScope\":{\"code\":\"E12000007\",\"name\":\"London\"}}"
+}

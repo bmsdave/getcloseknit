@@ -1,0 +1,19 @@
+{
+  "name": "close-knit-extension",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:dev": "node build.mjs --dev",
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.4",
+    "@types/node": "^22.20.5",
+    "esbuild": "^0.27.0",
+    "linkedom": "^0.18.12",
+    "tsx": "^4.20.6",
+    "typescript": "5.9.3"
+  }
+}

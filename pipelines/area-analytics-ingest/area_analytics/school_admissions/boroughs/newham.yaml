@@ -1,0 +1,238 @@
+# Newham (316): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 316
+slug: newham
+name: Newham
+licence:
+  statement: The content of this website, unless otherwise stated, is copyright protected. All rights
+    reserved.
+  url: https://www.newham.gov.uk/contact-information/legal-disclaimer/1
+licence_decision: unresolved
+aliases:
+  Chobham Academy: '139703'
+  Manor Primary School: '102729'
+  St Antonys Catholic Primary School: '148025'
+  St Bonaventures RC School: '102787'
+  St Edwards Catholic Primary School: '147335'
+  St Francis Catholic Primary School: '147336'
+  St Helens Catholic Primary School: '141925'
+  St Joachims Catholic Primary School: '141927'
+  St Lukes Primary School: '102766'
+  St Michaels Catholic Primary School: '150664'
+  St Stephens Primary School: '102748'
+  St Winefrides RC Primary School: '148972'
+  St Angelas Ursuline School: '102786'
+docs:
+- phase: primary
+  year: 2019
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/305/admissionsstatisticsreception2019
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2020
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/1977/reception-class-2020-application-offer-statistics
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2021
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/3136/reception-2021-application-offer-statistics
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2022
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/9036/reception-application-and-offer-statistics-september-2022-web-version
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2023
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  accept:
+  - '''Kaizen Primary School'' [TBC]: distance not understood: ''TBC'''
+  - '''Park Primary School'' [TBC]: distance not understood: ''TBC'''
+  - '''Winsor Primary School'' [TBC]: distance not understood: ''TBC'''
+  - '''St Francis Catholic Primary School'' [TBC]: distance not understood: ''TBC'''
+  accept_note: 'Printed ''TBC'' as the criterion and distance of the final offer: no distance; offers kept.'
+  url: https://www.newham.gov.uk/downloads/file/6042/reception-class-september-2023
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2024
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/8037/reception-2024-application-offer-statistics-pdf
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2025
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/9035/reception-figures-for-web
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: primary
+  year: 2026
+  accept:
+  - '''School 21'': distance not understood: ''TBC'''
+  accept_note: 'Printed ''TBC'': no distance; offers kept.'
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/10890/reception-application-and-offer-statistics-for-web
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2019
+  accept:
+  - '''Eleanor Smith School'': no URN'
+  - '''John F Kennedy Special School'': no URN'
+  accept_note: Special schools not in table school (Eleanor Smith closed 2016, John F Kennedy 141255); both N/A; left out.
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/301/primarytosecondaryontimeoffers2019
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_preference
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2020
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  accept:
+  - '''John F Kennedy Special School'': no URN'
+  accept_note: John F Kennedy Special School (141255) is a special school, not in table school; left out.
+  url: https://www.newham.gov.uk/downloads/file/1978/year-7-class-2020-application-offer-statistics
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2021
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  accept:
+  - '''John F Kennedy Special School'': no URN'
+  accept_note: John F Kennedy Special School (141255) is a special school, not in table school; left out.
+  url: https://www.newham.gov.uk/downloads/file/2884/6-7-transition-september-2021-application-offer-statistics
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2022
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/4446/primary-to-secondary-school-transition-september-2022-application-offer-statistics-pdf-
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2023
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/5805/web-6-7-application-and-offer-figures
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2024
+  accept:
+  - '''Sarah Bonnell School'' [ALL]: distance not understood: ''Overseas'''
+  accept_note: 'Printed ''Overseas'' as the final-offer distance: no distance; offers kept.'
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/8036/primary-to-secondary-school-transition-september-2024
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+- phase: secondary
+  year: 2025
+  note: 'Criterion breakdown of on-time offers: the distance of the final offer (miles, walking unless the row''s tie-break says straight line/kilometres) and the total offered; no applicant counts.'
+  url: https://www.newham.gov.uk/downloads/file/9034/primary-to-secondary-figures-for-web
+  format: pdf-table
+  units: miles
+  method: walking
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  - total_offers
+catchment_maps: null
+notes: 'All on newham.gov.uk/downloads/file/<id>/<slug> (live 200; index page https://www.newham.gov.uk/Schooladmissionstats).
+  Per school: admission number, on-time applications, offers per criterion, total, ''criterion of final
+  offer'' and ''distance of final offer (miles)'' plus tie-break column (''Shortest Walking Distance in
+  Miles''; some academies e.g. Harris Chobham say ''Straight Line Distance''). Includes all schools incl.
+  academies/faith. Secondary 2026 (files 11080 and 11387, 2 Mar 2026) has only application/preference
+  counts, no distance table, so it is not listed. Reception 2022 original file 4517 now 404; 9036 is the
+  re-upload. 2019 secondary also has on-time+late file 302.'

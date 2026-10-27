@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/stations?q=Cam",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"station-search.v1\",\"productReleaseId\":\"fixture-2026-06\",\"results\":[]}"
+}

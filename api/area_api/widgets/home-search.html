@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Close Knit</title>
+<style>
+:root {
+  --bg: var(--color-background-primary, #ffffff);
+  --bg2: var(--color-background-secondary, #f5f5f3);
+  --fg: var(--color-text-primary, #1d1d1b);
+  --fg2: var(--color-text-secondary, #5f5f5a);
+  --line: var(--color-border-tertiary, #e3e2dd);
+  /* The site's palette: cobalt for links and good, cherry for the one action and the yarn-ball pins. */
+  --accent: #2f5bd3; --primary: #c0352c; --pin: #e2453c;
+  --good: #2f5bd3; --warn: #a8620d; --bad: #c0352c;
+  --radius: var(--border-radius-md, 10px);
+  --font: var(--font-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: var(--color-background-primary, #1f1f1d);
+  --bg2: var(--color-background-secondary, #2a2a27);
+  --fg: var(--color-text-primary, #ecebe6);
+  --fg2: var(--color-text-secondary, #a9a8a1);
+  --line: var(--color-border-tertiary, #3a3a36);
+  --accent: #8fa8ff; --primary: #e2453c; --pin: #e2453c;
+  --good: #8fa8ff; --warn: #e0a33a; --bad: #ff8a80;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 12px; font: 14px/1.45 var(--font); color: var(--fg); background: var(--bg); }
+h2 { font-size: 16px; margin: 0; }
+h3 { font-size: 14px; margin: 0; }
+a { color: var(--accent); }
+.muted { color: var(--fg2); }
+.small { font-size: 12px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.spread { justify-content: space-between; }
+.head { margin-bottom: 10px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.card { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; background: var(--bg); }
+.cards { display: grid; gap: 8px; }
+.stat { background: var(--bg2); border-radius: var(--radius); padding: 8px 10px; }
+.stat b { display: block; font-size: 16px; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; background: var(--bg2); color: var(--fg2); }
+.chip.within, .chip.below-local, .chip.in-line { background: color-mix(in srgb, var(--good) 15%, transparent); color: var(--good); }
+.chip.stretch { background: color-mix(in srgb, var(--warn) 15%, transparent); color: var(--warn); }
+.chip.over, .chip.above-local { background: color-mix(in srgb, var(--bad) 15%, transparent); color: var(--bad); }
+.rank, .pin { width: 24px; height: 24px; border-radius: 50%; background: var(--pin); color: #fff; display: inline-grid; place-items: center; font-size: 12px; font-weight: 600; flex: none; }
+.pin { padding: 0; border: 2px solid #fff; box-shadow: 0 1px 3px rgb(0 0 0 / 0.35); cursor: pointer; }
+.map { position: relative; height: 240px; border-radius: var(--radius); overflow: hidden; background: var(--bg2); }
+.map-sketch svg { display: block; width: 100%; height: 210px; }
+.map-sketch .note { padding: 0 8px; }
+.map > .map-live { position: absolute; inset: 0; opacity: 0; transition: opacity .2s; }  /* beats maplibregl-map's position: relative */
+.map > .map-live.ready { opacity: 1; }
+.mapcard { margin-bottom: 8px; padding: 4px; }
+.mapcard .attribution { padding: 2px 6px 0; }
+.card.flash { outline: 2px solid var(--pin); outline-offset: 1px; }
+.facts { display: flex; flex-wrap: wrap; gap: 2px 12px; margin-top: 6px; font-size: 12px; color: var(--fg2); }
+.fact b { font-weight: 600; color: var(--fg); }
+.fact::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; background: var(--fg2); }
+.fact.good::before { background: var(--good); }
+.fact.ok::before { background: var(--warn); }
+.fact.weak::before { background: var(--bad); }
+.glance { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.glance[hidden] { display: none; }
+h4 { font-size: 12px; margin: 10px 0 2px; color: var(--fg2); text-transform: uppercase; letter-spacing: .03em; }
+.trend svg { display: block; max-width: 100%; height: auto; }  /* redrawn at the new width on resize */
+.trend-readout { min-height: 18px; }
+.stat .sub { display: block; font-size: 11px; color: var(--fg2); }
+.score { font-size: 20px; font-weight: 600; }
+button { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+button:hover { background: var(--bg2); }
+button.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.reasons { display: none; margin-top: 8px; }
+.reasons.open { display: flex; }
+.actions { margin-top: 8px; }
+svg text { fill: var(--fg2); font: 11px var(--font); }
+.sent { font-size: 12px; color: var(--good); }
+ul.q { margin: 6px 0 0; padding-left: 18px; }
+.empty { padding: 16px; text-align: center; color: var(--fg2); }
+</style>
+</head>
+<body>
+<div id="app" class="empty">Loading area evidence…</div>
+<script>
+"use strict";
+// Minimal MCP Apps bridge (io.modelcontextprotocol/ui, protocol 2026-01-26): JSON-RPC over postMessage.
+const PROTOCOL = "2026-01-26";
+let nextId = 1;
+const pending = new Map();
+const post = (message) => window.parent.postMessage({ jsonrpc: "2.0", ...message }, "*");
+const request = (method, params) => new Promise((resolve, reject) => {
+  const id = nextId++;
+  pending.set(id, { resolve, reject });
+  post({ id, method, params });
+});
+const notify = (method, params) => post({ method, params });
+
+window.addEventListener("message", (event) => {
+  const message = event.data;
+  if (!message || message.jsonrpc !== "2.0") return;
+  if (message.id !== undefined && pending.has(message.id) && !message.method) {
+    const { resolve, reject } = pending.get(message.id);
+    pending.delete(message.id);
+    message.error ? reject(message.error) : resolve(message.result);
+    return;
+  }
+  if (message.method === "ui/notifications/tool-result") render(message.params);
+  else if (message.method === "ui/notifications/tool-input") setLoading();
+  else if (message.method === "ui/notifications/host-context-changed") applyContext(message.params);
+  else if (message.id !== undefined && message.method) post({ id: message.id, result: {} });
+});
+
+function applyContext(context) {
+  if (!context) return;
+  if (context.theme) document.documentElement.dataset.theme = context.theme;
+  const variables = context.styles && context.styles.variables;
+  if (variables) for (const [key, value] of Object.entries(variables)) {
+    if (value) document.documentElement.style.setProperty(key, value);
+  }
+}
+
+function reportSize() {
+  notify("ui/notifications/size-changed", { height: Math.ceil(document.documentElement.scrollHeight) });
+}
+new ResizeObserver(reportSize).observe(document.body);
+
+async function say(text, button) {
+  try {
+    await request("ui/message", { role: "user", content: [{ type: "text", text }] });
+    if (button) button.insertAdjacentHTML("afterend", '<span class="sent">Sent</span>');
+  } catch (error) {
+    if (button) button.insertAdjacentHTML("afterend", '<span class="muted small">Type it in the chat instead</span>');
+  }
+}
+
+async function openLink(url) {
+  try {
+    const result = await request("ui/open-link", { url });
+    if (result && result.isError) window.open(url, "_blank", "noopener");
+  } catch (error) {
+    window.open(url, "_blank", "noopener");
+  }
+}
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a[href]");
+  if (link) { event.preventDefault(); openLink(link.href); return; }
+  const button = event.target.closest("button[data-say]");
+  if (button) { say(button.dataset.say, button); return; }
+  const toggle = event.target.closest("button[data-reasons]");
+  if (toggle) { document.getElementById(toggle.dataset.reasons).classList.toggle("open"); return; }
+  const glance = event.target.closest("button[data-glance]");
+  if (glance) toggleGlance(glance);
+});
+
+// "Area at a glance": the widget fetches the overview itself, so the chat does not carry eight of them.
+async function toggleGlance(button) {
+  const slot = document.getElementById(button.dataset.slot);
+  slot.hidden = !slot.hidden;
+  button.setAttribute("aria-expanded", String(!slot.hidden));
+  button.textContent = slot.hidden ? "Area at a glance ▾" : "Hide the area ▴";
+  if (!slot.hidden && !slot.dataset.loaded) {
+    slot.innerHTML = '<span class="muted small">Loading the area…</span>';
+    try {
+      const data = toolData(await request("tools/call", {
+        name: "get_area_overview", arguments: { area_id: button.dataset.glance, bedrooms: shownBedrooms } }));
+      if (!data || !data.value) throw new Error("no overview");
+      slot.innerHTML = overviewBody(data.value);
+      drawTrends(slot);
+      slot.dataset.loaded = "1";
+    } catch (error) {
+      slot.innerHTML = `<span class="muted small">Couldn't load it here.</span>
+        <button data-say="Tell me more about ${esc(button.dataset.label)}.">Ask Claude instead</button>`;
+    }
+  }
+  reportSize();
+}
+
+request("ui/initialize", {
+  protocolVersion: PROTOCOL, appInfo: { name: "close-knit-home-search", version: "1.0.0" }, appCapabilities: {},
+}).then((result) => {
+  applyContext(result && result.hostContext);
+  notify("ui/notifications/initialized", {});
+}).catch(() => notify("ui/notifications/initialized", {}));
+
+// ---- rendering ---------------------------------------------------------------------------
+const app = document.getElementById("app");
+const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+const gbp = (value) => value == null ? "—" : "£" + Math.round(value).toLocaleString("en-GB");
+const pct = (value, digits = 0) => value == null ? "—" : (value * 100).toFixed(digits) + "%";
+const signed = (value) => value == null ? "—" : (value > 0 ? "+" : "") + value + "%";
+const FIT_LABEL = { within: "within budget", stretch: "a stretch", over: "over budget", unknown: "price unknown" };
+
+function setLoading() { app.className = "empty"; app.textContent = "Loading area evidence…"; }
+
+function toolData(result) {
+  if (!result || result.isError) return null;
+  if (result.structuredContent) return result.structuredContent;
+  try { return JSON.parse(result.content.find((block) => block.type === "text").text); } catch (error) { return null; }
+}
+
+function render(result) {
+  const data = toolData(result);
+  if (!data) { app.className = "empty"; app.textContent = "No evidence to show."; return; }
+  app.className = "";
+  const kind = data.schemaVersion;
+  if (kind === "tool-find-areas.v1" || kind === "tool-open-shared-search.v1" || kind === "tool-find-similar-areas.v1") {
+    app.innerHTML = shortlist(data);
+    drawMap(data.value.areas || []);
+  }
+  else if (kind === "tool-area-overview.v1") { app.innerHTML = overview(data.value); drawTrends(app); }
+  else if (kind === "tool-assess-listing.v1") app.innerHTML = listing(data.value);
+  else { app.className = "empty"; app.textContent = "Nothing to draw for " + kind; }
+  reportSize();
+}
+
+const FACT_LABEL = { "crime": "Crime", "station-access": "Station", "market-level": "Price level",
+  "deprivation": "Deprivation", "income": "Incomes", "affordability": "Affordability", "noise": "Noise",
+  "disorder": "Disorder", "epc-share": "EPC A–C", "leasehold-share": "Leasehold", "commute": "Commute" };
+let shownBedrooms = null;
+const cardId = (area) => "a" + area.geographyId.replace(/\W/g, "");
+const areaName = (area) => area.title || area.name;
+
+function shortlist(envelope) {
+  const value = envelope.value;
+  const similar = envelope.schemaVersion === "tool-find-similar-areas.v1";
+  const areas = value.areas || [];
+  shownBedrooms = value.bedrooms ?? null;
+  if (!areas.length) return '<div class="empty">No areas match. Try a higher budget, fewer stations, or include over-budget areas.</div>';
+  const title = similar
+    ? `Areas like ${esc(areaName(value.like))}${value.like.borough ? " (" + esc(value.like.borough) + ")" : ""}${value.cheaper ? ", cheaper" : ""}`
+    : `${areas.length} areas for ${value.market === "rent" ? "renting" : "buying"} · ${value.bedrooms} bed · up to ${gbp(value.maxBudget)}${value.market === "rent" ? "/month" : ""}`;
+  const links = value.briefUrl ? `<a class="small" href="${esc(value.briefUrl)}"><b>Open in Close Knit</b></a>` : "";
+  // A place's factor id is "place:<id>"; its label is in the search profile.
+  const placeLabels = Object.fromEntries(((value.profile || {}).places || []).map((place) => [place.id, place.label]));
+  return `<div class="row spread head"><h2>${title}</h2>${links}</div>
+    ${mapCard(areas)}
+    <div class="cards">${areas.map((area) => areaCard(area, similar, placeLabels)).join("")}</div>`;
+}
+
+function areaCard(area, similar, placeLabels) {
+  const id = cardId(area);
+  const name = areaName(area);
+  const label = `${name}${area.borough ? ", " + area.borough : ""} (${area.geographyId})`;
+  const headline = similar ? `${Math.round(area.similarity)}% similar` : `score ${area.score}`;
+  const price = area.estimatedPrice != null
+    ? `<span class="chip ${esc(area.budgetFit)}">~${gbp(area.estimatedPrice)} · ${FIT_LABEL[area.budgetFit] || ""}</span>`
+    : `<span class="chip">price level unknown</span>`;
+  const reasons = ["Too expensive", "Too far from work", "Doesn't feel safe", "Want somewhere quieter", "Want more green space"]
+    .map((reason) => `<button data-say="Not for me: ${esc(label)}. Reason: ${esc(reason.toLowerCase())}.">${esc(reason)}</button>`).join("");
+  return `<div class="card" id="${id}">
+    <div class="row spread">
+      <div class="row"><span class="rank">${area.rank}</span>
+        <div><h3>${esc(name)}</h3><div class="muted small">${esc(area.borough || "")}${area.outcodes && area.outcodes.length ? " · " + esc(area.outcodes.join(", ")) : ""}</div></div></div>
+      <div class="row"><span class="muted small">${headline}</span>${price}</div>
+    </div>
+    ${facts(area.factors || [], placeLabels)}
+    <div class="row actions">
+      <button class="primary" data-say="I like ${esc(label)}. Tell me more about it.">👍 Like</button>
+      <button data-reasons="${id}-why">👎 Not for me</button>
+      <button data-say="Find areas similar to ${esc(label)} but cheaper.">Similar but cheaper</button>
+      <button data-glance="${esc(area.geographyId)}" data-slot="${id}-glance" data-label="${esc(label)}" aria-expanded="false">Area at a glance ▾</button>
+    </div>
+    <div class="row reasons" id="${id}-why">${reasons}</div>
+    <div class="glance" id="${id}-glance" hidden></div>
+  </div>`;
+}
+
+/** One line of text per area: each factor's value, its dot coloured by how well it meets the ask. */
+function facts(factors, placeLabels) {
+  if (!factors.length) return "";
+  return `<div class="facts">${factors.map((factor) => {
+    const tone = factor.utility == null ? "" : factor.utility >= 75 ? "good" : factor.utility >= 50 ? "ok" : "weak";
+    return `<span class="fact ${tone}">${esc(factLabel(factor.factorId, placeLabels))} <b>${esc(shortValue(factor))}</b></span>`;
+  }).join("")}</div>`;
+}
+
+function factLabel(factorId, placeLabels) {
+  if (FACT_LABEL[factorId]) return FACT_LABEL[factorId];
+  const place = factorId.startsWith("place:") ? factorId.slice(6) : factorId;
+  if (placeLabels[place]) return placeLabels[place];
+  const words = place.replace(/-/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+function shortValue(factor) {
+  const value = factor.rawValue;
+  if (value == null) return "no data";
+  if (factor.unit === "minutes") return value > 60 ? "over an hour" : `~${Math.round(value)} min`;
+  if (factor.unit === "per 1,000") return `${value < 10 ? value.toFixed(1) : Math.round(value)}/1,000`;
+  if (factor.unit === "£/year" || factor.unit === "£/m²") return `£${Math.round(value).toLocaleString("en-GB")}${factor.unit === "£/m²" ? "/m²" : "/yr"}`;
+  return `${value} ${factor.unit || ""}`.trim();
+}
+
+// ---- map -----------------------------------------------------------------------------------
+// MapLibre and OpenFreeMap, as on the site; both domains are declared in the resource's CSP.
+// Until the map loads (or if the host blocks it) the sketch of relative positions shows instead.
+const MAPLIBRE = "https://cdn.jsdelivr.net/npm/maplibre-gl@6.7.0/dist/";
+const MAP_STYLE = { light: "https://tiles.openfreemap.org/styles/positron", dark: "https://tiles.openfreemap.org/styles/dark" };
+let maplibre = null;
+let liveMap = null;
+
+function loadMaplibre() {
+  maplibre ??= (async () => {
+    const css = document.createElement("link");
+    css.rel = "stylesheet"; css.href = MAPLIBRE + "maplibre-gl.css";
+    document.head.append(css);
+    const library = await import(MAPLIBRE + "maplibre-gl.mjs");
+    // A worker must be same-origin: a blob that imports the CDN module stands in for it.
+    library.setWorkerUrl(URL.createObjectURL(new Blob([`import "${MAPLIBRE}maplibre-gl-worker.mjs";`], { type: "text/javascript" })));
+    return library;
+  })();
+  return maplibre;
+}
+
+function mapCard(areas) {
+  const points = areas.filter((area) => area.center && area.center[0] != null);
+  if (!points.length) return "";
+  return `<div class="card mapcard"><div class="map" id="map"><div class="map-sketch">${dotMap(points)}</div></div>
+    <div class="muted small attribution"><a href="https://openfreemap.org">OpenFreeMap</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</div></div>`;
+}
+
+async function drawMap(areas) {
+  const holder = document.getElementById("map");
+  const points = areas.filter((area) => area.center && area.center[0] != null);
+  if (!holder || !points.length) return;
+  if (liveMap) { liveMap.remove(); liveMap = null; }
+  try {
+    const maplibregl = await loadMaplibre();
+    if (!holder.isConnected) return;
+    const canvas = document.createElement("div");
+    canvas.className = "map-live";
+    holder.append(canvas);
+    const bounds = new maplibregl.LngLatBounds(points[0].center, points[0].center);
+    points.forEach((area) => bounds.extend(area.center));
+    const map = new maplibregl.Map({
+      container: canvas, bounds, fitBoundsOptions: { padding: 32, maxZoom: 13 },
+      style: MAP_STYLE[document.documentElement.dataset.theme === "dark" ? "dark" : "light"],
+      attributionControl: false, cooperativeGestures: true,
+    });
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    for (const area of points) {
+      const pin = document.createElement("button");
+      pin.className = "pin"; pin.textContent = area.rank;
+      pin.title = areaName(area); pin.setAttribute("aria-label", `${area.rank}: ${areaName(area)}`);
+      pin.addEventListener("click", () => flashCard(cardId(area)));
+      new maplibregl.Marker({ element: pin }).setLngLat(area.center).addTo(map);
+    }
+    map.once("load", () => { canvas.classList.add("ready"); holder.querySelector(".map-sketch")?.remove(); });
+    // The host may resize the frame (phone rotation, side panel): keep every pin in view.
+    map.on("resize", () => map.fitBounds(bounds, { padding: 32, maxZoom: 13, animate: false }));
+    liveMap = map;
+  } catch (error) {
+    // The sketch stays: the host blocked the library or WebGL is unavailable.
+  }
+}
+
+function flashCard(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.classList.add("flash");
+  setTimeout(() => card.classList.remove("flash"), 1600);
+}
+
+function dotMap(points) {
+  if (points.length < 2) return "";
+  const width = 560, height = 150, pad = 18;
+  const lons = points.map((p) => p.center[0]), lats = points.map((p) => p.center[1]);
+  const minX = Math.min(...lons), maxX = Math.max(...lons), minY = Math.min(...lats), maxY = Math.max(...lats);
+  const scale = Math.min((width - 2 * pad) / Math.max(maxX - minX, 0.005) / Math.cos(51.5 * Math.PI / 180),
+                         (height - 2 * pad) / Math.max(maxY - minY, 0.005));
+  const x = (lon) => width / 2 + (lon - (minX + maxX) / 2) * scale * Math.cos(51.5 * Math.PI / 180);
+  const y = (lat) => height / 2 - (lat - (minY + maxY) / 2) * scale;
+  const placed = [];
+  const dots = points.map((p) => {
+    const cx = x(p.center[0]), cy = y(p.center[1]);
+    // Close neighbours keep only the first label; the rank number still identifies the dot.
+    const crowded = placed.some((q) => Math.abs(q.y - cy) < 14 && Math.abs(q.x - cx) < 110);
+    placed.push({ x: cx, y: cy });
+    const label = crowded ? "" : `<text x="${(cx + 13).toFixed(1)}" y="${(cy + 4).toFixed(1)}">${esc(areaName(p))}</text>`;
+    return `<g><circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="9" fill="var(--pin)"></circle>
+      <text x="${cx.toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="middle" style="fill:#fff;font-weight:600">${p.rank}</text>${label}</g>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Where the areas are">${dots}</svg>
+    <div class="muted small note">Loading the map… meanwhile, relative positions (north up).</div>`;
+}
+
+// ---- price trend -----------------------------------------------------------------------------
+// Drawn after insertion at the holder's real width, so the axis labels stay readable on a phone.
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthName = (period) => `${MONTHS[Number(period.slice(5, 7)) - 1]} ${period.slice(0, 4)}`;
+
+function trendChart(points) {
+  if (!points || points.length < 3) return '<div class="muted small">Not enough sales for a price trend.</div>';
+  const series = esc(JSON.stringify(points.map((point) => [point.period, point.value])));
+  return `<div class="trend" data-series="${series}"></div><div class="trend-readout small muted"></div>`;
+}
+
+function drawTrends(root = document) {
+  root.querySelectorAll(".trend[data-series]").forEach(drawTrend);
+}
+
+function drawTrend(holder) {
+  const series = JSON.parse(holder.dataset.series);
+  const width = Math.max(240, holder.clientWidth), height = 150;
+  const left = 62, right = 10, top = 8, bottom = 22;
+  const values = series.map((point) => point[1]);
+  const min = Math.min(...values), max = Math.max(...values);
+  // Round £/m² ticks: the smallest step that needs no more than four of them.
+  const step = [100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000].find((s) => Math.ceil(max / s) - Math.floor(min / s) <= 4) || 20000;
+  const low = Math.floor(min / step) * step, high = Math.max(Math.ceil(max / step) * step, low + step);
+  const x = (i) => left + i * (width - left - right) / (series.length - 1);
+  const y = (v) => top + (high - v) / (high - low) * (height - top - bottom);
+  const yTicks = [];
+  for (let v = low; v <= high; v += step) yTicks.push(v);
+  const years = series.map((point, i) => [point[0], i]).filter(([period]) => period.endsWith("-01"));
+  const every = years.length > 6 ? 2 : 1;
+  const grid = yTicks.map((v) => `<line x1="${left}" x2="${width - right}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="var(--line)"></line>
+    <text x="${left - 6}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end">${gbp(v)}</text>`).join("");
+  const xLabels = years.filter((_, k) => k % every === 0).map(([period, i]) =>
+    `<line x1="${x(i).toFixed(1)}" x2="${x(i).toFixed(1)}" y1="${height - bottom}" y2="${height - bottom + 4}" stroke="var(--fg2)"></line>
+    <text x="${x(i).toFixed(1)}" y="${height - 6}" text-anchor="middle">${period.slice(0, 4)}</text>`).join("");
+  const path = series.map((point, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(point[1]).toFixed(1)}`).join("");
+  holder.innerHTML = `<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img"
+      aria-label="Median price per square metre, ${esc(monthName(series[0][0]))} to ${esc(monthName(series[series.length - 1][0]))}: from ${gbp(min)} to ${gbp(max)} per m²">
+    ${grid}${xLabels}
+    <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2"></path>
+    <line class="cursor" y1="${top}" y2="${height - bottom}" stroke="var(--fg2)" stroke-dasharray="3 3" visibility="hidden"></line>
+    <circle class="cursor" r="4" fill="var(--accent)" stroke="var(--bg)" stroke-width="2" visibility="hidden"></circle>
+    <rect x="${left}" y="${top}" width="${width - left - right}" height="${height - top - bottom}" fill="transparent"></rect></svg>`;
+  const readout = holder.nextElementSibling;
+  const show = (i, latest) => {
+    const [period, value] = series[i];
+    readout.innerHTML = `<b>${esc(monthName(period))}</b> · ${gbp(value)}/m²${latest ? " (latest)" : ""}`;
+    const [line, dot] = holder.querySelectorAll(".cursor");
+    line.setAttribute("x1", x(i)); line.setAttribute("x2", x(i));
+    dot.setAttribute("cx", x(i)); dot.setAttribute("cy", y(value));
+    for (const mark of [line, dot]) mark.setAttribute("visibility", "visible");
+  };
+  show(series.length - 1, true);
+  const svg = holder.querySelector("svg");
+  svg.addEventListener("pointermove", (event) => {
+    const box = svg.getBoundingClientRect();
+    const at = (event.clientX - box.left) * width / box.width;
+    const i = Math.round((at - left) / (width - left - right) * (series.length - 1));
+    show(Math.max(0, Math.min(series.length - 1, i)), i >= series.length - 1);
+  });
+  svg.addEventListener("pointerleave", () => show(series.length - 1, true));
+}
+window.addEventListener("resize", () => drawTrends());
+
+function overview(area) {
+  const name = areaName(area);
+  const links = area.links || {};
+  return `<div class="row spread head"><div><h2>${esc(name)}</h2><div class="muted small">${esc(area.borough || "")}${area.outcodes && area.outcodes.length ? " · " + esc(area.outcodes.join(", ")) : ""}</div></div>
+      <div class="row small">${links.evidencePack ? `<a href="${esc(links.evidencePack)}">Evidence pack</a>` : ""}${links.map ? `<a href="${esc(links.map)}">Map</a>` : ""}</div></div>
+    ${overviewBody(area)}
+    <div class="row actions">
+      <button class="primary" data-say="Shortlist ${esc(name)} (${esc(area.geographyId)}) and show me listings there.">Show listings here</button>
+      <button data-say="Find areas similar to ${esc(name)} (${esc(area.geographyId)}) but cheaper.">Similar but cheaper</button>
+    </div>`;
+}
+
+/** The area at a glance, as on its Close Knit page: price and trend, safety, noise, getting around, schools. */
+function overviewBody(area) {
+  const market = area.market || {};
+  const growth = market.growth || {};
+  const crime = area.crime || {};
+  const noise = area.noise || {};
+  const estimate = area.estimate;
+  const trend = area.priceTrend || [];
+  const stats = [
+    ["Typical £/m²", market.resale ? gbp(market.resale.medianPricePerSquareMetre) : trend.length ? gbp(trend[trend.length - 1].value) : "—",
+      `${signed(growth.growth1y)} in 1 year · ${signed(growth.growth5y)} in 5`],
+    estimate ? [`Ballpark ${estimate.assumedFloorArea || ""} m² home`, gbp(estimate.estimatedPrice), "a ballpark, not a valuation"] : null,
+    ["Sales in 12 months", market.salesCount ?? "—", market.turnoverPercent != null ? `${market.turnoverPercent}% of homes a year` : ""],
+    ["Crime per 1,000", crime.value ?? "—", crime.regionPercentile != null ? `London percentile ${crime.regionPercentile}` : ""],
+    ["Homes above 55 dB", pct(noise.any55Share), "road, rail or aircraft noise"],
+    ["Leasehold sales", pct(market.leaseholdShareOfSales), ""],
+  ].filter(Boolean);
+  const schools = ((area.schools || {}).nearest || []).slice(0, 3).map((school) =>
+    `<li>${esc(school.name)} <span class="muted small">· ${esc(school.phase)} · ${Math.round(school.distanceMetres)} m · ${esc(school.latestInspection || "no inspection")}</span></li>`).join("");
+  const links = area.links || {};
+  return `<div class="grid">${stats.map(([label, value, sub]) =>
+      `<div class="stat"><span class="muted small">${esc(label)}</span><b>${esc(value)}</b>${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`).join("")}</div>
+    ${trend.length >= 3 ? `<h4>Price per m² over time</h4>${trendChart(trend)}` : ""}
+    ${gettingAround(area.gettingAround)}
+    ${schools ? `<h4>Nearest state schools</h4><ul class="q">${schools}</ul>` : ""}
+    ${links.area ? `<div class="small" style="margin-top:6px"><a href="${esc(links.area)}">Full area page on Close Knit</a></div>` : ""}`;
+}
+
+function gettingAround(around) {
+  if (!around) return "";
+  const stations = (around.stations || []).map((station) => {
+    const how = [(station.lines || []).map((line) => line.name || line).join(", ") || (station.modes || []).join(", "), station.zone ? "zone " + station.zone : ""].filter(Boolean).join(" · ");
+    return `<li>${esc(station.name)} <span class="muted small">· ${esc(how)} · ${station.walkMinutes} min walk</span></li>`;
+  }).join("");
+  const park = around.nearestPark;
+  return `<h4>Getting around${around.connectivityScore != null ? ` <span class="muted">· connectivity ${around.connectivityScore}/10</span>` : ""}</h4>
+    ${stations ? `<ul class="q">${stations}</ul>` : '<div class="muted small">No station nearby.</div>'}
+    ${park ? `<div class="small" style="margin-top:4px">Nearest park: ${esc(park.name)} <span class="muted">· ${esc(park.sizeClass)} · ${park.walkMinutes} min walk</span></div>` : ""}`;
+}
+
+function listing(value) {
+  const price = value.price || {};
+  const area = value.area || {};
+  const local = value.localMarket || {};
+  const reference = price.askingPerSqm != null ? price.localResaleMedianPerSqm : price.typicalEstimate;
+  const asking = price.askingPerSqm != null ? price.askingPerSqm : value.listing.askingPrice;
+  const unit = price.askingPerSqm != null ? "/m²" : "";
+  const verdictText = { "below-local": "Below local prices", "in-line": "In line with local prices",
+    "above-local": "Above local prices", "unknown": "No price comparison" }[price.verdict] || price.verdict;
+  let bars = "";
+  if (reference) {
+    const top = Math.max(reference, asking) * 1.1;
+    bars = `<div class="bars">
+      <div class="bar"><span>Asking</span><span class="track"><span class="fill" style="width:${asking / top * 100}%"></span></span><span>${gbp(asking)}${unit}</span></div>
+      <div class="bar"><span>${price.askingPerSqm != null ? "Local median" : "Local ballpark"}</span><span class="track"><span class="fill" style="width:${reference / top * 100}%;opacity:.5"></span></span><span>${gbp(reference)}${unit}</span></div>
+    </div>`;
+  }
+  const questions = (value.questions || []).map((question) => `<li>${esc(question)}</li>`).join("");
+  return `<div class="row spread head"><div><h2>${esc(value.listing.postcode)} · ${gbp(value.listing.askingPrice)}${value.listing.market === "rent" ? "/month" : ""}</h2>
+      <div class="muted small">${esc(area.name || "")}${area.borough ? ", " + esc(area.borough) : ""}${value.listing.url ? ` · <a href="${esc(value.listing.url)}">listing</a>` : ""}</div></div>
+      <span class="chip ${esc(price.verdict)}">${esc(verdictText)}${price.differencePercent != null ? " (" + signed(price.differencePercent) + ")" : ""}</span></div>
+    ${bars}${price.note ? `<div class="muted small">${esc(price.note)}</div>` : ""}
+    <div class="grid" style="margin-top:8px">
+      <div class="stat"><span class="muted small">Sales last 12 months</span><b>${esc(local.salesCount ?? "—")}</b></div>
+      <div class="stat"><span class="muted small">£/m² growth 1y</span><b>${esc(signed((local.growth || {}).growth1y))}</b></div>
+      <div class="stat"><span class="muted small">Crime per 1,000</span><b>${esc((value.crime || {}).value ?? "—")}</b></div>
+      <div class="stat"><span class="muted small">Schools within 1.5 km</span><b>${esc((value.schools || {}).count ?? "—")}</b></div>
+    </div>
+    ${questions ? `<div class="card" style="margin-top:8px"><h3>Ask the agent</h3><ul class="q">${questions}</ul></div>` : ""}`;
+}
+</script>
+</body>
+</html>

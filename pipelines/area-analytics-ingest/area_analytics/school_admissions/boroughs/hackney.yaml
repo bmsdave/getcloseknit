@@ -1,0 +1,246 @@
+# Hackney (204): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 204
+slug: hackney
+name: Hackney
+licence:
+  statement: The material featured on the Hackney Education website is subject to copyright protection
+    unless otherwise indicated. Copyright protected material may be downloaded free of charge ... without
+    requiring specific permission
+  url: https://education.hackney.gov.uk/content/terms-use
+licence_decision: unresolved
+aliases:
+  Be y Layward Primary School: '131706'      # 'Betty': the PDF drops the 'tt' ligature
+  Nigh ngale Primary School: '100254'        # 'Nightingale': 'ti' ligature dropped
+  William Pa en Primary School: '130932'     # 'Patten': 'tt' ligature dropped
+  Gayhurst Primary School: '130303'
+  Springfield Primary School: '121792'
+  Woodberry Down Primary School: '100248'
+  Gainsborough Community Primary School: '100225'
+  The Urswick CE School: '100284'
+skip_schools:
+  Baden Powell School: closed 30-08-2024; GIAS links it to a school printed beside it (one URN)
+  Colvestone Primary School: closed 30-08-2024; GIAS links it to a school printed beside it (one URN)
+  Oldhill Community School: closed 31-08-2025; GIAS links it to a school printed beside it (one URN)
+  Oldhill Community Primary: closed 31-08-2025; GIAS links it to a school printed beside it (one URN)
+  Sir Thomas Abney School: closed 31-08-2025; GIAS links it to a school printed beside it (one URN)
+docs:
+- phase: primary
+  year: 2019
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: primary
+  year: 2020
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: primary
+  year: 2021
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'De Beauvoir Primary School': no URN"
+  - "'Randal Cremer Primary School': no URN"
+  - "'Tyssen Community Primary School': no URN"
+  accept_note: De Beauvoir and Randal Cremer closed 31-08-2024 with no successor in GIAS; Tyssen is not
+    in the GIAS London extract. Left out.
+
+- phase: primary
+  year: 2022
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'De Beauvoir Primary School': no URN"
+  - "'Randal Cremer Primary School': no URN"
+  - "'Tyssen Community Primary School': no URN"
+  accept_note: De Beauvoir and Randal Cremer closed 31-08-2024 with no successor in GIAS; Tyssen is not
+    in the GIAS London extract. Left out.
+
+- phase: primary
+  year: 2023
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'De Beauvoir Primary School': no URN"
+  - "'Randal Cremer Primary School': no URN"
+  - "'Tyssen Community Primary School': no URN"
+  accept_note: De Beauvoir and Randal Cremer closed 31-08-2024 with no successor in GIAS; Tyssen is not
+    in the GIAS London extract. Left out.
+  ignore_distance:
+    Orchard Primary School: printed 10.015 miles, over the 10-mile review limit; not a plausible cut-off
+
+- phase: primary
+  year: 2024
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Primary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  ignore_distance:
+    Millfields Community School: printed 180.137 miles; not a plausible cut-off
+    Parkwood Primary School: printed 350.244 miles; not a plausible cut-off
+
+- phase: primary
+  year: 2025
+  url: https://education.hackney.gov.uk/sites/default/files/document/How%20Places%20Were%20Offered%20-%20Reception%202025.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  ignore_distance:
+    Millfields Community School: printed 352.024 miles; not a plausible cut-off
+    Princess May Primary School: printed 350.975 miles; not a plausible cut-off
+    Queensbridge Primary School: printed 350.914 miles; not a plausible cut-off
+
+- phase: primary
+  year: 2026
+  url: https://education.hackney.gov.uk/sites/default/files/document/How%20Places%20Were%20Offered%20-%20Reception%202026.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  ignore_distance:
+    Hoxton Garden Primary School: printed 350.333 miles; not a plausible cut-off
+
+- phase: secondary
+  year: 2019
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Secondary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2020
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Secondary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2021
+  url: https://education.hackney.gov.uk/sites/default/files/document/Applications%20and%20Offers%20at%20Hackney%20Secondary%20Schools%202018-26.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20250410210017/https://education.hackney.gov.uk/sites/default/files/document/How%20Places%20Were%20Offered%20-%20Secondary%20Transfer%202022.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20230613203902/https://education.hackney.gov.uk/sites/default/files/document/How%20places%20were%20offered%20-%20Secondary%20Transfer%202023.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'The Petchey Academy': no URN"
+  accept_note: The Petchey Academy is in neither table school nor the GIAS London extract (2026-10-11);
+    left out.
+
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240805073815/https://education.hackney.gov.uk/sites/default/files/document/How%20Places%20Were%20Offered%20-%20Secondary%20Transfer%202024.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'The Petchey Academy': no URN"
+  accept_note: The Petchey Academy is in neither table school nor the GIAS London extract (2026-10-11);
+    left out.
+  ignore_distance:
+    The Urswick CE School / Community Band B: printed 351.708 miles; not a plausible cut-off
+    The Urswick CE School / Community Band D: printed 351.708 miles; not a plausible cut-off
+
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20260118065844/https://education.hackney.gov.uk/sites/default/files/document/How%20Places%20Were%20Offered%20-%20Secondary%20Transfer%202025.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'The Petchey Academy': no URN"
+  accept_note: The Petchey Academy is in neither table school nor the GIAS London extract (2026-10-11);
+    left out.
+  ignore_distance:
+    All Saints Catholic High School: printed 10.7 miles, over the 10-mile review limit; not a plausible cut-off
+    The Bridge Academy / Band A: printed 350.77 miles; not a plausible cut-off
+    The Urswick CE School / Community Band D: printed 351.708 miles; not a plausible cut-off
+
+- phase: secondary
+  year: 2026
+  url: https://education.hackney.gov.uk/sites/default/files/document/How%20places%20were%20offered%20-%20Secondary%20Transfer%202026.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'The Petchey Academy': no URN"
+  accept_note: The Petchey Academy is in neither table school nor the GIAS London extract (2026-10-11);
+    left out.
+  ignore_distance:
+    Haggerston School / Band A: printed 350.7 miles; not a plausible cut-off
+catchment_maps: null
+notes: 'Best-covered LA. Live cumulative compendia "Applications and Offers at Hackney Primary/Secondary
+  Schools 2018-26" (31 and 34 pages) cover every year 2018-2026 for both phases and are the simplest single
+  source. Each year''s section is a "How places were offered" table. Primary: per school, places, total
+  applications, offers by criterion, "Max Distance (last child offered in miles)"; 2018-2020 pages print
+  the distance in brackets, e.g. "47 (0.486)". Secondary: per school and ability band, offers by criterion
+  and "Maximum Distance (miles)". Standalone per-year files are also archived: Reception 2022 (CDX 20250410211240),
+  2023-2025; Secondary Transfer 2022-2026. Measurement method is not stated in the files. hackney.gov.uk
+  (the council site) says its data is free to re-use under the Open Government Licence, but education.hackney.gov.uk
+  carries only the copyright and free-download statement quoted.'

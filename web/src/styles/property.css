@@ -1,0 +1,216 @@
+/* Property page and postcode home list (track K: components/property-profile.tsx). */
+.property-page { padding: 24px 0 80px; color: var(--ink); }
+.property-page h1 { margin: 0 0 12px; font-size: clamp(24px, 4vw, 34px); line-height: 1.15; overflow-wrap: anywhere; }
+.property-page h1 + .property-summary { max-width: 62ch; margin: -4px 0 14px; color: var(--muted); font-size: var(--fs-md, 1rem); line-height: 1.5; }
+.property-page h2 { display: flex; align-items: center; gap: 4px; margin: 0 0 12px; font-size: 18px; }
+.property-page .back-link { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 8px; }
+.property-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
+.property-button {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--rule);
+  border-radius: 999px; background: var(--chip); color: var(--ink); font: inherit; font-size: 14px; font-weight: 700;
+  text-decoration: none; cursor: pointer;
+}
+.property-button:hover { background: var(--ink); color: var(--on-ink); }
+.property-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.property-button--primary { border-color: var(--primary); background: var(--primary); color: var(--on-primary); }
+.property-button--primary:hover { background: color-mix(in srgb, var(--primary) 86%, var(--ink)); border-color: color-mix(in srgb, var(--primary) 86%, var(--ink)); color: var(--on-primary); }
+.property-share { display: inline-flex; align-items: center; gap: 8px; }
+.property-share__status { color: var(--muted); font-size: 13px; }
+.property-share__status:empty { display: none; }
+/* "More": outbound links in one small menu under its pill. */
+.property-more { position: relative; }
+.property-more > summary { list-style: none; }
+.property-more > summary::-webkit-details-marker { display: none; }
+/* "⋯": a round pill, as the area page's; the menu holds the map, Share, Report and the area page. */
+.property-more > summary { justify-content: center; min-width: 44px; padding: 0 12px; font-size: var(--fs-lg, 1.125rem); }
+.property-actions .save-home--heart { display: inline-flex; }
+.property-actions .save-heart { background: var(--chip); }
+.property-actions .save-heart:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.property-more__menu {
+  position: absolute; z-index: 5; top: calc(100% + 6px); right: 0; display: grid; min-width: 200px; padding: 6px;
+  border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+}
+.property-more__menu :is(a, .property-more__item) {
+  display: flex; align-items: center; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: 8px;
+  background: none; color: var(--ink); font: inherit; font-weight: 700; text-align: left; text-decoration: none; cursor: pointer;
+}
+.property-more__menu :is(a, .property-more__item):hover { background: var(--chip); }
+.property-more__menu :is(a, .property-more__item):focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.property-more__menu .property-share { display: grid; gap: 0; }
+.property-more__menu .property-share__status { padding: 0 12px 6px; }
+/* Home page: the folded Tools block (the investor calculator), after the area sections. */
+.home-tools { margin: 20px 0 0; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.home-tools > summary {
+  display: flex; align-items: center; min-height: 52px; padding: 0 22px; border-radius: inherit; color: var(--ink);
+  font: 700 var(--fs-xl)/1.1 var(--font-display); letter-spacing: -0.02em; cursor: pointer;
+}
+.home-tools > summary:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.home-tools[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.home-tools > :not(summary) { margin: 0; padding: 0 16px 16px; }
+.home-tools .methodology-card { margin-top: 16px; padding: var(--space-5); }
+.home-tools__status { color: var(--muted); }
+/* Home page: one mini map, after the price block on phones (the price stays in the first screen) and, from
+   760px, lifted by the page grid into the header's row, beside the address and actions. */
+.home-mini-map { display: grid; gap: 4px; margin: 20px 0 0; }
+@media (min-width: 760px) {
+  .home-page { display: grid; grid-template-columns: minmax(0, 1fr) 300px; column-gap: 24px; }
+  .home-page > * { grid-column: 1 / -1; min-width: 0; }
+  .home-page > .home-head { grid-row: 2; padding-right: 324px; }
+  /* Level with the breadcrumbs (area-pages.css: margin-top 22px). */
+  .home-page > .home-mini-map { grid-column: 2; grid-row: 2; align-self: start; margin-top: 22px; }
+}
+.home-mini-map__frame { position: relative; height: 200px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--chip); }
+.home-mini-map__canvas { width: 100%; height: 100%; }
+/* A 44px target (DESIGN.md §7). */
+.home-mini-map__open {
+  position: absolute; left: var(--space-2); bottom: var(--space-2); display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--space-3);
+  border-radius: var(--radius-pill); background: var(--panel-solid); color: var(--ink); font-size: var(--fs-xs); font-weight: 700; text-decoration: none;
+}
+.home-mini-map__open:hover { background: var(--chip); }
+.home-mini-map__open:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.home-mini-map__links-note { color: var(--muted); font-size: var(--fs-xs); }
+/* 6px between the zoom buttons: off the 4px scale, kept literal (DESIGN.md §2). */
+.home-mini-map__zoom { position: absolute; top: var(--space-2); right: var(--space-2); display: grid; gap: 6px; }
+.home-mini-map__note { position: absolute; inset: var(--space-2) auto auto var(--space-2); margin: 0; color: var(--muted); font-size: var(--fs-xs); }
+.home-mini-map__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-3); }
+.home-mini-map__layer { flex: 1 1 120px; min-width: 0; }
+.home-mini-map__links { display: flex; gap: var(--space-3); }
+.home-mini-map__links a { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--fs-sm); font-weight: 700; text-underline-offset: 3px; }
+/* The home: a plain filled dot with a thin surface ring (DESIGN.md › Dot). */
+.home-mini-map__pin { width: 14px; height: 14px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 2px var(--surface); }
+/* Phones pinch (DESIGN.md §7): no +/−. The map sits after the price block there, so it keeps a fair height. */
+@media (max-width: 560px) { .home-mini-map__frame { height: 150px; } .home-mini-map__zoom { display: none; } }
+/* Beside the mini map the pills wrap anywhere, so "More" opens from the left edge of their row, never off-screen. */
+.home-head .property-actions { position: relative; }
+.home-head .property-more { position: static; }
+.home-head .property-more__menu { left: 0; right: auto; max-width: calc(100vw - 32px); }
+/* Last sale → estimate, one row. */
+/* Sales history: table on wide screens, stacked rows on phones. */
+.property-sales-rows { display: none; margin: 0 0 8px; padding: 0; list-style: none; }
+.property-sales-rows li { padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 15px; font-variant-numeric: tabular-nums; }
+.property-link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-underline-offset: 3px; }
+.property-card { margin-top: 20px; padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.property-card--fine { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.property-card--fine ul { margin: 0 0 10px; padding-left: 18px; }
+.property-meta { margin: 4px 0; color: var(--muted); font-size: 14px; }
+.property-notice {
+  display: inline-flex; align-items: center; gap: 4px; margin: 10px 0; padding: 4px 10px; border-radius: 999px;
+  background: var(--note); color: var(--ink); font-size: 13px; font-weight: 700;
+}
+.property-notice--demo { margin-right: 8px; }
+.property-figures, .property-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px 22px; margin: 16px 0 0; }
+.property-figures dt, .property-facts dt { display: flex; align-items: center; color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.property-figures dd, .property-facts dd { margin: 4px 0 0; font-size: 17px; font-weight: 700; }
+.property-figures dd span { display: block; color: var(--muted); font-size: 13px; font-weight: 400; }
+/* Prices in this area today: the lead sentence, a satin strip of six bands, the position and bridge lines. */
+.area-prices__lead { margin: 4px 0 2px; font-size: var(--fs-lg, 1.125rem); font-weight: 700; line-height: 1.35; }
+.area-prices__position, .area-prices__bridge { margin: 10px 0 0; font-size: var(--fs-sm, .875rem); }
+.area-prices__bridge { padding: 8px 12px; border-left: 3px solid var(--yarn-cherry); background: var(--note); }
+.area-prices__none { margin: 6px 0 0; font-size: var(--fs-sm, .875rem); }
+.area-prices [data-testid="area-prices-guide"] { display: inline-flex; align-items: center; min-height: 44px; }
+.area-prices__footer { margin: 14px 0 4px; color: var(--muted); font-size: var(--fs-xs, .8125rem); }
+.price-bands { margin: 14px 0 0; }
+.price-bands__strip { display: block; width: 100%; height: 16px; overflow: visible; }
+.price-bands__ticks { position: relative; height: 18px; margin-top: 4px; }
+.price-bands__ticks span {
+  position: absolute; top: 0; transform: translateX(-50%); color: var(--muted);
+  font-size: var(--fs-2xs, .75rem); font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.price-bands__key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 4px; color: var(--muted); font-size: var(--fs-2xs, .75rem); }
+.price-bands__key span { display: inline-flex; align-items: center; gap: 6px; }
+.price-bands__swatch { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+.price-bands__swatch--middle { background: var(--yarn-sky); }
+/* The home's band in cobalt, never alarm red. */
+.price-bands__swatch--home { background: var(--yarn-cobalt); }
+/* Wide tables scroll inside a labelled, focusable region (role=region, tabindex=0): keys can scroll it too. */
+.property-table-wrap { overflow-x: auto; max-width: 100%; border-radius: 10px; }
+.property-table-wrap:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Homes on a phone: a card per home, its facts as a two-column list of terms. */
+.property-home-cards { display: none; margin: 14px 0 10px; padding: 0; list-style: none; }
+.property-home-cards > li { padding: 12px 0; background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--field-line) 50%, transparent) 0 5px, transparent 5px 6.25px) left bottom / 100% 1.3px no-repeat; }
+.property-home-cards > li:last-child { background: none; }
+.property-page .property-home-cards__name { margin: 0 0 6px; font-size: 16px; overflow-wrap: break-word; }
+.property-home-cards__name a { display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 3px; }
+.property-home-cards dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 16px; margin: 0; }
+.property-home-cards dt { color: var(--muted); font-size: 12px; font-weight: 700; }
+.property-home-cards dd { margin: 0; font-size: 14px; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.property-homes td:first-child { min-width: 180px; }
+/* Every row one line; Report sits in its own narrow column, not under the address. */
+.property-homes td.property-homes__report { width: 1%; padding-top: 0; padding-bottom: 0; white-space: nowrap; }
+.property-homes tbody tr { height: 46px; }
+/* The homes list's title with On map and Watch beside it. */
+.postcode-homes-title { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; }
+.postcode-homes-title h1 { margin: 0; }
+.postcode-homes-title__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* "Report or hide" under each home's address: quiet, but a full-size target. */
+.property-report { display: flex; align-items: center; width: fit-content; min-height: 44px; color: var(--muted); font-size: 13px; font-weight: 700; text-underline-offset: 3px; }
+.property-report:hover { color: var(--ink); }
+.property-report:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.property-list { display: grid; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.property-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding: 8px 0; border-bottom: 1px solid var(--rule); }
+.property-list a { display: inline-flex; align-items: center; min-height: 24px; font-weight: 700; text-underline-offset: 3px; }
+@media (max-width: 560px) {
+  .property-page { padding-top: 24px; }
+  .property-card { padding: 16px; }
+  .property-figures, .property-facts { grid-template-columns: 1fr 1fr; }
+  .property-page .back-link { margin-bottom: 0; }
+  .property-sales-table, .property-homes-table { display: none; }
+  .property-sales-rows, .property-home-cards { display: block; }
+}
+/* Narrow phones: "More" opens from the left edge of its row of pills, never off-screen (it used to sit at −103px at 320). */
+@media (max-width: 400px) {
+  .property-actions { position: relative; }
+  .property-more { position: static; }
+  .property-more__menu { left: 0; right: auto; max-width: calc(100vw - 32px); }
+}
+
+/* Plan & check a home (area page): the cost worksheet's fields, its budget line and "More costs". */
+.cost-fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 16px; }
+.cost-fields > label { display: grid; gap: 4px; min-width: 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+.cost-fields input { height: 44px; font-size: 16px; font-variant-numeric: tabular-nums; }
+.cost-worksheet > .cost-budget { margin: 4px 0; color: var(--ink); font-size: 18px; font-weight: 800; }
+.cost-worksheet > .cost-budget[data-over] { color: var(--danger); }
+.cost-worksheet > .cost-cash { color: var(--ink); font-size: 14px; }
+.cost-cash span { color: var(--muted); }
+.cost-more > summary, .agent-questions__tools a, .leasehold-note__links a { cursor: pointer; }
+.cost-more > summary { display: inline-flex; align-items: center; min-height: 44px; margin: 4px 0; font-weight: 700; }
+.cost-more[open] > summary { margin-bottom: 8px; }
+/* Questions to ask the agent: five ticks, then the money tools. */
+.agent-questions, .leasehold-note { margin-top: 18px; }
+.agent-questions h3, .leasehold-note h3 { margin: 0 0 6px; font-size: 17px; }
+.agent-questions__progress, .agent-questions__note { margin: 0 0 8px; color: var(--muted); font-size: 13px; }
+.agent-questions__list { display: grid; gap: 4px; margin: 0 0 10px; padding: 0; list-style: none; }
+.agent-questions__list label { display: flex; align-items: flex-start; gap: 12px; min-height: 44px; padding: 8px 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+.agent-questions__list input { flex: none; width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink); }
+.agent-questions__list span { display: grid; gap: 2px; }
+.agent-questions__list strong { font-size: 15px; }
+.agent-questions__list small { color: var(--muted); font-size: 13px; }
+.agent-questions__tools, .leasehold-note p { margin: 0 0 8px; font-size: 14px; line-height: 1.5; }
+.leasehold-note__links { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.agent-questions__tools a, .leasehold-note__links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+/* Viewing checklist: each question as a short label, the full question behind its (?). */
+.viewing-question__label { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; margin: 8px 0 4px; font-weight: 700; }
+
+/* Print (and Save as PDF): the record, not the controls. Black on white like the evidence pack (globals.css › .market-pack). */
+@media print {
+  .property-page .site-header, .property-page .back-link, .property-actions, .property-page .help-tip,
+  .property-page .home-correction, .property-page .property-report, .property-page .property-button,
+  .property-page .home-mini-map { display: none !important; }
+  /* Paper is white whatever the screen theme: Night's light ink would vanish on it. */
+  body:has(.property-page) { background: #fff; }
+  .property-page { width: auto; padding: 0; color: #000; }
+  .property-page :is(h1, h2, h3, h4, p, li, dt, dd, th, td, span, strong, b, small, a, figcaption, text) { color: #000 !important; }
+  .property-page .property-card { margin-top: 12px; padding: 0; border: 0; background: none; break-inside: avoid; }
+  .property-page :is(.property-notice, .area-prices__bridge, .fact-grid > div) { border: 1px solid #000; background: none; }
+  /* The band strip keeps its colours on paper; the sentences beside it carry every figure. */
+  .property-page .price-bands__strip { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  /* Tables print whole: no scroll box, and the wide table rather than the phone cards. */
+  .property-page .property-table-wrap { display: block !important; overflow: visible; }
+  .property-page :is(.property-sales-rows, .property-home-cards) { display: none !important; }
+  .property-page a[href^="http"]::after { content: " <" attr(href) ">"; font-size: .8em; word-break: break-all; }
+}
+
+/* Block 6, Overview: the layers' tiles, then flood, air and broadband as chips. */
+.home-overview__chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0 0; padding: 0; list-style: none; }
+.home-overview__summary { margin: 0 0 var(--space-3); max-width: 70ch; }

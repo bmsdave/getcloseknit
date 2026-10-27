@@ -1,0 +1,41 @@
+# Harrow: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000015
+slug: harrow
+name: Harrow
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: http://assurepp.harrow.gov.uk/NECSWS/ES/Presentation/Public/OnlineLicence
+  page: https://www.harrow.gov.uk/licences/licensing-public-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: selective
+  wards:
+  - Edgware
+  - Roxeth
+  start: 2026-05-02
+  end: 2031-05-01
+  url: https://www.harrow.gov.uk/licences/selective-licensing/6
+- kind: selective
+  wards:
+  - Greenhill
+  - Marlborough
+  start: 2026-07-06
+  end: 2031-07-05
+  url: https://www.harrow.gov.uk/licences/selective-licensing/6
+- kind: selective
+  wards:
+  - Wealdstone North
+  - Wealdstone South
+  start: 2026-09-01
+  end: 2031-08-31
+  url: https://www.harrow.gov.uk/licences/selective-licensing/6
+notes: >-
+  Register is the council's Licensing Act search (application/licence search by address or reference); no download. An April 2023 HMO
+  extract once at harrow.gov.uk/downloads/file/23799 now returns 404. Selective end dates are start plus five years (council says each lasts five years; Roxeth notice gives 2031-05-01). The 2021 additional
+  scheme expired 2026-08-05; its renewal consultation closed 2026-02-27 and no new designation was found, so none is listed (confirm).

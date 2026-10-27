@@ -1,0 +1,119 @@
+/* The decision brief (review C1): private-detail ticks, the preview with its
+   "At a glance" block, Sources and the optional costs folded up after it. Tokens only, Day and
+   Night. The panel is narrow in My match and wide on /brief: the costs go to two columns when
+   the brief itself is 560px or wider (a container query, not the viewport). */
+.decision-brief { container-type: inline-size; display: grid; gap: 12px; margin-top: 18px; color: var(--ink); }
+.decision-brief > h2 { margin: 0; font-size: 18px; line-height: 1.25; }
+.decision-brief :is(.decision-brief__hint, .decision-brief__status) {
+  margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45;
+}
+.decision-brief .decision-brief__status { padding: 10px 12px; border-radius: 10px; background: var(--note); color: var(--ink); }
+
+/* The ticks: plain rows, 44px targets, no browser frame. */
+.decision-brief fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+.decision-brief legend { padding: 0; margin-bottom: 2px; font-size: 13px; font-weight: 800; }
+.decision-brief :is(.brief-redaction, .brief-candidates) > label { font-size: 14px; line-height: 1.35; }
+.decision-brief input[type="checkbox"] { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--ink); }
+.decision-brief__make { justify-self: start; }
+
+/* The brief itself: one card. */
+.brief-preview { display: grid; gap: 14px; min-width: 0; padding: 16px; border-radius: 16px; background: var(--surface); box-shadow: 0 1px 0 var(--rule), 0 6px 20px rgb(var(--ink-rgb) / 0.06); }
+.brief-preview > h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.brief-preview__meta { margin: 0; color: var(--muted); font-size: 12px; }
+@media print { .brief-preview > h3 { position: static; width: auto; height: auto; overflow: visible; clip: auto; margin: 0; font-size: 18px; } }
+.brief-preview h4 { margin: 0 0 6px; font-size: 14px; line-height: 1.3; }
+.brief-preview section { min-width: 0; }
+.brief-preview ul { margin: 0; padding-left: 18px; }
+.brief-preview li { margin: 4px 0; font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; }
+.brief-preview li[data-kind="unknown"] { color: var(--muted); }
+.brief-preview a { color: var(--ink); text-decoration-color: var(--muted); text-underline-offset: 2px; }
+
+/* At a glance: each area in three lines (price, journey, the open question). */
+.brief-glance ul { display: grid; gap: 8px; padding: 0; list-style: none; }
+.brief-glance li { display: grid; gap: 4px; margin: 0; padding: 12px; border-radius: 12px; background: var(--chip); }
+.brief-glance strong { font-size: 14px; line-height: 1.3; }
+.brief-glance span { display: flex; align-items: flex-start; gap: 6px; }
+.brief-glance .knit-inline { flex: none; width: 16px; height: 16px; margin-top: 1px; }
+/* GAINS / TRADE-OFFS (CUJ03 board step 3): a small caps label, then the criteria in your order. */
+.brief-glance__fit { display: block !important; font-size: 14px; }
+.brief-glance__fit em { margin-right: 6px; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+/* A shared brief's Save all · Open map (CUJ03 step 4). */
+.brief-shared-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 4px 0 8px; }
+.brief-shared-actions .primary-action { flex: none; width: auto; min-height: 44px; margin: 0; padding: 0 22px; }
+/* Inside the brief, .decision-brief buttons turn chip (knit-ui.css): Save all keeps its primary fill there too. */
+.brief-shared-actions .primary-action:not(:disabled) { color: var(--on-primary); background: var(--primary); }
+.brief-shared-actions__status { flex-basis: 100%; min-height: 1.2em; margin: 0; color: var(--muted); font-size: 14px; }
+.brief-shared-actions__status:empty { display: none; }
+.brief-shared-actions__note { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* Folded parts: Sources, the Markdown text and the optional costs. The toggle is a quiet text
+   button with a chevron that turns when open. */
+.decision-brief .brief-fold__toggle {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; padding: 0; border: 0; border-radius: 10px;
+  color: var(--ink); background: transparent; font: inherit; font-size: 14px; font-weight: 800; text-align: left; text-decoration: none; cursor: pointer;
+}
+.decision-brief .brief-fold__toggle::before {
+  content: ""; flex: none; width: 7px; height: 7px; margin: 0 3px 0 2px; border: solid var(--muted); border-width: 0 2px 2px 0;
+  transform: rotate(-45deg); transition: transform .15s ease;
+}
+.decision-brief .brief-fold[data-open] > .brief-fold__toggle::before { transform: rotate(45deg); }
+.decision-brief .brief-fold__toggle:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .decision-brief .brief-fold__toggle::before { transition: none; } }
+.brief-sources p { margin: 0 0 6px; color: var(--muted); font-size: 12px; }
+.brief-markdown label { display: grid; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 600; }
+.brief-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.decision-brief__costs { padding: 0 12px 4px; border-radius: 12px; background: var(--chip); }
+.decision-brief__costs[data-open] { padding-bottom: 14px; }
+
+/* Cost inputs: label above its field, one column, two from 560px of brief. */
+.decision-brief .brief-costs { display: grid; grid-template-columns: 1fr; gap: 10px 14px; }
+.decision-brief .brief-costs > p { grid-column: 1 / -1; }
+.decision-brief .brief-costs label {
+  display: grid; align-items: end; gap: 4px; min-height: 0; min-width: 0;
+  color: var(--muted); font-size: 12px; font-weight: 700; line-height: 1.3;
+}
+@container (min-width: 560px) {
+  .decision-brief .brief-costs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.decision-brief .knit-field {
+  box-sizing: border-box; width: 100%; min-width: 0; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--field-line); border-radius: 10px; background: var(--surface); color: var(--ink);
+  font: inherit; font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums;
+}
+.decision-brief textarea.knit-field { min-height: 0; padding: 10px 12px; font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.decision-brief .knit-field:focus-visible { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 1px; }
+
+/* /brief: the explainer and its one primary action (the stitch comes from knit-ui.css). */
+.brief-landing__steps { max-width: 650px; margin: 0 0 22px; padding-left: 22px; color: var(--ink); font-size: 16px; line-height: 1.55; }
+.brief-landing__steps li { margin: 4px 0; }
+.brief-landing__placeholder { visibility: hidden; }
+.brief-landing__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0; }
+.brief-landing__start {
+  display: inline-flex; flex: none; align-items: center; width: auto; min-height: 48px; padding: 0 22px; border-radius: 12px;
+  background: var(--primary); color: var(--on-primary); font: 800 15px/1 var(--font-sans); text-decoration: none;
+}
+.brief-landing__start:hover { background: color-mix(in srgb, var(--primary) 86%, black); }
+.brief-landing__claude {
+  display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 700;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--muted);
+}
+.brief-landing__claude:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.brief-landing > h1 { overflow-wrap: anywhere; }
+/* /save-listing: ♡ and "Saved" on one line. */
+.brief-landing > h1.save-listing__title { display: flex; align-items: center; gap: 12px; }
+.save-listing__title .save-heart__glyph { flex: none; }
+.brief-landing .decision-brief { margin-top: 8px; }
+
+/* The brief's header (/brief): eyebrow, heading, a multicolour yarn accent and
+   "Your brief is ready". Yarn from components/knit only; the stitch stays on the primary. */
+.brief-header { display: grid; gap: 6px; justify-items: start; margin: 0 0 4px; }
+.brief-landing .brief-header { margin-top: 30px; }
+.brief-header__eyebrow { margin: 0; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: 0.12em; text-transform: uppercase; }
+.brief-header :is(h1, h2) {
+  max-width: 20ch; margin: 0; font: 800 clamp(1.875rem, 6vw, 3.25rem)/1.02 var(--font-display); letter-spacing: -0.04em;
+  overflow-wrap: break-word; text-wrap: balance;
+}
+.brief-header__yarn { display: block; width: 138px; height: 14px; overflow: visible; }
+.brief-header__status { display: flex; align-items: center; gap: 6px; min-height: 28px; margin: 0; color: var(--ink); font-size: 14px; font-weight: 700; }
+.brief-header__status:empty { min-height: 28px; }
+.brief-header__status .knit-inline { flex: none; color: var(--fits, var(--ink)); }

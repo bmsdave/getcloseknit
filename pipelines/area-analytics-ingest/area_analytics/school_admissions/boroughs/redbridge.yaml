@@ -1,0 +1,113 @@
+# Redbridge (317): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 317
+slug: redbridge
+name: Redbridge
+licence:
+  statement: Information should not be reproduced, modified or distributed or used in any way for commercial
+    purposes without our permission.
+  url: https://www.redbridge.gov.uk/terms-of-use/
+licence_decision: unresolved
+aliases:
+  Al-Noor Primary School: '142455'
+  Isaac Newton Academy: '138518'
+  Loxford School Trust: '140475'
+  SS P imary School: '147340'
+  Seven Kings High School: '102856'
+docs:
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20220105181342/https://www.redbridge.gov.uk/media/9338/oversubscribed-schools-final-rec-2021-including-aa-schools-inc-junior.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20240224021623/https://www.redbridge.gov.uk/media/10862/oversubscribed-schools-final-rec-2022-including-aa-schools-and-junior.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240403135731/https://www.redbridge.gov.uk/media/11479/oversubscribed-schools-final-rec-2023-including-aa-schools-and-junior.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: primary
+  year: 2024
+  note: 'Scanned: read with tesseract at 300/350/400 dpi; a row is kept only where two readings agree and none conflict.'
+  url: https://web.archive.org/web/20240615073107/https://www.redbridge.gov.uk/media/12180/admission-to-reception-junior-2024.pdf
+  format: scanned-pdf
+  units: null
+  method: walking
+  counts: []
+- phase: primary
+  year: 2025
+  accept:
+  - '''Goodmayes Primary School'' [Sibling: All on time sibling applications offered]: distance 19256 m over 10 miles'
+  - '''Loxford School Trust'' [Sibling All Through]: distance 18026 m over 10 miles'
+  accept_note: 'Printed sibling-band distances (11.965 and 11.201 miles): sibling priority does not depend on distance; kept as printed.'
+  url: https://www.redbridge.gov.uk/media/1mtj5jon/primary-offer-day-16-april-2025-last-allocated-v2-3.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: primary
+  year: 2026
+  url: https://www.redbridge.gov.uk/media/ldbowne5/primary-offer-day-16-april-2026-last-allocated.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2021
+  note: 'Scanned: read with tesseract at 300/350/400 dpi; a row is kept only where two readings agree and none conflict.'
+  url: https://web.archive.org/web/20210901095641/https://www.redbridge.gov.uk/media/9102/transfer-to-sec-2021-school-allocations-and-cut-off-distances.pdf
+  format: scanned-pdf
+  units: null
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20231015045316/https://www.redbridge.gov.uk/media/11420/transfer-to-sec-2023-school-allocations-and-cut-off-distances.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240414023552/https://www.redbridge.gov.uk/media/12096/transfer-to-sec-2024-school-allocations-and-cut-off-distances.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2025
+  note: 'Scanned: read with tesseract at 300/350/400 dpi; a row is kept only where two readings agree and none conflict.'
+  url: https://web.archive.org/web/20250406133228/https://www.redbridge.gov.uk/media/13003/transfer-to-sec-2025-school-allocations-and-cut-off-distances-5.pdf
+  format: scanned-pdf
+  units: null
+  method: walking
+  counts: []
+- phase: secondary
+  year: 2026
+  url: https://www.redbridge.gov.uk/media/wqnlilt2/transfer-to-sec-2026-school-allocations-and-cut-off-distances-3.pdf
+  format: pdf-text
+  units: miles
+  method: walking
+  counts: []
+catchment_maps: null
+notes: 'Per-school prose lists (no counts): last-offered distance per criterion band (sibling/distance/faith
+  points/catchment), ''All On Time Applicants Offered'' where undersubscribed; primary sheets cover community,
+  academy and faith schools. Secondary is mostly miles, but some schools are quoted in metres where they
+  use their own measurement. Method: 2027-28 arrangements say ''shortest measured walking distance'' by
+  GIS. Site migration made old numeric /media/<n>/ URLs 404; only the 2025 primary and 2026 docs are live.
+  Missing: 2019, 2020 both phases; secondary 2022 (search-indexed /media/9957/transfer-to-sec-2022-...-002-003.pdf,
+  live 404, not in Wayback). WB 7156/primary-school-2020_v6_web.pdf (brochure) archived truncated at 1MB.
+  Scanned: rec 2024, sec 2021, sec 2025 (WB 20250930 wqnlilt2/secondary-school-allocation-2025.pdf, also
+  scanned). Secondary admissions page links https://my.redbridge.gov.uk/map (catchment lookup not verified).'

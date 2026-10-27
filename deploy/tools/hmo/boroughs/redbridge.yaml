@@ -1,0 +1,37 @@
+# Redbridge: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000026
+slug: redbridge
+name: Redbridge
+register:
+  status: search-only
+  url: https://propertylicensing.redbridge.gov.uk/online-application/redbridge-public-register/
+  page: https://redbridge.gov.uk/housing/private-rentals/licensed-property-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2023-09-18
+  end: 2028-09-17
+  url: https://www.redbridge.gov.uk/news/may-2023/new-additional-hmo-licensing-scheme-approved-2023
+- kind: selective
+  wards: [Ilford Town, Valentines]
+  start: 2023-11-01
+  end: 2028-10-31
+  url: https://www.redbridge.gov.uk/media/10023/public-notice-for-selective-licensing-schemes.pdf
+- kind: selective
+  wards: [Aldborough, Barkingside, Chadwell, Churchfields, Clementswood, Cranbrook, Fairlop, Goodmayes, Hainault, Loxford, Mayfield, Newbury, Seven Kings, South Woodford, Wanstead Village]
+  start: 2024-04-08
+  end: 2029-04-07
+  url: https://redbridge.gov.uk/news/dec-2023/government-approves-new-15-ward-selective-licensing-scheme-in-redbridge-from-8-april-2024
+notes: >-
+  The register page has a postcode/address search, but its "Export Register" button returns the whole register as CSV
+  (about 10,900 rows; columns Licence Holder, Issued, Licence Starts, Licence Expiry, Address Line 1, Town, Postcode,
+  Max Occupants). It is an ASP.NET form POST (needs the page's hidden __VIEWSTATE fields plus button
+  ctl00$ctl00$PageContent$PageContent$btnExportRegister), not a file URL, so left as search-only. The CSV has no licence-type
+  column and mixes HMO and selective licences, so it cannot be filtered to HMOs. Postcode column is filled in about 99.6% of rows. Page also warns of technical issues.

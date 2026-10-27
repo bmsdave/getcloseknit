@@ -1,0 +1,131 @@
+/* /guide index and articles (app/guide, components/guide). Theme tokens only.
+   The page frame and hero come from subpage.css. */
+
+/* Index: one calm card per article (chip fill, no border) with its plied-yarn icon. */
+.guide-group { margin-top: 44px; }
+.guide-group h2 { margin: 0 0 14px; font: 800 var(--fs-xl)/1.15 var(--font-display); letter-spacing: -0.02em; }
+.guide-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.guide-cards > li { display: flex; }
+.guide-card {
+  display: grid; grid-template-columns: 44px minmax(0, 1fr); align-items: start; gap: 14px; width: 100%; box-sizing: border-box;
+  padding: 16px 18px; border-radius: 16px; background: var(--chip); color: var(--ink); text-decoration: none;
+  transition: background-color 140ms ease;
+}
+.guide-card:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.guide-card:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.guide-card__icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--surface); }
+.guide-card__glyph { width: 24px; height: 24px; }
+.guide-card__text { display: grid; gap: var(--space-1); padding-top: 2px; }
+.guide-card strong { font: 800 var(--fs-md)/1.25 var(--font-display); letter-spacing: -0.01em; }
+
+/* Article */
+.guide-figure { margin: 36px 0 8px; padding: 24px 18px 18px; border-radius: 18px; background: var(--surface); }
+.guide-figure figcaption { max-width: 520px; margin: 14px auto 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.5; text-align: center; text-wrap: pretty; }
+.guide-section h2, .guide-related h2 { margin: 40px 0 12px; font: 800 var(--fs-xl)/1.15 var(--font-display); letter-spacing: -0.02em; }
+.guide-section p, .guide-section li { max-width: 66ch; font-size: var(--fs-md); line-height: 1.65; text-wrap: pretty; }
+.guide-section p { margin: 0 0 12px; }
+.guide-section ul, .guide-section ol { margin: 0; padding-left: 22px; }
+.guide-section li { padding-left: 4px; }
+.guide-section li + li { margin-top: 8px; }
+.guide-section li::marker { color: var(--stitch-quiet); font-weight: 800; }
+.guide-section strong { font-weight: 800; }
+.guide-section table { border-collapse: collapse; font-size: var(--fs-md); font-variant-numeric: tabular-nums; }
+.guide-section th, .guide-section td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); text-align: left; }
+/* The worked example: a calm card, figures in tabular numbers. */
+.guide-example { padding: 18px 22px; border-radius: 16px; background: var(--chip); font-variant-numeric: tabular-nums; }
+.guide-example > :last-child, .guide-example > ul > li:last-child { margin-bottom: 0; }
+.guide-example p, .guide-example li { font-size: var(--fs-md); }
+
+.guide-section a { color: var(--ink); text-underline-offset: 3px; }
+.guide .licence-note { list-style: none; margin: 12px 0 0; padding: 10px 12px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; background: var(--note); color: var(--muted); font-size: var(--fs-xs); line-height: 1.5; }
+.guide li.licence-note { margin-left: -20px; }
+.guide-metric-notes { margin-top: 18px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; background: var(--note); }
+.guide-metric-notes .eyebrow { margin: 0 0 4px; }
+.guide-metric-notes h3 { margin: 0 0 6px; color: var(--ink); font-size: var(--fs-md); }
+.guide-metric-notes .licence-note { margin: 8px 0 0; padding: 0; border: 0; background: none; }
+
+/* More in this section: calm chips with their yarn icons. */
+.guide-related ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.guide-related a {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 16px 0 12px; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font-size: var(--fs-sm); font-weight: 700; text-decoration: none;
+}
+.guide-related a:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.guide-related a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.guide-related__icon { width: 20px; height: 20px; flex: none; }
+
+/* Diagrams (components/guide/diagrams.tsx) */
+.gd { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; overflow: visible; font-family: inherit; }
+.gd text { fill: var(--ink); font-size: 13px; }
+.gd .gd-small { font-size: 12px; }
+.gd .gd-label { font-size: 14px; font-weight: 700; }
+.gd .gd-big { font-size: 22px; font-weight: 700; }
+.gd .gd-muted { fill: var(--muted); }
+.gd .gd-on-ink { fill: var(--on-ink); }
+.gd .gd-on-trend { fill: var(--paper); }
+.gd .gd-ink { fill: var(--ink); }
+.gd .gd-chip, .gd .gd-flat { fill: var(--chip); }
+.gd .gd-paper { fill: var(--paper); }
+.gd .gd-surface { fill: var(--surface); }
+.gd .gd-accent { fill: var(--accent); }
+.gd .gd-rise { fill: var(--danger); }
+.gd .gd-fall { fill: var(--focus); }
+.gd .gd-muted-dot { fill: var(--muted); opacity: .45; }
+.gd .gd-water { fill: var(--accent); opacity: .55; }
+.gd .gd-stroke-strong { stroke: var(--ink); stroke-width: 2.5; }
+.gd .gd-stroke-dashed { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.gd .gd-axis { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+.gd .gd-trend { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.gd .gd-median { stroke: var(--accent); stroke-width: 3; }
+.gd .gd-arrow { stroke: var(--ink); stroke-width: 2.5; }
+.gd .gd-ring { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.gd .gd-ring-strong { stroke: var(--ink); stroke-dasharray: none; }
+.gd .gd-dot-edge { stroke: var(--ink); stroke-width: 1.5; }
+
+/* Formula patches: plain felt, no stitch. */
+.gd .gd-patch__felt { fill: var(--chip); stroke: color-mix(in srgb, var(--chip), var(--ink) 14%); stroke-width: 1; }
+.gd .gd-patch--strong .gd-patch__felt { fill: var(--ink); stroke: var(--ink); }
+
+@media (max-width: 560px) {
+  .guide-figure { margin: 28px -6px 4px; padding: 16px 8px 12px; }
+  .guide-section p, .guide-section li, .guide-example p, .guide-example li { font-size: var(--fs-md); }
+  .guide-example { padding: 16px 18px; }
+  .guide-card { padding: 14px 16px; }
+}
+
+/* "Use it" under the answer: the article's layer or tool (the one primary), a second way to
+   use it as a calm chip, and the reader's saved areas in London words. */
+.guide-use { display: grid; gap: var(--space-3); margin: 24px 0 0; padding: 16px 18px; border-radius: 18px; background: var(--surface); }
+.guide-use h2 { margin: 0; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+.guide-use__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.guide-use__actions a {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 18px; border-radius: var(--radius-pill);
+  font: 700 var(--fs-sm)/1.2 var(--font-sans); text-decoration: none;
+}
+.guide-use .guide-use__primary { width: auto; }
+.guide-use__quiet { background: var(--chip); color: var(--ink); }
+.guide-use__quiet:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.guide-use__actions a:focus-visible, .guide-use__areas a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.guide-use__icon { width: 20px; height: 20px; flex: none; }
+.guide-use__lead { margin: 0; color: var(--muted); font-size: var(--fs-sm); font-weight: 700; }
+.guide-use__areas ul { display: grid; gap: 2px; margin: 4px 0 0; padding: 0; list-style: none; }
+.guide-use__areas li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; min-height: 32px; }
+.guide-use__areas a { font-weight: 700; }
+.guide-use__areas span { color: var(--ink); font-size: var(--fs-sm); }
+
+/* After an article (app/guide/[slug]): the next article and Share as calm chips, and the share answer underneath. */
+.guide-article-foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: 32px; }
+.guide-article-foot a, .guide-article-foot button {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill);
+  font: 700 var(--fs-sm)/1.2 var(--font-sans); text-decoration: none; cursor: pointer;
+}
+.guide-article-foot__quiet { background: var(--chip); color: var(--ink); }
+.guide-article-foot__quiet:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.guide-article-foot :is(a, button):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.guide-article-foot__icon { width: 20px; height: 20px; flex: none; }
+.guide-article-foot .share-status { flex-basis: 100%; }
+.guide-article-foot .share-status:empty { display: none; }
+.guide-article-foot .share-status p { margin: 4px 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.guide-article-foot .share-status__url { width: 100%; min-height: 44px; padding: 8px 10px; border: 1px solid var(--field-line); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); font: inherit; }
+/* Glossary: the guide article a term leads to. */
+.glossary-card__guide { display: inline-flex; align-items: center; min-height: 44px; }

@@ -1,0 +1,51 @@
+/* Evidence Overview: cards, home cost, the figure's Report
+   (components/overview-home-cost.tsx, evidence-panel.tsx).
+   The compact council card: styles/overview-tiles.css; the area tiles: styles/area-v3.css. */
+/* One column that never grows past the panel: a wide tile or chart shrinks rather than push it sideways. */
+.overview { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); margin-top: 4px; }
+.overview-card { padding: 14px; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: rgb(var(--surface-rgb) / .58); }
+.overview-card__head { display: flex; align-items: center; gap: var(--space-1); min-height: 22px; }
+.overview-card__head h2 { margin: 0; color: var(--muted); font: 800 var(--fs-2xs)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+
+/* Home cost */
+.overview-sizes { display: flex; gap: 6px; margin-top: 10px; }
+.overview-sizes button {
+  flex: 1 1 0; min-width: 0; min-height: 44px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 99px;
+  color: var(--ink); background: var(--chip); cursor: pointer; font: 700 var(--fs-2xs)/1.1 var(--font-sans);
+}
+.overview-sizes button small { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.overview-sizes button[aria-pressed="true"] { border-color: var(--ink); color: var(--on-ink); background: var(--ink); }
+.overview-sizes button[aria-pressed="true"] small { color: inherit; opacity: .8; }
+.overview-home__price { margin: 14px 0 4px; font: 800 var(--fs-3xl)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.overview-home__sum { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 1.4em; margin: 0; color: var(--muted); font-size: var(--fs-2xs); }
+.overview-warning { display: flex; align-items: center; gap: var(--space-1); margin: 10px 0 0; padding: 4px 4px 4px 10px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; color: var(--ink); background: var(--note); font-size: var(--fs-2xs); line-height: 1.35; }
+
+
+/* "Report a wrong figure" at the end of the brief, always in view. No About this data fold:
+   method, source and date live behind the legend's "?". */
+.overview-about { display: flex; flex-wrap: wrap; justify-content: flex-end; border-top: 1px solid var(--rule); }
+.overview-about > form { flex: 1 1 100%; }
+.overview-about > .overview-about__report {
+  min-height: 44px; padding: 0 6px; border: 0; background: none; color: var(--ink);
+  font: inherit; font-size: var(--fs-2xs); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+
+/* Research wave 1 on Overview: walk to a station and similar areas. */
+.station-access__charts { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; --waffle-size: 72px; }
+.station-access__text { display: grid; gap: var(--space-2); min-width: 0; }
+.station-access__text p { margin: 0; }
+.similar-areas .chart-frame { margin-top: 8px; }
+/* Each bar row is the way into that area: one 44px target spanning label, bar and score. */
+.similar-areas__rows { gap: 2px; }
+.similar-areas__item { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
+.similar-areas__row {
+  min-height: 44px; margin: 0 -6px; padding: 4px 6px; border: 0; border-radius: var(--radius-md);
+  color: var(--ink); background: none; font: inherit; font-size: var(--fs-2xs); text-align: left; text-decoration: none; cursor: pointer;
+}
+span.similar-areas__row { cursor: default; }
+:is(a, button).similar-areas__row:hover { background: var(--chip); }
+.similar-areas__row:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; }
+.similar-areas__label { display: grid; }
+.similar-areas__name { font-size: var(--fs-xs); font-weight: 800; }
+:is(a, button).similar-areas__row .similar-areas__name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.similar-areas__code { color: var(--muted); }

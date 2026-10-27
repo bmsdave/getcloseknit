@@ -1,0 +1,58 @@
+# Lambeth: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000022
+slug: lambeth
+name: Lambeth
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: https://hmolicensing.lambeth.gov.uk/public-register
+  page: https://www.lambeth.gov.uk/housing/landlords-licensing/houses-multiple-occupation-hmos/hmo-register
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2021-12-09
+  end: 2026-12-08
+  url: https://www.lambeth.gov.uk/housing/landlords-licensing/houses-multiple-occupation-hmos/additional-hmo-licensing
+- kind: selective
+  wards:
+  - Knights Hill
+  - Streatham Common & Vale
+  - Streatham Hill East
+  - Streatham St Leonards
+  start: 2024-09-02
+  end: 2029-09-01
+  url: https://www.lambeth.gov.uk/housing/landlords-licensing/selective-licensing-scheme
+- kind: selective
+  wards:
+  - Brixton Acre Lane
+  - Brixton North
+  - Brixton Rush Common
+  - Brixton Windrush
+  - Clapham Common and Abbeville
+  - Clapham East
+  - Clapham Park
+  - Clapham Town
+  - Gipsy Hill
+  - Herne Hill and Loughborough Junction
+  - Kennington
+  - Myatt's Field
+  - Oval
+  - St. Martin's
+  - Stockwell East
+  - Stockwell West and Larkhall
+  - Streatham Hill West and Thornton
+  - Streatham Wells
+  - West Dulwich
+  start: 2025-09-01
+  end: 2030-08-31
+  url: https://www.lambeth.gov.uk/housing/landlords-licensing/selective-licensing-scheme
+notes: >-
+  Live register is a postcode search (Metastreet portal, reCAPTCHA). Old PDF snapshots exist (e.g. lambeth.gov.uk/sites/default/files/2023-03/hmo-licensing-public-register-March_-_2023.pdf,
+  with a separate Postcode column) but are stale and include licence holder names. Additional scheme ends 2026-12-08; no renewal found. Phase 2 selective
+  end date comes from a search summary of the notice. Selective covers all wards except Vauxhall and Waterloo & South Bank.

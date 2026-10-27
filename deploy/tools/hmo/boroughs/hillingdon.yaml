@@ -1,0 +1,28 @@
+# Hillingdon: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000017
+slug: hillingdon
+name: Hillingdon
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://pre.hillingdon.gov.uk/downloads/file/2951/hmo-register
+  page: https://www.hillingdon.gov.uk/hmo
+  format: pdf
+  sheet: null
+  postcode_column: null    # pdf: one record per licence; "Post Code" column holds the HMO's postcode, mid-line after the HMO address
+  # One line per licence; the holder's postcode comes first, the HMO's Post Code column last.
+  record_start: ^\d{5}\s+\d{12}
+  pick: last
+  record_lines: 1
+  rows: 461
+  updated: 2026-10-05
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-08-24
+  end: 2031-08-23
+  url: https://pre.hillingdon.gov.uk/downloads/file/2426/designation-document-additional-licensing-scheme
+notes: >-
+  Single 8-page PDF (created 2026-10-05) with UPRN per licence; holder postcodes also appear in the same lines, so take the "Post Code"
+  column after "Address of the licensed HMO or house". The file link is on the pre.hillingdon.gov.uk host (the www host path 404s). The additional scheme began 2026-08-24.

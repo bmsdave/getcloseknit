@@ -1,0 +1,168 @@
+# Islington (206): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 206
+slug: islington
+name: Islington
+licence: null
+licence_decision: unresolved
+aliases:
+  Ambler: '100397'
+  Ambler Primary School: '100397'
+  Christ The King: '100450'
+  Christ the King Primary School: '100450'
+  Prior Weston: '100434'
+  Prior Weston Primary School: '100434'
+  Robert Blair: '100422'
+  Robert Blair Primary School: '100422'
+  Robert Blair School: '100422'
+  St John Evangelist: '100438'
+  St John Evangelist Primary School: '100438'
+  Hugh Myddlelton Primary School: '131842'      # misspelt on the page
+  St John's Highbury Vale Primary School: '100440'
+  St Mary's Islington CE Primary School: '100446'
+  St Andrew's Barnsbury: '100448'
+  St Joan of Arc: '100449'
+  Sacred Heart: '100437'
+  Moreland Primary School and Children's Centre: '100415'
+  St Mark's CE Early Years and Primary School: '100444'
+docs:
+- phase: primary
+  year: 2019
+  url: https://www.islington.gov.uk/~/media/sharepoint-lists/public-records/childrenandfamiliesservices/information/leaflets/20192020/20190916primaryschooladmissionsbooklet20202021.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  accept:
+  - "'Blessed Sacrament Catholic Primary School': no URN"
+  - "'Clerkenwell Parochial Primary School': no URN"
+  - "'Highbury Quadrant Primary School': no URN"
+  - '"St Jude and St Paul''s CE Primary School": no URN'
+  accept_note: Closed schools with no successor in GIAS (Blessed Sacrament 31-07-2024, Clerkenwell
+    Parochial 31-08-2021, Highbury Quadrant and St Jude and St Paul's 31-08-2025); left out.
+  skip_schools:
+    Montem Primary School: merged into Duncombe Primary School (GIAS link); both are printed, one URN
+    Copenhagen Primary School: merged into Vittoria Primary School (GIAS link); both are printed, one URN
+- phase: primary
+  year: 2021
+  url: https://www.islington.gov.uk/-/media/sharepoint-lists/public-records/childrenandfamiliesservices/information/adviceandguidance/20212022/20210826primaryschooladmissionsbrochurefor2022admissions1.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts: []
+  accept:
+  - "'Blessed Sacrament Catholic Primary School': no URN"
+  - "'Clerkenwell Parochial Primary School': no URN"
+  - "'Highbury Quadrant Primary School': no URN"
+  - '"St Jude and St Paul''s CE Primary School": no URN'
+  accept_note: Closed schools with no successor in GIAS (Blessed Sacrament 31-07-2024, Clerkenwell
+    Parochial 31-08-2021, Highbury Quadrant and St Jude and St Paul's 31-08-2025); left out.
+  skip_schools:
+    Montem Primary School: merged into Duncombe Primary School (GIAS link); both are printed, one URN
+    Copenhagen Primary School: merged into Vittoria Primary School (GIAS link); both are printed, one URN
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20241012230224/https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+  accept:
+  - "'Blessed Sacrament Catholic Primary School': no URN"
+  - "'Clerkenwell Parochial Primary School': no URN"
+  - "'Highbury Quadrant Primary School': no URN"
+  - '"St Jude and St Paul''s CE Primary School": no URN'
+  accept_note: Closed schools with no successor in GIAS (Blessed Sacrament 31-07-2024, Clerkenwell
+    Parochial 31-08-2021, Highbury Quadrant and St Jude and St Paul's 31-08-2025); left out.
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20241012230224/https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+  accept:
+  - "'Blessed Sacrament Catholic Primary School': no URN"
+  - "'Clerkenwell Parochial Primary School': no URN"
+  - "'Highbury Quadrant Primary School': no URN"
+  - '"St Jude and St Paul''s CE Primary School": no URN'
+  accept_note: Closed schools with no successor in GIAS (Blessed Sacrament 31-07-2024, Clerkenwell
+    Parochial 31-08-2021, Highbury Quadrant and St Jude and St Paul's 31-08-2025); left out.
+- phase: primary
+  year: 2024
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: primary
+  year: 2025
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: primary
+  year: 2026
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2021
+  url: https://www.islington.gov.uk/-/media/sharepoint-lists/public-records/childrenandfamiliesservices/information/adviceandguidance/20212022/20211012secondaryschooladmissionsbrochurefor2022admissions.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20241012230224/https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20241012230224/https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2024
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2025
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+- phase: secondary
+  year: 2026
+  url: https://www.islington.gov.uk/children-and-families/schools/apply-for-a-school-place/school-admissions-information/cut-off-distance-maps
+  format: html
+  units: miles
+  method: null
+  counts: []
+catchment_maps: https://web.archive.org/web/20200920164957/https://www.islington.gov.uk/-/media/sharepoint-lists/public-records/childrenandfamiliesservices/information/maps/20192020/20190607canonburycutoffdistancemap201920.pdf
+notes: 'The cut-off-distance page is a rolling three-year HTML table (primary and secondary, miles; secondary
+  by band), with year columns labelled by academic year ("2024-25" = 2024 entry). The live page shows
+  2024-25 to 2026-27; the Wayback snapshot 20241012230224 shows 2022-23 to 2024-25. Earliest snapshot
+  is Oct 2024. Older years come from the admissions booklets: the 2020/21 primary booklet (live) has a
+  table of applications, offers by criterion and "Cut off Distance (miles)" for Sept 2019, and says distance
+  is straight line. The brochures for 2022 admissions (live) give per-school text "Last pupil admitted
+  under distance criterion in Sept 2021". Gaps: primary 2020; secondary 2019-2020 (the 2021-admission
+  brochures and a 2020/21 secondary booklet were not found). Per-school cut-off-distance map PDFs existed
+  for 2019/20 (Canonbury, Elizabeth Garrett Anderson are archived). No copyright or licence statement
+  found on islington.gov.uk (footer has none; no copyright page).'

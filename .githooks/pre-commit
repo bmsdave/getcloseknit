@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Seconds, on staged files only: Python syntax. The real gate runs on push (.githooks/pre-push).
+set -euo pipefail
+root="$(git rev-parse --show-toplevel)"
+py="$root/.ae-venv/bin/python"; [ -x "$py" ] || py=python3
+files="$(git diff --cached --name-only --diff-filter=ACM -- '*.py')"
+[ -z "$files" ] || (cd "$root" && echo "$files" | tr '\n' '\0' | xargs -0 "$py" -m py_compile)

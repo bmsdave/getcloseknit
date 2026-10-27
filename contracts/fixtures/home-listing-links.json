@@ -1,0 +1,28 @@
+{
+  "note": "One home's listing links on the portals, by its postcode. api/area_api/home_search.py home_listing_links and web/src/lib/listing-links.ts homeListingLinks must both produce exactly these. Links only: Close Knit never fetches, copies or hosts listings or photos. Formats checked by hand 2026-10-11 (Zoopla's reuses the 2026-10-06 search format).",
+  "cases": [
+    {
+      "name": "ealing-home",
+      "postcode": "W5 1QT",
+      "links": {
+        "rightmove": "https://www.rightmove.co.uk/house-prices/w5-1qt.html",
+        "zoopla": "https://www.zoopla.co.uk/for-sale/property/w5/?q=W5%201QT",
+        "onthemarket": "https://www.onthemarket.com/for-sale/property/w5-1qt/"
+      }
+    },
+    {
+      "name": "messy-input-is-normalised",
+      "postcode": " sw1a1ab ",
+      "links": {
+        "rightmove": "https://www.rightmove.co.uk/house-prices/sw1a-1ab.html",
+        "zoopla": "https://www.zoopla.co.uk/for-sale/property/sw1a/?q=SW1A%201AB",
+        "onthemarket": "https://www.onthemarket.com/for-sale/property/sw1a-1ab/"
+      }
+    },
+    {
+      "name": "not-a-postcode",
+      "postcode": "Barnfield Road",
+      "links": null
+    }
+  ]
+}

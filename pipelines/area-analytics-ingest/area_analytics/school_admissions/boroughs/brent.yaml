@@ -1,0 +1,178 @@
+# Brent (304): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 304
+slug: brent
+name: Brent
+licence:
+  statement: '"All material on this website, including text and graphics, is copyright Brent Council unless
+    otherwise stated. Use may be made of this material by educational organisations without permission
+    ... if an acknowledgement" (not OGL)'
+  url: https://www.brent.gov.uk/the-council-and-democracy/legal
+licence_decision: unresolved
+aliases:
+  Capital City Academy: '134226'
+  The Crest Academy: '135973'
+  Wembley High Technology EH College: '138457'
+  Malorees Infant School: '101507'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20191017204639/https://www.brent.gov.uk/media/16413011/how-places-were-offered-2019-community-schools.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applications
+  - offers
+  - offers_by_criterion
+  note: community schools only
+  accept:
+  - '"St Mary''s RC Primary School" [Any Other Applicants]: distance 137765 m over 10 miles'
+  - '''Elsley Primary School'' [Any other applicant]: distance 174609 m over 10 miles'
+  - '''Kingsbury Green Primary School'' [Any other applicant]: distance 38742 m over 10 miles'
+  - '''Sinai Jewish Primary School'' [Other Children With A Completed And Valid Crp 2]: distance 20816
+    m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20191017140921/https://www.brent.gov.uk/media/16413012/how-places-were-offered-2019-oaa-schools.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applications
+  - offers
+  note: VA, free schools and academies (8 pages)
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20250413115751/https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-places-were-offered-reception-2024.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+- phase: primary
+  year: 2025
+  url: https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-places-were-offered-reception-2025.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''John Keble CofE Primary School'' [Sibling]: distance 19009 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: primary
+  year: 2026
+  url: https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-places-were-offered-reception-2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - applications
+  - offers_by_criterion
+  accept:
+  - '''Islamia Primary School'' [Muslim, Sibling]: distance 16749 m over 10 miles'
+  - '''Our Lady of Grace RC Infant and Nursery School'' [Baptised Catholic Children Resident In Other
+    Parishes]: distance 32026 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20191017202542/https://www.brent.gov.uk/media/16412546/how-places-were-allocated-2019.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''JFS'' [All Other Crp Priority Applicants (random)]: distance 21665 m over 10 miles'
+  - '''JFS'' [Sibling With C R P]: distance 17626 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20200314135638/https://www.brent.gov.uk/media/16415674/how-places-were-allocated-2020-publish-copy.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''JFS'' [All Other Crp Priority Applicants (random allocation)]: distance 27400 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20250414142555/https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-secondary-school-places-were-allocated-2024.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''JFS'' [Sibling With C R P]: distance 19314 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: secondary
+  year: 2025
+  url: https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-places-were-offered---secondary-2025.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers_by_criterion
+  accept:
+  - '''JFS'' [All Other Crp Priority Applicants]: distance 17611 m over 10 miles'
+  - '''JFS'' [Feeder Sinai]: distance 22324 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+- phase: secondary
+  year: 2026
+  url: https://www.brent.gov.uk/-/media/files/resident-documents/education-documents/how-secondary-school-places-were-allocated---2026---publish-v2.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - applications
+  - offers_by_criterion
+  accept:
+  - '''JFS'' [All Other Crp Priority Applicants]: distance 25202 m over 10 miles'
+  - '''JFS'' [Feeder Sinai]: distance 20482 m over 10 miles'
+  - '''Kingsbury High School'' [Distance]: distance 34503 m over 10 miles'
+  accept_note: distances over 10 miles are printed by Brent for faith, feeder or sibling criteria (JFS,
+    Sinai, Islamia, Our Lady of Grace, John Keble) or for the last applicants at schools that offered
+    every applicant (Elsley, Kingsbury Green, St Mary's RC 2019; Kingsbury High 2026, fully subscribed
+    with 44 nearest-school allocations); kept as printed
+catchment_maps: null
+notes: 'Index page: https://www.brent.gov.uk/education-schools-and-learning/school-admissions/how-school-places-were-offered
+  (it links 2025 and 2026 files, which carry ?rev=&hash= query strings that are not needed). There is
+  a 2018 series in Wayback (/media/16410390, /16410393). The Wayback CDX for brent.gov.uk/media has almost
+  nothing after early 2022, so primary 2020-2023 and secondary 2021-2023 were not found. Brent says to
+  email school.admissions@brent.gov.uk for earlier years. The 2019 community table has ''catchment area''
+  criteria, but no map was found. Adapter notes: every criterion printed with a furthest distance is a
+  rule (criteria are not always in priority order); an undersubscribed school is one all-offered row;
+  999999 is a placeholder and is not read; the 2019 community matrix is read with pdfplumber. Leopold
+  and other split sites are kept as sites. Capital City Academy is Harris Lowe Academy Willesden 134226
+  (same URN/postcode); The Crest Academy is E-ACT Crest Academy 135973; Malorees Infant is Malorees Primary
+  101507 (renamed after the 2026 merger). Distances over 10 miles are accepted as printed (see accept_note).'

@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/names?ids=uk:lsoa:E01000900,uk:msoa:E02000166",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-names.v1\",\"productReleaseId\":\"fixture-2026-06\",\"names\":{\"uk:msoa:E02000166\":\"Camden 001\",\"uk:lsoa:E01000900\":\"Camden 001A\"},\"centers\":{\"uk:msoa:E02000166\":[-0.155,51.54],\"uk:lsoa:E01000900\":[-0.165,51.524]}}"
+}

@@ -1,0 +1,240 @@
+/* My match as one list (components/match/match-list.tsx, match-card.tsx, match-results.tsx).
+   Tokens only, so Day and Night both hold. Calm chips everywhere; the only stitch is on what is chosen (pressed). */
+
+.match-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); min-width: 0; margin: 4px 0 8px; }
+.match-row-block { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); min-width: 0; }
+.match-block-title { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 0; font-size: var(--fs-sm); font-weight: 800; }
+.match-block-title small { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.match-like { display: flex; align-items: center; gap: 6px; margin: 0; padding: 6px 6px 6px 12px; border-radius: var(--radius-md); background: var(--note); color: var(--ink); font-size: 13px; font-weight: 700; }
+.match-like p { flex: 1; min-width: 0; margin: 0; }
+.match-list .match-like__use { min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: var(--ink); color: var(--on-ink); font: inherit; font-weight: 800; cursor: pointer; }
+
+/* Budget: Buy | Rent, Any | Flat | House, the bedrooms, the maximum. */
+.budget-fields { display: flex; flex-wrap: wrap; gap: 6px; }
+.match-segmented { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-pill); background: var(--chip); }
+.match-list .match-segmented button {
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.match-list .match-segmented button[aria-pressed="true"] { background: var(--seg-on); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / .18); }
+.match-list .match-segmented button[aria-pressed="true"]::after { content: none; }
+.match-list .match-segmented--beds button { min-width: 46px; padding: 0 8px; }
+.budget-input { position: relative; display: block; }
+.budget-input input { width: 100%; padding-right: 48px; font-weight: 800; }
+.budget-input__unit { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); color: var(--muted); font-size: 13px; font-weight: 700; pointer-events: none; }
+
+/* The list: Musts on top, then the ranked criteria; each row is one card, ≡ · #n · chip · −N · weight · ×, whose
+   open body (Must, slider, chips, Fine-tune) is its lower half (board "My match · Your order rows"). */
+.match-items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; min-width: 0; }
+.match-items__block { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.match-item { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; border-radius: var(--radius-md); background: var(--chip); }
+.match-item__row { display: flex; align-items: center; gap: 4px; min-height: 44px; padding: 0; }
+.match-item--open { background: var(--surface); box-shadow: inset 0 0 0 1.5px var(--ink); }
+/* Lifted by its ≡: above the others, a shadow, following the pointer on an inline transform (lib/flip.ts). */
+.match-item--dragging { position: relative; z-index: 2; background: var(--surface); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / .24), inset 0 0 0 1.5px var(--ink); }
+@media (prefers-reduced-motion: reduce) { .match-item { transition: none !important; } }
+.match-list .match-item__handle {
+  flex: none; display: grid; place-items: center; width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: var(--radius-md);
+  background: transparent; color: var(--muted); cursor: grab; touch-action: none;
+}
+.match-list .match-item__handle:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.match-list .match-item__handle[data-dragging] { cursor: grabbing; color: var(--ink); }
+.match-item__rank { flex: none; min-width: 28px; color: var(--muted); font-size: 12.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.match-item__rank--must { padding: 2px 8px; border-radius: var(--radius-pill); background: var(--ink); color: var(--on-ink); font-size: 12px; }
+.match-list .match-item__chip {
+  flex: 1; min-width: 0; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--ink);
+  font: inherit; font-size: 14px; font-weight: 700; text-align: left; cursor: pointer;
+}
+.match-item__label { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.match-item__cut { font-size: 13px; }
+.match-item__weight { flex: none; min-width: 38px; color: var(--muted); font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.match-list .match-item__remove {
+  flex: none; display: inline-grid; place-items: center; width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: var(--radius-md);
+  background: transparent; color: var(--muted); cursor: pointer;
+}
+.match-list .match-item__remove:hover, .match-list .match-item__remove:focus-visible { color: var(--ink); }
+.match-list .match-item__remove:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+
+/* The open body, the row's lower half: simple (one handle, the soft edge as a fade) or Fine-tune (histogram, edge
+   handles). The card's own border and corners (match-criteria.css) are the row's now. */
+.match-list .criterion-card { padding: 0 10px 8px 12px; border: 0; border-radius: 0; background: transparent; }
+.match-card__measure { flex: 1; min-width: 0; color: var(--muted); font-size: 13px; font-weight: 700; }
+.match-card__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 44px; }
+.match-card__priority { color: var(--ink); font-size: 13px; font-weight: 800; }
+.match-card__priority small { color: var(--muted); font-weight: 700; }
+.match-card__fine { margin-left: auto; font-weight: 800; }
+.match-card__soft { display: grid; gap: 2px; color: var(--muted); font-size: 12.5px; font-weight: 700; }
+.match-card__soft input { width: 100%; accent-color: var(--ink); }
+.match-list .criterion-must {
+  min-height: 44px; padding: 0 12px; border: 1.5px solid var(--field-line); border-radius: var(--radius-pill);
+  background: transparent; color: var(--muted); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
+}
+.match-list .criterion-must[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+.match-list .criterion-must[aria-pressed="true"]::after { content: none; }
+.match-list .criterion-remove {
+  display: inline-grid; place-items: center; width: 44px; min-width: 44px; min-height: 44px; padding: 0; border: 0;
+  border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer;
+}
+.match-list .criterion-remove:hover { background: var(--chip); }
+
+.one-handle { position: relative; display: grid; gap: 2px; }
+.one-handle__track { position: relative; height: 8px; margin: 10px 11px 0; border-radius: var(--radius-pill); background: var(--wool); }
+.one-handle__in { position: absolute; top: 0; height: 8px; border-radius: var(--radius-pill); background: var(--ink); }
+/* The soft edge: the ink fading out beyond the handle (or in, before a "≥" handle). */
+.one-handle__fade { position: absolute; top: 0; height: 8px; border-radius: var(--radius-pill); }
+.one-handle__fade--below { background: linear-gradient(to right, rgb(var(--ink-rgb) / .55), rgb(var(--ink-rgb) / 0)); }
+.one-handle__fade--above { background: linear-gradient(to right, rgb(var(--ink-rgb) / 0), rgb(var(--ink-rgb) / .55)); }
+.match-panel .one-handle__input {
+  position: absolute; top: 0; left: 0; width: 100%; height: 28px; margin: 0; padding: 0; background: transparent;
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+}
+.one-handle__input::-webkit-slider-runnable-track { height: 28px; background: transparent; }
+.one-handle__input::-moz-range-track { height: 28px; background: transparent; }
+.one-handle__input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 24px; height: 24px; margin-top: 2px; border: 3px solid var(--surface); border-radius: 50%;
+  background: var(--ink); box-shadow: 0 1px 3px rgb(var(--ink-rgb) / .35); cursor: grab;
+}
+.one-handle__input::-moz-range-thumb { width: 18px; height: 18px; border: 3px solid var(--surface); border-radius: 50%; background: var(--ink); cursor: grab; }
+.one-handle__input:focus-visible { outline: none; }
+.one-handle__input:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--focus); outline-offset: 1px; }
+.one-handle__input:focus-visible::-moz-range-thumb { outline: 3px solid var(--focus); outline-offset: 1px; }
+.one-handle .range-ends { margin: 14px 0 0; }
+
+/* A place's trip as chips: time, mode (open their choices in place), the fixed time of day. */
+.match-list .place-chip { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; }
+.match-list .place-chip--fixed { background: transparent; color: var(--muted); }
+.match-list .place-options button { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; }
+.match-list .place-options button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.match-card .criterion-card__name { overflow-wrap: anywhere; }
+
+.match-card__portals { display: grid; gap: 4px; }
+.match-card__portals-label { color: var(--muted); font-size: 12.5px; font-weight: 800; }
+
+/* Where: zone chips, + Add, drawing. */
+.zone-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.zone-chip { display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 2px 0 12px; border-radius: var(--radius-pill); background: var(--chip); font-size: 13px; font-weight: 700; }
+.match-list .zone-chip button { display: inline-grid; place-items: center; width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer; }
+.zone-add { display: grid; gap: 6px; }
+.zone-add__kinds { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.zone-add__label { color: var(--muted); font-size: 13px; font-weight: 800; }
+.match-list .zone-add__kinds button, .match-list .zone-options button,
+.match-list .match-question button, .match-list .match-suggestion, .match-list .match-add, .match-foot .match-foot__button {
+  min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.match-list :is(.zone-add__kinds, .match-question) button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+.match-list :is(button):disabled { color: var(--muted); cursor: not-allowed; }
+.zone-options { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.match-list .zone-options button { width: 100%; text-align: left; }
+.match-where-start { display: grid; gap: 6px; }
+
+/* Travel to. */
+.travel-search { display: grid; gap: 6px; }
+.match-list .match-add { justify-self: start; }
+
+/* The live count, "Top 10 ›" and Soften. */
+.match-count { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.match-count p { margin: 0; font-size: 13.5px; font-weight: 700; }
+.match-count strong { font-size: 18px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.match-list .match-count__top {
+  min-height: 44px; padding: 0 14px; border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink);
+  font: inherit; font-size: 13.5px; font-weight: 800; cursor: pointer;
+}
+.match-hint { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; padding: 8px 8px 8px 12px; border-radius: var(--radius-md); background: var(--note); }
+.match-hint p { margin: 0; font-size: 13.5px; font-weight: 700; }
+.match-list .match-soften, .match-peek .match-soften {
+  min-height: 44px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: var(--radius-pill); background: var(--surface);
+  color: var(--ink); font: inherit; font-size: 13.5px; font-weight: 800; cursor: pointer;
+}
+
+/* What matters: two inline questions, then one-tap chips. */
+.match-questions { display: grid; gap: 4px; }
+.match-question { display: flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; }
+.match-question span { flex: 1; color: var(--muted); }
+.match-list .match-question button { min-width: 52px; }
+.match-suggestions { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.match-list .match-suggestion--first { border: 1.5px solid var(--ink); background: var(--surface); font-weight: 800; }
+
+/* The foot: share, clear, your data. */
+.match-foot { display: grid; gap: 6px; margin-top: 4px; padding-top: 8px; border-top: 1px solid var(--rule); }
+.match-foot__actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.match-foot .match-foot__button { display: inline-flex; align-items: center; gap: 6px; }
+.match-data > summary { min-height: 44px; display: flex; align-items: center; color: var(--muted); font-size: 13px; font-weight: 800; cursor: pointer; }
+
+/* The lowered phone sheet's summary (21d frame 6): only there. */
+.match-peek { display: none; }
+.match-peek p { margin: 0; font-size: 13.5px; font-weight: 700; }
+.match-peek__cuts { color: var(--muted); font-size: 12.5px; }
+
+/* Top 10 | Bottom 10, sorted by match or value, each row with its why. */
+.match-results { display: grid; gap: var(--space-2); margin: 8px 0; scroll-margin-top: 8px; }
+.match-results__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+.match-results__title { margin: 0; font-size: 16px; font-weight: 800; }
+.match-toggle { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-pill); background: var(--chip); }
+.match-toggle button {
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 800; cursor: pointer;
+}
+.match-toggle button[aria-pressed="true"] { background: var(--seg-on); box-shadow: 0 1px 2px rgb(var(--ink-rgb) / .18); }
+.match-toggle--quiet { justify-self: start; }
+.match-results__note { margin: 0; color: var(--muted); font-size: 13px; font-weight: 700; }
+.match-rows { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.match-row { display: flex; align-items: center; gap: 4px; }
+.match-row__main {
+  flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 6px 10px; border: 0;
+  border-radius: var(--radius-md); background: var(--surface); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--wool);
+}
+.match-row__main[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--ink); }
+.match-row__main:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.match-row__rank {
+  flex: none; display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 4px; border-radius: var(--radius-pill);
+  background: var(--ink); color: var(--on-ink); font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums;
+}
+.match-row--bottom .match-row__rank { background: var(--chip); color: var(--ink); box-shadow: inset 0 0 0 2px var(--con); }
+.match-row__text { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.match-row__name { overflow: hidden; font-size: 14.5px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+.match-row__why { color: var(--muted); font-size: 12.5px; font-weight: 700; overflow-wrap: anywhere; }
+.match-why--out { color: var(--ink); }
+.match-why b { font-weight: 800; }
+.match-row__move { flex: none; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.match-row__move--up { color: var(--pro); }
+.match-row__move--down { color: var(--muted); }
+.match-rows .compare-toggle {
+  flex: none; display: inline-grid; place-items: center; width: 44px; min-height: 44px; padding: 0; border: 0;
+  border-radius: var(--radius-md); background: none; color: var(--ink); cursor: pointer;
+}
+.match-rows .compare-toggle:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.match-rows .compare-box { display: inline-grid; place-items: center; width: 18px; height: 18px; border: 2px solid var(--ink); border-radius: 5px; }
+.match-rows .compare-toggle[aria-checked="true"] .compare-box { color: var(--on-ink); background: var(--ink); }
+.match-results .match-tray-hint { margin: 0; color: var(--muted); font-size: 13px; font-weight: 700; }
+.match-row__score { flex: none; min-width: 30px; font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; text-align: right; }
+/* A score tied with another of the ten: "=100", the note over the rows says what orders them. */
+.match-row__score[data-tied]::before { content: "="; color: var(--muted); font-weight: 700; }
+
+@media (max-width: 800px) and (min-height: 500px), (max-width: 800px) and (orientation: portrait) {
+  /* My match's own MapSheet: over the area sheet, which waits hidden at its peek. */
+  .match-sheet { z-index: 14; }
+  .explorer-shell:has(.match-sheet) .map-dock { visibility: hidden; }
+  .match-sheet .match-panel { padding: 0 14px 14px; }
+  /* The sheet's own title says "My match"; someone else's search keeps its "This search". */
+  .match-sheet .match-panel-title--own { display: none; }
+  .match-sheet[data-snap="collapsed"] { height: 150px; }
+  /* An example or a shared search says so on the lowered sheet too. */
+  .match-sheet[data-snap="collapsed"]:has(.match-origin-banner, .shared-card) { height: 210px; }
+  .match-sheet[data-snap="collapsed"] .match-peek { display: grid; gap: 4px; padding: 6px 0 0; }
+  .match-sheet[data-snap="collapsed"] .match-panel > :not(.match-list, .match-origin-banner, .shared-card),
+  .match-sheet[data-snap="collapsed"] .match-list > :not(.match-peek) { display: none; }
+  /* The map's buttons and legend ride above it, as above every MapSheet. */
+  .explorer-shell:has(.match-sheet:not([data-snap="full"])) .map-controls { --float-bottom: calc(var(--sheet) + 12px); }
+  .explorer-shell:has(.match-sheet[data-snap="collapsed"]) .map-controls { --float-bottom: calc(150px + 12px); }
+  .explorer-shell:has(.match-sheet[data-snap="collapsed"]:is(:has(.match-origin-banner), :has(.shared-card))) .map-controls { --float-bottom: calc(210px + 12px); }
+  .explorer-shell:has(.match-sheet[data-snap="full"]) :is(.map-rail, .map-position, .map-key__row, .map-credits) { visibility: hidden; }
+  /* Phones show the simple level only (21c). */
+  .match-card__fine { display: none; }
+  /* Drawing a Where zone: the sheet steps aside for the map's drawing bar. */
+  .explorer-shell:has(.zone-bar) .match-sheet { visibility: hidden; }
+}
+
+/* The selected area's Monthly cost fold opens from a 44px row (DESIGN §7 targets). */
+.match-panel .monthly-cost > summary { min-height: 44px; align-items: center; }

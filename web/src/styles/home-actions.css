@@ -1,0 +1,180 @@
+/* Home and postcode actions: the asking-price check (asking-price-check.tsx), the watch dialog
+   (watch-listings.tsx), Save this home and the Next steps row (user-candidates.tsx, property-profile.tsx),
+   and the report / hide form's radio cards (evidence-panel.tsx). Tokens only; 44px targets. */
+
+/* A field until the shared .knit-field (knit-ui.css) lands: the same contract values. */
+.asking-check__input, .save-home__input, .home-correction .home-correction__email {
+  box-sizing: border-box; width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--field-line);
+  border-radius: var(--radius-md, 10px); background: var(--surface); color: var(--ink); font: 400 16px/1.3 var(--font-sans);
+}
+.asking-check__input:focus-visible, .save-home__input:focus-visible, .home-correction .home-correction__email:focus-visible {
+  outline: 3px solid var(--focus); outline-offset: 1px;
+}
+
+/* Is the asking price fair? */
+.asking-check { display: grid; gap: 8px; }
+.asking-check h2 { margin: 0; }
+.asking-check__label { margin-top: 4px; color: var(--ink); font-size: var(--fs-sm, .875rem); font-weight: 800; }
+.asking-check__field { position: relative; max-width: 320px; }
+.asking-check__pound { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); color: var(--muted); font-size: 16px; font-weight: 700; pointer-events: none; }
+.asking-check__field .asking-check__input { padding-left: 28px; font-variant-numeric: tabular-nums; }
+.asking-check__answer { min-height: 1.5em; }
+.asking-check__answer p { margin: 0; color: var(--ink); font-size: var(--fs-md, 1rem); font-weight: 700; line-height: 1.45; }
+.asking-check__answer .asking-check__detail { color: var(--muted); font-size: var(--fs-sm, .875rem); font-weight: 400; }
+.asking-check__note { margin: 0; color: var(--muted); font-size: var(--fs-xs, .8125rem); line-height: 1.45; }
+.asking-check__note strong { color: var(--ink); }
+
+/* Watch new homes (CUJ12 v4): the shared MapSheet (components/map-sheet.tsx) over everything, never a
+   centred modal. Phones: the bottom sheet (layout.css) at half or full. Desktop and a phone on its side: a right
+   panel like the area panel, full height over it. Opaque, the prompt wrapping at word ends. */
+.map-sheet.watch-sheet { z-index: 40; }
+@media (min-width: 801px), (max-height: 499px) and (orientation: landscape) {
+  .map-sheet.watch-sheet {
+    position: fixed; top: 12px; right: 12px; bottom: 12px; width: min(380px, calc(100vw - 24px)); max-height: calc(100dvh - 24px);
+    border-radius: 16px; box-shadow: 0 18px 50px rgb(var(--ink-rgb) / 0.2); overflow: hidden;
+  }
+}
+.watch-sheet .map-sheet__body { padding: 12px 16px 16px; }
+.watch-sheet p { margin: 0 0 10px; font-size: var(--fs-sm, .875rem); line-height: 1.5; }
+.watch-sheet .copy-field__value { font: 400 var(--fs-sm, .875rem)/1.5 var(--font-sans); overflow-wrap: break-word; user-select: text; }
+.watch-sheet__where span { color: var(--muted); font-size: var(--fs-xs, .8125rem); font-weight: 700; }
+.watch-agent__links { display: flex; flex-wrap: wrap; gap: 0 16px; }
+.watch-agent__links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; text-underline-offset: 3px; }
+.watch-agent__links a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.watch-agent__note { color: var(--muted); font-size: var(--fs-2xs, .75rem); }
+.watch-dialog__place { white-space: nowrap; }
+/* A 380px sheet: Buy · Rent on their own row, then the price and beds. */
+.watch-sheet .watch-alert__fields { grid-template-columns: minmax(0, 1fr) auto; }
+.watch-sheet .watch-alert__market { grid-column: 1 / -1; }
+/* The portals' alerts first (no agent needed), then the agent prompt. */
+.watch-dialog__lead { margin: 14px 0 6px; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+.watch-alert { padding: 12px 14px; border-radius: var(--radius-md, 10px); background: var(--surface); }
+.watch-alert .watch-dialog__lead { margin-top: 0; }
+.watch-alert__fields { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 12px; align-items: end; }
+.watch-alert__fields label { display: grid; gap: 4px; min-width: 0; color: var(--muted); font-size: var(--fs-2xs, .75rem); font-weight: 700; }
+.watch-alert__fields .knit-field { width: 100%; min-width: 0; }
+.watch-alert__market { display: flex; gap: 6px; }
+.watch-alert__market .chip-button { min-height: 44px; }
+.watch-alert__links { margin: 10px 0 4px; font-weight: 700; }
+.watch-alert__links > span:first-child { color: var(--muted); font-weight: 600; }
+.watch-alert__links a { display: inline-flex; align-items: center; gap: 3px; min-height: 44px; text-underline-offset: 3px; }
+.watch-alert__links a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.watch-sheet .watch-alert__note { margin: 0; color: var(--muted); font-size: var(--fs-2xs, .75rem); }
+@media (max-width: 480px) {
+  .watch-alert__fields { grid-template-columns: minmax(0, 1fr) auto; }
+  .watch-alert__market { grid-column: 1 / -1; }
+}
+
+/* Save this home: a pill, then the asking-price field in place; "Saved to your brief" once kept. */
+.save-home { display: contents; }
+/* In the page's action row, the field and the confirmation drop below the row's pills. */
+.save-home__form, .save-home__status { order: 99; }
+.save-home__form { flex-basis: 100%; }
+.save-home__form { display: grid; gap: 6px; max-width: 360px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-lg, 14px); background: var(--surface); }
+.save-home__label { font-size: var(--fs-sm, .875rem); font-weight: 800; }
+.save-home__hint { margin: 0; color: var(--muted); font-size: var(--fs-xs, .8125rem); line-height: 1.4; }
+.save-home__buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.save-home__cancel { background: transparent; }
+.save-home__done {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 999px;
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font-size: 14px; font-weight: 700;
+}
+.save-home__add {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; border: 0; background: transparent; color: var(--ink);
+  font: 700 var(--fs-sm, .875rem)/1.2 var(--font-sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.save-home__add:hover { text-decoration-thickness: 2px; }
+.save-home__add:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.save-home__done::before { content: "✓"; color: var(--chart-good, var(--ink)); font-weight: 800; }
+.save-home__status:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+.save-home__status { flex-basis: 100%; margin: 0; color: var(--ink); font-size: var(--fs-sm, .875rem); line-height: 1.4; }
+
+/* Next steps: the property page's closing row. */
+.next-steps { margin-top: 28px; }
+.next-steps__list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.next-steps__list > li { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-lg, 14px); background: var(--surface); }
+.next-steps__list p { margin: 0; color: var(--muted); font-size: var(--fs-xs, .8125rem); line-height: 1.4; }
+.next-steps__list .save-home__form { padding: 0; border: 0; }
+@media print { .next-steps, .save-home { display: none !important; } }
+
+/* Report or hide this home: the reassurance first, radio cards (the label is the target), three steps. */
+.home-correction__reassure { margin: 0; color: var(--ink); font-size: var(--fs-sm, .875rem); font-weight: 800; line-height: 1.4; }
+.home-correction__kinds { display: grid; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
+/* Each option is a .knit-field card: 44px, the 1px --field-line border, --radius-md, the surface, 3px --focus. */
+.home-correction .home-correction__kind {
+  box-sizing: border-box; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 12px;
+  border: 1px solid var(--field-line); border-radius: var(--radius-md, 10px); background: var(--surface); color: var(--ink);
+  font-size: var(--fs-sm, .875rem); line-height: 1.35; cursor: pointer;
+}
+.home-correction .home-correction__kind:hover { border-color: var(--ink); }
+.home-correction .home-correction__kind:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); font-weight: 700; }
+.home-correction .home-correction__kind:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 1px; }
+.home-correction .home-correction__kind input:focus-visible { outline: none; }
+.home-correction__kind input { flex: none; width: 18px; height: 18px; margin: 0; accent-color: var(--primary); }
+.home-correction__steps { display: grid; gap: 4px; margin: 0; padding-left: 20px; color: var(--ink); font-size: var(--fs-xs, .8125rem); line-height: 1.45; }
+.home-correction__steps a { font-weight: 700; text-underline-offset: 3px; }
+.home-correction .home-correction__email-label { min-height: 0; margin-top: 4px; font-weight: 700; }
+.home-correction form input[type="email"].home-correction__email,
+.home-correction form textarea { box-sizing: border-box; min-height: 44px; padding: 8px 12px; border: 1px solid var(--field-line); border-radius: var(--radius-md, 10px); background: var(--surface); color: var(--ink); font: 400 16px/1.4 var(--font-sans); }
+.home-correction form textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
+.home-correction form textarea { min-height: 72px; resize: vertical; }
+.home-correction form button[type="submit"] {
+  justify-self: start; min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--ink); color: var(--on-ink);
+  font: 700 var(--fs-sm, .875rem)/1 var(--font-sans); cursor: pointer;
+}
+.home-correction form button[type="submit"]:disabled { background: var(--chip); color: var(--muted); cursor: progress; }
+.home-correction form button[type="submit"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.home-correction__privacy { margin: 0; font-size: var(--fs-xs, .8125rem); }
+.home-correction__privacy a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; text-underline-offset: 3px; }
+.home-correction form label[for="home-correction-description"] { min-height: 0; margin-top: 4px; font-weight: 700; }
+
+/* Report a figure (evidence-panel.tsx CorrectionForm): the same card and radio cards as
+   the home form, with a title row and ✕, "Who got it wrong?" as its legend, Prepare then Send. */
+.correction-form {
+  display: grid; gap: var(--space-2); margin: var(--space-2) 0; padding: var(--space-3) var(--space-4) var(--space-4);
+  border: 1px solid var(--field-line); border-radius: var(--radius-lg); background: var(--surface); color: var(--ink);
+  font-size: var(--fs-sm); line-height: 1.4;
+}
+.correction-form__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.correction-form__head h3 { margin: 0; font-size: var(--fs-md); font-weight: 800; }
+.correction-form__head h3:focus { outline: none; }
+.correction-form__close {
+  display: grid; place-items: center; flex: none; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0;
+  border-radius: var(--radius-pill); background: transparent; color: var(--ink); cursor: pointer;
+}
+.correction-form__close:hover { background: var(--chip); }
+.correction-form__close:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.correction-form__kinds { display: grid; gap: 6px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.correction-form__label { margin: 4px 0 2px; padding: 0; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.correction-form__kind {
+  box-sizing: border-box; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 10px 12px;
+  border: 1px solid var(--field-line); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.correction-form__kind:hover { border-color: var(--ink); }
+.correction-form__kind:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); font-weight: 700; }
+.correction-form__kind:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 1px; }
+.correction-form__kind input:focus-visible { outline: none; }
+.correction-form textarea.knit-field { width: 100%; min-height: 88px; padding: 10px 12px; font: 400 16px/1.4 var(--font-sans); resize: vertical; }
+.correction-form .correction-reference { color: var(--muted); font-size: var(--fs-xs); }
+.correction-form .correction-reference summary { padding: 12px 0; line-height: 20px; cursor: pointer; }
+.correction-form .correction-reference p { margin: 0 0 4px; overflow-wrap: anywhere; }
+.correction-form__prepare, .correction-form__send {
+  justify-self: start; min-height: 44px; padding: 0 18px; border: 0; border-radius: var(--radius-pill);
+  font: 700 var(--fs-sm)/1 var(--font-sans); cursor: pointer;
+}
+.correction-form__prepare { background: var(--chip); color: var(--ink); }
+.correction-form__send { background: var(--ink); color: var(--on-ink); }
+.correction-form__send:disabled { background: var(--chip); color: var(--muted); cursor: progress; }
+:is(.correction-form__prepare, .correction-form__send):focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.correction-form__preview { display: grid; gap: 4px; padding: 10px 12px; border-left: 4px solid var(--yarn-sky); border-radius: var(--radius-md); background: var(--chip); }
+.correction-form__preview p { margin: 0; }
+.correction-form__ids { color: var(--muted); font-size: var(--fs-xs); overflow-wrap: anywhere; }
+.correction-form__error { margin: 0; color: var(--ink); font-weight: 700; }
+
+/* After a hide-my-home request: one calm panel, the heading takes focus. */
+.home-correction__done { display: grid; gap: 8px; justify-items: start; padding: 14px 16px; border: 1px solid var(--field-line); border-left: 4px solid var(--yarn-sky, var(--ink)); border-radius: var(--radius-md, 10px); background: var(--surface); color: var(--ink); }
+.home-correction__done h3 { margin: 0; font-size: var(--fs-lg, 1.125rem); }
+.home-correction__done h3:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.home-correction__done p { margin: 0; font-size: var(--fs-sm, .875rem); line-height: 1.45; }
+.home-correction__done .home-correction__done-note { color: var(--muted); font-size: var(--fs-xs, .8125rem); }
+.home-correction__done a { font-weight: 700; text-underline-offset: 3px; }

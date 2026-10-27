@@ -1,0 +1,181 @@
+{
+ "transformation": "close-knit-etl-1",
+ "window": [
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11",
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05",
+  "2026-06",
+  "2026-07"
+ ],
+ "denominator": "ons-mid-2024",
+ "sources": {
+  "src-police-uk-crime-2025-08-2026-07": {
+   "url": "https://data.police.uk/data/archive/",
+   "sha256": "5be90a272509aea74c8eaf68123ab11c052f15cd7651764cc11337643544325c",
+   "files": {
+    "months": [
+     "2025-08",
+     "2025-09",
+     "2025-10",
+     "2025-11",
+     "2025-12",
+     "2026-01",
+     "2026-02",
+     "2026-03",
+     "2026-04",
+     "2026-05",
+     "2026-06",
+     "2026-07"
+    ],
+    "forces": [
+     "metropolitan",
+     "city-of-london"
+    ],
+    "british_transport_police": "excluded",
+    "anti_social_behaviour": "counted-separately-excluded-from-headline",
+    "files": [
+     {
+      "2025-08": "https://data.police.uk/data/archive/2025-08.zip"
+     },
+     {
+      "2025-09": "https://data.police.uk/data/archive/2025-09.zip"
+     },
+     {
+      "2025-10": "https://data.police.uk/data/archive/2025-10.zip"
+     },
+     {
+      "2025-11": "https://data.police.uk/data/archive/2025-11.zip"
+     },
+     {
+      "2025-12": "https://data.police.uk/data/archive/2025-12.zip"
+     },
+     {
+      "2026-01": "https://data.police.uk/data/archive/2026-01.zip"
+     },
+     {
+      "2026-02": "https://data.police.uk/data/archive/2026-02.zip"
+     },
+     {
+      "2026-03": "https://data.police.uk/data/archive/2026-03.zip"
+     },
+     {
+      "2026-04": "https://data.police.uk/data/archive/2026-04.zip"
+     },
+     {
+      "2026-05": "https://data.police.uk/data/archive/2026-05.zip"
+     },
+     {
+      "2026-06": "https://data.police.uk/data/archive/2026-06.zip"
+     },
+     {
+      "2026-07": "https://data.police.uk/data/archive/2026-07.zip"
+     }
+    ],
+    "lsoa_areas_covered": {
+     "2025-08": 4958,
+     "2025-09": 4959,
+     "2025-10": 4967,
+     "2025-11": 4958,
+     "2025-12": 4956,
+     "2026-01": 4957,
+     "2026-02": 4950,
+     "2026-03": 4961,
+     "2026-04": 4945,
+     "2026-05": 4967,
+     "2026-06": 4964,
+     "2026-07": 4956
+    },
+    "quarantined_unknown_codes": 2924
+   }
+  },
+  "src-ons-boundaries-2021-bgc": {
+   "url": "https://geoportal.statistics.gov.uk/",
+   "sha256": "87543d7de013f314679ec795a6d48dc0cc9d08987356bea2ddef1180671df125",
+   "layers": {
+    "layers": [
+     "LSOA21 BGC V5",
+     "MSOA21 BGC V3",
+     "LAD23 BGC",
+     "OA21-LSOA21-MSOA21-LAD22 exact-fit V3"
+    ],
+    "lsoa": 4994,
+    "msoa": 1002,
+    "lad": 33
+   }
+  },
+  "src-ons-population-mid2024": {
+   "url": "https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/lowersuperoutputareamidyearpopulationestimates/mid2022revisednov2025tomid2024/sapelsoasyoa20222024.xlsx",
+   "sha256": "2a59e9332112639ff37552641193aedaf14ff10db99d12e034505959eabd8909"
+  }
+ },
+ "release": "rel-2026-09-crime-12m-v1",
+ "validation": {
+  "quarantined_unknown_codes": 2924,
+  "quarantined_total_crimes": 4824,
+  "zero_crime_cells": 430,
+  "missing_population": [],
+  "coverage": {
+   "2025-08": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2025-09": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2025-10": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2025-11": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2025-12": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-01": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-02": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-03": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-04": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-05": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-06": [
+    "metropolitan",
+    "city-of-london"
+   ],
+   "2026-07": [
+    "metropolitan",
+    "city-of-london"
+   ]
+  },
+  "latest_lsoa_quintiles": [
+   4.237,
+   6.506,
+   9.281,
+   13.991
+  ]
+ }
+}

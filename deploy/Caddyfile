@@ -1,0 +1,121 @@
+# Single public door for a production deployment (docker-compose.prod.yml).
+# Caddy terminates TLS for CLOSE_KNIT_DOMAIN and forwards X-Forwarded-For;
+# the API runs with CLOSE_KNIT_TRUST_PROXY=1 and is reachable only from here
+# and from the web BFF. Edge rate limiting is optional (Cloudflare or the
+# caddy-ratelimit plugin); the application limiter is the guarantee.
+
+# Access log: one JSON line per request (client IP, login user, method,
+# URI, status, user agent). Caddy redacts Authorization and Cookie values.
+# A file per day, deleted after 30 days, as /privacy states. On the host:
+# /var/log/close-knit/; summarise with deploy/tools/access-log.sh.
+# fail2ban jail caddy-auth reads it too: wrong passwords on any login.
+(access_log) {
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 50MiB
+			roll_interval 24h
+			roll_keep_for 720h
+		}
+		format json
+	}
+}
+
+# Set before the logins run, so their 401s carry them too: a header block
+# that deletes a field is deferred to the response, which error responses
+# (a failed login) never reach.
+(security_headers) {
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+	header -Server
+}
+
+# Caddy alone sets those headers: drop the upstream's copies so a proxied
+# response does not carry each twice. A ship recreates api and web while
+# Caddy keeps running: a request that cannot connect to the new container yet
+# is retried every 250 ms for up to 30 s instead of answering 502 (#275).
+# Only a failed connection is retried, so no request reaches the API twice.
+# Usage: import proxy api:8080
+(proxy) {
+	reverse_proxy {args[0]} {
+		lb_try_duration 30s
+		lb_try_interval 250ms
+		header_down -Strict-Transport-Security
+		header_down -X-Content-Type-Options
+		header_down -Referrer-Policy
+	}
+}
+
+{$CLOSE_KNIT_DOMAIN} {
+	encode zstd gzip
+
+	# Public or behind a shared login: access-public.caddy / access-private.caddy.
+	# Only a private site sends X-Robots-Tag: noindex; a public one is listed (the
+	# web container reads the same CLOSE_KNIT_ACCESS for its meta robots).
+	import access-{$CLOSE_KNIT_ACCESS:public}.caddy
+
+	import access_log
+	log_skip /api/v1/health
+
+	# No API or MCP call needs a large body; reject big ones before they reach Python.
+	@bodies path /api/* /mcp /mcp/*
+	request_body @bodies {
+		max_size 256KB
+	}
+
+	# The MCP endpoint: one process of its own (docker-compose.yml mcp), since its sessions live in memory and the
+	# api service runs several workers.
+	@mcp path /mcp /mcp/*
+	handle @mcp {
+		import proxy mcp:8080
+	}
+
+	# Agent surface served by the API directly.
+	@api path /api/v2/* /go/* /.well-known/* /openapi.json /docs /docs/*
+	handle @api {
+		import proxy api:8080
+	}
+
+	# The map's area tiles: one PMTiles archive per kind of area, named by a hash of its bytes
+	# (deploy/tools/area_pmtiles.py builds them into /srv/close-knit-tiles), read with Range requests.
+	# A name never changes content: browsers keep them for good. Already gzipped inside, and
+	# application/octet-stream is not a type encode compresses, so ranges stay byte ranges of the file.
+	handle /tiles/* {
+		root * /srv
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	# Everything else (map, pages, /api/v1 BFF, /llms.txt, /privacy) is Next.js.
+	handle {
+		import proxy web:4180
+	}
+
+	import security_headers
+}
+
+# Other names for the site (www, short domains) answer with a
+# permanent redirect to CLOSE_KNIT_DOMAIN, path and query kept. Comma
+# separated in deploy/.env; unset, the block only answers a local name.
+{$CLOSE_KNIT_REDIRECT_DOMAINS:http://redirect.localhost} {
+	import security_headers
+	redir https://{$CLOSE_KNIT_DOMAIN}{uri} permanent
+}
+
+# The server's own name (CLOSE_KNIT_SITES_HOST) keeps the other sites on
+# this host, each under its own path with its own login: one file per site
+# in /srv/caddy-sites on the host (outside this repo), files in
+# /srv/sites/<site>, app sockets in /run/caddy-upstreams. Today: /muse/.
+# Every other path redirects to CLOSE_KNIT_DOMAIN. Unset, the block only
+# answers a local name.
+{$CLOSE_KNIT_SITES_HOST:http://sites.localhost} {
+	encode zstd gzip
+	import access_log
+	import security_headers
+	import /etc/caddy/sites/*.caddy
+	handle {
+		redir https://{$CLOSE_KNIT_DOMAIN}{uri} permanent
+	}
+}

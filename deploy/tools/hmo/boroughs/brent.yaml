@@ -1,0 +1,37 @@
+# Brent: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000005
+slug: brent
+name: Brent
+register:
+  status: search-only
+  url: https://portal.brent.gov.uk/registers/index.html?fa=licence_register
+  page: https://www.brent.gov.uk/housing/landlords/property-licensing
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-02-02
+  end: 2031-02-02
+  url: https://www.brent.gov.uk/-/media/files/resident-documents/housing-documents/notice-of-designation-of-an-area-for-additional-licensing-3-2025.pdf
+- kind: selective
+  wards: [Harlesden & Kensal Green, Dollis Hill, Willesden Green]
+  start: 2023-08-01
+  end: 2028-07-31
+  url: https://www.brent.gov.uk/housing/landlords/property-licensing
+- kind: selective
+  # Designation 2: every ward except Wembley Park and the three Designation 1 wards.
+  wards: [Alperton, Barnhill, Brondesbury Park, Cricklewood & Mapesbury, Kenton, Kilburn, Kingsbury, Northwick Park,
+    Preston, Queensbury, Queens Park, Roundwood, Stonebridge, Sudbury, Tokyngton, Welsh Harp, Wembley Central,
+    Wembley Hill]
+  start: 2024-04-01
+  end: 2029-03-31
+  url: https://www.brent.gov.uk/housing/landlords/property-licensing
+notes: >-
+  Register portal sits behind an AWS WAF CAPTCHA (HTTP 405 for scripts), so its format could not be seen; a
+  human should open it and check for an export. Selective end dates are start plus five years as stated by the council.

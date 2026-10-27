@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.CloseKnit" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#173F35</item>
+        <item name="android:navigationBarColor">#F5F3ED</item>
+        <item name="android:statusBarColor">#F5F3ED</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

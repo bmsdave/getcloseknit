@@ -1,0 +1,5 @@
+laua,laua_name,prem_count,4G_prem_out_0,4G_prem_out_1,4G_prem_out_2,4G_prem_out_3,4G_prem_out_4,4G_prem_in_0,4G_prem_in_1,4G_prem_in_2,4G_prem_in_3,4G_prem_in_4,5G_high_confidence_prem_out_0,5G_high_confidence_prem_out_1,5G_high_confidence_prem_out_2,5G_high_confidence_prem_out_3,5G_high_confidence_prem_out_4
+S12000033,Aberdeen City,132385,,,0,0.01,99.98,0.01,0.04,0.33,1.94,97.68,0,0.98,4.84,11.57,82.6
+E09000007,Camden,122219,,,,,100,,,0,0.12,99.88,,,,,100
+E09000016,Havering,115646,,,,0.05,99.95,,,0.07,2.25,97.69,,,0,2.83,97.17
+E09000027,Richmond Upon Thames,89765,,,,0,100,,,0.02,0.42,99.57,,,,0.04,99.96

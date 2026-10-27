@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Close Knit: area facts on listings",
+  "short_name": "Close Knit",
+  "version": "0.5.0",
+  "description": "Area facts beside listings on Rightmove, Zoopla, OnTheMarket, SpareRoom and OpenRent: crime, stations, parks, schools, noise.",
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "action": { "default_popup": "popup/popup.html", "default_title": "Close Knit", "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" } },
+  "background": { "service_worker": "background.js" },
+  "permissions": ["storage", "sidePanel"],
+  "side_panel": { "default_path": "sidepanel/sidepanel.html" },
+  "options_ui": { "page": "options/options.html", "open_in_tab": true },
+  "host_permissions": ["__SITE__/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.rightmove.co.uk/*", "https://www.zoopla.co.uk/*", "https://www.onthemarket.com/*", "https://www.spareroom.co.uk/*", "https://www.openrent.co.uk/*"],
+      "js": ["portal.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.rightmove.co.uk/property-for-sale/*", "https://www.rightmove.co.uk/property-to-rent/*",
+        "https://www.rightmove.co.uk/new-homes-for-sale/*",
+        "https://www.zoopla.co.uk/for-sale/*", "https://www.zoopla.co.uk/to-rent/*", "https://www.zoopla.co.uk/new-homes/*",
+        "https://www.onthemarket.com/for-sale/*", "https://www.onthemarket.com/to-rent/*",
+        "https://www.spareroom.co.uk/flatshare/*",
+        "https://www.openrent.co.uk/properties-to-rent*"
+      ],
+      "js": ["results.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["__SITE__/*"],
+      "js": ["closeknit.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/icon.svg", "fonts/BricolageGrotesque-latin.woff2"],
+      "matches": ["https://www.rightmove.co.uk/*", "https://www.zoopla.co.uk/*", "https://www.onthemarket.com/*", "https://www.spareroom.co.uk/*", "https://www.openrent.co.uk/*", "__SITE__/*"]
+    }
+  ]
+}

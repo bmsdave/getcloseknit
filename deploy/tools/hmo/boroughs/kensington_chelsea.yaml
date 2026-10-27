@@ -1,0 +1,25 @@
+# Kensington and Chelsea: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000020
+slug: kensington_chelsea
+name: Kensington and Chelsea
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://www.rbkc.gov.uk/media/document/hmo-public-register-october-2026
+  page: https://www.rbkc.gov.uk/housing/information-homeowners-private-rented-tenants-and-landlords/houses-multiple-occupation-hmo/public-hmo-register
+  format: pdf
+  sheet: null
+  postcode_column: null    # pdf: one record per licence (ref KAC-...); "Property address" ends with the postcode, which can wrap onto the next line
+  rows: 877
+  updated: 2026-10-01
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2023-06-01
+  end: 2028-05-31
+  url: https://www.rbkc.gov.uk/housing/information-homeowners-private-rented-tenants-and-landlords/houses-multiple-occupation-hmo/additional-hmo-licensing-scheme
+notes: >-
+  Monthly PDF (37 pages) on a new URL each month (hmo-public-register-<month>-<year>); the page also links a metastreet search database. The site returns 403 to
+  curl with a browser-like User-Agent alone; plain curl with an Accept-Language header works.
+  Licence holder and managing agent names are in the PDF and must be ignored.

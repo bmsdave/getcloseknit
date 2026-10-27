@@ -1,0 +1,41 @@
+                                    number         of applications   health and care    of siblings    social/medical   calculated in
+      School name                   for 2024       received          plan               offered        circumstances    miles
+                                                   2023     2024     2023      2024     2023    2024   2023    2024     2023        2024
+      Abacus                             30         124      112       0         0        9       11     -        -      0.48       0.668
+      Argyle                             45         82       60        0         0       26       12     0        0       n/a         n/a
+      Brecknock                          60         83       84        0         0       18        8     0        0       n/a         n/a
+      Brookfield                         60         138      108       0         1       21       12     0        0     0.991         n/a
+      Christ Church NW1                  30          51       46       0         0        6        3     -        -       n/a         n/a
+      Kentish Town                       30         139      109       3         4        *        *     -        -     0.382       0.219
+      Netley                             45          78       68       2         0       19       16     0        0     0.299       3.654
+      Rosary                             45          95       99       0         0        *        *     *        *       n/a       0.107
+     * - Check with the school for figures/data for these criteria                                            Route B only
+     n/a - These schools had vacant places after the offer date                                               Open criterion only
+=====
+      School name                    per year       received          plan               offered        circumstances     miles
+                                                    2021     2020     2021      2020     2021    2020   2021     2020     2021       2020
+      Abacus                              30         126      138       0         2       10       14     -        0       0.582       *
+      Argyle                              60         73       89        0         0       24       21     0        0          n/a     n/a
+      West Hampstead
+                                          60         183      199       0         0       31       20     0        1      0.392      0.374
+      (formerly Beckford)
+      Brecknock                           60          96       86       1         0       11       16     1        0        n/a        n/a
+      Brookfield                          60         146      103       0         0       20       17     0        0        n/a        n/a
+     * - Check with the school
+=====
+School                                         2024                   2023
+                                               (distances)            (distances)
+Acland Burghley School                         0.93                   0.85
+Camden School for Girls Band A:                0.95                   0.90
+                           Band B:             0.91                   1.06
+                           Band C:             0.49                   0.71
+                           Band D:             0.36                   0.36
+Hampstead School                               n/a                    n/a
+Haverstock School                              n/a                    n/a
+La Sainte Union Catholic School                n/a                    n/a
+Maria Fidelis School FCJ                       n/a                    n/a
+Parliament Hill School                         1.14                   1.17
+Regent High School                             1.49                   1.63
+UCL Academy                                    n/a                    2.01
+William Ellis School                           n/a                    2.17
+

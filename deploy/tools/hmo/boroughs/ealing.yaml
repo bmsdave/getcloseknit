@@ -1,0 +1,40 @@
+# Ealing: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000009
+slug: ealing
+name: Ealing
+register:
+  status: search-only
+  url: https://ealing.metastreet.co.uk/public-register
+  page: https://www.ealing.gov.uk/info/201086/housing/3432/public_register_of_licensed_properties
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+# Selective scheme designated on pre-May 2022 wards: their current successors (approximate, by area).
+ward_aliases:
+  Acton Central: [South Acton, East Acton]
+  Greenford Green: [North Greenford]
+  Hobbayne: [Hanwell Broadway, North Hanwell]
+schemes:
+- kind: additional
+  wards: all
+  start: 2022-04-01
+  end: 2027-03-31
+  url: https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/8
+- kind: selective
+  wards: [East Acton, Southall Broadway, Southall Green]
+  start: 2022-04-01
+  end: 2027-03-31
+  url: https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/8
+- kind: selective
+  wards: [Acton Central, Dormers Wells, Greenford Broadway, Greenford Green, Hanger Hill, Hobbayne, Lady Margaret, North Greenford, Northolt Mandeville, Northolt West End, Perivale, South Acton]
+  start: 2023-01-03
+  end: 2028-01-02
+  url: https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/8
+notes: >-
+  Postcode search with reCAPTCHA; full or part copy of the HMO register available by email for GBP 25-100. Ward names use
+  pre-May 2022 boundaries. Selective end dates are start plus five years (inferred). A replacement additional scheme
+  from April 2027 was only at consultation stage, so not listed.

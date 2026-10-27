@@ -1,0 +1,53 @@
+# Waltham Forest: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000031
+slug: waltham_forest
+name: Waltham Forest
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://www.walthamforest.gov.uk/sites/default/files/2026-10/HMO%20Public%20register%20October%202026.pdf
+  page: https://www.walthamforest.gov.uk/housing/private-sector-housing/private-rented-property-licensing-prpl/our-public-register-licensed-properties
+  format: pdf
+  sheet: null
+  postcode_column: null    # pdf: one line per licence; the "Property address" column ends with the property postcode
+  # One record per licence from its type (column one); holder name column has no postcode.
+  record_start: ^(Mandatory HMO|Additional HMO)
+  rows: 884
+  updated: 2026-10-02
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-04-01
+  end: 2030-03-31
+  url: https://www.walthamforest.gov.uk/housing/private-sector-housing/private-rented-property-licensing-prpl/property-licensing-schemes
+- kind: selective
+  wards:
+  - Cann Hall
+  - Cathall
+  - Chapel End
+  - Chingford Green
+  - Forest
+  - Grove Green
+  - Hale End and Highams Park South
+  - High Street
+  - Higham Hill
+  - Hoe Street
+  - Larkswood
+  - Lea Bridge
+  - Leyton
+  - Leytonstone
+  - Markhouse
+  - St James
+  - Upper Walthamstow
+  - Valley
+  - William Morris
+  - Wood Street
+  start: 2025-05-01
+  end: 2030-04-30
+  url: https://www.walthamforest.gov.uk/housing/private-sector-housing/private-rented-property-licensing-prpl/property-licensing-schemes
+notes: >-
+  Register PDF (15 pages, 884 single-line records, Mandatory HMO and Additional HMO, no selective) is behind an AWS WAF
+  challenge for curl (HTTP 202, empty body); it was read via the WebFetch tool, which saved the raw PDF. A browser
+  should be able to download it. Selective scheme covers 20 of 22 wards (all except Hatch Lane and Highams Park North, and Endlebury);
+  ward names are the standard 22 ward list, not copied from the council's map.

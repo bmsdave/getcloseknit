@@ -1,0 +1,7 @@
+# Verification: emerging megacities claims
+
+- **Moscow metro walk -3.9% per 10 min; first/top floor ~9.3% lower** — supported. Cyberleninka paper (14,722 listings, 2003): 10-min walk -3.9% (5/20/30 min: -2.0/-7.7/-11.3%); dummy for "not ground and not top floor" coefficient 0.093 (log points). Note data are from 2003.
+- **IEP 2026 CatBoost hedonic index, 72,230 listings, +11.9% vs Rosstat ~+1.2% Moscow** — supported. Index 100 -> 111.9 (Jun 2025-Jun 2026); Rosstat +1.2% Moscow / +3.4% Moscow oblast, but only through Q1 2026; gap attributed to methodology (hedonic controls for supply composition).
+- **Urban India rent hedonics: kitchen w/ water +40.1%, flush toilet +25.2%, electricity +43.9%, area elasticity 0.33** — supported. World Bank paper, Table 4 pooled log-linear, NSS rounds 1993-2018, urban renters.
+- **Lagos agency ~10%, legal ~10%, caution 10-20%, ~half a year's rent, on top of 1-2 years upfront** — partially. Fee percentages supported (Discover Lagos: 10/10/10-20%; Nairametrics: 10% agency, 10% legal, up to 20% caution, "as much as 50% of the rent" - an upper bound, not typical). The 1-2 years upfront figure is not stated in the fetched sources; Reddit link unreachable.
+- **Subsidised mortgages funded a record 81% of new-build purchases in 2023** — partially. Wikipedia states the 81% record mortgage share of new-build purchases in the context of the March key-rate hike to 20%, i.e. 2022, not 2023; 2023 is cited only for the 110.1 mn m2 completion record.

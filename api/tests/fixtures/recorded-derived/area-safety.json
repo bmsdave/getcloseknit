@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/areas/uk:lsoa:E01000900/safety",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": "@1792972800",
+ "body": "{\"schemaVersion\":\"area-safety.v1\",\"productReleaseId\":\"fixture-2026-06\",\"geographyId\":\"uk:lsoa:E01000900\",\"available\":true,\"period\":\"2026-06\",\"rate\":60.0,\"regionPercentile\":0,\"regionRate\":null,\"rankScope\":{\"code\":\"E12000007\",\"name\":\"London\"},\"offences\":null,\"types\":[{\"category\":\"Violence and sexual offences\",\"offences\":9,\"rate\":null,\"regionRate\":null,\"londonRate\":null},{\"category\":\"anti-social-behaviour\",\"offences\":5,\"rate\":null,\"regionRate\":null,\"londonRate\":null},{\"category\":\"Shoplifting\",\"offences\":4,\"rate\":null,\"regionRate\":null,\"londonRate\":null}],\"trend\":{\"from\":\"2026-05\",\"to\":\"2026-06\",\"months\":1,\"changePercent\":1.7,\"stable\":true,\"points\":[{\"period\":\"2026-05\",\"rate\":59.0},{\"period\":\"2026-06\",\"rate\":60.0}]},\"source\":{\"attribution\":\"Contains police data licensed under OGL v3.0\",\"licence\":\"OGL-3.0\",\"url\":\"https://data.police.uk/\"},\"caveats\":[\"Crime is counted where it happens, so busy shopping and night-life streets score high.\",\"Rates are per 1,000 residents over 12 months; places with few residents and many visitors read high.\"],\"londonPercentile\":0,\"londonRate\":null}"
+}

@@ -1,0 +1,28 @@
+# Fixture: two schemes, one counted (under construction), one proposed.
+schemes:
+  - id: old-oak
+    scheme: "HS2: Old Oak Common"   # quoted: has a colon
+    mode: rail
+    status: under construction
+    expected_year: null
+    source_url: https://www.gov.uk/government/news/old-oak-common
+    stations:
+      - name: Old Oak Common
+        lat: 51.52680
+        lon: -0.25010
+        placed: official site plan
+  - id: blx
+    scheme: Bakerloo line extension
+    mode: tube
+    status: proposed
+    expected_year: 2040
+    source_url: https://tfl.gov.uk/travel-information/improvements-and-projects/bakerloo-line-extension
+    stations:
+      - name: Old Kent Road 1
+        lat: 51.48800
+        lon: -0.07700
+        placed: official route map
+      - name: Old Kent Road 2
+        lat: 51.48150
+        lon: -0.05950
+        placed: official route map

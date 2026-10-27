@@ -1,0 +1,33 @@
+hub_id,name,station_id,latitude,longitude
+kings-cross,King's Cross St Pancras,osm:n119274464,51.530609,-0.123949
+bank,Bank,osm:n1637578440,51.513105,-0.089375
+liverpool-street,Liverpool Street,osm:n3637436407,51.517663,-0.084481
+canary-wharf,Canary Wharf,osm:n5469508777,51.504907,-0.019079
+oxford-circus,Oxford Circus,osm:n5614077964,51.515442,-0.141956
+tottenham-court-road,Tottenham Court Road,osm:n5462552522,51.515653,-0.131516
+waterloo,Waterloo,osm:n3638795618,51.503002,-0.113981
+london-bridge,London Bridge,osm:n4290857012,51.505144,-0.086923
+victoria,Victoria,osm:n441947584,51.496369,-0.143152
+paddington,Paddington,osm:n1264482797,51.516786,-0.177376
+euston,Euston,osm:n3663368461,51.528287,-0.133875
+stratford,Stratford,osm:n5257403774,51.541289,-0.003547
+white-city,White City,osm:n4514968602,51.511935,-0.224236
+hammersmith,Hammersmith,osm:n5474926328,51.493135,-0.224154
+holborn,Holborn,osm:n3693265703,51.517115,-0.120066
+farringdon,Farringdon,osm:n3284103165,51.519964,-0.104555
+old-street,Old Street,osm:n70804547,51.525628,-0.087609
+westminster,Westminster,osm:n25534427,51.501356,-0.12493
+green-park,Green Park,osm:n6407577779,51.506624,-0.142944
+moorgate,Moorgate,osm:n5702714876,51.518252,-0.089063
+aldgate,Aldgate,osm:n3788735981,51.514248,-0.075719
+southwark,Southwark,osm:n5350830014,51.503925,-0.104966
+vauxhall,Vauxhall,osm:n3446663141,51.485928,-0.123805
+battersea-power-station,Battersea Power Station,osm:n9097860108,51.479615,-0.142971
+east-croydon,East Croydon,osm:n302042289,51.375104,-0.092733
+wimbledon,Wimbledon,osm:n18089211,51.421626,-0.205244
+heathrow-t23,Heathrow Terminals 2 & 3,osm:n5182384971,51.471635,-0.453397
+shoreditch-high-street,Shoreditch High Street,osm:n6991130547,51.523253,-0.074467
+angel,Angel,osm:n1670707904,51.532487,-0.106036
+elephant-and-castle,Elephant & Castle,osm:n3660623412,51.494466,-0.099645
+bond-street,Bond Street,osm:n3076573913,51.513758,-0.148257
+monument,Monument,osm:n3076574237,51.510633,-0.086127

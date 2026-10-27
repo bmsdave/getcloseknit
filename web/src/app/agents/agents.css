@@ -1,0 +1,10 @@
+/* /agents (app/agents/agents-hub.tsx): the tool tabs' chips (tools.css › .tools-nav) above one card per step group. Tokens only. */
+.agents-nav { margin: 24px 0 0; }
+/* All five tabs in view on a phone: the row wraps instead of scrolling past the edge. */
+.tools-nav.agents-nav { flex-wrap: wrap; overflow: visible; row-gap: 8px; }
+.agents-page .subpage-cards { margin-top: 18px; }
+.agents-page .subpage-card .copy-field + .copy-field { margin-top: var(--space-2); }
+.agents-try p { margin-bottom: var(--space-2); }
+.agents-addresses { display: grid; gap: var(--space-2); margin: 0; }
+.agents-addresses dt { color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.agents-addresses dd { margin: 0 0 var(--space-2); }

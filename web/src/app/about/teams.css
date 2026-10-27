@@ -1,0 +1,12 @@
+/* About › For teams (was /teams): the rate-limit table wraps its words instead of scrolling, so four short columns fit a phone. */
+.teams-limits :is(th, td) { white-space: normal; vertical-align: top; }
+.teams-limits th[scope="row"] { text-align: left; overflow-wrap: break-word; }
+.teams-limits td { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.teams-limits thead th:not(:first-child) { text-align: right; }
+.subpage-card .teams-pledge { color: var(--ink); font-size: var(--fs-lg); }
+@media (max-width: 640px) {
+  .teams-limits { font-size: 13px; }
+  .teams-limits th[scope="row"] { width: 40%; }
+  .teams-limits :is(th, td):not(:first-child) { padding-left: 6px; }
+}
+#limits p code { white-space: nowrap; }

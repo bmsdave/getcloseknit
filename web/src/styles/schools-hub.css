@@ -1,0 +1,53 @@
+/* /schools (Menu v5 board): search, filter chips, the borough list, the borough links and Schools 101.
+   Tiles and group heads come from app/rankings/rankings.css; tokens only, Day and Night alike. */
+.schools-hub__stats { margin: 6px 0 0; color: var(--muted); font-size: var(--fs-sm); }
+.schools-hub__stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* The search: the site search's field with its knitted ring, then the page's one primary action. */
+.schools-search { position: relative; display: flex; gap: 8px; margin-top: 14px; max-width: 560px; }
+.schools-search__ring { position: absolute; top: 14px; left: 14px; pointer-events: none; }
+.schools-search__field { flex: 1; min-width: 0; padding-left: 38px; }
+.schools-search__go { flex: none; width: auto; min-height: 44px; padding: 0 18px; }
+
+/* Filter chips: label left, chips scroll sideways on a phone (styles/school-filter.css, shared with the map). */
+.schools-borough:focus-visible, .schools-101__more:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.schools-hub__map { margin: 8px 0 0; font-size: var(--fs-sm); font-weight: 700; }
+.schools-hub__map a { color: var(--ink); }
+
+.schools-hub__list { margin-top: 18px; scroll-margin-top: 16px; }
+.schools-hub__clear { margin-left: auto; color: var(--ink); font-size: var(--fs-xs); font-weight: 700; }
+.schools-table thead th { white-space: nowrap; }
+.schools-table__ofsted { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.schools-table__swatch { flex: none; }
+
+/* Your tops: not built yet, a calm disabled chip. */
+.schools-hub__own {
+  margin-top: 12px; min-height: 36px; padding: 0 14px; border: 0; border-radius: var(--radius-pill);
+  color: var(--muted); background: var(--chip); font: inherit; font-size: var(--fs-sm); font-weight: 700; cursor: not-allowed;
+}
+.schools-hub__own:hover { background: var(--chip); }
+
+/* By borough: 33 calm links, two columns on a phone, more on wider screens. */
+.schools-boroughs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 6px; margin: 0; padding: 0; list-style: none; }
+.schools-borough {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 0 14px;
+  border-radius: var(--radius-md); color: var(--ink); background: var(--chip); font-size: var(--fs-sm); font-weight: 700; text-decoration: none;
+}
+.schools-borough:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.schools-borough[aria-current="page"] { position: relative; color: var(--on-primary); background: var(--primary); }
+.schools-borough span { color: inherit; opacity: .7; }
+
+/* Schools 101: short cards, each with its Read more. */
+.schools-101 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.schools-101__card {
+  display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+.schools-101__topic { color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; }
+.schools-101__card h3 { margin: 0; font: 800 var(--fs-md)/1.25 var(--font-display); letter-spacing: -0.01em; }
+.schools-101__card p { margin: 0; color: var(--ink); font-size: var(--fs-sm); line-height: 1.5; text-wrap: pretty; }
+.schools-101__grades { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 2px 0 0; padding: 0; list-style: none; font-size: var(--fs-2xs); }
+.schools-101__grades li { display: inline-flex; align-items: center; gap: 4px; }
+.schools-101__more { margin-top: auto; padding-top: 4px; color: var(--ink); font-size: var(--fs-sm); font-weight: 700; }
+.schools-hub__sources { margin-top: 28px; }

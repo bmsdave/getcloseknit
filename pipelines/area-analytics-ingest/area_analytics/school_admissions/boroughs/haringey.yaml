@@ -1,0 +1,326 @@
+# Haringey (309): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 309
+slug: haringey
+name: Haringey
+licence:
+  statement: null
+  url: https://haringey.gov.uk/about-this-website
+licence_decision: unresolved
+aliases:
+  Trinity: '138589'
+  Highgate Wood: '102154'
+  St Aidan's VC: '102132'
+  Gladesmore: '102157'
+  South Harringay Inf: '102111'
+  Bounds Green Inf: '102081'
+  Belmont Inf: '102079'
+  St Michael's CE (N6): '102135'
+  St Michael's CE (N22): '139175'
+  Woodside High: '137745'
+  Campsbourne Inf: '102085'
+  Rokesly Inf: '102107'
+  St Mary's Priory Catholic: '152287'
+  St Francis de Sales RC Inf: '151947'
+  St Francis de Sales RC: '151947'
+  Seven Sisters: '132253'
+  Seven Sisters Primary School: '132253'
+  Harris Acad. Tottenham: '140935'
+  Harris Acad.Tottenham: '140935'
+  St Paul's and All Hallows CE Inf: '139176'
+  St Paul's and All Hallows CofE: '139176'
+  St Mary's Priory RC Inf: '152287'
+  St Mary's Priory RC: '152287'
+  Rokesly: '102107'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20191021142402/https://www.haringey.gov.uk/sites/haringeygovuk/files/reception_transfer_2019_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC Infant School'' [vacancies at national offer day]: no URN'
+  - '''Stamford Hill Primary School'' [vacancies at national offer day]: no URN'
+  - '''Tiverton Primary School'' [vacancies at national offer day]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Stamford
+    Hill Primary (GIAS 102112) merged into Tiverton in 2020, which closed in 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20240614211447/https://www.haringey.gov.uk/sites/haringeygovuk/files/reception_transfer_2020_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''Tiverton Primary Schools'' [all applicants offered]: no URN'
+  accept_note: Tiverton Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20240614211542/https://www.haringey.gov.uk/sites/haringeygovuk/files/reception_transfer_2021_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC'' [all on-time applicants offered]: no URN'
+  - '''Tiverton'' [all on-time applicants offered]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20240614211720/https://www.haringey.gov.uk/sites/haringeygovuk/files/reception_transfer_2022_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC Inf'' [all on-time applicants offered]: no URN'
+  - '''Tiverton'' [all on-time applicants offered]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2023
+  url: https://haringey.gov.uk/sites/default/files/2024-04/reception_transfer_2023_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC Inf'' [all on-time applicants offered]: no URN'
+  - '''Tiverton'' [all on-time applicants offered]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2024
+  url: https://haringey.gov.uk/sites/default/files/2024-04/reception_transfer_2024_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC Inf'' [all on-time applicants offered]: no URN'
+  - '''Tiverton'' [all on-time applicants offered]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2025
+  url: https://haringey.gov.uk/sites/default/files/2025-04/reception_transfer_2025_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+  accept:
+  - '''St Peter-in-Chains RC Inf'' [all on-time applicants offered]: no URN'
+  - '''Tiverton'' [all on-time applicants offered]: no URN'
+  accept_note: St Peter-in-Chains RC Infant (GIAS 102148) closed 31 Aug 2025 with no successor; Tiverton
+    Primary (GIAS 102120) closed 31 Aug 2025 with no successor
+- phase: primary
+  year: 2026
+  url: https://haringey.gov.uk/sites/default/files/2026-04/reception-transfer-2026-how-offers-were-made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20190915213401/https://www.haringey.gov.uk/sites/haringeygovuk/files/secondary_transfer_2019_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20240614223728/https://www.haringey.gov.uk/sites/haringeygovuk/files/secondary_transfer_2020_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20240614210643/https://www.haringey.gov.uk/sites/haringeygovuk/files/secondary_transfer_2021_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2022
+  url: https://haringey.gov.uk/sites/default/files/2024-04/secondary_transfer_2022_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2023
+  url: https://haringey.gov.uk/sites/default/files/2024-04/secondary_transfer_2023_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2024
+  url: https://haringey.gov.uk/sites/default/files/2024-04/secondary_transfer_2024_-_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2025
+  url: https://haringey.gov.uk/sites/default/files/2025-03/secondary_transfer_2025_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+- phase: secondary
+  year: 2026
+  url: https://haringey.gov.uk/sites/default/files/2026-03/secondary_transfer_2026_how_offers_were_made.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - ehcp
+  - looked_after
+  - social_medical
+  - siblings
+  - staff
+  - distance_offers
+catchment_maps: https://haringey.gov.uk/sites/default/files/2026-03/secondary_transfer_2026_maps_of_cut-off_distances.pdf
+notes: 'Also HTML multi-year tables (miles, NOD, 2022-2026, N/A = all applicants offered) at https://haringey.gov.uk/schools-learning/schools/school-admissions/how-school-place-offers-were-made/cutoff-distance-school-last-child-offered-place/primary-schools-distance-school-last-child-offered-place-national-offer-day
+  and .../secondary-schools-distance-school-last-child-offered-place-national-offer-day; a separate "1
+  September" page exists. PDF columns sampled on 2026 reception (offers as at 16 Apr 2026) and 2019 secondary
+  (states straight-line). Secondary 2019 PDF also has offers-by-preference tables. Cut-off distance maps
+  also for 2024/2025 (2024-06 and 2025-03 folders). Faith/banded schools "contact school". Licence: no
+  copyright/OGL statement found; about-this-website lists "Legal notices" but link points to data-protection
+  page. Adapter notes: ''Seven Sisters Primary'' is South Grove Primary 132253 (GIAS: the amalgamation
+  of Seven Sisters Infant and Junior, N15 5QE; it appears as South Grove from 2026). St Francis de Sales
+  RC Infant is the academy 151947 (GIAS successor). Schools listed after the table as offering every on-time
+  applicant (or as having vacancies on offer day) are loaded as all offered, the sentence kept in last_offer_criterion.
+  Tiverton (closed 2025), Stamford Hill (merged into Tiverton 2020) and St Peter-in-Chains RC Infant (closed
+  2025) have no current school and are accepted unmatched. Prose cells (''Last child offered under Faith
+  - 1.1872 miles'') are not read.'

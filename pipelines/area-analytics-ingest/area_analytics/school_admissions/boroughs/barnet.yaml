@@ -1,0 +1,191 @@
+# Barnet (302): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 302
+slug: barnet
+name: Barnet
+licence:
+  statement: '"All rights, including copyright and database right, in Barnet Council''s Website ... are
+    owned by or licensed to Barnet Council" (not OGL; one personal copy only; Open Barnet datasets exempt)'
+  url: https://web.archive.org/web/20251210060954/https://www.barnet.gov.uk/your-council/policies-plans-and-performance/privacy-notices/copyright
+licence_decision: unresolved
+aliases:
+  Wren Academy: '135507'
+  Mill Hill High: '137386'
+  Christ's College: '137388'
+  St Andrew the Apostle: '139410'
+  Bishop Douglass: '143082'
+  Bishop Douglass School: '143082'
+  Akiva Jewish: '135086'
+  Pardes House Jewish: '133364'
+  Menorah Foundation Jewish: '131359'
+  Mathilda Marks Kennedy: '101376'
+  Beit Shvidler Jewish: '136402'
+  Beis Yaakov Jewish: '133365'
+  Rosh Pinah Jewish: '101340'
+  Hasmonean High, Girls: '147238'
+  Hasmonean High, Boys: '137539'
+  AHracshmero nAecaand eHmigyh ( TShceh)ool for Girls: '147238'
+  Fairway Primary: '101278'
+  Christ Church CE: '101316'
+  Christ Church CE School: '101316'
+  Alma Jewish: '139562'
+  St Mary's CE (EN4): '101324'
+  St John's CE (N20): '101321'
+  St John's CE (N11): '101319'
+  St Andrew's CE: '101327'
+  Menorah Primary, Girls: '101341'
+  Menorah Primary Jewish (Girls): '101341'
+  Menorah Primary, Boys: '150274'
+  Menorah Primary Jewish (Boys): '150274'
+  Menorah Primary Jewish: '101341'
+  Hasmonean Jewish: '130998'
+  St Mary's CE (N3): '101323'
+  Boys' Queen Elizabeth's Girls': '137131'
+  Catholic Totteridge Academy (The): '144502'
+  Dollis Infant: '150999'
+docs:
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20211103022345/https://www.barnet.gov.uk/sites/default/files/021291_-_bc942_-_barnet_schools_2020_-_primary_-_press_0.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  note: tables inside the Guide to Primary booklet for 2020 entry (allocation tables for community and
+    VA/academy schools)
+  accept:
+  - '''Grasvenor Avenue Infant'' [Living outside defined area]: no URN'
+  accept_note: Grasvenor Avenue Infant School (GIAS 138649) closed 31 Aug 2022 with no successor
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20211103022011/https://www.barnet.gov.uk/sites/default/files/primary_allocation_table_2021.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - siblings
+  note: community + VA/foundation/free/academy schools; defined-area and outside-area furthest distances
+  accept:
+  - '''Grasvenor Avenue Infant'' [Living outside defined area]: no URN'
+  accept_note: Grasvenor Avenue Infant School (GIAS 138649) closed 31 Aug 2022 with no successor
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240706114200/https://www.barnet.gov.uk/sites/default/files/How%20primary%20school%20places%20were%20allocated%20on%2017%20April%202023%20at%20Voluntary%20aided%20schools.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  note: VA/foundation/free/academy schools only; community-school table not found
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20240527140429/https://www.barnet.gov.uk/sites/default/files/how_primary_school_places_were_allocated_on_16_april_2024_at_voluntary_aided_schools_0.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  note: VA/foundation/free/academy schools only; community-school table not found
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20251030111841/https://www.barnet.gov.uk/sites/default/files/how_primary_school_places_were_allocated_on_16_april_2025_v2_15.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  note: VA/academy schools plus community schools
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20220629041926/https://www.barnet.gov.uk/sites/default/files/2019-03/Allocation%20Table%202019.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20201104160634/https://www.barnet.gov.uk/sites/default/files/guide_to_secondary_education_2021.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - applicants
+  - offers_by_criterion
+  note: tables for 2 March 2020 inside the Guide to Secondary Education 2021 booklet
+  accept:
+  - '''London Academy'' [Geographical Distance]: distance 18438 m over 10 miles'
+  accept_note: London Academy (Edgware) prints 11.457 miles for its last geographical-distance offer on
+    2 March 2020 (9.363 in 2019); kept as printed
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20211204232532/https://www.barnet.gov.uk/sites/default/files/allocation_table_2021.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20230126132620/https://www.barnet.gov.uk/sites/default/files/Allocation%20Table%202022.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20251108181221/https://www.barnet.gov.uk/sites/default/files/secondary_transfer_-_how_places_were_allocated_updated_3_18.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+  note: one doc covering 2023, 2024 and 2025
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20260106095403/https://www.barnet.gov.uk/sites/default/files/allocation_table_2024_2.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20251108181221/https://www.barnet.gov.uk/sites/default/files/secondary_transfer_-_how_places_were_allocated_updated_3_18.pdf
+  format: pdf-table
+  units: miles
+  method: null
+  counts:
+  - places
+  - offers_by_criterion
+catchment_maps: null
+notes: 'barnet.gov.uk sits behind a bot wall (''Pardon Our Interruption''), so everything here is Wayback.
+  The CDX lists how_primary_school_places_were_allocated_on_16_april_2026.pdf as 200, but both captures
+  are the bot-challenge HTML, so it is not recorded. Missing: primary 2020, 2022 and 2026, plus community
+  schools for 2023-2024; secondary 2026. Archived Guide to Primary booklets for 2021, 2023 and 2024 are
+  cut off at 1 MB (unreadable). Community primary schools give priority to a ''defined area''. Secondary
+  schools have N2/N3 priority postcodes. No map URL was found. Adapter notes: the 2021 secondary PDF prints
+  ''Archer Academy (The)'' a second time over two other rows; the garbled ''AHracshmero nAecaand eHmigyh
+  ( TShceh)ool for Girls'' is Hasmonean High School for Girls (75 places) and is aliased. ''Menorah Primary
+  Jewish'' before 2024 is URN 101341 (now Menorah Primary School for Girls; the boys'' school 150274 opened
+  January 2024). Community primary ''All''/''None'' cells are kept as all offered / none offered with
+  the cell in the criterion text; secondary ''(All)'' as all offered under that criterion. In the 2023-2025
+  secondary file a name cell that crosses a page break picks up the previous school''s last line (''Boys''''
+  Queen Elizabeth''''s Girls'''''', ''Catholic Totteridge Academy (The)''); both printed forms are aliased.
+  The 2019 primary booklet''s tables are read from pdftotext columns.'

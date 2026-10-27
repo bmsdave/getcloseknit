@@ -1,0 +1,7 @@
+Band 1 2 3 4
+Places available 7 13 22 30
+Applications received 58 44 46 95
+Last offer on distance (km) 0.47 1.02 7.11 2.36
+Applications to
+Harris Academy Greenwich
+for entry 2025

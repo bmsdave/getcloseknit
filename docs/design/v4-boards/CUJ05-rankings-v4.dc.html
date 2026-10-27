@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CUJ-05 Rankings v4</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #22252c; } a:hover { color: #2f5bd3; }
+.card { width: 500px; flex: none; box-sizing: border-box; padding: 16px; border: 1px solid #dfe7f0; border-radius: 14px; background: #ffffff; display: flex; flex-direction: column; gap: 12px; }
+.head { display: flex; align-items: center; gap: 10px; }
+.num { width: 30px; height: 30px; flex: none; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.route { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; background: #eef2f7; padding: 3px 8px; border-radius: 6px; }
+.what { font-size: 16px; font-weight: 700; }
+.note { font-size: 14px; line-height: 1.35; color: #22252c; }
+.wf { width: 468px; height: 330px; box-sizing: border-box; border: 2px dashed #7a8494; border-radius: 8px; background: #ffffff; overflow: hidden; padding: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; line-height: 1.3; color: #22252c; }
+.map { position: relative; padding: 0; background: #e9eef3; }
+.blk { position: absolute; background: #dfe7f0; border-radius: 10px; }
+.hdr { display: flex; align-items: center; gap: 6px; padding-bottom: 6px; border-bottom: 1px solid #dfe7f0; }
+.pill { display: inline-flex; align-items: center; gap: 6px; background: #eef2f7; border-radius: 999px; padding: 3px 4px 3px 8px; font-weight: 800; }
+.srch { display: inline-flex; align-items: center; gap: 4px; background: #ffffff; border-radius: 999px; padding: 2px 10px 2px 6px; color: #5b6270; font-weight: 400; min-width: 84px; }
+.sv { display: inline-flex; align-items: center; gap: 4px; background: #eef2f7; border-radius: 999px; padding: 3px 9px; font-weight: 800; }
+.stack { position: absolute; right: 10px; top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.loc { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+.cir { width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; background: #ffffff; border: 1px solid #dfe7f0; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 2px rgba(20, 30, 50, 0.1), 0 6px 18px rgba(20, 30, 50, 0.1); }
+.lay { position: absolute; right: 48px; top: 10px; width: 214px; box-sizing: border-box; padding: 7px; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 10px rgba(20, 30, 50, 0.18); display: flex; flex-direction: column; gap: 1px; font-size: 12px; }
+.mg { display: flex; align-items: center; gap: 6px; font-weight: 800; padding: 2px 4px; }
+.gr { display: flex; align-items: center; padding: 1px 4px; border-radius: 6px; }
+.gr > span:first-child { flex: 1; }
+.sel { display: flex; align-items: center; gap: 6px; margin: 2px 0 3px 10px; padding: 3px 4px 3px 8px; border-radius: 999px; background: #22252c; color: #ffffff; font-weight: 700; }
+.t10 { font-size: 11px; font-weight: 700; color: #22252c; background: #ffffff; border-radius: 999px; padding: 1px 8px; text-decoration: none; white-space: nowrap; }
+.crumb { font-size: 12px; color: #5b6270; }
+.t1 { font-size: 18px; font-weight: 800; line-height: 1.1; }
+.btn { font-family: inherit; font-size: 12px; color: #22252c; background: #dfe7f0; border: 0; border-radius: 999px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.seg { display: inline-flex; gap: 2px; background: #eef2f7; border-radius: 999px; padding: 2px; font-size: 11px; font-weight: 700; }
+.seg > span { padding: 1px 9px; border-radius: 999px; }
+.seg > .on { background: #22252c; color: #ffffff; }
+.tag { background: #dfe7f0; border-radius: 999px; padding: 1px 8px; font-size: 12px; }
+.pro { background: #e2f3e7; color: #1d5a36; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.con { background: #fdebd3; color: #9a4d00; border-radius: 999px; padding: 1px 7px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.tile { border: 1px solid #dfe7f0; border-radius: 8px; padding: 4px 6px; display: flex; flex-direction: column; gap: 2px; font-size: 10.5px; }
+.tile b { font-size: 12px; }
+.strip { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #dfe7f0, #9fb0c6); position: relative; }
+.strip > i { position: absolute; top: -2px; width: 3px; height: 8px; border-radius: 1px; background: #22252c; }
+.mut { color: #5b6270; font-size: 11px; }
+.tap { outline: 3px solid #2f5bd3; outline-offset: 2px; border-radius: 4px; }
+.row { display: grid; grid-template-columns: 18px minmax(0, 1fr) 64px 18px 78px; gap: 8px; padding: 5px 0; border-bottom: 1px solid #dfe7f0; align-items: center; }
+.mb { height: 6px; border-radius: 3px; background: #c0352c; opacity: 0.55; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.v3 { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #1d5a36; background: #e2f3e7; border: 1.5px solid #2e7d4f; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+.v4 { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #1f3f99; background: #e4ecfb; border: 1.5px solid #2f5bd3; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+.open { display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; color: #8f2a22; background: #fde4e2; border: 1.5px solid #c0352c; border-radius: 999px; padding: 2px 10px; }
+.arr { width: 150px; flex: none; box-sizing: border-box; padding: 200px 12px 0; display: flex; flex-direction: column; gap: 8px; }
+.al { font-size: 15px; font-weight: 700; color: #2f5bd3; line-height: 1.3; }
+.ln { display: flex; align-items: center; }
+.ln > .l { flex: 1; border-top: 3px solid #7a8494; }
+.ln > .h { width: 0; height: 0; border-left: 14px solid #7a8494; border-top: 9px solid transparent; border-bottom: 9px solid transparent; }
+.lbl { font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #5b6270; }
+.chg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; max-width: 1800px; }
+.chg > div { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.chg > div > span:first-child { width: 120px; flex: none; justify-content: center; }
+</style>
+</helmet>
+<div style="width: 2562px; height: 1100px; box-sizing: border-box; padding: 56px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; display: flex; flex-direction: column; gap: 36px;">
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <h1 style="margin: 0; font-size: 52px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;">CUJ-05 Rankings · v4</h1>
+      <div style="display: flex; align-items: center; gap: 10px; background: #22252c; color: #ffffff; border-radius: 999px; padding: 8px 18px; font-size: 22px; font-weight: 800;">v2 4 → v4 4 steps</div>
+      <div style="font-size: 17px; color: #5b6270;">4 taps from the map: Layers · Crime · Top 10 · On map</div>
+    </div>
+    <p style="margin: 0; font-size: 20px;">One layer → its top 10 → on the map. Final state after v3 (shipped) + v4 (planned).</p>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 15px;">
+      <span style="font-weight: 700;">Entry:</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">Layers › Crime › Top 10 →</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">≡ › Rankings › Safety tile</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">area page › What's next › Rankings</span>
+      <span style="background: #eef2f7; border-radius: 999px; padding: 5px 12px;">Google → /rankings/[slug]</span>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; font-size: 14px; color: #5b6270;">
+      <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 22px; height: 14px; border: 3px solid #2f5bd3; border-radius: 3px;"></span>control tapped</span>
+      <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 30px; border-top: 3px solid #7a8494;"></span>linked step</span>
+      <span class="v3">v3 Fix · shipped</span>
+      <span class="v4">v4 Task · planned</span>
+      <span>Values illustrative</span>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px;">
+    <div class="lbl">Desktop · v4</div>
+    <div style="display: flex; align-items: flex-start;">
+
+      <div class="card">
+        <div class="head"><div class="num">1</div><div class="route">/</div><div class="what">Map</div></div>
+        <div class="note">Taps Layers.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 30px; top: 150px; width: 150px; height: 90px;"></div>
+          <div class="blk" style="left: 250px; top: 60px; width: 120px; height: 120px;"></div>
+          <div class="blk" style="left: 230px; top: 220px; width: 170px; height: 80px;"></div>
+          <div style="position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center;">
+            <span class="pill" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch" style="background: #eef2f7;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span class="sv" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+          </div>
+          <div class="stack">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir tap" style="border-radius: 999px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div class="loc"><div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f5bd3" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.5" fill="#2f5bd3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg></div></div>
+          <div style="position: absolute; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 6px; background: #ffffff; border-radius: 999px; padding: 3px 10px; font-size: 11px;"><span style="font-weight: 800;">Price per m² · Actual</span><span style="width: 60px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #dfe7f0, #9fb0c6);"></span><span style="font-weight: 800;">?</span></div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 11</span><span class="v3">v3 Fix 12</span></div>
+      </div>
+
+      <div class="arr"><div class="al">Layers</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">2</div><div class="route">/</div><div class="what">Layers · Crime open</div></div>
+        <div class="note">Taps Crime: the group opens in place, Crime turns on. Taps Top 10 →.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 30px; top: 150px; width: 150px; height: 90px; background: #f3b0a7;"></div>
+          <div class="blk" style="left: 120px; top: 60px; width: 100px; height: 70px; background: #ec8b7f;"></div>
+          <div class="blk" style="left: 40px; top: 250px; width: 170px; height: 60px; background: #f8cfc9;"></div>
+          <div style="position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center;">
+            <span class="pill" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch" style="background: #eef2f7;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+          </div>
+          <div class="stack">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir" style="background: #22252c; border-color: #22252c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div class="lay">
+            <div class="mg"><span style="flex: 1;">Layers</span><span class="btn" style="font-size: 11px; padding: 1px 8px;">Default</span><span>✕</span></div>
+            <div style="display: flex; align-items: center; gap: 4px; background: #eef2f7; border-radius: 999px; padding: 2px 8px; color: #5b6270; margin-bottom: 2px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search layers</div>
+            <div class="gr"><span>None</span></div>
+            <div class="gr"><span>Cost</span><span>›</span></div>
+            <div class="gr"><span>Transport</span><span>›</span></div>
+            <div class="gr tap" style="font-weight: 800; background: #eef2f7;"><span>Crime</span><span>˅</span></div>
+            <div class="sel"><span style="flex: 1;">✓ Crime</span><a href="#" class="t10 tap">Top 10 →</a></div>
+            <div class="gr"><span>Food &amp; drink</span><span>›</span></div>
+            <div class="gr"><span>Going out</span><span>›</span></div>
+            <div class="gr"><span>Everyday life</span><span>›</span></div>
+            <div class="gr"><span>Nature</span><span>›</span></div>
+            <div class="gr"><span>Homes &amp; area</span><span>›</span></div>
+            <div class="gr"><span>People</span><span>›</span></div>
+            <div class="gr"><span>My criteria</span><span>›</span></div>
+          </div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 6</span><span class="v3">v3 Fix 7</span><span class="v4">v4 Task 18 · Default</span></div>
+      </div>
+
+      <div class="arr"><div class="al">Crime · Top 10 →</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">3</div><div class="route">/rankings/lowest-crime</div><div class="what">Ranking</div></div>
+        <div class="note">Same page width as every page. Taps On map ↗ on #1.</div>
+        <div class="wf">
+          <div class="hdr">
+            <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>Search</span></span>
+            <span style="flex: 1;"></span>
+            <span class="sv"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>3</span>
+            <span class="btn">Map →</span>
+          </div>
+          <div class="crumb">London › Rankings › Safety</div>
+          <div style="display: flex; align-items: center; gap: 8px;"><div class="t1" style="flex: 1;">Recorded crime</div><span class="seg"><span>Most</span><span class="on">Least</span></span><span class="tag">Areas</span></div>
+          <div style="display: flex; gap: 6px; align-items: center;"><span class="mut">Crimes per 1,000 · 12 months</span><span style="font-weight: 800;">?</span></div>
+          <div>
+            <div class="row" style="font-weight: 700; border-bottom: 1px solid #7a8494;"><span>#</span><span>Area</span><span>/ 1,000</span><span></span><span></span></div>
+            <div class="row"><span>1</span><a href="#" style="justify-self: start;">Hampstead · NW3</a><span style="display: flex; align-items: center; gap: 4px;">31<span class="mb" style="width: 22px;"></span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span class="btn tap" style="justify-self: start;">On map ↗</span></div>
+            <div class="row"><span>2</span><a href="#" style="justify-self: start;">Richmond Hill · TW10</a><span style="display: flex; align-items: center; gap: 4px;">38<span class="mb" style="width: 27px;"></span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span class="btn" style="justify-self: start;">On map ↗</span></div>
+            <div class="row" style="border-bottom: 0;"><span>3</span><a href="#" style="justify-self: start;">Dulwich Village · SE21</a><span style="display: flex; align-items: center; gap: 4px;">42<span class="mb" style="width: 30px;"></span></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span class="btn" style="justify-self: start;">On map ↗</span></div>
+            <div class="mut" style="padding-top: 4px;">4–10 below</div>
+          </div>
+          <div style="display: flex; gap: 8px;"><span class="btn">Compare top 3</span><span class="btn">In my budget</span></div>
+        </div>
+        <div class="chips"><span class="v3">v3 Fix 15 · Most | Least</span><span class="v4">v4 Task 16 · 1120 px</span></div>
+      </div>
+
+      <div class="arr"><div class="al">On map ↗</div><div class="ln"><div class="l"></div><div class="h"></div></div></div>
+
+      <div class="card">
+        <div class="head"><div class="num">4</div><div class="route">/?selected=…&amp;layer=crime</div><div class="what">Map · area panel</div></div>
+        <div class="note">Camera flies to Hampstead (chosen from a list). Layer from the link; the rest of the setup from this device.</div>
+        <div class="wf map">
+          <div class="blk" style="left: 20px; top: 50px; width: 90px; height: 90px; background: #f8cfc9;"></div>
+          <div class="blk" style="left: 112px; top: 120px; width: 90px; height: 80px; background: #f3b0a7;"></div>
+          <div class="blk" style="left: 20px; top: 150px; width: 84px; height: 110px; background: #fde9e6;"></div>
+          <div class="blk" style="left: 120px; top: 210px; width: 80px; height: 60px; background: #ec8b7f;"></div>
+          <div class="blk" style="left: 20px; top: 50px; width: 90px; height: 90px; background: transparent; border: 3px solid #22252c; box-sizing: border-box;"></div>
+          <div style="position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center;">
+            <span class="pill" style="background: #ffffff; box-shadow: 0 1px 3px rgba(20, 30, 50, 0.2);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>close knit<span class="srch" style="background: #eef2f7; min-width: 60px;">Hampstead</span></span>
+          </div>
+          <div class="stack" style="right: 236px;">
+            <div class="cir" style="background: #c0352c; border-color: #c0352c;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8Z"></path><path d="M18.5 14.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 12.5 9 5 9-5"></path><path d="m3 16.5 9 5 9-5"></path></svg></div>
+            <div class="cir"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22252c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></div>
+          </div>
+          <div style="position: absolute; right: 10px; top: 10px; bottom: 10px; width: 214px; box-sizing: border-box; padding: 8px; border-radius: 12px; background: #ffffff; box-shadow: 0 2px 10px rgba(20, 30, 50, 0.18); display: flex; flex-direction: column; gap: 5px; font-size: 11px;">
+            <div style="display: flex; align-items: center; gap: 4px;"><span class="mut" style="flex: 1; font-size: 10px;">London › Camden › Hampstead</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span>✕</span></div>
+            <div style="font-size: 15px; font-weight: 800; line-height: 1.1;">Hampstead</div>
+            <div class="mut" style="font-size: 10.5px;">Very little crime; pricier than most of London.</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px;"><span class="pro">+ Safer than 97%</span><span class="pro">+ Heath 2 min</span><span class="con">− Pricier than 95%</span></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+              <div class="tile"><span>Price</span><b>£13,900/m²</b><div class="strip"><i style="left: 92%;"></i></div></div>
+              <div class="tile"><span>Safety</span><b>Safer than 97%</b><div class="strip"><i style="left: 95%;"></i></div></div>
+              <div class="tile"><span>Schools</span><b>12 ≤ 1.5 km</b><div class="strip"><i style="left: 70%;"></i></div></div>
+              <div class="tile"><span>Station walk</span><b>4 min</b><div class="strip"><i style="left: 80%;"></i></div></div>
+            </div>
+            <div style="margin-top: auto; background: #22252c; color: #ffffff; border-radius: 999px; padding: 4px 10px; text-align: center; font-weight: 800; font-size: 12px;">Open full area page</div>
+          </div>
+          <div style="position: absolute; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 6px; background: #ffffff; border-radius: 999px; padding: 3px 10px; font-size: 11px;"><span style="font-weight: 800;">Crime · per 1,000</span><span style="width: 50px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #fde9e6, #c0352c);"></span><span>low → high</span><span style="font-weight: 800;">?</span></div>
+          <div style="position: absolute; left: 116px; top: 62px; font-weight: 800; color: #1d5a36; background: #ffffff; border-radius: 6px; padding: 2px 6px;">Goal reached</div>
+        </div>
+        <div class="chips"><span class="v4">v4 Task 12</span><span class="v4">v4 Task 14</span><span class="v4">v4 Task 15</span><span class="v4">v4 Task 18</span><span class="v3">v3 Fix 27G</span><span class="v3">v3 Fix 22</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="lbl">What changed vs v2</div>
+    <div class="chg">
+      <div><span class="v3">v3 Fix 6</span><span>Layers is a floating menu; a group opens in place (one more tap than v2's flat list).</span></div>
+      <div><span class="v3">v3 Fix 7</span><span>The selected layer is one pill with Top 10 → inside; Top 10 shows only there.</span></div>
+      <div><span class="v3">v3 Fix 15</span><span>Rankings index: tiles by group; mirror pairs are one ranking with Most | Least.</span></div>
+      <div><span class="v3">v3 Fix 12</span><span>One "?" in the legend explains the layer.</span></div>
+      <div><span class="v3">v3 Fix 27G</span><span>Area header: verdict line + tags for what stands out.</span></div>
+      <div><span class="v3">v3 Fix 22</span><span>Save is the ♡ only; no Save / Watch text buttons in the card.</span></div>
+      <div><span class="v4">v4 Task 16</span><span>Ranking page on the one 1120 px container (was 820).</span></div>
+      <div><span class="v4">v4 Task 18</span><span>Layers header has Default; the link's layer wins, the rest is the saved setup.</span></div>
+      <div><span class="v4">v4 Task 15</span><span>The camera moves only when an area is chosen from a list; a map click only selects.</span></div>
+      <div><span class="v4">v4 Task 12</span><span>One area view: header, tags, 4 tiles, Open full area page. No x/10, no per-home price.</span></div>
+      <div><span class="v4">v4 Task 14</span><span>Area panel on the right, full height; round controls sit beside it.</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2562,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

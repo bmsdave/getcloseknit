@@ -1,0 +1,21 @@
+/* Feedback people choose to send: the /feedback form (components/feedback-form.tsx), reached from
+   the menu, beside each figure's own Report (no quick votes, no prompt). Calm chips;
+   only what is chosen carries the stitch (knit-ui.css). */
+.quick-vote__reasons { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.feedback-form { display: grid; gap: 14px; }
+.feedback-form__title { margin: 0; font: 800 var(--fs-xl)/1.2 var(--font-display); letter-spacing: -0.02em; }
+.feedback-form__stars { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.feedback-form__star {
+  display: grid; justify-items: center; gap: 2px; min-width: 56px; min-height: 56px; padding: 6px 4px;
+  border: 0; border-radius: var(--radius-md); background: var(--chip); color: var(--muted); font-size: var(--fs-2xs); font-weight: 700; cursor: pointer;
+}
+.feedback-form__star[data-chosen] { color: var(--ink); }
+.feedback-form__star .knit-glyph { width: 26px; height: 26px; }
+.feedback-form__star:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.feedback-form__reasons { display: grid; gap: var(--space-2); margin: 0; padding: 0; border: 0; }
+.feedback-form__reasons legend { margin-bottom: var(--space-2); padding: 0; font-weight: 700; }
+.feedback-form__message textarea { width: 100%; min-height: 110px; padding: 10px 12px; resize: vertical; }
+.feedback-form__note, .feedback-form__count { margin: 0; color: var(--muted); font-size: var(--fs-xs); }
+.feedback-form__error { margin: 0; color: var(--ink); font-weight: 700; }
+.feedback-form__send { position: relative; justify-self: start; width: auto; padding: 0 28px; }

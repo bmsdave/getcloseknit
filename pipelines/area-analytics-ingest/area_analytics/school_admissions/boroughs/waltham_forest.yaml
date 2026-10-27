@@ -1,0 +1,197 @@
+# Waltham Forest (320): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 320
+slug: waltham_forest
+name: Waltham Forest
+licence:
+  statement: 'Footer: ''(c) London Borough of Waltham Forest, 2026''; website disclaimer has no copyright/OGL
+    reuse statement'
+  url: https://www.walthamforest.gov.uk/council-and-elections/information-about-website/website-disclaimer
+licence_decision: unresolved
+aliases:
+  Chapel End Infant School: '103052'
+  Holy Family Catholic School and Sixth Form: '103106'
+  Hillyfield: '136413'
+docs:
+- phase: primary
+  year: 2019
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20190825012137/https://walthamforest.gov.uk/sites/default/files/How%20School%20Places%20Were%20Offered%20Reception%202019%20v.1.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2020
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20210621103943/https://www.walthamforest.gov.uk/sites/default/files/How%20School%20Places%20Were%20Offered%202020%20reception%20final.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2021
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20210621095814/https://www.walthamforest.gov.uk/sites/default/files/How%20School%20Places%20Were%20Offered%20reception%202021.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2022
+  url: https://www.walthamforest.gov.uk/sites/default/files/2022-04/How%20school%20Places%20Were%20Offered%20for%20reception%202022.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2023
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20260812095455/https://www.walthamforest.gov.uk/sites/default/files/2023-04/How%20School%20Places%20Were%20Offered%20Reception%202023.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2024
+  url: https://www.walthamforest.gov.uk/sites/default/files/2024-04/How%20School%20Places%20Were%20Offered%20Reception%202024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2025
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20260812093128/https://www.walthamforest.gov.uk/sites/default/files/2025-04/How%20school%20places%20were%20offered%20reception%202025.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: primary
+  year: 2026
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20260812093134/https://www.walthamforest.gov.uk/sites/default/files/2026-04/How%20school%20places%20were%20offered%20reception_2026.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: secondary
+  year: 2020
+  note: 'Brochure table ''Cut off distances in miles for past three years'': the year of entry''s column is read; a blank is all on-time applicants offered (the table''s own note); no counts.'
+  url: https://web.archive.org/web/20240507023414/https://www.walthamforest.gov.uk/sites/default/files/2022-09/Starting%20Secondary%20School%202023%20v4.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+- phase: secondary
+  year: 2021
+  note: 'Brochure table ''Cut off distances in miles for past three years'': the year of entry''s column is read; a blank is all on-time applicants offered (the table''s own note); no counts.'
+  url: https://web.archive.org/web/20240507023414/https://www.walthamforest.gov.uk/sites/default/files/2022-09/Starting%20Secondary%20School%202023%20v4.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts: []
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240507023414/https://www.walthamforest.gov.uk/sites/default/files/2022-09/Starting%20Secondary%20School%202023%20v4.pdf
+  note: The standalone 2022 file (https://www.walthamforest.gov.uk/sites/default/files/2022-03/How%20School%20Places%20were%20allocated%20secondary%202022%281%29.pdf) answers with an AWS WAF bot challenge and has no archived copy; the 2022/23 column of the 'Starting Secondary School 2023' brochure's cut-off table (Wayback copy) is read instead.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: secondary
+  year: 2023
+  note: 'Brochure table ''Cut off distances in miles for past three years'': the year of entry''s column is read; a blank is all on-time applicants offered (the table''s own note); no counts.'
+  url: https://web.archive.org/web/20231220151440/https://www.walthamforest.gov.uk/sites/default/files/2023-08/Starting%20Secondary%20School%202024.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: secondary
+  year: 2024
+  note: 'Brochure table ''Cut off distances in miles for past three years'': the year of entry''s column is read; a blank is all on-time applicants offered (the table''s own note); no counts.'
+  url: https://web.archive.org/web/20241204085836/https://www.walthamforest.gov.uk/sites/default/files/2024-09/Starting%20Secondary%20School%202025.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: secondary
+  year: 2025
+  note: 'Brochure table ''Cut off distances in miles for past three years'': the year of entry''s column is read; a blank is all on-time applicants offered (the table''s own note); no counts.'
+  url: https://web.archive.org/web/20260314055029/https://www.walthamforest.gov.uk/sites/default/files/2025-08/1012501%20-%20WF_SECONDARY%20BROCHURE%202026%20-%20WEB.pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+- phase: secondary
+  year: 2026
+  note: 'Offer-day table: the cut-off distance (miles) is read; ''n/a'' kept as printed; no counts.'
+  url: https://web.archive.org/web/20260304090741/https://www.walthamforest.gov.uk/sites/default/files/2026-03/How%20School%20Places%20Were%20Offered%20secondary%202026(1).pdf
+  note: The live URL answers with an AWS WAF bot challenge (2026-10-11); this is the Wayback Machine copy.
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - places
+  - offers_by_criterion
+  - places_available
+catchment_maps: null
+notes: 'Reception: one standalone ''How school places were offered'' PDF per year covering all schools.
+  Columns: PAN, offers per criterion (SEN/EHC, LAC, medical, social, sibling, staff, religious, catchment,
+  distance, LA alternative), places available, cut-off distance. The 2019-2021 headers do not state units;
+  values are consistent with miles, and from 2026 the header says ''In Miles''. 2024 also has a revised
+  version at 2024-09/How%20School%20Places%20Were%20Offered%20for%20reception%202024.pdf. Secondary: standalone
+  PDFs only for 2022 and 2026; 2023-2025 come from the next year''s ''Starting Secondary School'' brochure
+  (''How places were allocated on 1 March 2023/2024'', ''3 March 2025'' table plus a 3-year cut-off table).
+  2020-2021 come only from the cut-off-distance table in the 2023 brochure (columns 2020/21, 2021/22,
+  2022/23 = entry year). Secondary 2019 not recovered: the WB copies of the 2021 and 2022 brochures are
+  truncated at 1MB. Primary brochures (e.g. 2024-09/Starting%20Primary%20School%202025.pdf) also carry
+  a 3-year cut-off table. Straight-line distance in miles is stated in the 2026 secondary brochure''s
+  admissions criteria. Some schools have catchment/feeder criteria (e.g. Chingford Foundation catchment,
+  Eden Girls School/Station split); no maps recorded.'

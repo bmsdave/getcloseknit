@@ -1,0 +1,194 @@
+# Westminster (213): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 213
+slug: westminster
+name: Westminster
+licence:
+  statement: The copyright and material on this Website is owned by Westminster City Council. You can
+    copy information for your own personal use. However, you may not republish ... without our permission.
+  url: https://www.westminster.gov.uk/terms-and-conditions
+licence_decision: unresolved
+aliases:
+  St. Augustine'S C Of E Primary School: '101125'
+  St. George'S Hanover Square (Go Shine Federation) C Of E Primary School: '101130'
+  St. James And St. John C Of E Primary School (Go Shine Federation): '101132'
+  St. Luke'S C Of E Primary School (Go Shine Federation): '101134'
+  St. Matthew'S C Of E School: '101138'
+  St. Peter'S C Of E School (Chippenham Mews): '101139'
+  St. Mary Magdalene C Of E Primary School: '101135'
+sites:
+  George Eliot Primary School: George Eliot
+  Robinsfield Infant School: Robinsfield
+  Churchill Gardens Primary Academy: Churchill Gardens
+  Millbank Academy: Millbank
+  Our Lady Of Dolours Catholic Primary School: Our Lady of Dolours
+docs:
+- phase: primary
+  year: 2026
+  url: https://www.westminster.gov.uk/sites/default/files/media/documents/primary-school-admissions-brochure-for-2027.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: '''HOW PLACES WERE OFFERED IN 2026'' box on each school page, e.g. ''remaining places offered
+    up to 0.529 miles straight-line''. Brochure is 72 pp, 10.7 MB.'
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20250928090639/https://www.westminster.gov.uk/sites/default/files/media/documents/Primary%20Admissions%20Brochure%202026.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'CDX only, not fetched. Data year inferred. NOT FETCHED: the Wayback capture returns 404.'
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20241011125955/https://www.westminster.gov.uk/sites/default/files/media/documents/WCC%20-%20Primary%20Admissions%20Brochure%202025.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'CDX only, not fetched. Data year inferred. NOT READ: the archived copy is cut off at 1 MB (1048576
+    bytes) and pdftotext cannot open it.'
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240425062620/https://www.westminster.gov.uk/sites/default/files/media/documents/Primary%20school%20admissions%20brochure%202024.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'Checked: says ''HOW PLACES WERE OFFERED IN 2023''.'
+  accept:
+  - '''Barrow Hill Junior School'': no URN'
+  accept_note: Barrow Hill Junior School is not in the GIAS London extract (2026-10-11), so it cannot
+    be matched
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20230328213545/https://www.westminster.gov.uk/sites/default/files/media/documents/WCC_primary_admissions_brochure_2023.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'CDX only, not fetched. Data year inferred. NOT READ: the archived copy is cut off at 1 MB (1048576
+    bytes) and pdftotext cannot open it.'
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20210908184606/https://www.westminster.gov.uk/sites/default/files/media/documents/519_1%20-%C2%A0BB%20Primary%20School%20Admissions%20Brochure%202021_Spreads_AW.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'Checked: bi-borough brochure, ''HOW PLACES WERE OFFERED IN 2021''.'
+  accept:
+  - '''Barrow Hill Junior School'': no URN'
+  accept_note: Barrow Hill Junior School is not in the GIAS London extract (2026-10-11), so it cannot
+    be matched
+- phase: secondary
+  year: 2026
+  url: https://www.westminster.gov.uk/sites/default/files/media/documents/secondary-school-admissions-brochure-2027.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: A Kensington & Chelsea plus Westminster document hosted by RBKC, covering both boroughs' schools.
+    The bi-borough table (https://www.rbkc.gov.uk/media/document/how-places-were-offered-at-bi-borough-secondary-schools---2-march-2026)
+    returns 403 to the fetcher (bot wall, not bypassed); the Westminster brochure printing the same round
+    is read instead.
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20251206235735/https://www.westminster.gov.uk/sites/default/files/media/documents/WCC%20-%20Secondary%20Admissions%20Brochure%202026.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: The bi-borough table (https://www.rbkc.gov.uk/media/document/how-places-were-offered-at-bi-borough-secondary-schools-3-march-2025)
+    returns 403 to the fetcher (bot wall, not bypassed); the Westminster brochure printing the same round
+    is read instead.
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20241005024243/https://www.westminster.gov.uk/sites/default/files/media/documents/Secondary%20school%20admissions%20brochure%2C%202025.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: PDF created 1 March 2024 (no year in the URL). The bi-borough table (https://www.rbkc.gov.uk/media/document/how-places-were-offered-at-bi-borough-secondary-schools)
+    returns 403 to the fetcher (bot wall, not bypassed); the Westminster brochure printing the same round
+    is read instead.
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240329153300/https://www.westminster.gov.uk/sites/default/files/media/documents/WCC_secondary_admissions_brochure_2024.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: live
+  note: PDF created 28 Feb 2023 (no year in the URL). The bi-borough table (https://www.rbkc.gov.uk/sites/default/files/media/documents/How%20places%20were%20offered%20at%20bi-borough%20secondary%20schools.pdf)
+    returns 403 to the fetcher (bot wall, not bypassed); the Westminster brochure printing the same round
+    is read instead.
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240627125622/https://www.westminster.gov.uk/sites/default/files/media/documents/WCC_secondary_admissions_brochure_2023.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: CDX only, not fetched. Data year inferred.
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20210914094620/https://www.westminster.gov.uk/sites/default/files/media/documents/519_2%C2%A0-%20BB%20Secondary%20School%20Admissions%20Brochure_Spreads_Web_AW.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  source: wayback
+  note: 'Checked: ''HOW PLACES WERE OFFERED IN 2021''.'
+catchment_maps: null
+notes: 'Westminster has no standalone tables: data is a per-school text box in the annual brochure (previous
+  year''s offers by criterion, cut-off in miles straight-line). Bi-borough secondary ''how places were
+  offered'' PDFs are on rbkc.gov.uk for 2023-2026. The 2020 primary brochure (287_1_-_wcc_primary_school_brochure_2020_006.pdf,
+  CDX 20201201085646) is cut off at 1 MB in the archive, so its data year (2019 or 2020) is unknown. Not
+  found: secondary 2019 and 2020, primary 2019 and 2020. Brochure years marked ''inferred'' assume the
+  publication pattern of the verified ones: brochure ''YYYY'' covers the YYYY-1 round from 2023 onward,
+  and the 2021 bi-borough brochure covers 2021. Adapter notes: George Eliot + Robinsfield (now St John''s
+  Wood Primary 101107), Churchill Gardens + Millbank (now Millbank Gardens 151310) and Our Lady of Dolours
+  (merged into St Mary of the Angels 101137) keep their pre-merger rows as sites (config sites). The 2021
+  bi-borough brochure is printed as spreads: boxes are attributed to the wrong school (Pimlico twice),
+  so 2021 is not loaded. Secondary brochures: a school''s name is on the page before its box and several
+  pages break that pattern (''Performing Arts'', ''Visiting The School'', ''Harris Academy'' cut short),
+  so no secondary year is loaded. Barrow Hill Junior School is not in the GIAS London extract. Primary
+  2022 and 2024 copies are cut off at 1 MB; primary 2025 is 404.'

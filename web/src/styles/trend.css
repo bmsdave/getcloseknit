@@ -1,0 +1,6 @@
+/* Map colour-scale row: scale select, change window and its (?) (components/area-map.tsx). */
+.scale-row { display: flex; align-items: flex-end; gap: var(--space-2); flex-wrap: wrap; }
+.scale-row > .scale-control { flex: 1 1 auto; min-width: 0; }
+.scale-row > .scale-control:nth-child(2) { flex: 0 0 auto; }
+.scale-row > .help-tip { align-self: center; margin-top: 18px; }
+.scale-note .help-tip, .dock-licence .help-tip { margin-left: 2px; }

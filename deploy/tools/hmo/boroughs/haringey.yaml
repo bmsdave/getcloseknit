@@ -1,0 +1,43 @@
+# Haringey: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000014
+slug: haringey
+name: Haringey
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: https://propertylicensing.haringey.gov.uk/public-register
+  page: https://haringey.gov.uk/housing/private-sector-renting/property-licensing/search-public-register-licensed-premises
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2024-06-17
+  end: 2029-06-16
+  url: https://www.haringey.gov.uk/sites/default/files/2024-03/public_notice_additional_hmo_licensing.pdf
+- kind: selective
+  wards:
+  - Bounds Green
+  - Bruce Castle
+  - Harringay
+  - Hermitage & Gardens
+  - Noel Park
+  - Northumberland Park
+  - Seven Sisters
+  - South Tottenham
+  - St Ann's
+  - Tottenham Central
+  - Tottenham Hale
+  - West Green
+  - White Hart Lane
+  - Woodside
+  start: 2022-11-17
+  end: 2027-11-17
+  url: https://haringey.gov.uk/housing/private-sector-renting/property-licensing/selective-property-licensing
+notes: >-
+  Online register is a postcode/address search (Metastreet portal, reCAPTCHA) with no download; the council says it is not
+  the full register, and a full copy of the HMO register is by in-person appointment. No bulk file found.

@@ -1,0 +1,62 @@
+/* My match on the map: pins, popup badge, drawing bar.
+   Tokens only, Day and Night (globals.css). */
+
+/* The 32 px pin takes a 44 px tap (marker audit): an invisible ring around it on the map's marker. */
+.maplibregl-marker.bm-area::after { content: ""; position: absolute; inset: -6px; border-radius: var(--radius-pill); }
+/* A secondary label (a route line's name, a station, a school, a neighbour's price) that would sit on a
+   pin, a place card, a control or the legend is hidden (match-overlays.tsx clearLabels). */
+.maplibregl-marker[data-covered="true"] { visibility: hidden; }
+
+/* Bottom 10: pins −1 … −10 in deep red (top pins stay ink). */
+.bm-area.bm-bottom { border-color: var(--match-least); }
+.bm-area.bm-bottom b { width: auto; min-width: 22px; padding: 0 5px; border-radius: var(--radius-pill);
+  background: var(--match-least); color: var(--on-match-least); }
+
+/* A pin with no price (phones, or prices off) is the rank alone: a clean 32 px ink circle with the number, never
+   a pill with an empty light end. The heart of a liked area sits on its shoulder.
+   (The marker is already placed absolutely: no position here, or it would come off the map). */
+.bm-area.bm-number { gap: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+.bm-area.bm-number b { min-width: 32px; width: auto; height: 32px; padding: 0 6px; border: 2px solid var(--surface);
+  border-radius: var(--radius-pill); background: var(--ink); color: var(--on-ink); font-size: var(--fs-xs);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.18); }
+.bm-area.bm-number.bm-bottom b { background: var(--match-least); color: var(--on-match-least); }
+.bm-area.bm-number .bm-heart { position: absolute; top: -7px; right: -7px; display: grid; place-items: center; width: 18px; height: 18px;
+  margin: 0; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 3px rgb(0 0 0 / 0.18); }
+
+/* The popup's score badge turns red for the bottom 10 % of this search. */
+.fit-popup__score--bottom { padding: 0 8px; border-radius: var(--radius-pill); background: var(--match-least); color: var(--on-match-least); }
+.fit-popup__score--bottom small { color: inherit; opacity: .85; }
+
+/* Drawing a zone: a slim bar over the map, not a card; Done at the bottom on phones. */
+.zone-bar {
+  /* Centred without a transform, so the phone's Done (position: fixed) keeps to the screen. */
+  position: fixed; z-index: 12; top: 72px; left: 16px; right: 16px; width: fit-content; margin: 0 auto;
+  display: flex; align-items: center; gap: 4px; min-height: 48px; padding: 4px 4px 4px 16px;
+  border-radius: var(--radius-pill); color: var(--ink); background: var(--panel-solid);
+  border: 1px solid rgb(var(--ink-rgb) / .14); box-shadow: 0 6px 18px rgb(var(--ink-rgb) / .18);
+  font: 700 var(--fs-xs)/1.2 var(--font-sans); white-space: nowrap;
+}
+.zone-bar__status { min-width: 0; margin: 0 8px 0 0; overflow: hidden; text-overflow: ellipsis; }
+.zone-bar__status span { color: var(--muted); font-weight: 600; }
+.zone-bar button { min-height: 40px; padding: 0 12px; border: 0; border-radius: var(--radius-pill); color: var(--ink);
+  background: transparent; font: inherit; cursor: pointer; }
+.zone-bar button:hover:not(:disabled) { background: var(--chip); }
+.zone-bar button:disabled { color: var(--muted); cursor: not-allowed; }
+.zone-bar button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.zone-bar .zone-bar__done { width: auto; min-height: 40px; padding: 0 18px; border-radius: var(--radius-pill);
+  color: var(--on-primary); background: var(--primary); }
+.zone-bar .zone-bar__done:hover:not(:disabled) { background: color-mix(in srgb, var(--primary) 86%, black); }
+/* Disabled is neutral (fewer than 3 corners): chip fill, muted text, never a faded primary. */
+.zone-bar .zone-bar__done:disabled { color: var(--muted); background: var(--chip); }
+@media (max-width: 800px) and (min-height: 500px), (max-width: 800px) and (orientation: portrait) {
+  /* The phone's legend chip keeps to its line beside the round buttons: the ends' words carry the meaning, so
+     the caption ("My match") goes and a long end wraps to a second line (never "Least like your s…", round 2). */
+  .legend-chip .map-legend:has([data-testid="legend-match"]) .map-legend-caption { display: none; }
+  .legend-chip [data-testid="legend-match"] span[data-edge] { flex: 0 1 auto; max-width: 6.5em; white-space: normal; line-height: 1.15; }
+  .zone-bar { top: 64px; padding-left: 14px; }
+  /* Thumb-reachable: Done sits on its own at the bottom of the screen, just above the sheet's 72px peek. */
+  .zone-bar .zone-bar__done {
+    position: fixed; z-index: 13; left: 16px; right: 16px; bottom: calc(84px + env(safe-area-inset-bottom));
+    min-height: 48px; box-shadow: 0 6px 18px rgb(var(--ink-rgb) / .18);
+  }
+}

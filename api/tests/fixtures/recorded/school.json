@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/schools/900001",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"school-summary.v1\",\"school\":{\"schoolId\":\"uk:school:900001\",\"urn\":\"900001\",\"name\":\"Fixture Primary School\",\"previousNames\":[],\"status\":\"open\",\"closedDate\":null,\"predecessorUrn\":null,\"successorUrn\":null,\"observations\":[],\"missingObservations\":[],\"phase\":\"primary\",\"type\":\"Community school\",\"ageRange\":{\"from\":3,\"to\":11},\"gender\":\"not published in this release\",\"faith\":null,\"selectivity\":\"Unknown\",\"capacity\":null,\"senProvision\":[],\"latitude\":51.5235,\"longitude\":-0.1645,\"journeyMinutes\":null,\"distanceMetres\":null,\"qualityFacets\":{},\"inspectionFramework\":\"legacy-overall\",\"parentViewResponses\":null,\"admissionEvidence\":{\"kind\":\"unavailable\",\"academicYears\":[],\"yearsWithin\":null,\"measurementMethod\":null,\"sourceUrls\":[],\"cutoffs\":[],\"isProbability\":false},\"sourceVersion\":\"fixture-schools-2026\",\"topBadge\":null}}"
+}

@@ -1,0 +1,142 @@
+# Southwark (210): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 210
+slug: southwark
+name: Southwark
+licence:
+  statement: No copyright, OGL or re-use statement found in the main-site terms. The terms say only that
+    use of southwark.gov.uk binds you to the terms and conditions.
+  url: https://www.southwark.gov.uk/about-council/transparency/website-terms-and-conditions
+licence_decision: unresolved
+aliases:
+  Goodrich: '100790'
+  John Ruskin & Unit: '100798'
+  Snowsfields & Unit: '100811'
+  Pilgrim's Way: '100818'
+  Bessemer: '130918'           # Bessemer Grange Primary School
+docs:
+- phase: primary
+  year: 2026
+  url: https://www.southwark.gov.uk/sites/default/files/2026-08/Southwark-primary-admissions-brochure-2027-2028.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+  note: '''Breakdown of reception places allocated at Southwark community schools for September 2026'',
+    inside the 2027-28 brochure.'
+- phase: primary
+  year: 2025
+  url: https://services.southwark.gov.uk/assets/attach/17665/Starting-primary-school-in-Southwark-2026-to-2027.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20241217093325/https://services.southwark.gov.uk/assets/attach/17665/PRIMARY-Admissions-book-2025-26-final-.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Live URL is 404. The archived copy has the September 2024 breakdown.
+  accept:
+  - "'Camelot': no URN"
+  - "'Comber Grove': no URN"
+  - "'Townsend': no URN"
+  accept_note: Closed schools with no successor in GIAS (Comber Grove closed 31-08-2024, Townsend
+    31-08-2023; Camelot is not in the GIAS London extract); left out.
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20231201003643/https://www.southwark.gov.uk/assets/attach/17665/Primary-admissions-brochure-2024-25.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Wayback-only, and the archived capture is cut off at 1 MB. Data year (Sept 2023) and format are
+    inferred from the series.
+- phase: primary
+  year: 2022
+  url: https://services.southwark.gov.uk/assets/attach/214378/Primary-Admissions-book-2023-24.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+  note: '''...community schools for September 2022''.'
+  accept:
+  - "'Camelot': no URN"
+  - "'Comber Grove': no URN"
+  - "'Townsend': no URN"
+  accept_note: Closed schools with no successor in GIAS (Comber Grove closed 31-08-2024, Townsend
+    31-08-2023; Camelot is not in the GIAS London extract); left out.
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20230208202831/https://www.southwark.gov.uk/assets/attach/141344/Starting-Primary-School-in-Southwark-Brochure-2022-23.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  other_urls:
+  - https://web.archive.org/web/20211103042745/https://www.southwark.gov.uk/assets/attach/17665/SA-primary-2022-23-FINAL.pdf
+  note: Archived capture cut off at 1 MB; data year and format inferred.
+  accept:
+  - "'Camelot': no URN"
+  - "'Comber Grove': no URN"
+  - "'Townsend': no URN"
+  accept_note: Closed schools with no successor in GIAS (Comber Grove closed 31-08-2024, Townsend
+    31-08-2023; Camelot is not in the GIAS London extract); left out.
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20210413081819/https://www.southwark.gov.uk/assets/attach/17665/Applying-for-Primary-School-Brochure-2021-22.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Archived capture cut off at 1 MB; data year and format inferred.
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20210928103440/https://www.southwark.gov.uk/assets/attach/10367/Primary-brochure-2020-21-final-2-.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Archived capture cut off at 1 MB; data year and format inferred.
+catchment_maps: null
+notes: 'Primary data covers community schools only, in the previous year''s ''Starting primary school''
+  brochure (the YYYY-(YY+1) brochure holds September YYYY-1 data). No secondary data: the secondary brochures
+  (2027-28 live, 2026-27 live) have no distance table. Several archived brochures are cut off at 1 MB,
+  so treat 2019-2021 and 2023 as unverified. Some schools have ''walk zone'' maps (assets/attach/2437xx);
+  these are for travel, not admission catchments.'

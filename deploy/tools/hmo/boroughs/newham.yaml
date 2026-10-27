@@ -1,0 +1,34 @@
+# Newham: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000025
+slug: newham
+name: Newham
+register:
+  status: published
+  url: https://www.newham.gov.uk/downloads/file/11456/public-register-hmo
+  page: https://www.newham.gov.uk/landlords-newham/rented-property-licensing/6
+  format: pdf
+  sheet: null
+  postcode_column: null
+  record_start: '^\d\d/\d+/\w+'
+  rows: 3629
+  updated: 2026-09-30
+  terms: "Not for marketing; listed individuals have not consented to marketing use."
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: [Beckton, Boleyn, Canning Town North, Canning Town South, Custom House, East Ham, East Ham South, Forest Gate North, Forest Gate South, Green Street East, Green Street West, Little Ilford, Manor Park, Maryland, Plaistow North, Plaistow South, Plaistow West & Canning Town East, Plashet, Royal Albert, Stratford, Wall End, West Ham]
+  start: 2023-01-01
+  end: 2027-12-31
+  url: https://www.newham.gov.uk/landlords-newham/rented-property-licensing/12
+- kind: selective
+  wards: [Beckton, Boleyn, Canning Town North, Canning Town South, Custom House, East Ham, East Ham South, Forest Gate North, Forest Gate South, Green Street East, Green Street West, Little Ilford, Manor Park, Maryland, Plaistow North, Plaistow South, Plaistow West & Canning Town East, Plashet, Royal Albert, Stratford, Wall End, West Ham]
+  start: 2023-06-01
+  end: 2028-05-31
+  url: https://www.newham.gov.uk/landlords-newham/rented-property-licensing/11
+notes: >-
+  Register is one 1855-page PDF of HMO licences only (mandatory about 1724, additional about 1911 records; extract dated
+  30/09/2026); a separate PDF lists selective licences (file 11457), not needed. Each licence starts with a reference like
+  21/02367/HOHMOL, then the property address in a narrow column; the postcode is the first one in the record but
+  about 6% wrap onto the next line, even splitting the outward and inward parts ("E15" / "1GW"), so join lines first. The page
+  says the online register is offline and to contact the office, yet the PDFs download fine. Both schemes exclude Royal
+  Victoria and Stratford Olympic Park wards.

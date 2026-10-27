@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Assistants A1, ChatGPT and Claude app</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+.g-board { width: 2000px; height: 1460px; box-sizing: border-box; padding: 56px; display: flex; flex-direction: column; gap: 28px; background: #f4f7fa; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; }
+.g-h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.g-sub { font-size: 15px; font-weight: 600; color: #5b6270; }
+.g-sec { display: flex; flex-direction: column; gap: 16px; padding: 20px 22px; border-radius: 18px; background: #ffffff; border: 1px solid #dfe7f0; }
+.g-lab { font-size: 12.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; }
+.g-row { display: flex; gap: 20px; align-items: flex-start; }
+.g-col { display: flex; flex-direction: column; gap: 10px; }
+.g-card { width: 438px; box-sizing: border-box; padding: 14px; border-radius: 16px; background: #f7f9fb; border: 1px solid #dfe7f0; display: flex; flex-direction: column; gap: 10px; }
+.g-t { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.g-s { font-size: 13.5px; font-weight: 600; color: #5b6270; line-height: 1.35; }
+.g-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.g-chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 999px; background: #eef2f7; font-size: 12.5px; font-weight: 700; }
+.g-off { background: transparent; border: 1px dashed #c3ccd8; color: #8a92a0; text-decoration: line-through; }
+.g-map { width: 408px; height: 220px; border-radius: 12px; background: #e9f0f7; overflow: hidden; }
+table.g-m { border-collapse: collapse; font-size: 13.5px; }
+table.g-m th { text-align: left; font-size: 12px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #5b6270; padding: 6px 12px; border-bottom: 1px solid #dfe7f0; }
+table.g-m td { padding: 7px 12px; border-bottom: 1px solid #eef2f7; font-weight: 600; vertical-align: middle; }
+.d-full { display: inline-block; width: 14px; height: 14px; border-radius: 999px; background: #2f5bd3; }
+.d-in { display: inline-block; width: 14px; height: 14px; border-radius: 999px; border: 3px solid #2f5bd3; box-sizing: border-box; background: linear-gradient(90deg, #2f5bd3 50%, transparent 50%); }
+.d-no { display: inline-block; width: 14px; height: 2px; background: #c3ccd8; vertical-align: middle; }
+.b { display: inline-flex; align-items: center; height: 20px; padding: 0 7px; border-radius: 6px; font-size: 11px; font-weight: 800; letter-spacing: 0.03em; }
+.b-tx { background: #dff3e6; color: #1d6b3a; }
+.b-ask { background: #fff1d6; color: #8a5a00; }
+.b-ix { background: #e6ecfb; color: #2f5bd3; }
+.conf { letter-spacing: 1px; color: #2f5bd3; font-size: 12px; }
+.g-panel { width: 392px; box-sizing: border-box; padding: 14px; border-radius: 18px; background: #f7f9fb; box-shadow: 0 1px 2px rgba(20,30,50,0.1), 0 6px 18px rgba(20,30,50,0.12); display: flex; flex-direction: column; gap: 10px; }
+.g-btn { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; background: #c0352c; color: #fff; font-size: 14px; font-weight: 800; }
+.g-btn2 { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 999px; background: #eef2f7; font-size: 14px; font-weight: 800; }
+.g-opt { flex: 1; box-sizing: border-box; padding: 16px; border-radius: 16px; border: 1px solid #dfe7f0; background: #f7f9fb; display: flex; flex-direction: column; gap: 8px; }
+.g-rec { border: 2px solid #2f5bd3; background: #ffffff; }
+.g-note { font-size: 13.5px; line-height: 1.45; color: #22252c; }
+.g-note li { margin-bottom: 4px; }
+.na { color: #8a92a0; font-weight: 600; font-size: 12.5px; }
+.chat { width: 560px; box-sizing: border-box; padding: 16px; border-radius: 18px; background: #ffffff; border: 1px solid #dfe7f0; display: flex; flex-direction: column; gap: 12px; }
+.bub-u { align-self: flex-end; max-width: 420px; padding: 10px 14px; border-radius: 16px; background: #eef2f7; font-size: 14px; font-weight: 600; }
+.bub-a { font-size: 14px; line-height: 1.45; font-weight: 500; }
+.wid { border-radius: 14px; border: 1px solid #dfe7f0; background: #f7f9fb; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.wrow { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; background: #ffffff; border: 1px solid #eef2f7; }
+.rk { width: 24px; height: 24px; border-radius: 999px; background: #2f5bd3; color: #fff; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.sc { margin-left: auto; font-size: 15px; font-weight: 800; }
+.up { color: #1d6b3a; } .dn { color: #c0352c; }
+.mini { font-size: 12px; font-weight: 700; color: #5b6270; }
+</style>
+</helmet>
+<div class="g-board">
+  <div class="g-col" style="gap:4px">
+    <div class="g-h1">Assistants · A1 · Close Knit inside ChatGPT and Claude</div>
+    <div class="g-sub">Draft for the owner. No widget code until agreed. Values illustrative. Plan and checklists: docs/assistants-2026-10/chatgpt-app.md</div>
+  </div>
+
+  <section class="g-sec">
+    <div class="g-lab">1 · What the person sees · shortlist in the chat (today's home-search widget, unchanged)</div>
+    <div class="g-row">
+      <div class="chat">
+        <div class="bub-u">Two kids, budget £900k, work at King's Cross. Where should we live?</div>
+        <div class="bub-a">Here are five areas that fit. Safety and schools weigh most, then the commute.</div>
+        <div class="wid">
+          <div class="mini">CLOSE KNIT · MY MATCH · 5 OF 4,835 AREAS</div>
+          <div class="wrow"><span class="rk">1</span><b>Crouch End</b><span class="mini">22 min · Safety 8/10 · Schools 9/10</span><span class="sc">8.7</span></div>
+          <div class="wrow"><span class="rk">2</span><b>Highbury</b><span class="mini">14 min · Safety 7/10 · Schools 8/10</span><span class="sc">8.4</span></div>
+          <div class="wrow"><span class="rk">3</span><b>Muswell Hill</b><span class="mini">31 min · Safety 9/10 · Schools 9/10</span><span class="sc">8.2</span></div>
+          <div class="g-row" style="gap:8px"><span class="g-btn">Open in Close Knit</span><span class="g-btn2">Homes here</span></div>
+        </div>
+        <div class="bub-a" style="color:#5b6270;font-size:13px">Sources: ONS, Met Police, DfE, TfL Open Data. Caveats kept.</div>
+      </div>
+      <div class="g-col" style="flex:1">
+        <div class="g-t">Rules on this surface</div>
+        <ul class="g-note">
+          <li>Same answers as the site's public mode: flagged data is never shown (this PR).</li>
+          <li>No ads, no partner links in answers. Portal links only via counted /go.</li>
+          <li>“Open in Close Knit” goes to the site, so the site must be public first (gap G2).</li>
+          <li>ChatGPT and Claude both render this MCP Apps widget as is; only <code>ui.domain</code> differs per host.</li>
+        </ul>
+        <div class="g-t">Directory listing</div>
+        <div class="g-s">Name: <b>Close Knit: London areas</b> · Short: “Compare London neighbourhoods with open data: safety, schools, commute, prices.” · Icon: knitted pin on snow (square, 512 px).</div>
+        <div class="g-chips"><span class="g-chip">Screenshot 1 · shortlist</span><span class="g-chip">2 · area card</span><span class="g-chip">3 · listing check</span><span class="g-chip">4 · compare (if B)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="g-sec">
+    <div class="g-lab">2 · New: compare 2–4 areas · table in the chat</div>
+    <div class="g-row">
+      <div class="chat" style="width:760px">
+        <div class="bub-u">Compare Walthamstow, Leyton and Leytonstone for a 2-bed rent.</div>
+        <div class="wid">
+          <div class="mini">CLOSE KNIT · COMPARE</div>
+          <table class="g-m">
+            <tr><th></th><th>Walthamstow</th><th>Leyton</th><th>Leytonstone</th></tr>
+            <tr><td>2-bed rent</td><td>£2,050 <span class="up">↑</span></td><td>£1,950 <span class="up">↑</span></td><td>£1,900 →</td></tr>
+            <tr><td>Safety</td><td>6/10</td><td>5/10 <span class="dn">↓</span></td><td>6/10</td></tr>
+            <tr><td>Schools</td><td>8/10</td><td>7/10</td><td>7/10</td></tr>
+            <tr><td>To Liverpool St</td><td>19 min</td><td>17 min</td><td>21 min</td></tr>
+            <tr><td>Green space</td><td>9/10</td><td>7/10</td><td>8/10</td></tr>
+            <tr><td>Clean air</td><td class="na">not shown</td><td class="na">not shown</td><td class="na">not shown</td></tr>
+          </table>
+          <div class="mini">“not shown” = held back by a flag in public mode (FLAGS.md), never 0.</div>
+        </div>
+      </div>
+      <div class="g-col" style="flex:1">
+        <div class="g-t">Why</div>
+        <div class="g-s">“Compare X and Y” is the most common area question in assistants. Today the model reads three overviews and writes its own table, which varies from run to run.</div>
+        <div class="g-t">Build cost</div>
+        <div class="g-s">One new tool <code>compare_areas</code> (reads existing overviews) + one view in the widget. About 2 days with tests.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="g-sec">
+    <div class="g-lab">3 · Options · owner decides</div>
+    <div class="g-row">
+      <div class="g-opt g-rec">
+        <div class="g-t">A · List with today's widget <span class="b b-ix">Recommended</span></div>
+        <div class="g-s">Ship section 1 as is. No UI work. Only gaps G1–G5 from the plan. Fastest path to the directories once the site is public.</div>
+      </div>
+      <div class="g-opt">
+        <div class="g-t">B · A + compare table</div>
+        <div class="g-s">Add section 2 before submitting. Better screenshots and demo video. +2 days, and one more tool for review.</div>
+      </div>
+      <div class="g-opt">
+        <div class="g-t">C · Text only, no widget</div>
+        <div class="g-s">Hide the widget for ChatGPT/Claude. Simplest review, but loses the map and board, which are our edge.</div>
+      </div>
+    </div>
+    <ul class="g-note">
+      <li>Also for the owner: listing before the site is public? The answer links would hit the preview login, so the recommendation is to wait.</li>
+      <li>Countries: GB first; others only with the global layer.</li>
+    </ul>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2000,"height":1460}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

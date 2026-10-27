@@ -1,0 +1,20 @@
+# Kingston upon Thames: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000021
+slug: kingston
+name: Kingston
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://www.kingston.gov.uk/sites/default/files/2026-10/Kingston%20Licenced%20HMO%20Register%20Website%2010%20October%202026.pdf
+  page: https://www.kingston.gov.uk/housing/landlords-and-private-sector/houses-multiple-occupation-hmo/hmo-licensing-register
+  format: pdf
+  sheet: null
+  postcode_column: null    # pdf: one line per licence; ADDRESS column is street+town+postcode run together, postcode last (e.g. "...KingstonKT1 3DA")
+  rows: 447
+  updated: 2026-10-10
+  terms: none stated
+  retrieved: 2026-10-18
+schemes: []
+notes: >-
+  Quarterly PDF (about 448 lines, ref prefixes HMOMAN, 21 HMOADD, 1 HMOVAR) with WARDNAME, status, issue and expiry dates. Address fields have no separators, so
+  parse the postcode from the end. The borough-wide additional scheme (2012, re-designated 2017) would have lapsed by about 2022-23; no current
+  additional or selective designation was found on the council site, so none is listed (confirm).

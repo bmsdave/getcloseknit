@@ -1,0 +1,62 @@
+/* Map legends and swatches in satin stitch (DESIGN.md › Charts). Ramps are
+   separate satin blocks 3px apart, like a card of embroidery threads
+   (components/ramp-knit.tsx), never a gradient. Labels and the London tick
+   stay text and marks beside the stitching. */
+
+/* Legend under "Price per m²" (and every other layer): nine blocks across the width. */
+.map-legend-gradient.ramp-satin { display: block; width: 100%; height: 14px; margin: 2px 0 0; border-radius: 0; }
+
+
+/* SCALE list, "No data" and bivariate corners: one satin block each. */
+.map-legend-swatch.satin-square { width: 14px; height: 14px; border-radius: 0; box-shadow: none; }
+.criterion-swatch.satin-square { width: 16px; height: 16px; border-radius: 0; box-shadow: none; }
+.criterion-ramp-bar.ramp-satin { display: block; width: 100%; height: 16px; border-radius: 0; }
+
+/* The two-way colour square: one satin block per shade. */
+.bivariate-square { display: block; flex: none; }
+.bivariate-square__satin { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+
+/* Colours menu: theme and palette swatches are satin blocks side by side. */
+.appearance-swatch { display: inline-block; width: auto; overflow: visible; border-radius: 0; box-shadow: none; line-height: 0; }
+/* No width: the strip keeps its blocks' proportions (viewBox). */
+.appearance-swatch svg { display: block; height: 14px; width: auto; }
+
+/* Timeline: the range input stays a real, accessible input; its track is a
+   CSS rib (knit columns on wool, a running stitch along it) and its thumb a
+   plain cherry dot. */
+.timeline-control input[type="range"] { -webkit-appearance: none; appearance: none; }
+.timeline-control input[type="range"]:focus-visible { outline: 2px solid var(--focus); outline-offset: -10px; border-radius: 8px; }
+.timeline-control input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px; border-radius: 4px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 4px, color-mix(in srgb, var(--ink) 22%, transparent) 4px 6px) center / 100% 2px no-repeat,
+    repeating-linear-gradient(90deg, var(--wool) 0 2px, color-mix(in srgb, var(--wool) 82%, black) 2px 3px, var(--wool) 3px 4px, color-mix(in srgb, var(--wool) 70%, black) 4px 6px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wool) 60%, black);
+}
+.timeline-control input[type="range"]::-moz-range-track {
+  height: 8px; border-radius: 4px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 4px, color-mix(in srgb, var(--ink) 22%, transparent) 4px 6px) center / 100% 2px no-repeat,
+    repeating-linear-gradient(90deg, var(--wool) 0 2px, color-mix(in srgb, var(--wool) 82%, black) 2px 3px, var(--wool) 3px 4px, color-mix(in srgb, var(--wool) 70%, black) 4px 6px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wool) 60%, black);
+}
+.timeline-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 20px; height: 20px; margin-top: -6px; border-radius: 50%;
+  border: 2px solid var(--panel-solid);
+  background: var(--yarn-cherry);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .3);
+}
+.timeline-control input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--panel-solid);
+  background: var(--yarn-cherry);
+  box-shadow: 0 1px 3px rgb(0 0 0 / .3);
+}
+
+/* The London tick: an --ink pin through the blocks, 4px proud of each edge. */
+.map-legend-bar .map-legend-tick { top: -2px; height: 22px; width: 3px; }
+
+/* My match (boards V3-19, V3-30b): the grey of an area that is out, and the hatch over an area over budget. */
+.map-legend-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font-weight: 600; color: var(--muted); }
+.map-legend-keys > span { display: inline-flex; align-items: center; gap: 5px; }
+.map-legend-key { display: inline-block; flex: none; width: 12px; height: 10px; border-radius: 2px; }
+

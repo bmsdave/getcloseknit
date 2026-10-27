@@ -1,0 +1,7 @@
+# Verification: UK property data and analytics tools
+
+- **1. Hometrack ~1.4m approvals; Alto poll 87% of 250 agents, ~1/3 adjust £10–20k** — supported. Hometrack says it contributes to "nearly all of the 1.4 million mortgage approvals"; Alto poll: 87% of 250 distrust AI valuations, nearly a third adjust by £10,001–£20,000.
+- **2. PPD has no floor area/bedrooms, excludes non-market transfers, lag 2 weeks–2 months; tools match EPC for £/sqft** — supported. GOV.UK lists fields (none for area/bedrooms), exclusions, and the 2-week to 2-month lag; PropertyData says it matches Land Registry to EPC data for £/sqft.
+- **3. Rightmove valuation leads +55% YoY Jan–May 2026; range, not figure; refers to agents** — supported. PIE: 55% rise, first five months of 2026 vs 2025; Negotiator (Mar 2023): tool gives an estimated range because exact valuation needs a local agent.
+- **4. police.uk snap points ≥8 addresses; geocoding 60–97%; Crystal Roof SW9 8EH 389/1,000, 10/10** — supported. data.police.uk: catchment of at least eight postal addresses (or none); accuracy 60%–97% by force. Crystal Roof: 389 per 1000 at-risk population, High 10/10, Brixton Road.
+- **5. NTSELAT withdrew guidance 9 May 2025 (DMCC Act superseded CPRs); Moverly ~523k listings, parking missing 25%, tenure 4%** — supported. Article dated 9 May 2025 reports withdrawal "with immediate effect" (exact withdrawal date implied by article date); Moverly audited 523,257 listings: 25% missing parking, 4% missing tenure.

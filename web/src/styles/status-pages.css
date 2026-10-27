@@ -1,0 +1,56 @@
+/* Not found, error and loading pages (app/not-found.tsx, app/error.tsx, the routes' loading.tsx). Tokens only. */
+.status-page { padding: 24px 0 80px; color: var(--ink); }
+.status-page h1 { margin: 28px 0 10px; font: 800 clamp(1.875rem, 6vw, 3rem)/1.05 var(--font-display); letter-spacing: -0.03em; overflow-wrap: break-word; }
+.status-page__lead { max-width: 60ch; margin: 0 0 20px; color: var(--muted); font-size: var(--fs-md); line-height: 1.5; }
+.status-page__actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 20px 0 8px; }
+.status-button {
+  position: relative; display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 18px;
+  border: 0; border-radius: var(--radius-pill); background: var(--chip); color: var(--ink); font: inherit; font-size: var(--fs-md);
+  font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.status-button:hover { background: color-mix(in srgb, var(--chip) 85%, var(--ink)); }
+.status-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* The one action: primary fill with the running stitch (DESIGN.md › Buttons). */
+.status-button--primary { background: var(--primary); color: var(--on-primary); }
+.status-button--primary:hover { background: color-mix(in srgb, var(--primary) 86%, var(--ink)); }
+.status-button--primary::after {
+  content: ""; position: absolute; inset: 4px; border: 2px dashed var(--stitch); border-radius: inherit; pointer-events: none;
+}
+.status-button .knit-glyph { width: 16px; height: 16px; }
+.status-page__note { margin: 24px 0 0; color: var(--muted); font-size: var(--fs-sm); }
+
+/* The search on the not-found page: a field and its results as links. */
+.status-search { display: grid; gap: 6px; max-width: 520px; }
+.status-search label { font-size: var(--fs-sm); font-weight: 700; }
+.status-search input {
+  width: 100%; min-height: 48px; padding: 0 16px; border: 1px solid var(--field-line); border-radius: var(--radius-pill);
+  background: var(--panel-solid); color: var(--ink); font: inherit; font-size: var(--fs-md);
+}
+.status-search input:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.status-search__results { display: grid; gap: 2px; margin: 4px 0 0; padding: 6px; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--surface); list-style: none; }
+.status-search__results a { display: grid; gap: 2px; min-height: 44px; padding: 8px 12px; border-radius: var(--radius-md); color: var(--ink); text-decoration: none; }
+.status-search__results a:hover { background: var(--chip); }
+.status-search__results a:focus-visible { outline: 3px solid var(--focus); outline-offset: -3px; }
+.status-search__results strong { font-weight: 700; overflow-wrap: break-word; }
+.status-search__results span { color: var(--muted); font-size: var(--fs-xs); }
+.status-search__empty { margin: 2px 0 0; color: var(--ink); font-size: var(--fs-sm); }
+
+/* Loading skeletons: the boxes of the page's own header, in quiet --wool, so nothing moves when it arrives. */
+.status-skeleton { display: block; border-radius: var(--radius-md); background: var(--wool); }
+.status-skeleton--eyebrow { width: 90px; height: 14px; margin: 28px 0 14px; }
+.status-skeleton--title { width: min(420px, 80%); height: clamp(40px, 7vw, 68px); margin: 0 0 18px; }
+.status-skeleton--line { width: min(560px, 100%); height: 18px; margin: 0 0 10px; }
+.status-skeleton--short { width: min(320px, 70%); }
+.status-skeleton--card { width: 100%; height: 220px; margin: 24px 0 0; border-radius: 16px; }
+@media (prefers-reduced-motion: no-preference) {
+  .status-skeleton { animation: status-skeleton-breathe 1.6s ease-in-out infinite; }
+}
+@keyframes status-skeleton-breathe { 50% { opacity: 0.55; } }
+/* The served scope did not load (components/scope-context.tsx): one line over every page, above the map. */
+.scope-error {
+  position: fixed; z-index: 60; top: max(12px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); max-width: calc(100vw - 32px);
+  padding: 8px 8px 8px 16px; border-radius: var(--radius-lg); background: var(--panel-solid); color: var(--ink);
+  box-shadow: 0 6px 24px rgb(var(--ink-rgb) / 0.18);
+}
+.scope-error p { margin: 0; font-weight: 700; }

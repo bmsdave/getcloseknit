@@ -1,0 +1,77 @@
+# CLOSE_KNIT_ACCESS=private: one shared login in front of everything but
+# the health probe, for a pre-launch preview. Set in deploy/.env (single
+# quotes keep the bcrypt '$' signs literal):
+#   CLOSE_KNIT_ACCESS_USER=preview
+#   CLOSE_KNIT_ACCESS_HASH='<docker compose exec caddy caddy hash-password>'
+#   CLOSE_KNIT_ACCESS_PASSWORD=<plain password; preflight and ship.sh use it>
+#   CLOSE_KNIT_INVITE_TOKEN=<optional, 20+ characters: enables invite links>
+
+# Not listed by search engines (robots.txt keeps pages crawlable so this
+# header is seen), the 401s included; the pages say noindex too.
+header X-Robots-Tag "noindex, nofollow"
+
+# Invite links (tools/invite.sh create 20): /?invite=<code> opens a page in
+# the API (api/area_api/invites.py) whose button spends one of the code's
+# uses and sets a 30-day cookie holding CLOSE_KNIT_INVITE_TOKEN. Browsers
+# with that cookie skip the login; a new token revokes every cookie. An
+# unset or short token disables all of it, so an empty cookie never matches.
+@inviteLink {
+	query invite=*
+	not expression `{env.CLOSE_KNIT_INVITE_TOKEN}.size() >= 20 && {http.request.cookie.ae_invite} == {env.CLOSE_KNIT_INVITE_TOKEN}`
+}
+handle @inviteLink {
+	rewrite * /access/invite?code={query.invite}
+	import proxy api:8080
+}
+handle /access/* {
+	import proxy api:8080
+}
+
+# The browser fetches /favicon.ico on its own; a 401 there pops the login
+# dialog over the invite page, so let it through (it holds nothing).
+# Same for /manifest.webmanifest and /icon.svg (fetched without credentials).
+# The MCP endpoint and /.well-known/* stay open too: Claude's connector
+# cannot send the shared login, and a 401 there makes it try OAuth client
+# registration, which this server does not offer, so the connector fails.
+# It probes /register, /authorize and /token even after /mcp answers; they
+# must 404 (no route has them), not 401, or the connector fails the same way.
+# /go/* is open as well: the listing links an agent gives (area_api.usage.go_url) are
+# opened by people who have no login, and it only ever redirects to the portals.
+# /bot is the page CloseKnitBot's user agent points at: site owners must be
+# able to read it (and how to opt out) without the preview login.
+# /api/v1/listing-card is the browser extension's card (api/area_api/listing_card.py): the
+# extension's background worker cannot send the shared login, and the card holds area-level
+# facts only, the same evidence the open MCP endpoint already serves. /api/v1/listing-badges is its
+# line under each search result (api/area_api/listing_badges.py): the same area-level facts.
+# /api/v1/extension-config is its per-portal kill switch (api/area_api/extension_config.py): public
+# modes and a notice, nothing about the user.
+# /privacy (with /privacy/legitimate-interests), /terms and /about are open because the assistant
+# directories (Claude, ChatGPT) list a connector only with public privacy, terms and support pages;
+# they hold the legal text and the contact address, no area data (/about's sources table is the
+# same list /guide prints). /_next/static/* is what those pages load (build-hashed JS, CSS and the
+# self-hosted font): code shipped to every visitor, no data. /_next/image and /_next/data stay
+# locked: no open page uses them.
+@locked {
+	not path /api/v1/health /access/* /favicon.ico /manifest.webmanifest /icon.svg /mcp /mcp/* /go/* /.well-known/* /register /authorize /token /bot /api/v1/listing-card /api/v1/listing-badges /api/v1/extension-config /privacy /privacy/* /terms /about /_next/static/*
+	not query invite=*
+	not expression `{env.CLOSE_KNIT_INVITE_TOKEN}.size() >= 20 && {http.request.cookie.ae_invite} == {env.CLOSE_KNIT_INVITE_TOKEN}`
+}
+basic_auth @locked {
+	{$CLOSE_KNIT_ACCESS_USER} {$CLOSE_KNIT_ACCESS_HASH}
+}
+
+# An open page still makes requests the login covers: link prefetches of locked pages, the usage
+# beacon (/api/v1/usage), the service worker. Their 401 keeps the login challenge only for a page
+# load: a script's request (Sec-Fetch-Mode other than navigate) gets a bare 401, since a challenge
+# there pops the browser's login dialog over the open page. Following a link to a locked page is a
+# page load, so it still asks. Browsers that send no Sec-Fetch-Mode get the challenge as before.
+handle_errors 401 {
+	@scripted {
+		header Sec-Fetch-Mode *
+		not header Sec-Fetch-Mode navigate
+	}
+	handle @scripted {
+		header -WWW-Authenticate
+		respond 401
+	}
+}

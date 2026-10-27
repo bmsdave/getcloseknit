@@ -1,0 +1,51 @@
+/* Styles first made for the old /claude page (now a redirect to /agents), kept for
+   the /agents tabs (agents-hub.tsx): glosses, folds and the skill download. Tokens only. */
+.subpage-card .claude-gloss, .claude-fold .claude-gloss { color: var(--ink); }
+.claude-note { font-size: var(--fs-sm); }
+/* The sample prompt reads as words, not code: wrap at spaces. */
+.claude-test .copy-field__value { font: 600 var(--fs-sm)/1.5 var(--font-sans); overflow-wrap: break-word; user-select: text; }
+
+/* The sample conversation: your turns sit right on the chip, Claude's left on the paper. */
+.claude-chat { display: grid; gap: var(--space-3); margin: 0 0 12px; padding: 0; list-style: none; }
+.subpage-card .claude-chat__turn { display: grid; gap: var(--space-1); max-width: min(100%, 520px); margin: 0; padding: 12px 16px; border-radius: var(--radius-lg); background: var(--paper); color: var(--ink); }
+.subpage-card .claude-chat__turn + .claude-chat__turn { margin-top: 0; }
+.subpage-card .claude-chat__turn--you { justify-self: end; background: var(--chip); }
+.claude-chat__who { color: var(--muted); font-size: var(--fs-xs); font-weight: 800; letter-spacing: .02em; }
+.subpage-card .claude-chat__turn p { margin: 0; color: var(--ink); }
+.claude-chat__card { margin: var(--space-2) 0 0; }
+/* Phones: Claude's turns and the card take the full width so the card's text stays readable. */
+@media (max-width: 560px) {
+  .subpage-card .claude-chat__turn { padding: 10px 12px; }
+  .subpage-card .claude-chat__turn:not(.claude-chat__turn--you) { max-width: none; margin-inline: -8px; }
+  .claude-chat__card { margin-inline: -4px; }
+}
+
+/* The shortlist card mock (shortlist-mock.tsx). */
+.claude-mock { display: block; width: 100%; max-width: 340px; height: auto; font-family: var(--font-sans); }
+.claude-mock__card { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
+.claude-mock__row { fill: var(--chip); }
+.claude-mock__badge { fill: var(--surface); stroke-width: 3; }
+.claude-mock text { fill: var(--ink); }
+.claude-mock__title { font-size: 18px; font-weight: 800; }
+.claude-mock__name, .claude-mock__rank { font-size: 15px; font-weight: 700; }
+.claude-mock .claude-mock__muted { fill: var(--muted); font-size: 14px; }
+
+/* Folded steps: the optional skill and the developer notes. */
+.claude-fold .guide-fine-print__body { color: var(--muted); font-size: var(--fs-md); }
+.claude-fold .step-list { margin-bottom: 4px; }
+.claude-download {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 16px 0 12px; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font-weight: 700; text-decoration: none;
+}
+.claude-download:hover { background: color-mix(in srgb, var(--chip), var(--ink) 8%); }
+.claude-download:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.claude-download__icon { width: 20px; height: 20px; transform: rotate(180deg); }
+
+/* The two mailto links (#17) as quiet chips, 44px targets, wrapping on phones. */
+.subpage-card .claude-links { display: flex; flex-wrap: wrap; gap: var(--space-2); max-width: none; }
+.subpage-card .claude-links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--radius-md);
+  background: var(--chip); color: var(--ink); text-decoration: none;
+}
+.subpage-card .claude-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.subpage-card .claude-links a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }

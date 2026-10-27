@@ -1,0 +1,4 @@
+/* Flood risk bands in the Environment tab (components/flood-risk.tsx); the charts are in environment-transport-charts.css. */
+.flood-risk h2 { display: flex; align-items: center; gap: var(--space-1); margin: 18px 0 6px; font-size: var(--fs-md); }
+.flood-risk h3 { display: flex; align-items: center; gap: var(--space-1); margin: 0 0 4px; font-size: var(--fs-xs); }
+.flood-risk__status { color: var(--muted); font-size: var(--fs-xs); }

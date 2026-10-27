@@ -1,0 +1,226 @@
+# Lewisham (209): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 209
+slug: lewisham
+name: Lewisham
+licence:
+  statement: 'Copyright 2026 © Lewisham Council. (Terms: ''The names, images and logos identifying Lewisham
+    Council are proprietary marks of the Council.'' No OGL statement found.)'
+  url: https://lewisham.gov.uk/about-this-site/terms-and-conditions
+licence_decision: unresolved
+aliases:
+  Coopers Lane: '100676'
+  John Stainer: '100689'
+  Sandhurst Infants: '100703'   # Sandhurst Primary School (the junior school closed in 2018)
+  Stillness Infants: '100705'
+  Haberdashers' Aske's Knights Academy: '135070'
+  Prendergast ValeSchool: '150351'
+docs:
+- phase: primary
+  year: 2026
+  url: https://lewisham.gov.uk/-/media/services/education/schools/admissions/grid-for-reception-2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20251206005403/https://lewisham.gov.uk/-/media/services/education/schools/grid-for-reception-2025.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Live URL is 404.
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20241015000337/https://lewisham.gov.uk/-/media/0-education/schools/grid-for-reception-2024.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Live URL is 404. This grid has an extra bulge-class last-distance column.
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+  ignore_distance:
+    Kelvin Grove: printed '20.000' (20 m, or 20,000 m with a dot as separator); not a usable cut-off
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240222184752/https://lewisham.gov.uk/-/media/archive/grid-for-reception-2023.ashx
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+  ignore_distance:
+    Elfrida: printed '17477.54' m (10.9 miles), over the 10-mile review limit; not a plausible cut-off
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20211022054116/https://lewisham.gov.uk/-/media/reception-application-and-offers-2020-21-intake.ashx
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+- phase: primary
+  year: 2019
+  url: https://web.archive.org/web/20190819135314/https://lewisham.gov.uk/-/media/files/imported/reception2019-20applicationsoffers.ashx
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  accept:
+  - "'Lucas Vale': no URN"
+  - "'Sir Francis Drake': no URN"
+  accept_note: Lucas Vale and Sir Francis Drake primary schools are in neither table school nor the
+    GIAS London extract (2026-10-11), so they cannot be matched; left out.
+  ignore_distance:
+    Ashmead: printed '22,746.51' m (14.1 miles), over the 10-mile review limit; not a plausible cut-off
+    Kender: printed '43,004.83' m (26.7 miles), over the 10-mile review limit; not a plausible cut-off
+- phase: secondary
+  year: 2026
+  url: https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: live
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20251008032448/https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240912152723/https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20231204192817/https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: The page text says 'allocated on 1 March 2024', but its distances differ from the Sept 2024 snapshot,
+    so it holds the 2023 round with a wrong label.
+  label_year: 2024
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20230604202318/https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  note: Says 'allocated on 1 March 2022'.
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20211126225255/https://lewisham.gov.uk/-/media/files/imported/communitygrid2021.ashx
+  format: docx
+  units: metres
+  method: null
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20201028203404/https://lewisham.gov.uk/-/media/files/imported/communitygridsecondary.ashx
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+  # The Sept 2020 page (web.archive.org/web/20200923060743/https://lewisham.gov.uk/myservices/education/
+  # schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-
+  # appeals-for-secondary-school-places) repeats this grid's figures without Sedgehill: not read.
+- phase: secondary
+  year: 2019
+  url: https://web.archive.org/web/20191121182408/https://lewisham.gov.uk/myservices/education/schools/school-admission/applying-to-start-secondary-school/last-year-s-number-of-applications-and-appeals-for-secondary-school-places
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - appeals
+  source: wayback
+catchment_maps: null
+notes: 'These files cover community schools only (about 39 primaries, and 3-4 secondaries: Conisborough,
+  Deptford Green, Forest Hill, Sydenham). Academy and VA schools are not included; the council says to
+  ask the school. There is no 2021 or 2022 primary grid: the 2022 file (admissions-and-appeals-for-reception-places-in-2022.ashx)
+  is linked from a snapshot but is not in the archive. There are interactive ''distance map'' pages (primary-school-admission-distance-map,
+  school-admission-distance-map), live 200. These are maps of last year''s distances, not catchments.'

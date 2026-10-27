@@ -1,0 +1,10 @@
+/* The one brand lockup (components/brand-lockup.tsx): the knitted house on wool and the
+   lowercase wordmark, one size on the map's bar and every page's header. Only the narrowest phones
+   drop the wordmark, on every page alike. */
+.brand-lockup { display: inline-flex; align-items: center; gap: 8px; min-width: 0; color: var(--ink); }
+.brand-lockup__mark { display: grid; flex: none; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--wool); overflow: hidden; }
+.brand-lockup__mark svg { display: block; width: 30px; height: 30px; }
+.brand-lockup__word { font: 800 var(--fs-lg)/1 var(--font-display); letter-spacing: -0.03em; white-space: nowrap; }
+@media (max-width: 360px) {
+  .brand-lockup__word { display: none; }
+}

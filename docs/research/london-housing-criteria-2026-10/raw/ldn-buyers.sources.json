@@ -1,0 +1,344 @@
+[
+ {
+  "url": "https://warwick.ac.uk/fac/soc/economics/research/workingpapers/2026/twerp_1628-datta-and-kulka.pdf",
+  "title": "The Hidden Geography of Housing Demand Exposes Policy Failure: Evidence from Billions of Housing Searches",
+  "type": "paper",
+  "publisher": "University of Warwick / CAGE (Datta, Kulka, Wehbe)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "16bn UK portal searches: 60% use max-price filter; COVID greenspace demand (+0.8%/100m2) reverted to zero by end-2023; Wandsworth high excess demand."
+ },
+ {
+  "url": "https://cep.lse.ac.uk/pubs/download/dp0611.pdf",
+  "title": "Valuing Rail Access Using Transport Innovations (CEP DP 611; JUE 2005)",
+  "type": "paper",
+  "publisher": "LSE Centre for Economic Performance (Gibbons, Machin)",
+  "year": "2004",
+  "read_fully": true,
+  "key_point": "JLE/DLR stations: prices rise ~1.5-5.8% per km closer to station within 2km; no effect beyond 2km."
+ },
+ {
+  "url": "https://cep.lse.ac.uk/pubs/download/sercdp0018.pdf",
+  "title": "Valuing School Quality Using Boundary Discontinuities (SERC DP 18; JUE 2013)",
+  "type": "paper",
+  "publisher": "LSE SERC (Gibbons, Machin, Silva)",
+  "year": "2009",
+  "read_fully": true,
+  "key_point": "One SD rise in school value-added or prior attainment raises house prices ~3% in England."
+ },
+ {
+  "url": "https://www.knightfrank.co.uk/research/article/2023/8/what-are-buyers-prioritising-as-mortgage-rates-rise",
+  "title": "What are buyers prioritising as mortgage rates rise?",
+  "type": "journal",
+  "publisher": "Knight Frank Research",
+  "year": "2023",
+  "read_fully": true,
+  "key_point": "Garden 74% essential; broadband 90%, amenities 87%, transport 86%, home office 73% essential/important; a third lost spending power."
+ },
+ {
+  "url": "https://www.propertyinvestortoday.co.uk/breaking-news/2024/08/what-buyers-want-most-and-least-when-purchasing-a-home/",
+  "title": "What buyers want most (and least) when purchasing a home",
+  "type": "journal",
+  "publisher": "Property Investor Today (MFS survey)",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "Broadband 82% top; garden 76%; transport rose 14th to 6th since 2021; square footage fell 2nd to 7th."
+ },
+ {
+  "url": "https://en.savills.pt/blog/article/312245/residential-property/home-buyers-put-fresh-air-and-family-ahead-of-proximity-to-the-office.aspx",
+  "title": "Home buyers put fresh air and family ahead of proximity to the office",
+  "type": "journal",
+  "publisher": "Savills",
+  "year": "2021",
+  "read_fully": true,
+  "key_point": "London: park proximity 57%, garden 50%, home workspace 48%; tube proximity top-two fell 63% to 39%."
+ },
+ {
+  "url": "https://www.peabodygroup.org.uk/media/czqdmyjq/peabody-first-time-buyer-outlook-2021.pdf",
+  "title": "First-time buyer outlook 2021",
+  "type": "web",
+  "publisher": "Peabody / Share to Buy / Dataloft",
+  "year": "2021",
+  "read_fully": true,
+  "key_point": "3,744 FTBs: in London local green space rose most post-COVID, balcony/terrace = outside space, storage outranks parking."
+ },
+ {
+  "url": "https://www.propertyreporter.co.uk/property/london-first-time-buyers-focusing-on-neighbourhood.html",
+  "title": "London first-time buyers focusing on neighbourhood",
+  "type": "journal",
+  "publisher": "Property Reporter (Bellway London/Censuswide)",
+  "year": "2021",
+  "read_fully": true,
+  "key_point": "London FTBs: neighbourhood 79% extremely important, bedrooms 48%, transport 43%, outdoor space 43%; >60% prefer new-build."
+ },
+ {
+  "url": "https://www.curvemag.com/blog/what-tops-the-wish-list-for-londons-first-time-buyers/",
+  "title": "What tops the wish list for London's first time buyers?",
+  "type": "web",
+  "publisher": "Curve (L&Q survey)",
+  "year": "2017",
+  "read_fully": true,
+  "key_point": "1,000 London renters 24-35: 76% expect to compromise on location, 50% expect to leave London; transport, amenities, parks top."
+ },
+ {
+  "url": "https://thenegotiator.co.uk/news/in-search-of-space-london-suburbs-red-hot-says-property-research-firm/",
+  "title": "In search of space: London suburbs 'red hot', says property research firm",
+  "type": "journal",
+  "publisher": "The Negotiator (Stacks Property Search)",
+  "year": "2021",
+  "read_fully": true,
+  "key_point": "Buyers swapped vertical for lateral space; tube-adjacency premium shrank; Dulwich, Wimbledon, Crouch End hotspots."
+ },
+ {
+  "url": "https://propertyindustryeye.com/?p=144822",
+  "title": "What's next for the housing market in 2025? Home buyer behaviour and user trends unveiled (Zoopla)",
+  "type": "journal",
+  "publisher": "Property Industry Eye",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "80% view floorplans before photos; 'freehold' top keyword, then garage, annexe; 'study' and 'needs modernisation' rising."
+ },
+ {
+  "url": "https://www.mpamag.com/uk/news/general/homebuyers-most-searched-for-locations-in-2025-revealed/559773",
+  "title": "Homebuyers' most searched-for locations in 2025 revealed",
+  "type": "journal",
+  "publisher": "Mortgage Professional Adviser (Rightmove data)",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "London most searched; Wimbledon, Fulham, Chiswick top London buyer searches; garage, annexe, garden top buyer keywords."
+ },
+ {
+  "url": "https://propertyindustryeye.com/uks-top-property-hotspots-of-2025-revealed/",
+  "title": "UK's top property hotspots of 2025 revealed",
+  "type": "journal",
+  "publisher": "Property Industry Eye (Rightmove data)",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "Confirms Rightmove 2025: buyers' top features garage, annexe, garden; renters pet-friendly; London top location."
+ },
+ {
+  "url": "https://www.housingtoday.co.uk/news/homebuyers-abandon-flats-in-favour-of-houses/5106370.article",
+  "title": "Homebuyers abandon flats in favour of houses",
+  "type": "journal",
+  "publisher": "Housing Today (Rightmove data)",
+  "year": "2020",
+  "read_fully": true,
+  "key_point": "Lockdown: 40% changed priorities, 39% want garden/bigger home, 1 in 5 want WFH space; top-5 searched types all houses."
+ },
+ {
+  "url": "https://www.knightfrank.co.uk/research/article/2025/2/london-new-homes-update-february-2025",
+  "title": "London new homes update - February 2025",
+  "type": "journal",
+  "publisher": "Knight Frank Research",
+  "year": "2025",
+  "read_fully": true,
+  "key_point": "London new-home buyers prefer build-complete stock; £500-750k exchanges +20% in 2024; needs-driven buyers dominate."
+ },
+ {
+  "url": "https://www.knightfrank.co.uk/theview/locations/what-to-consider-when-buying-in-prime-central-london",
+  "title": "What to consider when buying in Prime Central London",
+  "type": "journal",
+  "publisher": "Knight Frank",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "PCL buyers want community, green space, high street, schools; Westminster caps new lateral flats at 200 sqm."
+ },
+ {
+  "url": "https://www.savills.co.uk/research_articles/229130/352571-0",
+  "title": "Savills research: school areas price premium",
+  "type": "journal",
+  "publisher": "Savills Research",
+  "year": "2023",
+  "read_fully": true,
+  "key_point": "Top school areas 56% above regional average; London only 82.6% secondary first-choice offers; London/SE dominate."
+ },
+ {
+  "url": "https://www.mpamag.com/uk/news/general/why-londons-small-flat-market-crisis-runs-deeper-than-the-data-shows/578291",
+  "title": "Why London's small flat market crisis runs deeper than the data shows",
+  "type": "journal",
+  "publisher": "Mortgage Professional Adviser",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "~Half of London 1-bed/studios sell below purchase price; inner London flats -6.2%; service charges, cladding, short leases deter."
+ },
+ {
+  "url": "https://www.landlordtoday.co.uk/breaking-news/2026/03/soaring-service-charges-on-leasehold-flats-hit-capital-values/",
+  "title": "Soaring service charges on leasehold flats hit capital values",
+  "type": "journal",
+  "publisher": "Landlord Today (Hamptons analysis)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "London service charge £2,801/yr (+41% in 5 yrs); 37% of flats exceed 1% of value; low-charge flats 50% likelier to sell."
+ },
+ {
+  "url": "https://thenegotiator.co.uk/?p=198376",
+  "title": "Flats are falling out of favour",
+  "type": "journal",
+  "publisher": "The Negotiator (Hamptons)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "73% of FTBs buy houses (65% in 2015); 19.9% of flats sold at loss in 2025, studios 38.1%."
+ },
+ {
+  "url": "https://thenegotiator.co.uk/news/uk-housing-market-news/flats-offer-growing-value-amid-falling-demand-says-zoopla/",
+  "title": "Flats offer 'growing value' amid falling demand, says Zoopla",
+  "type": "journal",
+  "publisher": "The Negotiator (Zoopla)",
+  "year": "2026",
+  "read_fully": true,
+  "key_point": "Flat demand falling on running costs and leasehold; London remains exception with persistent but uncertain flat demand."
+ },
+ {
+  "url": "https://www.mortgagesolutions.co.uk/news/2024/08/27/lower-mortgage-rates-keep-first-time-buyers-in-london-hamptons/",
+  "title": "Lower mortgage rates keep first-time buyers in London: Hamptons",
+  "type": "journal",
+  "publisher": "Mortgage Solutions (Hamptons)",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "Record 48% of London sales to FTBs in H1 2024 at avg £443,550; leavers buy ~24 miles out."
+ },
+ {
+  "url": "https://www.foxtons.co.uk/discover/2023/10/downsizers-driving-london-demand-for-new-homes",
+  "title": "Downsizers driving London demand for new homes",
+  "type": "web",
+  "publisher": "Foxtons",
+  "year": "2023",
+  "read_fully": true,
+  "key_point": "Downsizers lead London market; want lateral space, lifts, low bills, estate management, central locations; mostly cash buyers."
+ },
+ {
+  "url": "https://www.whathouse.com/news/barratt-london-over-50s-survey-findings/",
+  "title": "Barratt London over-50s survey findings",
+  "type": "web",
+  "publisher": "WhatHouse (Barratt London survey)",
+  "year": "2021",
+  "read_fully": true,
+  "key_point": "Over-50 Londoners: outdoor space 51%, green space 63%, parking 37%; only 32% would leave London."
+ },
+ {
+  "url": "https://santander.co.uk/about-santander/media-centre/press-releases/parents-face-5-premium-on-properties-within-catchment",
+  "title": "Parents face 5% premium on properties within catchment areas of top primary schools",
+  "type": "web",
+  "publisher": "Santander UK",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "Catchment premium ~25% in London vs 5% elsewhere; 63% of parents would pay extra (26% in 2019)."
+ },
+ {
+  "url": "https://www.rightmove.co.uk/press-centre/2149-2",
+  "title": "Property prices double around Elizabeth Line stations",
+  "type": "data",
+  "publisher": "Rightmove",
+  "year": "2022",
+  "read_fully": true,
+  "key_point": "Elizabeth line 2012-22: Maryland asking prices +108% vs London +55%; buyer demand up to +245%."
+ },
+ {
+  "url": "https://www.rightmove.co.uk/press-centre/?p=469",
+  "title": "Top 10 must-haves on buyers' wish lists revealed",
+  "type": "data",
+  "publisher": "Rightmove",
+  "year": "2019",
+  "read_fully": true,
+  "key_point": "National keyword top 10: garage, annexe, acre, garden, detached, cottage, character, bungalow, freehold, rural."
+ },
+ {
+  "url": "https://www.mumsnet.com/talk/property/3948709-flat-v-house",
+  "title": "Flat v house (Mumsnet Property)",
+  "type": "forum",
+  "publisher": "Mumsnet",
+  "year": "2020",
+  "read_fully": true,
+  "key_point": "78 replies: flat with big garden, top schools, short commute beats SE London house; 'location first'; leasehold caveats."
+ },
+ {
+  "url": "https://www.mumsnet.com/talk/property/3741542-400K-budget-where-to-buy-in-London",
+  "title": "400K budget where to buy in London",
+  "type": "forum",
+  "publisher": "Mumsnet",
+  "year": "",
+  "read_fully": true,
+  "key_point": "Posters push rail-served areas over tube-only; 30-min commute rule too restrictive; Sutton schools/safety cited."
+ },
+ {
+  "url": "https://www.mumsnet.com/talk/am_i_being_unreasonable/5136061-can-i-still-buy-in-london",
+  "title": "Can I still buy in London (Mumsnet AIBU)",
+  "type": "forum",
+  "publisher": "Mumsnet",
+  "year": "2024",
+  "read_fully": true,
+  "key_point": "94 replies on £500-550k 2-bed: drop tube filter, consider Elizabeth/Overground areas; green space, cafes, safety."
+ },
+ {
+  "url": "https://www.mumsnet.com/talk/property/2272047-Where-would-you-spend-a-third-of-a-million-in-London",
+  "title": "Where would you spend a third of a million in London",
+  "type": "forum",
+  "publisher": "Mumsnet",
+  "year": "2015",
+  "read_fully": true,
+  "key_point": "£300-350k: commute logistics decide area; flats/conversions in outer zones; houses unaffordable."
+ },
+ {
+  "url": "https://forums.moneysavingexpert.com/discussion/4966281/leave-an-up-and-coming-area-for-a-house",
+  "title": "Leave an up and coming area for a house?",
+  "type": "forum",
+  "publisher": "MoneySavingExpert Forum",
+  "year": "2014",
+  "read_fully": true,
+  "key_point": "Flat-to-house upsizers weigh station frequency, Travelcard cost, ex-council ceiling; consensus favours moving out for space."
+ },
+ {
+  "url": "https://forums.moneysavingexpert.com/discussion/5771544/north-london-house-buying-areas-advice/p3",
+  "title": "North London house buying areas advice",
+  "type": "forum",
+  "publisher": "MoneySavingExpert Forum",
+  "year": "",
+  "read_fully": true,
+  "key_point": "£500k 2-bed: commute, tube/Overground, villagey feel, safety, green space drive area choice (East Finchley, Alexandra Park)."
+ },
+ {
+  "url": "https://forums.moneysavingexpert.com/discussion/4691569/where-in-london-would-you-buy",
+  "title": "Where in London would you buy?",
+  "type": "forum",
+  "publisher": "MoneySavingExpert Forum",
+  "year": "",
+  "read_fully": true,
+  "key_point": "£150k SW London unrealistic; trade-offs between safety, condition and commute; Croydon/Isleworth suggested."
+ },
+ {
+  "url": "https://www.homesandproperty.co.uk/property-news/what-buyers-want-the-top-features-that-will-make-your-home-appeal-to-london-househunters-a129416.html",
+  "title": "What buyers want: the top features that will make your home appeal to London househunters",
+  "type": "web",
+  "publisher": "Homes & Property (Evening Standard), Rightmove data",
+  "year": "",
+  "read_fully": false,
+  "key_point": "London Rightmove keywords: garden 1st, freehold 2nd, Help to Buy 3rd, balcony 5th (snippet only)."
+ },
+ {
+  "url": "https://www.inkl.com/news/home-counties-hotspots-where-london-buyers-are-snapping-up-properties-revealed",
+  "title": "Home counties hotspots where London buyers are snapping up properties revealed",
+  "type": "web",
+  "publisher": "inkl (Hamptons data)",
+  "year": "2025",
+  "read_fully": false,
+  "key_point": "Londoners buying outside capital 5.3% (12-yr low); 18.2% of Home Counties sales to Londoners (snippet only)."
+ },
+ {
+  "url": "https://www.financialreporter.co.uk/first-time-buyer-numbers-up-19-in-2024-halifax.html",
+  "title": "First-time buyer numbers up 19% in 2024: Halifax",
+  "type": "web",
+  "publisher": "Financial Reporter (Halifax FTB Review)",
+  "year": "2025",
+  "read_fully": false,
+  "key_point": "UK FTB average age 33, deposit £61,090, price £311,034 in 2024 (snippet only)."
+ },
+ {
+  "url": "https://www.estateagenttoday.co.uk/breaking-news/2025/12/rightmove-what-homebuyers-wanted-from-the-housing-market-in-2025/",
+  "title": "Rightmove: What homebuyers wanted from the housing market in 2025",
+  "type": "journal",
+  "publisher": "Estate Agent Today",
+  "year": "2025",
+  "read_fully": false,
+  "key_point": "Rightmove 2025 year review of searches (403 on fetch; content matched via MPA/PIE)."
+ }
+]

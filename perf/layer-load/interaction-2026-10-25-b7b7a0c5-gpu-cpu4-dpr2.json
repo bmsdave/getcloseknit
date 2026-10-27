@@ -1,0 +1,5454 @@
+{
+ "schema": "map-interaction.v1",
+ "baseUrl": "http://127.0.0.1:4195",
+ "sha": "b7b7a0c5",
+ "gl": "gpu",
+ "cpu": 4,
+ "dpr": 2,
+ "budgets": {
+  "p95": 33,
+  "p50": 17,
+  "longTask": 100
+ },
+ "countBudgets": {
+  "renderedPolygonVertices": 400000,
+  "gpuVertices": 1500000,
+  "areaFeatures": 30000,
+  "areaVertices": 600000,
+  "renderedPoints": 1000,
+  "visibleLayers": 60
+ },
+ "startedAt": "2026-10-25T08:36:24.123Z",
+ "finishedAt": "2026-10-25T08:39:30.449Z",
+ "overBudget": 5,
+ "rows": [
+  {
+   "layer": "typical-price",
+   "view": "london-z11",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 393,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 17.8,
+   "max": 34.4,
+   "droppedPct": 1,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 40.2,
+   "scriptPct": 32.7,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 329,
+   "settleMs": 403,
+   "heapMb": 89.4,
+   "renderedPolygons": 2657,
+   "renderedPolygonVertices": 150978,
+   "renderedLines": 510,
+   "renderedLineVertices": 35994,
+   "renderedPoints": 239,
+   "loadedPolygons": 6771,
+   "loadedPolygonVertices": 267909,
+   "loadedLines": 855,
+   "loadedPoints": 5354,
+   "gpuVertices": 563889,
+   "visibleLayers": 53,
+   "tilesInView": 36,
+   "areaFeatures": 5209,
+   "areaVertices": 146124,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z11",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 457,
+   "p50": 8.3,
+   "p95": 16.2,
+   "p99": 34.6,
+   "max": 59.5,
+   "droppedPct": 7,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 54.5,
+   "scriptPct": 36.2,
+   "setData": 0,
+   "updateData": 1,
+   "mutations": 17,
+   "settleMs": 490,
+   "heapMb": 57.2,
+   "renderedPolygons": 2604,
+   "renderedPolygonVertices": 132324,
+   "renderedLines": 267,
+   "renderedLineVertices": 25141,
+   "renderedPoints": 185,
+   "loadedPolygons": 6077,
+   "loadedPolygonVertices": 239154,
+   "loadedLines": 453,
+   "loadedPoints": 3990,
+   "gpuVertices": 403311,
+   "visibleLayers": 43,
+   "tilesInView": 10,
+   "areaFeatures": 5284,
+   "areaVertices": 150931,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z11",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 316,
+   "p50": 8.4,
+   "p95": 10.2,
+   "p99": 33.7,
+   "max": 56.8,
+   "droppedPct": 4.6,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 65,
+   "afterLongTaskMs": 65,
+   "busyPct": 43.7,
+   "scriptPct": 27.7,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 26,
+   "settleMs": 385,
+   "heapMb": 54.6,
+   "renderedPolygons": 1418,
+   "renderedPolygonVertices": 160384,
+   "renderedLines": 138,
+   "renderedLineVertices": 27123,
+   "renderedPoints": 50,
+   "loadedPolygons": 4921,
+   "loadedPolygonVertices": 268621,
+   "loadedLines": 607,
+   "loadedPoints": 5810,
+   "gpuVertices": 486448,
+   "visibleLayers": 43,
+   "tilesInView": 30,
+   "areaFeatures": 1682,
+   "areaVertices": 64299,
+   "areaBytes": 1520422,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z11",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 384,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 23.6,
+   "max": 58.2,
+   "droppedPct": 2,
+   "longTasks": 1,
+   "longTaskMs": 53,
+   "longTaskMax": 53,
+   "afterLongTaskMax": 57,
+   "afterLongTaskMs": 57,
+   "busyPct": 45.3,
+   "scriptPct": 34.9,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 161,
+   "settleMs": 396,
+   "heapMb": 91.4,
+   "renderedPolygons": 2650,
+   "renderedPolygonVertices": 150888,
+   "renderedLines": 511,
+   "renderedLineVertices": 36010,
+   "renderedPoints": 239,
+   "loadedPolygons": 6771,
+   "loadedPolygonVertices": 267909,
+   "loadedLines": 855,
+   "loadedPoints": 5354,
+   "gpuVertices": 563889,
+   "visibleLayers": 53,
+   "tilesInView": 36,
+   "areaFeatures": 5209,
+   "areaVertices": 146124,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z11",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 468,
+   "p50": 8.3,
+   "p95": 15.2,
+   "p99": 34.1,
+   "max": 51.5,
+   "droppedPct": 4.6,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 56.8,
+   "scriptPct": 38.6,
+   "setData": 0,
+   "updateData": 1,
+   "mutations": 17,
+   "settleMs": 441,
+   "heapMb": 71.8,
+   "renderedPolygons": 2593,
+   "renderedPolygonVertices": 131958,
+   "renderedLines": 266,
+   "renderedLineVertices": 25112,
+   "renderedPoints": 182,
+   "loadedPolygons": 6067,
+   "loadedPolygonVertices": 236913,
+   "loadedLines": 453,
+   "loadedPoints": 3990,
+   "gpuVertices": 403702,
+   "visibleLayers": 43,
+   "tilesInView": 10,
+   "areaFeatures": 5274,
+   "areaVertices": 148690,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z11",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 317,
+   "p50": 8.3,
+   "p95": 10.3,
+   "p99": 32.4,
+   "max": 51.1,
+   "droppedPct": 4.7,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 65,
+   "afterLongTaskMs": 65,
+   "busyPct": 46.2,
+   "scriptPct": 30.8,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 26,
+   "settleMs": 395,
+   "heapMb": 72.1,
+   "renderedPolygons": 1418,
+   "renderedPolygonVertices": 160384,
+   "renderedLines": 138,
+   "renderedLineVertices": 27123,
+   "renderedPoints": 50,
+   "loadedPolygons": 4921,
+   "loadedPolygonVertices": 268621,
+   "loadedLines": 607,
+   "loadedPoints": 5810,
+   "gpuVertices": 486448,
+   "visibleLayers": 43,
+   "tilesInView": 30,
+   "areaFeatures": 1682,
+   "areaVertices": 64299,
+   "areaBytes": 1520422,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z9.6",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 362,
+   "p50": 8.3,
+   "p95": 10.3,
+   "p99": 33.9,
+   "max": 83.3,
+   "droppedPct": 8.4,
+   "longTasks": 2,
+   "longTaskMs": 145,
+   "longTaskMax": 84,
+   "afterLongTaskMax": 53,
+   "afterLongTaskMs": 53,
+   "busyPct": 37.5,
+   "scriptPct": 21.7,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 295,
+   "settleMs": 270,
+   "heapMb": 120.1,
+   "renderedPolygons": 5357,
+   "renderedPolygonVertices": 283297,
+   "renderedLines": 360,
+   "renderedLineVertices": 63701,
+   "renderedPoints": 87,
+   "loadedPolygons": 16539,
+   "loadedPolygonVertices": 573237,
+   "loadedLines": 761,
+   "loadedPoints": 4480,
+   "gpuVertices": 1135465,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 6707,
+   "areaVertices": 228855,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z9.6",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 339,
+   "p50": 8.3,
+   "p95": 10.4,
+   "p99": 50.3,
+   "max": 66.2,
+   "droppedPct": 7.8,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 49.3,
+   "scriptPct": 31.5,
+   "setData": 0,
+   "updateData": 1,
+   "mutations": 14,
+   "settleMs": 477,
+   "heapMb": 74.5,
+   "renderedPolygons": 5676,
+   "renderedPolygonVertices": 289774,
+   "renderedLines": 370,
+   "renderedLineVertices": 64973,
+   "renderedPoints": 90,
+   "loadedPolygons": 16831,
+   "loadedPolygonVertices": 588972,
+   "loadedLines": 761,
+   "loadedPoints": 4480,
+   "gpuVertices": 1154731,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 6999,
+   "areaVertices": 244590,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z9.6",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 209,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 31.4,
+   "max": 67.4,
+   "droppedPct": 5.3,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 185,
+   "afterLongTaskMs": 185,
+   "busyPct": 40.9,
+   "scriptPct": 26.7,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 16,
+   "settleMs": 894,
+   "heapMb": 61,
+   "renderedPolygons": 3311,
+   "renderedPolygonVertices": 210236,
+   "renderedLines": 214,
+   "renderedLineVertices": 53580,
+   "renderedPoints": 56,
+   "loadedPolygons": 11364,
+   "loadedPolygonVertices": 466000,
+   "loadedLines": 603,
+   "loadedPoints": 4647,
+   "gpuVertices": 750456,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 3697,
+   "areaVertices": 204987,
+   "areaBytes": 4601423,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z9.6",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 362,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 33.3,
+   "max": 101.3,
+   "droppedPct": 7.4,
+   "longTasks": 2,
+   "longTaskMs": 169,
+   "longTaskMax": 105,
+   "afterLongTaskMax": 69,
+   "afterLongTaskMs": 69,
+   "busyPct": 40.5,
+   "scriptPct": 23.6,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 209,
+   "settleMs": 294,
+   "heapMb": 148.7,
+   "renderedPolygons": 5434,
+   "renderedPolygonVertices": 284621,
+   "renderedLines": 362,
+   "renderedLineVertices": 64320,
+   "renderedPoints": 87,
+   "loadedPolygons": 16539,
+   "loadedPolygonVertices": 573237,
+   "loadedLines": 761,
+   "loadedPoints": 4480,
+   "gpuVertices": 1135465,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 6707,
+   "areaVertices": 228855,
+   "areaBytes": 0,
+   "over": true,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z9.6",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 344,
+   "p50": 8.3,
+   "p95": 10.3,
+   "p99": 41.1,
+   "max": 66.9,
+   "droppedPct": 6.3,
+   "longTasks": 1,
+   "longTaskMs": 51,
+   "longTaskMax": 51,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 54.7,
+   "scriptPct": 36,
+   "setData": 0,
+   "updateData": 1,
+   "mutations": 14,
+   "settleMs": 323,
+   "heapMb": 81.7,
+   "renderedPolygons": 5757,
+   "renderedPolygonVertices": 292183,
+   "renderedLines": 371,
+   "renderedLineVertices": 64495,
+   "renderedPoints": 90,
+   "loadedPolygons": 16750,
+   "loadedPolygonVertices": 583469,
+   "loadedLines": 761,
+   "loadedPoints": 4480,
+   "gpuVertices": 1149383,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 6918,
+   "areaVertices": 239087,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z9.6",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 210,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 32.9,
+   "max": 34.6,
+   "droppedPct": 3.6,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 164,
+   "afterLongTaskMs": 164,
+   "busyPct": 39.7,
+   "scriptPct": 26.4,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 16,
+   "settleMs": 676,
+   "heapMb": 132.6,
+   "renderedPolygons": 3311,
+   "renderedPolygonVertices": 210236,
+   "renderedLines": 214,
+   "renderedLineVertices": 53580,
+   "renderedPoints": 56,
+   "loadedPolygons": 11364,
+   "loadedPolygonVertices": 466000,
+   "loadedLines": 603,
+   "loadedPoints": 4647,
+   "gpuVertices": 750456,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 3697,
+   "areaVertices": 204987,
+   "areaBytes": 4601423,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z6",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 387,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 25.9,
+   "max": 42.7,
+   "droppedPct": 3.9,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 31.5,
+   "scriptPct": 21.6,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 573,
+   "settleMs": 363,
+   "heapMb": 66.8,
+   "renderedPolygons": 4706,
+   "renderedPolygonVertices": 181247,
+   "renderedLines": 61,
+   "renderedLineVertices": 74058,
+   "renderedPoints": 73,
+   "loadedPolygons": 7924,
+   "loadedPolygonVertices": 338481,
+   "loadedLines": 660,
+   "loadedPoints": 5526,
+   "gpuVertices": 696628,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 5923,
+   "areaVertices": 103155,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z6",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 445,
+   "p50": 8.3,
+   "p95": 10.1,
+   "p99": 18.3,
+   "max": 32.2,
+   "droppedPct": 0.9,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 31.8,
+   "scriptPct": 23.6,
+   "setData": 0,
+   "updateData": 0,
+   "mutations": 286,
+   "settleMs": 223,
+   "heapMb": 48.8,
+   "renderedPolygons": 4285,
+   "renderedPolygonVertices": 173966,
+   "renderedLines": 56,
+   "renderedLineVertices": 72756,
+   "renderedPoints": 71,
+   "loadedPolygons": 7924,
+   "loadedPolygonVertices": 338481,
+   "loadedLines": 660,
+   "loadedPoints": 5526,
+   "gpuVertices": 696628,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 5923,
+   "areaVertices": 103155,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z6",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 126,
+   "p50": 8.4,
+   "p95": 10.1,
+   "p99": 33.3,
+   "max": 49.5,
+   "droppedPct": 7.2,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 597,
+   "afterLongTaskMs": 1095,
+   "busyPct": 41.4,
+   "scriptPct": 26.2,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 10,
+   "settleMs": 1710,
+   "heapMb": 98.9,
+   "renderedPolygons": 13946,
+   "renderedPolygonVertices": 389092,
+   "renderedLines": 58,
+   "renderedLineVertices": 67383,
+   "renderedPoints": 103,
+   "loadedPolygons": 31994,
+   "loadedPolygonVertices": 787603,
+   "loadedLines": 313,
+   "loadedPoints": 4095,
+   "gpuVertices": 1281006,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 24151,
+   "areaVertices": 431302,
+   "areaBytes": 11146140,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z6",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 384,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 25.9,
+   "max": 42.7,
+   "droppedPct": 3,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 33.3,
+   "scriptPct": 23.9,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 49,
+   "settleMs": 401,
+   "heapMb": 85.2,
+   "renderedPolygons": 4909,
+   "renderedPolygonVertices": 184002,
+   "renderedLines": 61,
+   "renderedLineVertices": 74058,
+   "renderedPoints": 75,
+   "loadedPolygons": 7924,
+   "loadedPolygonVertices": 338768,
+   "loadedLines": 660,
+   "loadedPoints": 5526,
+   "gpuVertices": 696678,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 5923,
+   "areaVertices": 103442,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z6",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 449,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 16.9,
+   "max": 31.8,
+   "droppedPct": 1.3,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 38.7,
+   "scriptPct": 30.5,
+   "setData": 0,
+   "updateData": 0,
+   "mutations": 22,
+   "settleMs": 221,
+   "heapMb": 52.3,
+   "renderedPolygons": 4514,
+   "renderedPolygonVertices": 177527,
+   "renderedLines": 55,
+   "renderedLineVertices": 72502,
+   "renderedPoints": 71,
+   "loadedPolygons": 7924,
+   "loadedPolygonVertices": 338768,
+   "loadedLines": 660,
+   "loadedPoints": 5526,
+   "gpuVertices": 696678,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 5923,
+   "areaVertices": 103442,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z6",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 125,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 41.3,
+   "max": 49.7,
+   "droppedPct": 7.2,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 564,
+   "afterLongTaskMs": 1026,
+   "busyPct": 45.8,
+   "scriptPct": 30,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 10,
+   "settleMs": 1619,
+   "heapMb": 93.3,
+   "renderedPolygons": 13946,
+   "renderedPolygonVertices": 389092,
+   "renderedLines": 58,
+   "renderedLineVertices": 67383,
+   "renderedPoints": 103,
+   "loadedPolygons": 31994,
+   "loadedPolygonVertices": 787603,
+   "loadedLines": 313,
+   "loadedPoints": 4095,
+   "gpuVertices": 1281006,
+   "visibleLayers": 39,
+   "tilesInView": 32,
+   "areaFeatures": 24151,
+   "areaVertices": 431302,
+   "areaBytes": 11146140,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z7.5",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 335,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 73.4,
+   "max": 141,
+   "droppedPct": 13.9,
+   "longTasks": 4,
+   "longTaskMs": 383,
+   "longTaskMax": 135,
+   "afterLongTaskMax": 68,
+   "afterLongTaskMs": 134,
+   "busyPct": 38.6,
+   "scriptPct": 19.1,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 565,
+   "settleMs": 534,
+   "heapMb": 198.4,
+   "renderedPolygons": 7406,
+   "renderedPolygonVertices": 198445,
+   "renderedLines": 22,
+   "renderedLineVertices": 71950,
+   "renderedPoints": 58,
+   "loadedPolygons": 23443,
+   "loadedPolygonVertices": 663432,
+   "loadedLines": 209,
+   "loadedPoints": 3460,
+   "gpuVertices": 1053903,
+   "visibleLayers": 39,
+   "tilesInView": 24,
+   "areaFeatures": 22512,
+   "areaVertices": 451207,
+   "areaBytes": 0,
+   "over": true,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z7.5",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 320,
+   "p50": 8.3,
+   "p95": 23.9,
+   "p99": 67.5,
+   "max": 118,
+   "droppedPct": 15.3,
+   "longTasks": 1,
+   "longTaskMs": 76,
+   "longTaskMax": 76,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 43.4,
+   "scriptPct": 24.8,
+   "setData": 0,
+   "updateData": 0,
+   "mutations": 327,
+   "settleMs": 188,
+   "heapMb": 126.8,
+   "renderedPolygons": 6845,
+   "renderedPolygonVertices": 190114,
+   "renderedLines": 22,
+   "renderedLineVertices": 71950,
+   "renderedPoints": 60,
+   "loadedPolygons": 23443,
+   "loadedPolygonVertices": 663432,
+   "loadedLines": 209,
+   "loadedPoints": 3460,
+   "gpuVertices": 1053903,
+   "visibleLayers": 39,
+   "tilesInView": 24,
+   "areaFeatures": 22512,
+   "areaVertices": 451207,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z7.5",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 108,
+   "p50": 8.3,
+   "p95": 42.2,
+   "p99": 67.4,
+   "max": 117,
+   "droppedPct": 24,
+   "longTasks": 1,
+   "longTaskMs": 56,
+   "longTaskMax": 56,
+   "afterLongTaskMax": 309,
+   "afterLongTaskMs": 487,
+   "busyPct": 53.6,
+   "scriptPct": 26.2,
+   "setData": 3,
+   "updateData": 0,
+   "mutations": 13,
+   "settleMs": 1239,
+   "heapMb": 169.4,
+   "renderedPolygons": 8068,
+   "renderedPolygonVertices": 363721,
+   "renderedLines": 431,
+   "renderedLineVertices": 72615,
+   "renderedPoints": 88,
+   "loadedPolygons": 19275,
+   "loadedPolygonVertices": 646956,
+   "loadedLines": 812,
+   "loadedPoints": 4653,
+   "gpuVertices": 1248400,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 7919,
+   "areaVertices": 278955,
+   "areaBytes": 6601189,
+   "over": true,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z7.5",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 356,
+   "p50": 8.4,
+   "p95": 10.2,
+   "p99": 57.9,
+   "max": 133.7,
+   "droppedPct": 9.8,
+   "longTasks": 4,
+   "longTaskMs": 344,
+   "longTaskMax": 125,
+   "afterLongTaskMax": 64,
+   "afterLongTaskMs": 121,
+   "busyPct": 38.6,
+   "scriptPct": 20.1,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 49,
+   "settleMs": 407,
+   "heapMb": 204,
+   "renderedPolygons": 7249,
+   "renderedPolygonVertices": 196032,
+   "renderedLines": 22,
+   "renderedLineVertices": 71950,
+   "renderedPoints": 57,
+   "loadedPolygons": 23443,
+   "loadedPolygonVertices": 663432,
+   "loadedLines": 209,
+   "loadedPoints": 3460,
+   "gpuVertices": 1053903,
+   "visibleLayers": 39,
+   "tilesInView": 24,
+   "areaFeatures": 22512,
+   "areaVertices": 451207,
+   "areaBytes": 0,
+   "over": true,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z7.5",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 322,
+   "p50": 8.3,
+   "p95": 16.5,
+   "p99": 93,
+   "max": 116.6,
+   "droppedPct": 15,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 46.9,
+   "scriptPct": 28.1,
+   "setData": 0,
+   "updateData": 0,
+   "mutations": 22,
+   "settleMs": 221,
+   "heapMb": 126.3,
+   "renderedPolygons": 6503,
+   "renderedPolygonVertices": 186629,
+   "renderedLines": 22,
+   "renderedLineVertices": 71950,
+   "renderedPoints": 59,
+   "loadedPolygons": 23443,
+   "loadedPolygonVertices": 663432,
+   "loadedLines": 209,
+   "loadedPoints": 3460,
+   "gpuVertices": 1053903,
+   "visibleLayers": 39,
+   "tilesInView": 24,
+   "areaFeatures": 22512,
+   "areaVertices": 451207,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z7.5",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 109,
+   "p50": 8.3,
+   "p95": 41.8,
+   "p99": 58.4,
+   "max": 118.1,
+   "droppedPct": 22.4,
+   "longTasks": 1,
+   "longTaskMs": 56,
+   "longTaskMax": 56,
+   "afterLongTaskMax": 284,
+   "afterLongTaskMs": 284,
+   "busyPct": 55,
+   "scriptPct": 28.2,
+   "setData": 3,
+   "updateData": 0,
+   "mutations": 13,
+   "settleMs": 1004,
+   "heapMb": 162,
+   "renderedPolygons": 8068,
+   "renderedPolygonVertices": 363721,
+   "renderedLines": 431,
+   "renderedLineVertices": 72615,
+   "renderedPoints": 88,
+   "loadedPolygons": 19275,
+   "loadedPolygonVertices": 646956,
+   "loadedLines": 812,
+   "loadedPoints": 4653,
+   "gpuVertices": 1248400,
+   "visibleLayers": 40,
+   "tilesInView": 30,
+   "areaFeatures": 7919,
+   "areaVertices": 278955,
+   "areaBytes": 6601189,
+   "over": true,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "manchester-z11",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 384,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 26.4,
+   "max": 50.5,
+   "droppedPct": 2.5,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 56,
+   "afterLongTaskMs": 56,
+   "busyPct": 42.1,
+   "scriptPct": 34.1,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 687,
+   "settleMs": 413,
+   "heapMb": 55.8,
+   "renderedPolygons": 934,
+   "renderedPolygonVertices": 91549,
+   "renderedLines": 205,
+   "renderedLineVertices": 21135,
+   "renderedPoints": 113,
+   "loadedPolygons": 3138,
+   "loadedPolygonVertices": 182708,
+   "loadedLines": 636,
+   "loadedPoints": 5602,
+   "gpuVertices": 381881,
+   "visibleLayers": 53,
+   "tilesInView": 54,
+   "areaFeatures": 1792,
+   "areaVertices": 77374,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "manchester-z11",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 451,
+   "p50": 8.3,
+   "p95": 10.2,
+   "p99": 24.6,
+   "max": 33.7,
+   "droppedPct": 1.7,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 42,
+   "scriptPct": 31.4,
+   "setData": 0,
+   "updateData": 0,
+   "mutations": 247,
+   "settleMs": 148,
+   "heapMb": 40.6,
+   "renderedPolygons": 889,
+   "renderedPolygonVertices": 87078,
+   "renderedLines": 129,
+   "renderedLineVertices": 17992,
+   "renderedPoints": 33,
+   "loadedPolygons": 2919,
+   "loadedPolygonVertices": 161730,
+   "loadedLines": 493,
+   "loadedPoints": 4128,
+   "gpuVertices": 319459,
+   "visibleLayers": 43,
+   "tilesInView": 20,
+   "areaFeatures": 1792,
+   "areaVertices": 77374,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "typical-price",
+   "view": "manchester-z11",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 179,
+   "p50": 8.3,
+   "p95": 10,
+   "p99": 10.3,
+   "max": 10.3,
+   "droppedPct": 0,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 92,
+   "afterLongTaskMs": 92,
+   "busyPct": 27.2,
+   "scriptPct": 23.3,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 20,
+   "settleMs": 426,
+   "heapMb": 76.2,
+   "renderedPolygons": 888,
+   "renderedPolygonVertices": 97006,
+   "renderedLines": 103,
+   "renderedLineVertices": 16084,
+   "renderedPoints": 49,
+   "loadedPolygons": 4847,
+   "loadedPolygonVertices": 241028,
+   "loadedLines": 469,
+   "loadedPoints": 4857,
+   "gpuVertices": 394755,
+   "visibleLayers": 43,
+   "tilesInView": 30,
+   "areaFeatures": 1783,
+   "areaVertices": 109465,
+   "areaBytes": 2429233,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "manchester-z11",
+   "gesture": "pan",
+   "status": "ok",
+   "frames": 389,
+   "p50": 8.3,
+   "p95": 10.1,
+   "p99": 23.5,
+   "max": 40.9,
+   "droppedPct": 1.5,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 46,
+   "scriptPct": 37,
+   "setData": 0,
+   "updateData": 3,
+   "mutations": 71,
+   "settleMs": 360,
+   "heapMb": 84.6,
+   "renderedPolygons": 919,
+   "renderedPolygonVertices": 90962,
+   "renderedLines": 206,
+   "renderedLineVertices": 21162,
+   "renderedPoints": 113,
+   "loadedPolygons": 2999,
+   "loadedPolygonVertices": 177320,
+   "loadedLines": 636,
+   "loadedPoints": 5602,
+   "gpuVertices": 378427,
+   "visibleLayers": 53,
+   "tilesInView": 54,
+   "areaFeatures": 1653,
+   "areaVertices": 71986,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "manchester-z11",
+   "gesture": "zoom",
+   "status": "ok",
+   "frames": 460,
+   "p50": 8.3,
+   "p95": 10.1,
+   "p99": 17.8,
+   "max": 42.7,
+   "droppedPct": 1.7,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 0,
+   "afterLongTaskMs": 0,
+   "busyPct": 46,
+   "scriptPct": 35.2,
+   "setData": 0,
+   "updateData": 1,
+   "mutations": 17,
+   "settleMs": 124,
+   "heapMb": 60.1,
+   "renderedPolygons": 880,
+   "renderedPolygonVertices": 86951,
+   "renderedLines": 126,
+   "renderedLineVertices": 17964,
+   "renderedPoints": 33,
+   "loadedPolygons": 2919,
+   "loadedPolygonVertices": 161730,
+   "loadedLines": 493,
+   "loadedPoints": 4128,
+   "gpuVertices": 319459,
+   "visibleLayers": 43,
+   "tilesInView": 20,
+   "areaFeatures": 1792,
+   "areaVertices": 77374,
+   "areaBytes": 0,
+   "over": false,
+   "countsOver": []
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "manchester-z11",
+   "gesture": "fly",
+   "status": "ok",
+   "frames": 178,
+   "p50": 8.3,
+   "p95": 9.9,
+   "p99": 10.2,
+   "max": 10.4,
+   "droppedPct": 0,
+   "longTasks": 0,
+   "longTaskMs": 0,
+   "longTaskMax": 0,
+   "afterLongTaskMax": 90,
+   "afterLongTaskMs": 90,
+   "busyPct": 32.6,
+   "scriptPct": 27.7,
+   "setData": 1,
+   "updateData": 0,
+   "mutations": 20,
+   "settleMs": 379,
+   "heapMb": 86.3,
+   "renderedPolygons": 888,
+   "renderedPolygonVertices": 97006,
+   "renderedLines": 103,
+   "renderedLineVertices": 16084,
+   "renderedPoints": 49,
+   "loadedPolygons": 4847,
+   "loadedPolygonVertices": 241028,
+   "loadedLines": 469,
+   "loadedPoints": 4857,
+   "gpuVertices": 394755,
+   "visibleLayers": 43,
+   "tilesInView": 30,
+   "areaFeatures": 1783,
+   "areaVertices": 109465,
+   "areaBytes": 2429233,
+   "over": false,
+   "countsOver": []
+  }
+ ],
+ "opens": [
+  {
+   "layer": "typical-price",
+   "view": "london-z11",
+   "openMs": 2139,
+   "idle": {
+    "frames": 120,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.2,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 119.9
+   },
+   "census": {
+    "zoom": 11,
+    "sourceCount": 10,
+    "layers": 87,
+    "visibleLayers": 53,
+    "visibleByType": {
+     "background": 1,
+     "fill": 13,
+     "line": 25,
+     "symbol": 14
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 123,
+    "renderedTotal": {
+     "point": {
+      "features": 312,
+      "parts": 312,
+      "rings": 0,
+      "vertices": 312
+     },
+     "line": {
+      "features": 558,
+      "parts": 7238,
+      "rings": 0,
+      "vertices": 39859
+     },
+     "polygon": {
+      "features": 3323,
+      "parts": 13228,
+      "rings": 13395,
+      "vertices": 191210
+     }
+    },
+    "loadedTotal": {
+     "polygon": {
+      "features": 6402,
+      "parts": 16373,
+      "rings": 16550,
+      "vertices": 279852
+     },
+     "point": {
+      "features": 5425,
+      "parts": 5425,
+      "rings": 0,
+      "vertices": 5425
+     },
+     "line": {
+      "features": 927,
+      "parts": 12307,
+      "rings": 0,
+      "vertices": 65981
+     }
+    },
+    "gpuVertices": 669769,
+    "tilesInView": 36,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 20,
+       "parts": 20,
+       "rings": 0,
+       "vertices": 20
+      }
+     },
+     "tfl-network": {
+      "point": {
+       "features": 221,
+       "parts": 221,
+       "rings": 0,
+       "vertices": 221
+      },
+      "line": {
+       "features": 53,
+       "parts": 168,
+       "rings": 0,
+       "vertices": 1979
+      }
+     },
+     "ck-park-labels": {
+      "point": {
+       "features": 2,
+       "parts": 2,
+       "rings": 0,
+       "vertices": 2
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 69,
+       "parts": 69,
+       "rings": 0,
+       "vertices": 69
+      },
+      "line": {
+       "features": 505,
+       "parts": 7070,
+       "rings": 0,
+       "vertices": 37880
+      },
+      "polygon": {
+       "features": 396,
+       "parts": 10274,
+       "rings": 10440,
+       "vertices": 119548
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 2927,
+       "parts": 2954,
+       "rings": 2955,
+       "vertices": 71662
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1096295,
+      "loaded": {
+       "polygon": {
+        "features": 1408,
+        "parts": 11336,
+        "rings": 11512,
+        "vertices": 143218
+       },
+       "point": {
+        "features": 2539,
+        "parts": 2539,
+        "rings": 0,
+        "vertices": 2539
+       },
+       "line": {
+        "features": 889,
+        "parts": 12160,
+        "rings": 0,
+        "vertices": 60895
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 6912,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 122880,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1310720,
+      "loaded": {
+       "polygon": {
+        "features": 4994,
+        "parts": 5037,
+        "rings": 5038,
+        "vertices": 136634
+       }
+      },
+      "dataBytes": 3408506
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 57344,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 20,
+      "vertices": 20,
+      "gpuVertices": 0
+     },
+     "ck-transit-stations": {
+      "type": "symbol",
+      "source": "tfl-network",
+      "features": 221,
+      "vertices": 221,
+      "gpuVertices": 0
+     },
+     "ck-park-labels": {
+      "type": "symbol",
+      "source": "ck-park-labels",
+      "features": 2,
+      "vertices": 2,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 10,
+      "vertices": 10,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_other": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 58,
+      "vertices": 58,
+      "gpuVertices": 0
+     },
+     "highway-shield-non-us": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 19,
+      "vertices": 647,
+      "gpuVertices": 0
+     },
+     "ck-transit-sheen": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 9721
+     },
+     "ck-transit-twist": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 8185
+     },
+     "ck-transit-lines": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "ck-transit-shadow": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "ck-transit-casing": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 2,
+      "vertices": 164,
+      "gpuVertices": 764
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 62,
+      "gpuVertices": 238
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 62,
+      "gpuVertices": 174
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 166,
+      "gpuVertices": 534
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 166,
+      "gpuVertices": 378
+     },
+     "highway_major_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 445,
+      "vertices": 35245,
+      "gpuVertices": 113916
+     },
+     "highway_major_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 446,
+      "vertices": 35249,
+      "gpuVertices": 71630
+     },
+     "aeroway-runway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 6,
+      "gpuVertices": 24
+     },
+     "aeroway-area": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 5,
+      "gpuVertices": 4
+     },
+     "aeroway-runway-casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 11,
+      "gpuVertices": 69
+     },
+     "ck-waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 55,
+      "vertices": 2237,
+      "gpuVertices": 8378
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 169,
+      "vertices": 6702,
+      "gpuVertices": 8164
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 854,
+      "gpuVertices": 2332
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 59,
+      "vertices": 953,
+      "gpuVertices": 2554
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 154,
+      "vertices": 9398,
+      "gpuVertices": 24028
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 3124,
+      "vertices": 77161,
+      "gpuVertices": 190475
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 55,
+      "vertices": 2237,
+      "gpuVertices": 5588
+     },
+     "landcover_wood": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 11,
+      "vertices": 3707,
+      "gpuVertices": 3659
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 104370,
+      "gpuVertices": 94387
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 169,
+      "vertices": 6702,
+      "gpuVertices": 8164
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 854,
+      "gpuVertices": 2332
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 59,
+      "vertices": 953,
+      "gpuVertices": 2554
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 154,
+      "vertices": 9398,
+      "gpuVertices": 24028
+     }
+    }
+   }
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z11",
+   "openMs": 2349,
+   "idle": {
+    "frames": 121,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.2,
+    "max": 10.4,
+    "droppedPct": 0,
+    "fps": 119.9
+   },
+   "census": {
+    "zoom": 11,
+    "sourceCount": 10,
+    "layers": 85,
+    "visibleLayers": 53,
+    "visibleByType": {
+     "background": 1,
+     "fill": 13,
+     "line": 25,
+     "symbol": 14
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 121,
+    "renderedTotal": {
+     "point": {
+      "features": 312,
+      "parts": 312,
+      "rings": 0,
+      "vertices": 312
+     },
+     "line": {
+      "features": 558,
+      "parts": 7238,
+      "rings": 0,
+      "vertices": 39859
+     },
+     "polygon": {
+      "features": 3323,
+      "parts": 13228,
+      "rings": 13395,
+      "vertices": 191210
+     }
+    },
+    "loadedTotal": {
+     "polygon": {
+      "features": 6402,
+      "parts": 16373,
+      "rings": 16550,
+      "vertices": 279852
+     },
+     "point": {
+      "features": 5425,
+      "parts": 5425,
+      "rings": 0,
+      "vertices": 5425
+     },
+     "line": {
+      "features": 927,
+      "parts": 12307,
+      "rings": 0,
+      "vertices": 65981
+     }
+    },
+    "gpuVertices": 669769,
+    "tilesInView": 36,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 20,
+       "parts": 20,
+       "rings": 0,
+       "vertices": 20
+      }
+     },
+     "tfl-network": {
+      "point": {
+       "features": 221,
+       "parts": 221,
+       "rings": 0,
+       "vertices": 221
+      },
+      "line": {
+       "features": 53,
+       "parts": 168,
+       "rings": 0,
+       "vertices": 1979
+      }
+     },
+     "ck-park-labels": {
+      "point": {
+       "features": 2,
+       "parts": 2,
+       "rings": 0,
+       "vertices": 2
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 69,
+       "parts": 69,
+       "rings": 0,
+       "vertices": 69
+      },
+      "line": {
+       "features": 505,
+       "parts": 7070,
+       "rings": 0,
+       "vertices": 37880
+      },
+      "polygon": {
+       "features": 396,
+       "parts": 10274,
+       "rings": 10440,
+       "vertices": 119548
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 2927,
+       "parts": 2954,
+       "rings": 2955,
+       "vertices": 71662
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1096295,
+      "loaded": {
+       "polygon": {
+        "features": 1408,
+        "parts": 11336,
+        "rings": 11512,
+        "vertices": 143218
+       },
+       "point": {
+        "features": 2539,
+        "parts": 2539,
+        "rings": 0,
+        "vertices": 2539
+       },
+       "line": {
+        "features": 889,
+        "parts": 12160,
+        "rings": 0,
+        "vertices": 60895
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 6912,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 122880,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1310720,
+      "loaded": {
+       "polygon": {
+        "features": 4994,
+        "parts": 5037,
+        "rings": 5038,
+        "vertices": 136634
+       }
+      },
+      "dataBytes": 3408506
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 57344,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 20,
+      "vertices": 20,
+      "gpuVertices": 0
+     },
+     "ck-transit-stations": {
+      "type": "symbol",
+      "source": "tfl-network",
+      "features": 221,
+      "vertices": 221,
+      "gpuVertices": 0
+     },
+     "ck-park-labels": {
+      "type": "symbol",
+      "source": "ck-park-labels",
+      "features": 2,
+      "vertices": 2,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 10,
+      "vertices": 10,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_other": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 58,
+      "vertices": 58,
+      "gpuVertices": 0
+     },
+     "highway-shield-non-us": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 19,
+      "vertices": 647,
+      "gpuVertices": 0
+     },
+     "ck-transit-sheen": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 9721
+     },
+     "ck-transit-twist": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 8185
+     },
+     "ck-transit-lines": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "ck-transit-shadow": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "ck-transit-casing": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 91,
+      "vertices": 3418,
+      "gpuVertices": 29163
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 2,
+      "vertices": 164,
+      "gpuVertices": 764
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 62,
+      "gpuVertices": 238
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 62,
+      "gpuVertices": 174
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 166,
+      "gpuVertices": 534
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 166,
+      "gpuVertices": 378
+     },
+     "highway_major_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 445,
+      "vertices": 35245,
+      "gpuVertices": 113916
+     },
+     "highway_major_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 446,
+      "vertices": 35249,
+      "gpuVertices": 71630
+     },
+     "aeroway-runway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 6,
+      "gpuVertices": 24
+     },
+     "aeroway-area": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 5,
+      "gpuVertices": 4
+     },
+     "aeroway-runway-casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 11,
+      "gpuVertices": 69
+     },
+     "ck-waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 55,
+      "vertices": 2237,
+      "gpuVertices": 8378
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 169,
+      "vertices": 6702,
+      "gpuVertices": 8164
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 854,
+      "gpuVertices": 2332
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 59,
+      "vertices": 953,
+      "gpuVertices": 2554
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 154,
+      "vertices": 9398,
+      "gpuVertices": 24028
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 3124,
+      "vertices": 77161,
+      "gpuVertices": 190475
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 55,
+      "vertices": 2237,
+      "gpuVertices": 5588
+     },
+     "landcover_wood": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 11,
+      "vertices": 3707,
+      "gpuVertices": 3659
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 104370,
+      "gpuVertices": 94387
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 169,
+      "vertices": 6702,
+      "gpuVertices": 8164
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 854,
+      "gpuVertices": 2332
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 59,
+      "vertices": 953,
+      "gpuVertices": 2554
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 154,
+      "vertices": 9398,
+      "gpuVertices": 24028
+     }
+    }
+   }
+  },
+  {
+   "layer": "typical-price",
+   "view": "london-z9.6",
+   "openMs": 2885,
+   "idle": {
+    "frames": 121,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.3,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 119.9
+   },
+   "census": {
+    "zoom": 9.6,
+    "sourceCount": 10,
+    "layers": 87,
+    "visibleLayers": 40,
+    "visibleByType": {
+     "background": 1,
+     "fill": 12,
+     "line": 19,
+     "symbol": 8
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 153,
+    "renderedTotal": {
+     "point": {
+      "features": 85,
+      "parts": 85,
+      "rings": 0,
+      "vertices": 85
+     },
+     "line": {
+      "features": 413,
+      "parts": 14316,
+      "rings": 0,
+      "vertices": 71551
+     },
+     "polygon": {
+      "features": 7822,
+      "parts": 15112,
+      "rings": 15759,
+      "vertices": 355335
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 4653,
+      "parts": 4653,
+      "rings": 0,
+      "vertices": 4653
+     },
+     "polygon": {
+      "features": 19067,
+      "parts": 26890,
+      "rings": 27739,
+      "vertices": 637356
+     },
+     "line": {
+      "features": 812,
+      "parts": 20695,
+      "rings": 0,
+      "vertices": 109893
+     }
+    },
+    "gpuVertices": 1235777,
+    "tilesInView": 30,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 47,
+       "parts": 47,
+       "rings": 0,
+       "vertices": 47
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 38,
+       "parts": 38,
+       "rings": 0,
+       "vertices": 38
+      },
+      "line": {
+       "features": 370,
+       "parts": 14163,
+       "rings": 0,
+       "vertices": 70428
+      },
+      "polygon": {
+       "features": 1357,
+       "parts": 8622,
+       "rings": 9264,
+       "vertices": 221177
+      }
+     },
+     "tfl-network": {
+      "line": {
+       "features": 43,
+       "parts": 153,
+       "rings": 0,
+       "vertices": 1123
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 6465,
+       "parts": 6490,
+       "rings": 6495,
+       "vertices": 134158
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1962721,
+      "loaded": {
+       "point": {
+        "features": 1767,
+        "parts": 1767,
+        "rings": 0,
+        "vertices": 1767
+       },
+       "polygon": {
+        "features": 11356,
+        "parts": 19035,
+        "rings": 19874,
+        "vertices": 368001
+       },
+       "line": {
+        "features": 774,
+        "parts": 20548,
+        "rings": 0,
+        "vertices": 104807
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 165888,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 2555904,
+      "loaded": {
+       "polygon": {
+        "features": 7711,
+        "parts": 7855,
+        "rings": 7865,
+        "vertices": 269355
+       }
+      },
+      "dataBytes": 6385170
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 131072,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 47,
+      "vertices": 47,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 37,
+      "vertices": 37,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "ck-transit-lines": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "ck-transit-shadow": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "ck-transit-casing": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 8,
+      "vertices": 4579,
+      "gpuVertices": 11990
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 15,
+      "gpuVertices": 57
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 15,
+      "gpuVertices": 38
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 3717,
+      "gpuVertices": 12369
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 3717,
+      "gpuVertices": 8778
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 312,
+      "vertices": 58235,
+      "gpuVertices": 220338
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 89,
+      "vertices": 4002,
+      "gpuVertices": 8597
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 85,
+      "vertices": 2805,
+      "gpuVertices": 13102
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 59,
+      "gpuVertices": 112
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1229,
+      "vertices": 56380,
+      "gpuVertices": 165718
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 6733,
+      "vertices": 141951,
+      "gpuVertices": 358555
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 4104,
+      "gpuVertices": 23384
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 160146,
+      "gpuVertices": 154106
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 89,
+      "vertices": 4002,
+      "gpuVertices": 8597
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 85,
+      "vertices": 2805,
+      "gpuVertices": 13102
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 59,
+      "gpuVertices": 112
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1229,
+      "vertices": 56380,
+      "gpuVertices": 165718
+     },
+     "tunnel_motorway_casing": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 16
+     },
+     "tunnel_motorway_inner": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 24
+     }
+    }
+   }
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "london-z9.6",
+   "openMs": 2453,
+   "idle": {
+    "frames": 121,
+    "p50": 8.3,
+    "p95": 10.2,
+    "p99": 10.2,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 120
+   },
+   "census": {
+    "zoom": 9.6,
+    "sourceCount": 10,
+    "layers": 85,
+    "visibleLayers": 40,
+    "visibleByType": {
+     "background": 1,
+     "fill": 12,
+     "line": 19,
+     "symbol": 8
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 152,
+    "renderedTotal": {
+     "point": {
+      "features": 85,
+      "parts": 85,
+      "rings": 0,
+      "vertices": 85
+     },
+     "line": {
+      "features": 413,
+      "parts": 14316,
+      "rings": 0,
+      "vertices": 71551
+     },
+     "polygon": {
+      "features": 7822,
+      "parts": 15112,
+      "rings": 15759,
+      "vertices": 355335
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 4653,
+      "parts": 4653,
+      "rings": 0,
+      "vertices": 4653
+     },
+     "polygon": {
+      "features": 19067,
+      "parts": 26890,
+      "rings": 27739,
+      "vertices": 637356
+     },
+     "line": {
+      "features": 812,
+      "parts": 20695,
+      "rings": 0,
+      "vertices": 109893
+     }
+    },
+    "gpuVertices": 1235777,
+    "tilesInView": 30,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 47,
+       "parts": 47,
+       "rings": 0,
+       "vertices": 47
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 38,
+       "parts": 38,
+       "rings": 0,
+       "vertices": 38
+      },
+      "line": {
+       "features": 370,
+       "parts": 14163,
+       "rings": 0,
+       "vertices": 70428
+      },
+      "polygon": {
+       "features": 1357,
+       "parts": 8622,
+       "rings": 9264,
+       "vertices": 221177
+      }
+     },
+     "tfl-network": {
+      "line": {
+       "features": 43,
+       "parts": 153,
+       "rings": 0,
+       "vertices": 1123
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 6465,
+       "parts": 6490,
+       "rings": 6495,
+       "vertices": 134158
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1962721,
+      "loaded": {
+       "point": {
+        "features": 1767,
+        "parts": 1767,
+        "rings": 0,
+        "vertices": 1767
+       },
+       "polygon": {
+        "features": 11356,
+        "parts": 19035,
+        "rings": 19874,
+        "vertices": 368001
+       },
+       "line": {
+        "features": 774,
+        "parts": 20548,
+        "rings": 0,
+        "vertices": 104807
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 165888,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 2555904,
+      "loaded": {
+       "polygon": {
+        "features": 7711,
+        "parts": 7855,
+        "rings": 7865,
+        "vertices": 269355
+       }
+      },
+      "dataBytes": 6385170
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 131072,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 47,
+      "vertices": 47,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 37,
+      "vertices": 37,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "ck-transit-lines": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "ck-transit-shadow": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "ck-transit-casing": {
+      "type": "line",
+      "source": "tfl-network",
+      "features": 57,
+      "vertices": 1720,
+      "gpuVertices": 23688
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 8,
+      "vertices": 4579,
+      "gpuVertices": 11990
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 15,
+      "gpuVertices": 57
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 15,
+      "gpuVertices": 38
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 3717,
+      "gpuVertices": 12369
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 3717,
+      "gpuVertices": 8778
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 312,
+      "vertices": 58235,
+      "gpuVertices": 220338
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 89,
+      "vertices": 4002,
+      "gpuVertices": 8597
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 85,
+      "vertices": 2805,
+      "gpuVertices": 13102
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 59,
+      "gpuVertices": 112
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1229,
+      "vertices": 56380,
+      "gpuVertices": 165718
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 6733,
+      "vertices": 141951,
+      "gpuVertices": 358555
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 4104,
+      "gpuVertices": 23384
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 160146,
+      "gpuVertices": 154106
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 89,
+      "vertices": 4002,
+      "gpuVertices": 8597
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 85,
+      "vertices": 2805,
+      "gpuVertices": 13102
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 59,
+      "gpuVertices": 112
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 1229,
+      "vertices": 56380,
+      "gpuVertices": 165718
+     },
+     "tunnel_motorway_casing": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 16
+     },
+     "tunnel_motorway_inner": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 24
+     }
+    }
+   }
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z6",
+   "openMs": 2001,
+   "idle": {
+    "frames": 121,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.2,
+    "max": 10.2,
+    "droppedPct": 0,
+    "fps": 120.2
+   },
+   "census": {
+    "zoom": 6,
+    "sourceCount": 10,
+    "layers": 87,
+    "visibleLayers": 39,
+    "visibleByType": {
+     "background": 1,
+     "fill": 14,
+     "line": 14,
+     "symbol": 10
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 122,
+    "renderedTotal": {
+     "point": {
+      "features": 68,
+      "parts": 68,
+      "rings": 0,
+      "vertices": 68
+     },
+     "line": {
+      "features": 38,
+      "parts": 6763,
+      "rings": 0,
+      "vertices": 48532
+     },
+     "polygon": {
+      "features": 6958,
+      "parts": 8694,
+      "rings": 8948,
+      "vertices": 159594
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 4221,
+      "parts": 4221,
+      "rings": 0,
+      "vertices": 4221
+     },
+     "polygon": {
+      "features": 7466,
+      "parts": 11055,
+      "rings": 11415,
+      "vertices": 222937
+     },
+     "line": {
+      "features": 342,
+      "parts": 7989,
+      "rings": 0,
+      "vertices": 67467
+     }
+    },
+    "gpuVertices": 503123,
+    "tilesInView": 24,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 42,
+       "parts": 42,
+       "rings": 0,
+       "vertices": 42
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 26,
+       "parts": 26,
+       "rings": 0,
+       "vertices": 26
+      },
+      "line": {
+       "features": 38,
+       "parts": 6763,
+       "rings": 0,
+       "vertices": 48532
+      },
+      "polygon": {
+       "features": 115,
+       "parts": 1679,
+       "rings": 1911,
+       "vertices": 61102
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 6843,
+       "parts": 7015,
+       "rings": 7037,
+       "vertices": 98492
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1086612,
+      "loaded": {
+       "point": {
+        "features": 1335,
+        "parts": 1335,
+        "rings": 0,
+        "vertices": 1335
+       },
+       "polygon": {
+        "features": 611,
+        "parts": 2309,
+        "rings": 2646,
+        "vertices": 104650
+       },
+       "line": {
+        "features": 304,
+        "parts": 7842,
+        "rings": 0,
+        "vertices": 62381
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1589376,
+      "loaded": {
+       "polygon": {
+        "features": 6855,
+        "parts": 8746,
+        "rings": 8769,
+        "vertices": 118287
+       }
+      },
+      "dataBytes": 3103287
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 462976,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 42,
+      "vertices": 42,
+      "gpuVertices": 0
+     },
+     "label_country_1": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_country_2": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_country_3": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_city_capital": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 3,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 13,
+      "vertices": 13,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 7,
+      "vertices": 7,
+      "gpuVertices": 0
+     },
+     "boundary_2": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 1549,
+      "gpuVertices": 8309
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 12329,
+      "gpuVertices": 34170
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 12329,
+      "gpuVertices": 25128
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 14,
+      "vertices": 35919,
+      "gpuVertices": 121624
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 70,
+      "vertices": 26068,
+      "gpuVertices": 26767
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 3374,
+      "gpuVertices": 9848
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 7031,
+      "vertices": 102608,
+      "gpuVertices": 195693
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 7,
+      "vertices": 1411,
+      "gpuVertices": 5252
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 41392,
+      "gpuVertices": 39717
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 70,
+      "vertices": 26068,
+      "gpuVertices": 26767
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 3374,
+      "gpuVertices": 9848
+     }
+    }
+   }
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z6",
+   "openMs": 2024,
+   "idle": {
+    "frames": 120,
+    "p50": 8.3,
+    "p95": 10,
+    "p99": 10.3,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 120
+   },
+   "census": {
+    "zoom": 6,
+    "sourceCount": 10,
+    "layers": 85,
+    "visibleLayers": 39,
+    "visibleByType": {
+     "background": 1,
+     "fill": 14,
+     "line": 14,
+     "symbol": 10
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 120,
+    "renderedTotal": {
+     "point": {
+      "features": 68,
+      "parts": 68,
+      "rings": 0,
+      "vertices": 68
+     },
+     "line": {
+      "features": 38,
+      "parts": 6763,
+      "rings": 0,
+      "vertices": 48532
+     },
+     "polygon": {
+      "features": 6957,
+      "parts": 8693,
+      "rings": 8947,
+      "vertices": 159587
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 4221,
+      "parts": 4221,
+      "rings": 0,
+      "vertices": 4221
+     },
+     "polygon": {
+      "features": 7466,
+      "parts": 11117,
+      "rings": 11477,
+      "vertices": 223224
+     },
+     "line": {
+      "features": 342,
+      "parts": 7989,
+      "rings": 0,
+      "vertices": 67467
+     }
+    },
+    "gpuVertices": 503235,
+    "tilesInView": 24,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 42,
+       "parts": 42,
+       "rings": 0,
+       "vertices": 42
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 26,
+       "parts": 26,
+       "rings": 0,
+       "vertices": 26
+      },
+      "line": {
+       "features": 38,
+       "parts": 6763,
+       "rings": 0,
+       "vertices": 48532
+      },
+      "polygon": {
+       "features": 115,
+       "parts": 1679,
+       "rings": 1911,
+       "vertices": 61102
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 6842,
+       "parts": 7014,
+       "rings": 7036,
+       "vertices": 98485
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1086612,
+      "loaded": {
+       "point": {
+        "features": 1335,
+        "parts": 1335,
+        "rings": 0,
+        "vertices": 1335
+       },
+       "polygon": {
+        "features": 611,
+        "parts": 2309,
+        "rings": 2646,
+        "vertices": 104650
+       },
+       "line": {
+        "features": 304,
+        "parts": 7842,
+        "rings": 0,
+        "vertices": 62381
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "point": {
+        "features": 37,
+        "parts": 37,
+        "rings": 0,
+        "vertices": 37
+       }
+      },
+      "dataBytes": 5720
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {
+       "line": {
+        "features": 38,
+        "parts": 147,
+        "rings": 0,
+        "vertices": 5086
+       },
+       "point": {
+        "features": 457,
+        "parts": 457,
+        "rings": 0,
+        "vertices": 457
+       }
+      },
+      "dataBytes": 227771
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1589376,
+      "loaded": {
+       "polygon": {
+        "features": 6855,
+        "parts": 8808,
+        "rings": 8831,
+        "vertices": 118574
+       }
+      },
+      "dataBytes": 3108652
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 462976,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 42,
+      "vertices": 42,
+      "gpuVertices": 0
+     },
+     "label_country_1": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_country_2": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_country_3": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 1,
+      "gpuVertices": 0
+     },
+     "label_city_capital": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 3,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 13,
+      "vertices": 13,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 7,
+      "vertices": 7,
+      "gpuVertices": 0
+     },
+     "boundary_2": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 1549,
+      "gpuVertices": 8309
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 12329,
+      "gpuVertices": 34170
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 9,
+      "vertices": 12329,
+      "gpuVertices": 25128
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 14,
+      "vertices": 35919,
+      "gpuVertices": 121624
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 70,
+      "vertices": 26068,
+      "gpuVertices": 26767
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 3374,
+      "gpuVertices": 9848
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 7030,
+      "vertices": 102601,
+      "gpuVertices": 195805
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 7,
+      "vertices": 1411,
+      "gpuVertices": 5252
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 41392,
+      "gpuVertices": 39717
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 70,
+      "vertices": 26068,
+      "gpuVertices": 26767
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 49,
+      "vertices": 3374,
+      "gpuVertices": 9848
+     }
+    }
+   }
+  },
+  {
+   "layer": "typical-price",
+   "view": "england-z7.5",
+   "openMs": 3396,
+   "idle": {
+    "frames": 120,
+    "p50": 8.4,
+    "p95": 10.1,
+    "p99": 10.2,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 120
+   },
+   "census": {
+    "zoom": 7.5,
+    "sourceCount": 10,
+    "layers": 87,
+    "visibleLayers": 39,
+    "visibleByType": {
+     "background": 1,
+     "fill": 14,
+     "line": 14,
+     "symbol": 10
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 201,
+    "renderedTotal": {
+     "point": {
+      "features": 80,
+      "parts": 80,
+      "rings": 0,
+      "vertices": 80
+     },
+     "line": {
+      "features": 38,
+      "parts": 15721,
+      "rings": 0,
+      "vertices": 86888
+     },
+     "polygon": {
+      "features": 14577,
+      "parts": 17820,
+      "rings": 18411,
+      "vertices": 297868
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 3448,
+      "parts": 3448,
+      "rings": 0,
+      "vertices": 3448
+     },
+     "polygon": {
+      "features": 27452,
+      "parts": 34336,
+      "rings": 35615,
+      "vertices": 707231
+     },
+     "line": {
+      "features": 156,
+      "parts": 17165,
+      "rings": 0,
+      "vertices": 97758
+     }
+    },
+    "gpuVertices": 1183636,
+    "tilesInView": 24,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 71,
+       "parts": 71,
+       "rings": 0,
+       "vertices": 71
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 9,
+       "parts": 9,
+       "rings": 0,
+       "vertices": 9
+      },
+      "line": {
+       "features": 38,
+       "parts": 15721,
+       "rings": 0,
+       "vertices": 86888
+      },
+      "polygon": {
+       "features": 95,
+       "parts": 3210,
+       "rings": 3767,
+       "vertices": 109696
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 14482,
+       "parts": 14610,
+       "rings": 14644,
+       "vertices": 188172
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1241967,
+      "loaded": {
+       "point": {
+        "features": 1056,
+        "parts": 1056,
+        "rings": 0,
+        "vertices": 1056
+       },
+       "polygon": {
+        "features": 373,
+        "parts": 4908,
+        "rings": 6094,
+        "vertices": 179628
+       },
+       "line": {
+        "features": 156,
+        "parts": 17165,
+        "rings": 0,
+        "vertices": 97758
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 3932160,
+      "loaded": {
+       "polygon": {
+        "features": 27079,
+        "parts": 29428,
+        "rings": 29521,
+        "vertices": 527603
+       }
+      },
+      "dataBytes": 13304960
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 409600,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 71,
+      "vertices": 71,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 6,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 3,
+      "gpuVertices": 0
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 8,
+      "gpuVertices": 66
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 8,
+      "gpuVertices": 42
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 5130,
+      "gpuVertices": 15331
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 5130,
+      "gpuVertices": 11764
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 84888,
+      "gpuVertices": 294490
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 6135,
+      "gpuVertices": 14368
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 1286,
+      "gpuVertices": 6816
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 34,
+      "vertices": 25320,
+      "gpuVertices": 54688
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 14789,
+      "vertices": 197346,
+      "gpuVertices": 629596
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 10,
+      "vertices": 2003,
+      "gpuVertices": 5048
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 77556,
+      "gpuVertices": 74994
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 6135,
+      "gpuVertices": 14368
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 1286,
+      "gpuVertices": 6816
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 34,
+      "vertices": 25320,
+      "gpuVertices": 54688
+     },
+     "boundary_2": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 561
+     }
+    }
+   }
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "england-z7.5",
+   "openMs": 2915,
+   "idle": {
+    "frames": 120,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.3,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 120
+   },
+   "census": {
+    "zoom": 7.5,
+    "sourceCount": 10,
+    "layers": 85,
+    "visibleLayers": 39,
+    "visibleByType": {
+     "background": 1,
+     "fill": 14,
+     "line": 14,
+     "symbol": 10
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 199,
+    "renderedTotal": {
+     "point": {
+      "features": 80,
+      "parts": 80,
+      "rings": 0,
+      "vertices": 80
+     },
+     "line": {
+      "features": 38,
+      "parts": 15721,
+      "rings": 0,
+      "vertices": 86888
+     },
+     "polygon": {
+      "features": 14577,
+      "parts": 17820,
+      "rings": 18411,
+      "vertices": 297868
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 3448,
+      "parts": 3448,
+      "rings": 0,
+      "vertices": 3448
+     },
+     "polygon": {
+      "features": 27452,
+      "parts": 34336,
+      "rings": 35615,
+      "vertices": 707231
+     },
+     "line": {
+      "features": 156,
+      "parts": 17165,
+      "rings": 0,
+      "vertices": 97758
+     }
+    },
+    "gpuVertices": 1183636,
+    "tilesInView": 24,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 71,
+       "parts": 71,
+       "rings": 0,
+       "vertices": 71
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 9,
+       "parts": 9,
+       "rings": 0,
+       "vertices": 9
+      },
+      "line": {
+       "features": 38,
+       "parts": 15721,
+       "rings": 0,
+       "vertices": 86888
+      },
+      "polygon": {
+       "features": 95,
+       "parts": 3210,
+       "rings": 3767,
+       "vertices": 109696
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 14482,
+       "parts": 14610,
+       "rings": 14644,
+       "vertices": 188172
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 1241967,
+      "loaded": {
+       "point": {
+        "features": 1056,
+        "parts": 1056,
+        "rings": 0,
+        "vertices": 1056
+       },
+       "polygon": {
+        "features": 373,
+        "parts": 4908,
+        "rings": 6094,
+        "vertices": 179628
+       },
+       "line": {
+        "features": 156,
+        "parts": 17165,
+        "rings": 0,
+        "vertices": 97758
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 3932160,
+      "loaded": {
+       "polygon": {
+        "features": 27079,
+        "parts": 29428,
+        "rings": 29521,
+        "vertices": 527603
+       }
+      },
+      "dataBytes": 13304960
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 6,
+      "tilesCached": 0,
+      "tileBytes": 409600,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 71,
+      "vertices": 71,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 6,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 3,
+      "vertices": 3,
+      "gpuVertices": 0
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 8,
+      "gpuVertices": 66
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 1,
+      "vertices": 8,
+      "gpuVertices": 42
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 5130,
+      "gpuVertices": 15331
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 5130,
+      "gpuVertices": 11764
+     },
+     "highway_major_subtle": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 84888,
+      "gpuVertices": 294490
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 6135,
+      "gpuVertices": 14368
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 1286,
+      "gpuVertices": 6816
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 34,
+      "vertices": 25320,
+      "gpuVertices": 54688
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 14789,
+      "vertices": 197346,
+      "gpuVertices": 629596
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 10,
+      "vertices": 2003,
+      "gpuVertices": 5048
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 77556,
+      "gpuVertices": 74994
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 24,
+      "vertices": 6135,
+      "gpuVertices": 14368
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 39,
+      "vertices": 1286,
+      "gpuVertices": 6816
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 34,
+      "vertices": 25320,
+      "gpuVertices": 54688
+     },
+     "boundary_2": {
+      "type": "?",
+      "source": "openmaptiles",
+      "features": 0,
+      "vertices": 0,
+      "gpuVertices": 561
+     }
+    }
+   }
+  },
+  {
+   "layer": "typical-price",
+   "view": "manchester-z11",
+   "openMs": 2390,
+   "idle": {
+    "frames": 120,
+    "p50": 8.3,
+    "p95": 10.1,
+    "p99": 10.2,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 119.8
+   },
+   "census": {
+    "zoom": 11,
+    "sourceCount": 10,
+    "layers": 87,
+    "visibleLayers": 53,
+    "visibleByType": {
+     "background": 1,
+     "fill": 13,
+     "line": 25,
+     "symbol": 14
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 84,
+    "renderedTotal": {
+     "point": {
+      "features": 173,
+      "parts": 173,
+      "rings": 0,
+      "vertices": 173
+     },
+     "line": {
+      "features": 327,
+      "parts": 4361,
+      "rings": 0,
+      "vertices": 32229
+     },
+     "polygon": {
+      "features": 1423,
+      "parts": 6098,
+      "rings": 6295,
+      "vertices": 128996
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 7281,
+      "parts": 7281,
+      "rings": 0,
+      "vertices": 7281
+     },
+     "polygon": {
+      "features": 4179,
+      "parts": 9421,
+      "rings": 9654,
+      "vertices": 231609
+     },
+     "line": {
+      "features": 1009,
+      "parts": 8535,
+      "rings": 0,
+      "vertices": 60373
+     }
+    },
+    "gpuVertices": 593782,
+    "tilesInView": 72,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 6,
+       "parts": 6,
+       "rings": 0,
+       "vertices": 6
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 167,
+       "parts": 167,
+       "rings": 0,
+       "vertices": 167
+      },
+      "line": {
+       "features": 327,
+       "parts": 4361,
+       "rings": 0,
+       "vertices": 32229
+      },
+      "polygon": {
+       "features": 377,
+       "parts": 5052,
+       "rings": 5249,
+       "vertices": 91037
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 1046,
+       "parts": 1046,
+       "rings": 1046,
+       "vertices": 37959
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 1200942,
+      "loaded": {
+       "point": {
+        "features": 4889,
+        "parts": 4889,
+        "rings": 0,
+        "vertices": 4889
+       },
+       "polygon": {
+        "features": 2286,
+        "parts": 7515,
+        "rings": 7748,
+        "vertices": 154577
+       },
+       "line": {
+        "features": 1009,
+        "parts": 8535,
+        "rings": 0,
+        "vertices": 60373
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 753664,
+      "loaded": {
+       "polygon": {
+        "features": 1893,
+        "parts": 1906,
+        "rings": 1906,
+        "vertices": 77032
+       }
+      },
+      "dataBytes": 1803627
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 23552,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 6,
+      "vertices": 6,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 2,
+      "vertices": 2,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 29,
+      "vertices": 29,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 32,
+      "vertices": 32,
+      "gpuVertices": 0
+     },
+     "label_other": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 104,
+      "vertices": 104,
+      "gpuVertices": 0
+     },
+     "highway-shield-non-us": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 1066,
+      "gpuVertices": 0
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 1536,
+      "gpuVertices": 6056
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 64,
+      "gpuVertices": 296
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 64,
+      "gpuVertices": 192
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 41,
+      "vertices": 3005,
+      "gpuVertices": 10790
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 41,
+      "vertices": 3005,
+      "gpuVertices": 8102
+     },
+     "highway_major_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 232,
+      "vertices": 24712,
+      "gpuVertices": 90227
+     },
+     "highway_major_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 233,
+      "vertices": 24772,
+      "gpuVertices": 60172
+     },
+     "aeroway-runway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 8,
+      "gpuVertices": 184
+     },
+     "aeroway-runway-casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 8,
+      "gpuVertices": 184
+     },
+     "ck-waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 28,
+      "vertices": 3069,
+      "gpuVertices": 19492
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 188,
+      "vertices": 6279,
+      "gpuVertices": 13772
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 26,
+      "vertices": 543,
+      "gpuVertices": 3308
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 527,
+      "gpuVertices": 1760
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 181,
+      "vertices": 15637,
+      "gpuVertices": 58304
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 1251,
+      "vertices": 46468,
+      "gpuVertices": 146332
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 28,
+      "vertices": 3069,
+      "gpuVertices": 12130
+     },
+     "landcover_wood": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 16,
+      "vertices": 8312,
+      "gpuVertices": 10956
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 79637,
+      "gpuVertices": 74381
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 188,
+      "vertices": 6279,
+      "gpuVertices": 13772
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 26,
+      "vertices": 543,
+      "gpuVertices": 3308
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 527,
+      "gpuVertices": 1760
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 181,
+      "vertices": 15637,
+      "gpuVertices": 58304
+     }
+    }
+   }
+  },
+  {
+   "layer": "custom:good-coffee",
+   "view": "manchester-z11",
+   "openMs": 1958,
+   "idle": {
+    "frames": 121,
+    "p50": 8.3,
+    "p95": 10,
+    "p99": 10.2,
+    "max": 10.3,
+    "droppedPct": 0,
+    "fps": 119.9
+   },
+   "census": {
+    "zoom": 11,
+    "sourceCount": 10,
+    "layers": 85,
+    "visibleLayers": 53,
+    "visibleByType": {
+     "background": 1,
+     "fill": 13,
+     "line": 25,
+     "symbol": 14
+    },
+    "areaLayers": {
+     "fills": [
+      "area-fill"
+     ],
+     "lines": [
+      "area-selection-halo",
+      "area-outline"
+     ]
+    },
+    "queryRenderedMs": 81,
+    "renderedTotal": {
+     "point": {
+      "features": 173,
+      "parts": 173,
+      "rings": 0,
+      "vertices": 173
+     },
+     "line": {
+      "features": 327,
+      "parts": 4361,
+      "rings": 0,
+      "vertices": 32229
+     },
+     "polygon": {
+      "features": 1423,
+      "parts": 6098,
+      "rings": 6295,
+      "vertices": 128996
+     }
+    },
+    "loadedTotal": {
+     "point": {
+      "features": 7281,
+      "parts": 7281,
+      "rings": 0,
+      "vertices": 7281
+     },
+     "polygon": {
+      "features": 4179,
+      "parts": 9421,
+      "rings": 9654,
+      "vertices": 231609
+     },
+     "line": {
+      "features": 1009,
+      "parts": 8535,
+      "rings": 0,
+      "vertices": 60373
+     }
+    },
+    "gpuVertices": 593782,
+    "tilesInView": 72,
+    "renderedBySource": {
+     "area-labels": {
+      "point": {
+       "features": 6,
+       "parts": 6,
+       "rings": 0,
+       "vertices": 6
+      }
+     },
+     "openmaptiles": {
+      "point": {
+       "features": 167,
+       "parts": 167,
+       "rings": 0,
+       "vertices": 167
+      },
+      "line": {
+       "features": 327,
+       "parts": 4361,
+       "rings": 0,
+       "vertices": 32229
+      },
+      "polygon": {
+       "features": 377,
+       "parts": 5052,
+       "rings": 5249,
+       "vertices": 91037
+      }
+     },
+     "analytics-fill": {
+      "polygon": {
+       "features": 1046,
+       "parts": 1046,
+       "rings": 1046,
+       "vertices": 37959
+      }
+     }
+    },
+    "sources": {
+     "ne2_shaded": {
+      "type": "raster",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "openmaptiles": {
+      "type": "vector",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 1200942,
+      "loaded": {
+       "point": {
+        "features": 4889,
+        "parts": 4889,
+        "rings": 0,
+        "vertices": 4889
+       },
+       "polygon": {
+        "features": 2286,
+        "parts": 7515,
+        "rings": 7748,
+        "vertices": 154577
+       },
+       "line": {
+        "features": 1009,
+        "parts": 8535,
+        "rings": 0,
+        "vertices": 60373
+       }
+      }
+     },
+     "ck-park-labels": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "tfl-network": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-buildings": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "places": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     },
+     "analytics-fill": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 753664,
+      "loaded": {
+       "polygon": {
+        "features": 1893,
+        "parts": 1906,
+        "rings": 1906,
+        "vertices": 77032
+       }
+      },
+      "dataBytes": 1803627
+     },
+     "analytics-areas": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {},
+      "dataBytes": 42
+     },
+     "area-labels": {
+      "type": "geojson",
+      "tilesInView": 12,
+      "tilesCached": 0,
+      "tileBytes": 23552,
+      "loaded": {
+       "point": {
+        "features": 2392,
+        "parts": 2392,
+        "rings": 0,
+        "vertices": 2392
+       }
+      },
+      "dataBytes": 445589
+     },
+     "properties": {
+      "type": "vector",
+      "tilesInView": 0,
+      "tilesCached": 0,
+      "tileBytes": 0,
+      "loaded": {}
+     }
+    },
+    "byLayer": {
+     "area-labels-borough": {
+      "type": "symbol",
+      "source": "area-labels",
+      "features": 6,
+      "vertices": 6,
+      "gpuVertices": 0
+     },
+     "label_city": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 2,
+      "vertices": 2,
+      "gpuVertices": 0
+     },
+     "label_town": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 29,
+      "vertices": 29,
+      "gpuVertices": 0
+     },
+     "label_village": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 32,
+      "vertices": 32,
+      "gpuVertices": 0
+     },
+     "label_other": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 104,
+      "vertices": 104,
+      "gpuVertices": 0
+     },
+     "highway-shield-non-us": {
+      "type": "symbol",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 1066,
+      "gpuVertices": 0
+     },
+     "boundary_3": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 1536,
+      "gpuVertices": 6056
+     },
+     "highway_motorway_bridge_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 64,
+      "gpuVertices": 296
+     },
+     "highway_motorway_bridge_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 6,
+      "vertices": 64,
+      "gpuVertices": 192
+     },
+     "highway_motorway_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 41,
+      "vertices": 3005,
+      "gpuVertices": 10790
+     },
+     "highway_motorway_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 41,
+      "vertices": 3005,
+      "gpuVertices": 8102
+     },
+     "highway_major_inner": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 232,
+      "vertices": 24712,
+      "gpuVertices": 90227
+     },
+     "highway_major_casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 233,
+      "vertices": 24772,
+      "gpuVertices": 60172
+     },
+     "aeroway-runway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 8,
+      "gpuVertices": 184
+     },
+     "aeroway-runway-casing": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 4,
+      "vertices": 8,
+      "gpuVertices": 184
+     },
+     "ck-waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 28,
+      "vertices": 3069,
+      "gpuVertices": 19492
+     },
+     "ck-water-veil": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 188,
+      "vertices": 6279,
+      "gpuVertices": 13772
+     },
+     "ck-green-veil-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 26,
+      "vertices": 543,
+      "gpuVertices": 3308
+     },
+     "ck-green-veil-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 527,
+      "gpuVertices": 1760
+     },
+     "ck-green-veil-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 181,
+      "vertices": 15637,
+      "gpuVertices": 58304
+     },
+     "area-fill": {
+      "type": "fill",
+      "source": "analytics-fill",
+      "features": 1251,
+      "vertices": 46468,
+      "gpuVertices": 146332
+     },
+     "waterway": {
+      "type": "line",
+      "source": "openmaptiles",
+      "features": 28,
+      "vertices": 3069,
+      "gpuVertices": 12130
+     },
+     "landcover_wood": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 16,
+      "vertices": 8312,
+      "gpuVertices": 10956
+     },
+     "landuse_residential": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 12,
+      "vertices": 79637,
+      "gpuVertices": 74381
+     },
+     "water": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 188,
+      "vertices": 6279,
+      "gpuVertices": 13772
+     },
+     "ck-green-ground-park": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 26,
+      "vertices": 543,
+      "gpuVertices": 3308
+     },
+     "ck-green-ground-landuse": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 31,
+      "vertices": 527,
+      "gpuVertices": 1760
+     },
+     "ck-green-ground-landcover": {
+      "type": "fill",
+      "source": "openmaptiles",
+      "features": 181,
+      "vertices": 15637,
+      "gpuVertices": 58304
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "close-knit": {
+      "type": "http",
+      "url": "http://localhost:8080/mcp"
+    },
+    "close-knit-stdio": {
+      "command": "python3",
+      "args": ["-m", "area_api.mcp_stdio"],
+      "cwd": "api",
+      "env": {
+        "CLOSE_KNIT_DATABASE_URL": "postgresql://close_knit:close_knit@localhost:5433/close_knit"
+      }
+    }
+  }
+}

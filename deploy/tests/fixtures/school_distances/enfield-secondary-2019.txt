@@ -1,0 +1,25 @@
+                               Enfield Schools 2019
+
+                                                                          Parent             Max
+                                                        EHCP/                                                       Number
+    Enfield Schools                                                      employed          distance
+                                Type of school    PAN    LAC/   Siblings          Distance                             of
+    2019                                                                  at the            offered
+                                                        Medical                                                     refusals
+                                                                          school            (miles)
+    Ark John Keats Academy        Academy         180      11         88           0          81        0.360         484
+    Aylward Academy               Academy         240       4         82           0          154       1.760         24
+    Bishop Stopford’s School    Voluntary Aided   180               Places have been offered to all applicants.
+    Broomfield School            Foundation       175               Places have been offered to all applicants.
+    Chace Community School       Community        224               Places have been offered to all applicants.
+    Edmonton County School1       Academy         270       5         79           0          145       1.119         202
+    Enfield County School for                            Places at Enfield County are allocated in accordance
+                                 Community        186                                                                 168
+    Girls                                                  with the quota system detailed on pages 71-73.
+    Enfield Grammar2              Academy         180       3          –           1           –           –          159
+    Heron Hall Academy     3
+                                  Academy         210       6         41           0          95        1.408         61
+    Highlands School             Community        240      16        100           3          121       0.761         515
+    Kingsmead School4             Academy         270       4        102           2          135       0.916         300
+    Lea Valley Academy            Academy         240               Places have been offered to all applicants.
+    Oasis Academy Enfield         Academy         180               Places have been offered to all applicants.

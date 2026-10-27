@@ -1,0 +1,195 @@
+/* Pages off the map (DESIGN.md › Pages): the site header, then a calm editorial page in the
+   same cloth as the app: tokens only, yarn icons, satin charts, a running stitch on the one
+   primary action. */
+
+.site-header { display: grid; gap: 10px; margin: 0 0 8px; }
+/* Subpage header v2: ≡, the brand, then ♡ N and "Map →" at the end; one row at every width. */
+.site-header__row { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.site-header__brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; min-height: 44px; color: var(--ink); text-decoration: none; }
+.site-header__end { display: flex; align-items: center; gap: var(--space-1); margin-left: auto; }
+.site-header a.site-header__map {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: 0; padding: 0 12px 0 14px; border-radius: var(--radius-pill);
+  color: var(--ink); background: var(--chip); font: 700 var(--fs-sm)/1 var(--font-sans); text-decoration: none; white-space: nowrap;
+}
+.site-header__map:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.site-header__icon { width: 17px; height: 17px; flex: none; }
+.site-header__map:focus-visible, .site-header__brand:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.site-header__seam { opacity: 0.9; }
+.site-header + .eyebrow, .site-header + * .eyebrow:first-child { margin-top: 28px; }
+/* The ≡ button and its panel (site-menu.tsx), opening under it on the left. */
+.site-header__menu { position: relative; flex: none; }
+.site-header__menu-toggle {
+  width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: var(--radius-pill);
+  color: var(--ink); background: transparent; cursor: pointer;
+}
+.site-header__menu-toggle:hover, .site-header__menu-toggle[aria-expanded="true"] { background: var(--chip); }
+.site-header__menu-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.site-header__menu .site-menu-panel { left: 0; right: auto; top: calc(100% + 8px); width: 320px; max-height: calc(100dvh - 96px); }
+/* The small Search after the brand (site-search.tsx); its results open over the page. */
+.site-header .search-wrap { margin-left: 8px; }
+.site-header .search-results, .site-header .search-empty { z-index: 30; }
+/* Phones: a smaller wordmark, and the menu opens full width under the header. Search is a
+   round button; tapped, the field and Cancel fill the row. */
+@media (max-width: 640px) {
+  .site-header a.site-header__map { padding: 0 10px 0 12px; }
+  .site-header__menu .site-menu-panel { position: fixed; top: 64px; left: 8px; right: 8px; width: auto; max-height: calc(100dvh - 80px); }
+  .site-header .search-wrap:not([data-searching="true"]) { flex: none; margin-left: auto; }
+  .site-header .search-wrap:not([data-searching="true"]) > :not(.search-open) { display: none; }
+  .site-header .search-wrap:not([data-searching="true"]) .search-open {
+    display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: var(--radius-pill);
+    color: var(--ink); background: var(--chip); cursor: pointer;
+  }
+  .site-header .search-open:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .site-header .search-wrap:not([data-searching="true"]) + .site-header__end { margin-left: 0; }
+  .site-header__row:has(> .search-wrap[data-searching="true"]) > :not(.search-wrap) { display: none; }
+  .site-header .search-wrap[data-searching="true"] { margin-left: 0; }
+}
+/* Narrow phones (the lockup): with ♡ N showing, "Map →" keeps its arrow and loses its word, and ♡ N
+   tightens, so the logo's wordmark is never clipped ("close kı") under the buttons. Its name stays "Back to the map". */
+@media (max-width: 430px) {
+  .site-header__row { gap: 4px; }
+  .site-header__brand { flex: none; }
+  .site-header a.site-header__map { width: 44px; padding: 0; justify-content: center; }
+  .site-header a.site-header__map > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .site-header a.saved-link { padding: 0 10px; gap: 4px; }
+}
+/* The very narrowest: the wordmark goes before anything overlaps (brand-lockup.css drops it under 360px). */
+@media (max-width: 374px) {
+  .site-header__row:has(.saved-link) .brand-lockup__word { display: none; }
+}
+
+/* Ornaments: a knitted colour-work band in a clean frame (no stitch forms the edge). */
+.knit-ornament { overflow: hidden; border-radius: 18px; background: var(--wool); box-shadow: 0 1px 2px rgb(20 30 50 / .08), 0 10px 30px rgb(20 30 50 / .08); }
+.knit-ornament > svg { display: block; width: 100%; height: auto; filter: none; }
+@media (max-width: 640px) { .knit-ornament { border-radius: var(--radius-lg); } }
+
+/* The page frame for text pages (guide, Claude, privacy, glossary, civic). */
+.subpage { padding: 24px 0 96px; color: var(--ink); }
+
+/* Hero: eyebrow with a yarn flourish, a balanced display heading, a lead, then the knitted band. */
+.subpage-hero { display: grid; gap: 0; margin: 40px 0 8px; }
+.subpage-hero__eyebrow { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 14px; color: var(--muted); font: 800 var(--fs-2xs)/1.2 var(--font-sans); letter-spacing: 0.12em; text-transform: uppercase; }
+.subpage-hero__eyebrow a { display: inline-flex; align-items: center; min-height: 44px; margin: -14px 0; color: var(--ink); text-underline-offset: 3px; }
+.subpage-hero__flourish { width: 34px; height: 12px; flex: none; overflow: visible; }
+.subpage-hero h1 {
+  max-width: 20ch; margin: 0; font: 800 clamp(2rem, 5.2vw, 3rem)/1.06 var(--font-display); letter-spacing: -0.035em; text-wrap: balance;
+}
+.subpage-hero__lead { max-width: 60ch; margin: 16px 0 0; color: var(--muted); font-size: var(--fs-lg); line-height: 1.6; text-wrap: pretty; }
+.subpage-hero__ornament { margin-top: 28px; }
+.subpage-hero__ornament--narrow { display: none; }
+@media (max-width: 640px) {
+  .subpage { padding-top: 16px; }
+  .subpage-hero { margin-top: 28px; }
+  .subpage-hero h1 { font-size: clamp(1.75rem, 8vw, 2.125rem); }
+  .subpage-hero__lead { font-size: var(--fs-md); }
+  .subpage-hero__ornament { margin-top: 22px; }
+  .subpage-hero__ornament--wide { display: none; }
+  .subpage-hero__ornament--narrow { display: block; }
+}
+
+/* Section cards: a calm surface, no border; the heading leads with a yarn icon. */
+.subpage-cards { display: grid; gap: 14px; margin-top: 36px; }
+.subpage-cards > * { min-width: 0; }
+.subpage-card { padding: 24px 26px; border-radius: 18px; background: var(--surface); scroll-margin-top: 16px; }
+.subpage-card h2 { display: flex; align-items: center; gap: var(--space-3); margin: 0 0 12px; font: 800 var(--fs-xl)/1.2 var(--font-display); letter-spacing: -0.02em; text-wrap: balance; }
+.subpage-card h3 { margin: 18px 0 8px; font: 800 var(--fs-md)/1.25 var(--font-display); }
+.subpage-card p, .subpage-card li { max-width: 68ch; color: var(--muted); font-size: var(--fs-md); line-height: 1.65; text-wrap: pretty; }
+.subpage-card p { margin: 0 0 12px; }
+.subpage-card > :last-child { margin-bottom: 0; }
+.subpage-card strong { color: var(--ink); }
+.subpage-card ul { margin: 0 0 12px; padding-left: 20px; }
+.subpage-card li + li { margin-top: 8px; }
+.subpage-card li::marker { color: var(--stitch-quiet); }
+.subpage-card a, .subpage-foot a { color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
+.subpage-card code { padding: 1px 6px; border-radius: var(--radius-sm); background: var(--chip); color: var(--ink); font-size: 0.92em; }
+.subpage-card__icon { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 50%; background: var(--chip); }
+.subpage-card__icon svg { width: 22px; height: 22px; }
+/* A note in the panel's quality-note style. */
+.subpage-note { padding: 14px 18px; border-left: 3px solid var(--accent); border-radius: 0 14px 14px 0; background: var(--note); }
+.subpage-note .eyebrow { margin: 0 0 6px; }
+.subpage-note p { max-width: 68ch; margin: 0; color: var(--muted); font-size: var(--fs-md); line-height: 1.6; }
+.subpage-note a { color: var(--ink); font-weight: 700; text-underline-offset: 3px; }
+.subpage-note code { color: var(--ink); }
+.subpage-foot { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 28px 0 0; color: var(--muted); }
+.subpage-foot a { display: inline-flex; align-items: center; min-height: 44px; }
+@media (max-width: 640px) {
+  .subpage-card { padding: 20px 18px; border-radius: 16px; }
+  .subpage-card h2 { font-size: var(--fs-lg); }
+}
+
+/* On this page: calm chips that jump to a section card. */
+.subpage-toc { margin-top: 32px; }
+.subpage-toc ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.subpage-toc a {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font-size: var(--fs-sm); font-weight: 700; text-decoration: none;
+}
+.subpage-toc a:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.subpage-toc a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* Numbered steps: each number on a plain felt disc. No stitch: running stitches are for the primary and the
+   chosen tag only (DESIGN.md §0). */
+.step-list { display: grid; gap: 18px; margin: 4px 0 18px; padding: 0; list-style: none; }
+.step-list > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; align-items: start; max-width: none; color: var(--ink); }
+.step-list > li + li { margin-top: 0; }
+.step-list__text { min-width: 0; padding-top: 8px; }
+.step-badge {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--chip); color: var(--ink); font: 800 var(--fs-md)/1 var(--font-display);
+}
+
+/* Copy field: the whole value in monospace, one click selects it; a calm Copy button. */
+.copy-field { display: flex; align-items: stretch; gap: 6px; max-width: 100%; margin: 10px 0 4px; padding: 6px; border-radius: var(--radius-lg); background: var(--chip); }
+.copy-field__value {
+  flex: 1 1 auto; min-width: 0; margin: 0; padding: 10px 12px; border-radius: var(--radius-md); background: var(--surface); color: var(--ink);
+  font: 600 var(--fs-sm)/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; user-select: all;
+}
+.subpage-card .copy-field__value { padding: 10px 12px; border-radius: var(--radius-md); background: var(--surface); font-size: var(--fs-sm); }
+.copy-field--multiline .copy-field__value { overflow-x: auto; white-space: pre; overflow-wrap: normal; }
+.copy-field--multiline .copy-field__value code { padding: 0; background: none; font: inherit; }
+.copy-field__button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: none; min-width: 44px; min-height: 44px; padding: 0 14px;
+  border: 0; border-radius: var(--radius-md); background: transparent; color: var(--ink); font: 700 var(--fs-sm)/1 var(--font-sans); cursor: pointer;
+}
+.copy-field__button:hover { background: color-mix(in srgb, var(--chip), var(--ink) 8%); }
+.copy-field__button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.copy-field__icon { width: 18px; height: 18px; }
+@media (max-width: 480px) {
+  .copy-field { flex-direction: column; }
+  .copy-field__button { align-self: flex-end; }
+}
+
+/* Glossary: term cards in two columns on wide screens. */
+.glossary-cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); align-items: start; }
+.glossary-card__short { color: var(--ink) !important; font-weight: 700; }
+.glossary-card__link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
+.glossary-card__link svg { width: 18px; height: 18px; }
+
+/* Civic: the panel's council section, scaled for a page. */
+.subpage .civic { margin-top: 32px; padding: 8px 26px 24px; border-radius: 18px; background: var(--surface); font-size: var(--fs-md); line-height: 1.55; }
+.subpage .civic h2 { margin: 26px 0 8px; font: 800 var(--fs-lg)/1.2 var(--font-display); letter-spacing: -0.02em; }
+.subpage .civic h3 { margin: 18px 0 6px; font: 800 var(--fs-md)/1.25 var(--font-display); }
+.subpage .civic h4 { font-size: var(--fs-sm); }
+.subpage .civic-crumbs { font-size: var(--fs-sm); }
+.subpage .civic-note, .subpage .civic-sub, .subpage .civic-fetched { font-size: var(--fs-xs); }
+.subpage .civic-tax { max-width: 420px; font-size: var(--fs-sm); }
+.subpage .civic-tax th, .subpage .civic-tax td { padding: 8px 10px; }
+.subpage .civic-people ul { grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--space-2); }
+.subpage .civic-people li { padding: 12px 14px; border: 0; border-radius: var(--radius-lg); background: var(--chip); font-size: var(--fs-sm); }
+.subpage .civic-people small { font-size: var(--fs-xs); }
+.subpage .civic-codes { font-size: var(--fs-sm); }
+.subpage .civic-codes code { font-size: var(--fs-xs); }
+@media (max-width: 640px) { .subpage .civic { padding: 4px 18px 20px; } }
+
+/* Print: a small close knit mark and wordmark heads the page; ≡, ♡ N, Map and the skip link stay off paper. */
+@media print {
+  @page { margin: 16mm; }
+  .site-header { gap: 0; margin: 0 0 10px; }
+  .site-header__row { display: block; }
+  .site-header__menu, .site-header__end, .site-header .skip-link, .site-header__seam, .site-header .search-wrap { display: none !important; }
+  .site-header__brand { min-height: 0; gap: 6px; }
+  .site-header .brand-lockup { gap: 6px; }
+  .site-header .brand-lockup__mark { width: 22px; height: 22px; border-radius: 6px; }
+  .site-header .brand-lockup__mark svg { width: 18px; height: 18px; }
+  .site-header .brand-lockup__word { font-size: 12pt; }
+}

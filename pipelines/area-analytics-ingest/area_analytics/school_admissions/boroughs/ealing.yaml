@@ -1,0 +1,178 @@
+# Ealing (307): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 307
+slug: ealing
+name: Ealing
+licence:
+  statement: '"All material on this website is the copyright of Ealing Council unless otherwise stated.
+    Material on this site is for personal, non commercial use." (not OGL)'
+  url: https://www.ealing.gov.uk/terms
+licence_decision: unresolved
+aliases:
+  St Mary's Church of England Primary School: '140963'
+  St Gregory's Primary School: '152392'
+  The Cardinal Wiseman Catholic High School: '101934'
+  Ealing Fields High School: '142654'
+  Northolt High School: '101943'
+docs:
+- phase: primary
+  year: 2020
+  url: https://web.archive.org/web/20210924063346/https://www.ealing.gov.uk/download/downloads/id/14153/priamary_school_on_time_offers_2020.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  accept:
+  - '''Berrymede Infant School'': no URN'
+  accept_note: Berrymede Infant School is not matched (it merged with Berrymede Junior in 2022; which
+    current school it became is not confirmed), so it is left out
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20230207172631/https://www.ealing.gov.uk/download/downloads/id/17681/primary_school_on-time_offers_2022.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  accept:
+  - '"St Mark''s Primary School": applicants 63 - offers 60 != refused 19'
+  - '''Berrymede Infant School'': no URN'
+  accept_note: Berrymede Infant School is not matched (it merged with Berrymede Junior in 2022; which
+    current school it became is not confirmed), so it is left out; St Mark's counts are kept as printed
+    (63 - 60 is not 19)
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240808042238/https://www.ealing.gov.uk/download/downloads/id/18843/primary_school_on-time_offers_2023.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  note: the archive serves the 2024 document at this address (same file as 2024, offer day in 2024); 2023
+    is missing
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20240710224301/https://www.ealing.gov.uk/download/downloads/id/18843/primary_school_on-time_offers_2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20250424094018/https://www.ealing.gov.uk/download/downloads/id/18843/primary_school_on-time_offers_2025.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+- phase: primary
+  year: 2026
+  url: https://www.ealing.gov.uk/download/downloads/id/21522/primary_school_on-time_offers_2026.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  note: live; count columns are N/A for most community schools
+  drop_counts: the community schools' applicant, offer and refusal counts repeat 2025's exactly while
+    the distances changed, and North Ealing, Mayfield and St Mark's are 'all applicants offered' with
+    pupils refused
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20210927031857/https://www.ealing.gov.uk/download/downloads/id/15982/high_school_on_time_offers_2021.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  accept:
+  - '''William Perkin CE High School'' [Specialist language places (20)*]: applicants 112 - offers 20
+    != refused 91'
+  accept_note: William Perkin's specialist language counts are kept as printed (112 - 20 is not 91)
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20221004141557/https://www.ealing.gov.uk/download/downloads/id/15982/high_school_on_time_offers_2022.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240704085250/https://www.ealing.gov.uk/download/downloads/id/18711/high_school_on_time_offers_2023.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  note: the archive serves the 2024 document at this address (same file as 2024, offer day in 2024); 2023
+    is missing
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240530194452/https://www.ealing.gov.uk/download/downloads/id/18711/high_school_on_time_offers_2024.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  accept:
+  - '''The Ellen Wilkinson School for Girls'' [Specialist places (21)*]: applicants 27 - offers 18 !=
+    refused 7'
+  accept_note: Ellen Wilkinson's specialist place counts are kept as printed (27 - 18 is not 7)
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20250413104344/https://www.ealing.gov.uk/download/downloads/id/18711/high_school_on_time_offers_2025.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  accept:
+  - '''William Perkin CE High School'' [4 Nearest High School]: applicants 82 - offers 58 != refused 25'
+  accept_note: 'William Perkin''s nearest-high-school counts are kept as printed (82 - 58 is not 25).
+    A table printed between ''Ark Soane Academy: All applicants offered'' and Brentside has no school
+    heading and is not read'
+- phase: secondary
+  year: 2026
+  url: https://web.archive.org/web/20260513211341/https://www.ealing.gov.uk/download/downloads/id/21309/high_school_on_time_offers_2026.pdf
+  format: pdf-table
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+  - refused
+  note: per-criterion rows for each school
+catchment_maps: null
+notes: 'The column is ''Straight line distance of last place offered (tie-breaker)''. The prospectus ''Starting
+  Primary School 2023'' (id/13819 primary_school_prospectus_202223.pdf, 20240711230853) repeats the 2022
+  data. Missing: primary 2019 and 2021, secondary 2019 and 2020. The archived prospectuses for 2020-21
+  and 2021-22, which would hold those years, are cut off at 1 MB. Secondary adapter (parse_secondary):
+  one row per criterion as a rule (''distance'', ''foundation-band-...''); ''Northolt High School'' is
+  aliased to 101943 (GIAS ''Islip Manor High School'', same postcode UB5 4HP).'

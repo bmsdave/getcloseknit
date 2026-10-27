@@ -1,0 +1,35 @@
+/* components/match/portal-links.tsx: a search, a zone or an area opened on the portals.
+   Plain text links, no portal logos (board V4-09); secondary to the screen's one primary (DESIGN.md §1.6). */
+.portal-links { margin: 10px 0 0; }
+.portal-links--result { margin: 14px 0 0; padding: 12px; border: 2px solid var(--ink); border-radius: var(--radius-lg); background: var(--surface); }
+.portal-links__title { margin: 0 0 6px; font-size: var(--fs-md); }
+.portal-links__row, .portal-links__lead { margin: 6px 0 0; font-size: var(--fs-sm); }
+.portal-links__lead { color: var(--muted); }
+.portal-links__zone-name { margin: 10px 0 0; font-size: var(--fs-sm); font-weight: 700; }
+.portal-links__link {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px;
+  color: var(--focus); font-weight: 700; text-decoration: underline; text-underline-offset: 3px;
+}
+.portal-links__link span { margin-left: 3px; color: var(--muted); font-weight: 400; }
+.portal-links__link:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: var(--radius-sm); }
+.portal-links__dot { color: var(--muted); }
+.portal-links__districts { display: grid; gap: 0; margin: 4px 0 0; padding: 0; list-style: none; }
+.portal-links__districts li { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; }
+.portal-links__portal { min-width: 7.5em; font-size: var(--fs-sm); }
+.portal-links__note { margin: 4px 0 0; color: var(--muted); font-size: var(--fs-xs); }
+/* Holds the three portal rows' height (3 × 44 px targets) while the districts load: nothing below jumps. */
+.portal-links__pending { min-height: 132px; }
+.portal-links__inline { display: inline-flex; flex-wrap: wrap; align-items: center; font-size: var(--fs-sm); }
+/* Flex items drop the separator's own spaces: give the dot its room back. */
+.portal-links__inline .portal-links__dot { margin: 0 6px; }
+.portal-links--chips .search-chips { margin-bottom: 0; }
+/* Brief's "Next step" and Compare's "Next" row. */
+.brief-next { margin: 16px 0 0; }
+.brief-next__areas { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.brief-next__areas li { display: grid; gap: 0; font-size: var(--fs-sm); }
+.brief-next__links, .compare-next__links { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 6px; }
+.compare-next__links { flex-direction: column; align-items: flex-start; }
+/* In a narrow column the portals stack, one per line: no separators. */
+.compare-next .portal-links__inline { flex-direction: column; align-items: flex-start; }
+.compare-next .portal-links__dot { display: none; }
+@media print { .portal-links { display: none; } }

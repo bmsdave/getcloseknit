@@ -1,0 +1,38 @@
+{
+  "_comment": "AE-36 human-reviewed check: an assistant answer claim-by-claim against this file. Camden 001A observes crime 56.0 (police-uk-2026-06, 2026-06, product-2026-06); Camden 002A is suppressed/unknown and must never rank above it.",
+  "input": {
+    "geographyIds": [
+      "uk:lsoa:E01000004",
+      "uk:lsoa:E01000005"
+    ],
+    "metricId": "crime",
+    "period": "2026-06"
+  },
+  "expected": {
+    "columns": [
+      {
+        "geographyId": "uk:lsoa:E01000004",
+        "state": "observed",
+        "value": 56.0,
+        "leader": true
+      },
+      {
+        "geographyId": "uk:lsoa:E01000005",
+        "state": "unknown",
+        "value": null,
+        "leader": false
+      }
+    ],
+    "conclusions": [
+      {
+        "text": "Only Camden 001A test area has published values (56.0); Camden 002A test area unknown, never ranked above an observed value.",
+        "claims": [
+          {
+            "release": "police-uk-2026-06",
+            "observedAt": "2026-06"
+          }
+        ]
+      }
+    ]
+  }
+}

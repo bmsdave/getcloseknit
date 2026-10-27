@@ -1,0 +1,7 @@
+# Dubai and Middle East: verification
+
+1. **Off-plan 72%, 60% completions, developer strength**: supported. Knight Frank Q1 2026: off-plan 72% of transactions in Q1, "the same as in 2025"; 2021-2025 materialisation rate 60%; investors "focusing on financial strength" of developers (framed for investors and the sukuk market, not buyers in general). Khaleej Times gives about 70%, with 72% in places.
+2. **DLD hedonic index has no view or floor variable; views and high floors priced at 10-30%**: supported. The DLD methodology lists freehold, bedrooms, number of floors, parking, balcony, age, size and type, with no view or floor-level variable. Cushman & Wakefield: high floors in Marina 20-30%+. Khaleej Times: sea views 10-20%, Burj views 15%.
+3. **Metro +13% at 701-900m, -9 to -17.7% within 500m; rents 5-15% lower beyond 1km**: supported. JTLU 2017 paper body: within 0.5km -9% (cross-sectional) and -17.7% (pseudo panel); the abstract gives the 13% peak at 701-900m. Property Finder FAQ: more than 1km from major stations cuts 1BR rents by about 5-15%.
+4. **Rent cap rules**: supported. bhomes: no rise if rent is less than 10% below the index; tiers go to a 20% maximum when rent is more than 40% below; 90 days' notice; Ejari-fed; 2025 building rating 1-5. Note that the 20% applies only when rent is more than 40% below the index.
+5. **UBS 1.16, 4th/23, 5 vs 11 years; Britons 2nd at 17%**: supported. The National gives all UBS figures exactly. Khaleej Times: Indians 22%, Britons 17%, Chinese 14%.

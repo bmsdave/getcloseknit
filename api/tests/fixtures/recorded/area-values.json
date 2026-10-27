@@ -1,0 +1,7 @@
+{
+ "path": "/api/v1/area-values/crime/2026-06?carrier=msoa",
+ "status": 200,
+ "contentType": "application/json",
+ "deprecation": null,
+ "body": "{\"schemaVersion\":\"area-value-pack.v1\",\"metricId\":\"crime\",\"period\":\"2026-06\",\"carrier\":\"msoa\",\"sourceVersion\":\"fixture-police-2026-06\",\"productReleaseId\":\"fixture-2026-06\",\"values\":[]}"
+}

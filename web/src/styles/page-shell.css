@@ -1,0 +1,8 @@
+/* One frame for every page off the map. Header, content and footer share
+   --page-width (1120px, 24px gutters), so nothing moves between pages and every card spans it.
+   Long prose (guide articles, privacy, terms, about) keeps --prose-width, left-aligned inside it.
+   The map page is full-bleed and has none of these classes. */
+:is(.methodology, .subpage, .property-page, .school-page, .places-page, .status-page, .site-footer) {
+  box-sizing: border-box; width: var(--page-width); max-width: none; margin-inline: auto;
+}
+.page-prose > :not(.site-header) { max-width: var(--prose-width); }

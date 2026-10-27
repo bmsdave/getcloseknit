@@ -1,0 +1,269 @@
+# Merton (315): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 315
+slug: merton
+name: Merton
+licence:
+  statement: 'Footer: ''(c) 2026 Merton Council''; legal disclaimer page has no copyright/OGL reuse statement'
+  url: https://www.merton.gov.uk/legal/disclaimer
+licence_decision: unresolved
+aliases: {}
+docs:
+- phase: primary
+  year: 2019
+  note: Archived web page; the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only.
+  accept:
+  - '''Wimbledon Park'' [149.88 (first 60)311.64 (APA)]: distance not understood: ''149.88 (first 60)311.64 (APA)'''
+  accept_note: Two figures (first 60 places / APA) in one cell; kept as printed in raw_value and criterion, no distance stored.
+  url: https://web.archive.org/web/20201124182341/https://www.merton.gov.uk/education-and-learning/schools/admissions/how-school-places-were-allocated-in-recent-years
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: primary
+  year: 2020
+  note: Archived web page; the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only.
+  accept:
+  - '''Wimbledon Park'' [179.47 (first 60)401.40 (APA)]: distance not understood: ''179.47 (first 60)401.40 (APA)'''
+  accept_note: Two figures (first 60 places / APA) in one cell; kept as printed in raw_value and criterion, no distance stored.
+  url: https://web.archive.org/web/20201124182341/https://www.merton.gov.uk/education-and-learning/schools/admissions/how-school-places-were-allocated-in-recent-years
+  format: html
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: primary
+  year: 2021
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: primary
+  year: 2022
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: primary
+  year: 2023
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: primary
+  year: 2024
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: primary
+  year: 2025
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: primary
+  year: 2026
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: straight-line
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - staff
+  - siblings
+- phase: secondary
+  year: 2019
+  note: Archived web page; the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only.
+  url: https://web.archive.org/web/20201124182341/https://www.merton.gov.uk/education-and-learning/schools/admissions/how-school-places-were-allocated-in-recent-years
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2020
+  note: Archived web page; the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only.
+  url: https://web.archive.org/web/20201124182341/https://www.merton.gov.uk/education-and-learning/schools/admissions/how-school-places-were-allocated-in-recent-years
+  format: html
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2021
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2022
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2023
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2024
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2025
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+- phase: secondary
+  year: 2026
+  note: 'Rolling PDF (updated 1 Sep 2026); the offer-day furthest distance (m) is read; applicants are on-time applications; LA-run schools only (academies and church schools: contact the school).'
+  url: https://www.merton.gov.uk/sites/default/files/2026-09/Admissions%20and%20appeals%20data%20for%20recent%20years%20-%20table%20Sept%2026.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - places
+  - applicants
+  - ehcp
+  - cla
+  - medical_social
+  - siblings
+  - staff
+catchment_maps:
+- https://www.merton.gov.uk/system/files?file=appendix_c_-_wimbledon_chase_and_dundonald_apa_map.pdf
+- https://www.merton.gov.uk/system/files?file=wimbledon_park_priority_area_9.9.11.pdf
+notes: 'One rolling PDF (33pp, updated 1 Sep 2026; landing page https://www.merton.gov.uk/education-and-learning/schools/admissions/recent-years)
+  covers 2021-2026 both phases: furthest distance (m) at offer day, second round and 1 Sept. Only LA-run
+  schools have distances; academies/church schools say ''contact school''. 2019/2020 (and 2016-2018) from
+  the old HTML page in Wayback (snapshots 2019-09..2023-03). Distance is straight line for community primaries
+  (2025-26 arrangements); Dundonald/Wimbledon Chase/Wimbledon Park use admissions priority areas (APA)
+  and report distance inside/outside the APA. Secondary method not checked (only Raynes Park/Ricards Lodge/Rutlish
+  reported). Older version: WB 20260118074335 .../2025-04/...table%20April%2025.pdf.'

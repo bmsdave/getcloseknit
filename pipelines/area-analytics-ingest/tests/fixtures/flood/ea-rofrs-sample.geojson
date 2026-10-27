@@ -1,0 +1,61 @@
+{
+  "type": "ReviewedFloodScreeningSample",
+  "source_id": "ea-flood-risk-rivers-sea",
+  "review_date": "2026-09-06",
+  "crs": "EPSG:4326",
+  "screening_note": "Planar polygon screening on publication geometry. Area exposure is an exact rectangle-overlap share, not a survey measurement.",
+  "coverage": {
+    "type": "Feature",
+    "properties": { "kind": "screening-coverage" },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [-0.2, 51.48],
+          [-0.06, 51.48],
+          [-0.06, 51.58],
+          [-0.2, 51.58],
+          [-0.2, 51.48]
+        ]
+      ]
+    }
+  },
+  "mechanisms": [
+    {
+      "name": "rivers-sea",
+      "label": "Rivers and sea (reviewed Environment Agency dataset)",
+      "type": "Feature",
+      "properties": { "mechanism": "rivers-sea" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.17, 51.49],
+            [-0.11, 51.49],
+            [-0.11, 51.52],
+            [-0.17, 51.52],
+            [-0.17, 51.49]
+          ]
+        ]
+      }
+    },
+    {
+      "name": "surface-water",
+      "label": "Surface water (separately named observation, not the reviewed dataset)",
+      "type": "Feature",
+      "properties": { "mechanism": "surface-water" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-0.15, 51.5],
+            [-0.09, 51.5],
+            [-0.09, 51.54],
+            [-0.15, 51.54],
+            [-0.15, 51.5]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Southwark: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000028
+slug: southwark
+name: Southwark
+register:
+  status: search-only
+  url: https://licencesandservices.southwark.gov.uk/sf/control/publicregister
+  page: https://www.southwark.gov.uk/housing/private-tenants-and-landlords/private-rented-property-licensing
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2022-03-01
+  end: 2027-03-01
+  url: https://www.southwark.gov.uk/housing/private-tenants-and-landlords/private-rented-property-licensing/property-licensing-2
+- kind: selective
+  wards: [Faraday, Newington, Goose Green, Champion Hill, St. Giles]
+  start: 2022-03-01
+  end: 2027-03-01
+  url: https://www.southwark.gov.uk/housing/private-tenants-and-landlords/private-rented-property-licensing/property-licensing-3
+- kind: selective
+  wards: [London Bridge & West Bermondsey, South Bermondsey, Camberwell Green, North Walworth, Peckham Rye, Surrey Docks, Chaucer, Nunhead & Queens Road, Rotherhithe, Dulwich Hill, Old Kent Road, Rye Lane, Dulwich Wood, Peckham]
+  start: 2023-11-01
+  end: 2028-10-31
+  url: https://www.southwark.gov.uk/housing/private-tenants-and-landlords/private-rented-property-licensing/property-licensing-3
+notes: >-
+  Public register is a Shop Front web search by status, address line, street or ward, one property at a time; no bulk
+  file or table found. Selective licences are not HMO licences, so a future loader needs the additional and mandatory
+  ones only. Ward names taken from the 2021 and 2023 designation notices.

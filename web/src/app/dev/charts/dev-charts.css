@@ -1,0 +1,23 @@
+/* /dev/charts demo page only. */
+.dev-charts { max-width: 1240px; margin: 0 auto; padding: 24px 16px 64px; color: var(--ink); }
+.dev-charts__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); }
+.dev-charts__head h1 { margin: 0; font: 800 var(--fs-2xl)/1.1 var(--font-display); letter-spacing: -0.02em; }
+.dev-charts__themes { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.dev-charts__themes button {
+  min-height: 44px; padding: 0 14px; border: 1px solid var(--rule); border-radius: 99px;
+  color: var(--ink); background: var(--chip); cursor: pointer; font: 700 var(--fs-2xs)/1 var(--font-sans);
+}
+.dev-charts__themes button[aria-pressed="true"] { border-color: var(--ink); color: var(--on-ink); background: var(--ink); }
+.dev-charts__section { margin: 28px 0 12px; color: var(--muted); font: 800 var(--fs-2xs)/1.2 var(--font-sans); letter-spacing: .1em; text-transform: uppercase; }
+/* 360px card with 20px padding = the 320px content width of the panel. */
+.dev-charts__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 360px)); gap: var(--space-4); align-items: start; }
+.dev-charts__card { display: grid; gap: 22px; padding: var(--space-5); border-radius: 16px; background: var(--panel); box-shadow: 0 10px 30px rgb(var(--ink-rgb) / .08); }
+.dev-charts__note { color: var(--muted); font-size: var(--fs-2xs); }
+.dev-charts__value { font: 800 var(--fs-xl)/1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.dev-charts__value small { color: var(--muted); font: 600 var(--fs-2xs)/1 var(--font-sans); }
+.dev-charts__row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.dev-charts__tiles { display: grid; grid-template-columns: repeat(auto-fill, 150px); gap: var(--space-2); }
+.dev-charts__tile { --waffle-size: 48px; display: grid; align-content: start; gap: var(--space-2); padding: 10px; border-radius: 12px; background: var(--panel); min-width: 0; }
+.dev-charts__tile > span:first-child { color: var(--muted); font-size: var(--fs-2xs); font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.dev-charts__tile .dev-charts__value { font-size: var(--fs-lg); }
+.dev-charts__tile small { color: var(--muted); font-size: var(--fs-2xs); }

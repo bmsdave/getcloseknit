@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "area-style-contract.v1",
+  "projection": "mercator",
+  "maximumPitch": 60,
+  "analyticsSource": "analytics-areas",
+  "analyticsPromoteId": "geography_id",
+  "analyticsLayers": [
+    {
+      "id": "area-fill",
+      "type": "fill",
+      "valueExpression": ["feature-state", "value"],
+      "selectedExpression": ["feature-state", "selected"],
+      "qualityExpression": ["feature-state", "quality"]
+    },
+    {
+      "id": "area-outline",
+      "type": "line"
+    },
+    {
+      "id": "neutral-3d-buildings",
+      "type": "fill-extrusion",
+      "minimumZoom": 15,
+      "analyticsEncodedInHeight": false
+    }
+  ],
+  "personalMatchLegend": [
+    { "value": 0, "colour": "#b2182b" },
+    { "value": 1, "colour": "#ef8a62" },
+    { "value": 2, "colour": "#fddbc7" },
+    { "value": 3, "colour": "#f2f2f2" },
+    { "value": 4, "colour": "#d1e5f0" },
+    { "value": 5, "colour": "#67a9cf" },
+    { "value": 6, "colour": "#2166ac" }
+  ],
+  "qualityOpacity": { "observed": 0.62, "fallback": 0.46, "suppressed": 0.22 },
+  "unsupported": ["global-state", "roll", "pitch-above-60", "globe", "terrain"]
+}

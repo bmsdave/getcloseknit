@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "property-history.v1",
+  "history": {
+    "uprn": "100000000001",
+    "address": "1 Parliament Preview, London, SW1A 1AA",
+    "geographyId": "uk:lsoa:E01000009",
+    "transactions": [
+      {
+        "date": "2006-06-15",
+        "nominalPrice": 280000,
+        "floorAreaSquareMetres": 54,
+        "inflationAdjustedPrice": 467000,
+        "localMarketAdjustedPrice": 611000
+      },
+      {
+        "date": "2022-11-03",
+        "nominalPrice": 570000,
+        "inflationAdjustedPrice": 625000,
+        "localMarketAdjustedPrice": null,
+        "tenure": "leasehold"
+      }
+    ],
+    "estimateDisclaimer": "Local-market comparisons follow area-level £/m² change. They are not property valuations.",
+    "sourceVersion": "preview-hmlr-epc-cpih-2026-06",
+    "valuationBasis": "recorded-sales-only"
+  }
+}

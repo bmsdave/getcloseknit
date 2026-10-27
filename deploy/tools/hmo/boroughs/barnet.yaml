@@ -1,0 +1,25 @@
+# Barnet: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000003
+slug: barnet
+name: Barnet
+register:
+  status: published
+  url: https://open.barnet.gov.uk/download/29r12/1sb/HMO%20Register%20-%207%20September%202026.csv
+  page: https://open.barnet.gov.uk/dataset/hmo-register-29r12
+  format: csv
+  sheet: null
+  postcode_column: HMO POSTCODE
+  rows: 1696
+  updated: 2026-09-07
+  terms: Open Government Licence v3; dataset not intended for marketing purposes.
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2022-10-27
+  end: 2027-10-27
+  url: https://barnet.gov.uk/HMOlicensing
+notes: >-
+  Monthly CSV, cp1252 encoded; the HMO ADDRESS header contains a trailing newline. One row has an empty
+  HMO POSTCODE (postcode is inside the address). Includes mandatory and additional licences. A selective
+  licensing scheme (Burnt Oak, Colindale etc.) was still in consultation (closed 2026-09-15), not yet in force.

@@ -1,0 +1,200 @@
+# Hillingdon (312): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 312
+slug: hillingdon
+name: Hillingdon
+licence:
+  statement: 2026 © Hillingdon Council. (site footer; no OGL statement found)
+  url: https://pre.hillingdon.gov.uk/
+licence_decision: unresolved
+aliases:
+  Barnhill: '137844'
+  Bishop Ramsey: '137407'
+  Douay Martyrs: '137925'
+  The Douay Martyrs: '137925'
+  Guru Nanak: '136329'
+  Park Academy: '145121'
+  Oak Farm Infant School: '152412'
+docs:
+- phase: primary
+  year: 2020
+  note: Read from the 2021 document's 'Furthest distance offered 2020' column; offers and criterion belong to 2021 and are left out.
+  url: https://web.archive.org/web/20240520145942/https://www.hillingdon.gov.uk/media/8186/September-2021-allocation-data/pdf/n8Reception_Allocation_Data_2021_1.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20240520145942/https://www.hillingdon.gov.uk/media/8186/September-2021-allocation-data/pdf/n8Reception_Allocation_Data_2021_1.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20240518072131/https://www.hillingdon.gov.uk/media/9407/September-2022-allocation-data/pdf/oeReception_Allocation_Data_2022.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240519013133/https://www.hillingdon.gov.uk/media/11486/September-2023-allocation-data/pdf/3gSeptember_2023_allocation_data.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20240718212557/https://www.hillingdon.gov.uk/media/13876/September-2024-allocation-data/pdf/edUpdated-NOD-reception-allocation-data-V2.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20250526123324/https://www.hillingdon.gov.uk/media/16165/September-2025-allocation-data/pdf/b4September_2025_allocation_data_1.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: primary
+  year: 2026
+  note: The 2026 column header says Kilometres but the figures are metres (Bourne Primary 1653.8516 for 2025 beside 704 for 2026).
+  url: https://pre.hillingdon.gov.uk/downloads/file/2822/september-2026-allocation-data
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: secondary
+  year: 2019
+  accept:
+  - '''Oak Wood'': distance 17198 m over 10 miles'
+  accept_note: Printed 17198 metres (school full, 0 places available); kept as printed.
+  url: https://web.archive.org/web/20220630165521/https://www.hillingdon.gov.uk/media/7411/Secondary-allocation-data-2019/pdf/Secondary_allocation_data_2019.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20240327105928/https://www.hillingdon.gov.uk/media/7410/Secondary-allocation-data-2020/pdf/24Secondary_allocation_data_2020.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20240331025116/https://www.hillingdon.gov.uk/media/7409/Secondary-allocation-data-2021/pdf/15Secondary_Allocation_Data_2021.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20240226161956/https://www.hillingdon.gov.uk/media/8518/Secondary-allocation-data-2022/pdf/93Secondary_allocation_data_2022.pdf
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - pan
+  - offers
+  - places_available
+  - last_criterion
+- phase: secondary
+  year: 2023
+  url: https://pre.hillingdon.gov.uk/downloads/file/2719/secondary-allocation-data-2023
+  format: pdf-table
+  units: metres
+  method: null
+  counts:
+  - offers
+  - sen
+  - places_available
+- phase: secondary
+  year: 2024
+  note: Scanned document read with tesseract at 300, 350 and 450 dpi; a school's distance is kept only where two readings agree and none disagrees; counts are not read.
+  url: https://pre.hillingdon.gov.uk/downloads/file/2716/secondary-allocation-data-2024
+  format: scanned-pdf
+  units: metres
+  method: null
+  counts:
+  - offers
+  - sen
+  - places_available
+- phase: secondary
+  year: 2025
+  note: Scanned document read with tesseract at 300, 350 and 450 dpi; a school's distance is kept only where two readings agree and none disagrees; counts are not read.
+  url: https://pre.hillingdon.gov.uk/downloads/file/2718/secondary-allocation-data-2025
+  format: scanned-pdf
+  units: metres
+  method: null
+  counts:
+  - offers
+  - sen
+  - places_available
+- phase: secondary
+  year: 2026
+  note: Scanned document read with tesseract at 300, 350 and 450 dpi; a school's distance is kept only where two readings agree and none disagrees; counts are not read.
+  url: https://pre.hillingdon.gov.uk/downloads/file/2717/secondary-allocation-data-2026
+  format: scanned-pdf
+  units: metres
+  method: null
+  counts:
+  - offers
+  - sen
+  - places_available
+catchment_maps: null
+notes: 'www.hillingdon.gov.uk now redirects to pre.hillingdon.gov.uk (live host); old /media/ docs are
+  Wayback only. Secondary listing: https://pre.hillingdon.gov.uk/downloads/download/296/secondary-school-statistics
+  (2023-2026 only); no live primary listing found, 2026 primary file found by search. Each doc also carries
+  the previous year''s column (primary 2021 doc gives 2020; 2019 secondary gives 2018; 2026 primary gives
+  2025). Primary distance EXCLUDES sibling criterion; "N/A (U)" = undersubscribed, "N/A (F)" = faith.
+  Primary 2019 not found. 2026 primary header says "Kilometres" but values (e.g. 3134, 1376) are metres
+  - header error. 2024-2026 secondary PDFs are image-only (Word/Excel export, no text layer; OCR needed);
+  checked 2026 visually: metres. Alternate 2024 primary capture: .../media/13876/.../pdf/1lSeptember-2024-allocation-data.pdf
+  (20250517065747). Method not stated in sampled docs. Primary/secondary 2020-2022 formats inferred from
+  2019/2021 samples.'

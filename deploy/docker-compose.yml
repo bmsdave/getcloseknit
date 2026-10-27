@@ -1,0 +1,183 @@
+# Settings come from deploy/.env (see .env.example, ./init-env.sh). Production
+# adds docker-compose.prod.yml (Caddy + TLS, no other published ports).
+# Container logs (stdout/stderr) must not outlive 30 days (privacy notice). json-file and local
+# rotate by size only, never by age, so the cap is small enough that steady output fills it well
+# inside 30 days: Postgres alone writes ~100 KB/day of checkpoint lines, so 3 x 1 MB rolls over in
+# under a month, and every deploy that recreates a container drops its log. No container writes
+# per-request lines: the API runs with --no-access-log and Caddy's access log is a file kept 720h
+# (Caddyfile roll_keep_for). The prod overlay repeats these options for caddy.
+x-logging: &logging
+  driver: json-file
+  options: {max-size: "1m", max-file: "3"}
+
+services:
+  database:
+    image: postgis/postgis:18-3.6
+    platform: ${CLOSE_KNIT_DATABASE_PLATFORM:-linux/amd64}
+    # Docker's default 64 MB /dev/shm is too small for parallel queries on the
+    # multi-GB release; memory settings assume an 8 GB host (deploy/README.md).
+    shm_size: 1g
+    command:
+      - postgres
+      - -c
+      - shared_buffers=${CLOSE_KNIT_PG_SHARED_BUFFERS:-2GB}
+      - -c
+      - effective_cache_size=${CLOSE_KNIT_PG_EFFECTIVE_CACHE:-5GB}
+      - -c
+      - work_mem=32MB
+      - -c
+      - maintenance_work_mem=512MB
+      - -c
+      - random_page_cost=1.1
+    logging: *logging
+    environment:
+      POSTGRES_DB: close_knit
+      POSTGRES_USER: close_knit
+      POSTGRES_PASSWORD: ${CLOSE_KNIT_DB_PASSWORD:?set CLOSE_KNIT_DB_PASSWORD}
+    volumes:
+      - close-knit-postgres:/var/lib/postgresql  # PG18 images keep data under a version subdirectory here
+      # First boot only (initdb): base schema, then every migration in order.
+      # All migrations are schema-only, so an empty database is complete after
+      # this; data arrives through the release ceremony (REAL-DATA.md).
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro
+      # The runner applies every file of migrations/ and records each in schema_migrations
+      # (migrate.sh); on an existing database ship.sh runs it (RELEASE-CHECKLIST.md).
+      - ./migrations:/close-knit/migrations:ro
+      - ./migrate.sh:/close-knit/migrate.sh:ro
+      - ./initdb-migrate.sh:/docker-entrypoint-initdb.d/900-migrate.sh:ro
+    healthcheck:
+      # Over TCP: during first-boot initdb the temporary server answers on the
+      # Unix socket only, and dependants would connect to nothing.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U close_knit -d close_knit"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build:
+      context: ../web
+      args:
+        NEXT_PUBLIC_BASEMAP_STYLE_URL: ${CLOSE_KNIT_BASEMAP_STYLE_URL:-https://tiles.openfreemap.org/styles/positron}
+    logging: *logging
+    environment:
+      # Real mode: the web BFF proxies evidence to the API service and opens
+      # on whichever product release that service is serving.
+      CLOSE_KNIT_API_URL: http://api:8080
+      # The same value as the api's: a server render's reads carry it and count as one page view.
+      CLOSE_KNIT_INTERNAL_KEY: ${CLOSE_KNIT_INTERNAL_KEY:-}
+      CLOSE_KNIT_PUBLIC_URL: ${CLOSE_KNIT_PUBLIC_URL:-http://localhost:4180}
+      # Meta robots (web/src/lib/seo.ts): pages are indexable only with CLOSE_KNIT_ACCESS=public set
+      # explicitly; unset stays noindex, so a missing .env line never lists the site by accident.
+      # Caddy keeps its own default (public, no login: docker-compose.prod.yml).
+      CLOSE_KNIT_ACCESS: ${CLOSE_KNIT_ACCESS:-private}
+      # Shown on /privacy; see docs/legal/ico-registration.md
+      CLOSE_KNIT_CONTROLLER: ${CLOSE_KNIT_CONTROLLER:-}
+      CLOSE_KNIT_CONTACT_EMAIL: ${CLOSE_KNIT_CONTACT_EMAIL:-}
+      CLOSE_KNIT_ICO_NUMBER: ${CLOSE_KNIT_ICO_NUMBER:-}
+    ports: ["127.0.0.1:4180:4180"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:4180/privacy || exit 1"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 5
+    depends_on:
+      api:
+        condition: service_healthy
+
+  api:
+    build: ../api
+    logging: *logging
+    # Liveness: any HTTP answer from /health (503 before a release is loaded
+    # still means the process is up); readiness is preflight.sh's job.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import http.client as h; c = h.HTTPConnection('127.0.0.1', 8080, timeout=4); c.request('GET', '/health'); c.getresponse()"]
+      interval: 15s
+      timeout: 5s
+      start_period: 15s
+      retries: 5
+    # WEB_CONCURRENCY workers (api/Dockerfile); what a release derives is read from release_artifact (migration 128).
+    environment: &api-environment
+      CLOSE_KNIT_DATABASE_URL: postgresql://close_knit:${CLOSE_KNIT_DB_PASSWORD}@database/close_knit
+      CLOSE_KNIT_PUBLIC_URL: ${CLOSE_KNIT_PUBLIC_URL:-http://localhost:4180}
+      # The web BFF forwards the caller's address; the limiter and objection
+      # quotas key on it. Keep the API port private when this is on.
+      CLOSE_KNIT_TRUST_PROXY: "1"
+      # Shared with web: its reads for one page render are charged as one page view
+      # (rate class render). Empty: every read is charged on its own.
+      CLOSE_KNIT_INTERNAL_KEY: ${CLOSE_KNIT_INTERNAL_KEY:-}
+      # Rate classes (api/area_api/ratelimit.py); empty = the built-in defaults.
+      CLOSE_KNIT_RATE_DEFAULT: ${CLOSE_KNIT_RATE_DEFAULT:-}
+      CLOSE_KNIT_RATE_BULK: ${CLOSE_KNIT_RATE_BULK:-}
+      CLOSE_KNIT_RATE_HIZOOM: ${CLOSE_KNIT_RATE_HIZOOM:-}
+      CLOSE_KNIT_RATE_DETAIL: ${CLOSE_KNIT_RATE_DETAIL:-}
+      CLOSE_KNIT_RATE_REPORT: ${CLOSE_KNIT_RATE_REPORT:-}
+      CLOSE_KNIT_RATE_DOWNLOAD: ${CLOSE_KNIT_RATE_DOWNLOAD:-}
+      CLOSE_KNIT_RATE_RENDER: ${CLOSE_KNIT_RATE_RENDER:-}
+      CLOSE_KNIT_RATE_ASSISTANT_INIT: ${CLOSE_KNIT_RATE_ASSISTANT_INIT:-}
+      # Assistant egress CIDRs (comma-separated) whose MCP sessions get their own budgets; empty = the
+      # published Claude and ChatGPT ranges (api/area_api/assistant_ranges.py), "none" = off.
+      CLOSE_KNIT_ASSISTANT_RANGES: ${CLOSE_KNIT_ASSISTANT_RANGES:-}
+      # Legacy single rates: the minute window of default and bulk.
+      CLOSE_KNIT_RATE_LIMIT: ${CLOSE_KNIT_RATE_LIMIT:-}
+      CLOSE_KNIT_TILE_RATE_LIMIT: ${CLOSE_KNIT_TILE_RATE_LIMIT:-}
+      CLOSE_KNIT_DB_STATEMENT_TIMEOUT_MS: ${CLOSE_KNIT_DB_STATEMENT_TIMEOUT_MS:-20000}
+      CLOSE_KNIT_OBJECTION_SALT: ${CLOSE_KNIT_OBJECTION_SALT:?set CLOSE_KNIT_OBJECTION_SALT (random secret)}
+      # Optional: hide-my-home confirmation mail and operator notifications.
+      CLOSE_KNIT_SMTP_HOST: ${CLOSE_KNIT_SMTP_HOST:-}
+      CLOSE_KNIT_SMTP_PORT: ${CLOSE_KNIT_SMTP_PORT:-587}
+      CLOSE_KNIT_SMTP_USER: ${CLOSE_KNIT_SMTP_USER:-}
+      CLOSE_KNIT_SMTP_PASSWORD: ${CLOSE_KNIT_SMTP_PASSWORD:-}
+      CLOSE_KNIT_SMTP_FROM: ${CLOSE_KNIT_SMTP_FROM:-}
+      CLOSE_KNIT_SMTP_TO: ${CLOSE_KNIT_SMTP_TO:-}
+      CLOSE_KNIT_CORRECTIONS_WEBHOOK: ${CLOSE_KNIT_CORRECTIONS_WEBHOOK:-}
+      # Feature flags (FLAGS.md): "1" on, "0" off; unset follows CLOSE_KNIT_ACCESS (private preview: on).
+      CLOSE_KNIT_ACCESS: ${CLOSE_KNIT_ACCESS:-private}
+      CLOSE_KNIT_EPC_PER_HOME: ${CLOSE_KNIT_EPC_PER_HOME:-}
+      # Browser extension per portal (api/area_api/extension_config.py): JSON portal -> inline|side-panel|off,
+      # e.g. {"rightmove":"side-panel"}. Empty keeps the defaults; served at /api/v1/extension-config.
+      CLOSE_KNIT_EXTENSION_MODES: ${CLOSE_KNIT_EXTENSION_MODES:-}
+      # JSON feature -> true|false for resultsLine and mapPopup (both on when empty), e.g. {"mapPopup":false}.
+      CLOSE_KNIT_EXTENSION_FEATURES: ${CLOSE_KNIT_EXTENSION_FEATURES:-}
+      CLOSE_KNIT_AIR_QUALITY: ${CLOSE_KNIT_AIR_QUALITY:-}
+      CLOSE_KNIT_ADDRESS_MATCH: ${CLOSE_KNIT_ADDRESS_MATCH:-}
+      CLOSE_KNIT_HOME_VALUE: ${CLOSE_KNIT_HOME_VALUE:-}
+      CLOSE_KNIT_PER_HOME_PRICE_PER_SQM: ${CLOSE_KNIT_PER_HOME_PRICE_PER_SQM:-}
+      CLOSE_KNIT_PER_HOME_VALUATION: ${CLOSE_KNIT_PER_HOME_VALUATION:-}
+      CLOSE_KNIT_EPC_ADDRESSES: ${CLOSE_KNIT_EPC_ADDRESSES:-}
+      CLOSE_KNIT_COUNCIL_TAX_BAND: ${CLOSE_KNIT_COUNCIL_TAX_BAND:-}
+      CLOSE_KNIT_OWNERSHIP: ${CLOSE_KNIT_OWNERSHIP:-}
+      CLOSE_KNIT_CENSUS_RANKED: ${CLOSE_KNIT_CENSUS_RANKED:-}
+      CLOSE_KNIT_ENGLAND: ${CLOSE_KNIT_ENGLAND:-}
+      CLOSE_KNIT_SCHOOL_LINKS_GSG: ${CLOSE_KNIT_SCHOOL_LINKS_GSG:-}
+      CLOSE_KNIT_SCHOOL_LINKS_LOCRATING: ${CLOSE_KNIT_SCHOOL_LINKS_LOCRATING:-}
+      # Open /mcp tools answer "coming soon" unless this is "1" (never follows CLOSE_KNIT_ACCESS).
+      CLOSE_KNIT_MCP_DATA: ${CLOSE_KNIT_MCP_DATA:-}
+      # RFC 8594 Sunset of the deprecated field names (YYYY-MM-DD; unset: no Sunset header). RELEASE-CHECKLIST.md 6zm.
+      CLOSE_KNIT_ALIAS_SUNSET: ${CLOSE_KNIT_ALIAS_SUNSET:-}
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # The MCP endpoint (/mcp; Caddyfile routes it here): the api image as one process, because an MCP session lives
+  # in the memory of the process that opened it and the api service runs several workers.
+  mcp:
+    build: ../api
+    logging: *logging
+    healthcheck:
+      test: ["CMD", "python", "-c", "import http.client as h; c = h.HTTPConnection('127.0.0.1', 8080, timeout=4); c.request('GET', '/health'); c.getresponse()"]
+      interval: 15s
+      timeout: 5s
+      start_period: 15s
+      retries: 5
+    environment:
+      <<: *api-environment
+      WEB_CONCURRENCY: "1"
+    ports: ["127.0.0.1:8081:8080"]
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  close-knit-postgres:

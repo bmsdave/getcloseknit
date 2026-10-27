@@ -1,0 +1,126 @@
+{
+  "note": "v4 Task 9: My match zones on the portals through /go. api/area_api/portal_zones.py (encode_polyline, go_zone_url) with area_api.usage.go_target, and web/src/lib/portal-zones.ts (encodePolyline, goDrawHref, previewGoTarget) must produce exactly these. Draw formats checked by hand 2026-10-18 (v4-spec Task 9, D1).",
+  "polygon": {
+    "points": [
+      [
+        51.464,
+        -0.156
+      ],
+      [
+        51.464,
+        -0.14
+      ],
+      [
+        51.456,
+        -0.14
+      ],
+      [
+        51.456,
+        -0.156
+      ]
+    ],
+    "polyline": "_qbyH~m]?_cB~p@??~bB_q@?"
+  },
+  "goDraw": {
+    "portal": "zoopla",
+    "filter": {
+      "market": "buy",
+      "maxPrice": 800000,
+      "minBedrooms": 2
+    },
+    "params": {
+      "kind": "zone",
+      "market": "buy",
+      "max_price": "800000",
+      "beds": "2",
+      "from": "web",
+      "shape": "draw",
+      "poly": "_qbyH~m]?_cB~p@??~bB_q@?"
+    }
+  },
+  "cases": [
+    {
+      "name": "rightmove-draw-buy",
+      "portal": "rightmove",
+      "params": {
+        "kind": "zone",
+        "market": "buy",
+        "max_price": "800000",
+        "beds": "2",
+        "from": "web",
+        "shape": "draw",
+        "poly": "_qbyH~m]?_cB~p@??~bB_q@?"
+      },
+      "target": "https://www.rightmove.co.uk/property-for-sale/map.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22polylines%22%3A%22_qbyH~m%5D%3F_cB~p%40%3F%3F~bB_q%40%3F%22%7D&maxPrice=800000&minBedrooms=2"
+    },
+    {
+      "name": "zoopla-draw-rent",
+      "portal": "zoopla",
+      "params": {
+        "kind": "zone",
+        "market": "rent",
+        "max_price": "3000",
+        "beds": "2",
+        "from": "web",
+        "shape": "draw",
+        "poly": "_qbyH~m]?_cB~p@??~bB_q@?"
+      },
+      "target": "https://www.zoopla.co.uk/to-rent/property/london/?polyenc=_qbyH~m%5D%3F_cB~p%40%3F%3F~bB_q%40%3F&price_frequency=per_month&price_max=3000&beds_min=2&q=London&search_source=to-rent"
+    },
+    {
+      "name": "rightmove-draw-with-search-id",
+      "portal": "rightmove",
+      "params": {
+        "kind": "zone",
+        "market": "buy",
+        "max_price": "800000",
+        "beds": "2",
+        "from": "web",
+        "shape": "draw",
+        "poly": "_qbyH~m]?_cB~p@??~bB_q@?",
+        "sid": "a1b2c3d4e5f6"
+      },
+      "target": "https://www.rightmove.co.uk/property-for-sale/map.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22polylines%22%3A%22_qbyH~m%5D%3F_cB~p%40%3F%3F~bB_q%40%3F%22%7D&maxPrice=800000&minBedrooms=2#closeknit=a1b2c3d4e5f6"
+    },
+    {
+      "name": "onthemarket-draw-refused",
+      "portal": "onthemarket",
+      "params": {
+        "kind": "zone",
+        "market": "buy",
+        "max_price": "800000",
+        "beds": "2",
+        "from": "web",
+        "shape": "draw",
+        "poly": "_qbyH~m]?_cB~p@??~bB_q@?"
+      },
+      "target": null
+    },
+    {
+      "name": "onthemarket-district-buy",
+      "portal": "onthemarket",
+      "params": {
+        "kind": "listings",
+        "outcode": "SW4",
+        "market": "buy",
+        "max_price": "800000",
+        "beds": "2",
+        "from": "web"
+      },
+      "target": "https://www.onthemarket.com/for-sale/property/sw4/?max-price=800000&min-bedrooms=2"
+    },
+    {
+      "name": "zoopla-district-rent",
+      "portal": "zoopla",
+      "params": {
+        "kind": "listings",
+        "outcode": "E8",
+        "market": "rent",
+        "max_price": "2500",
+        "beds": "1",
+        "from": "web"
+      },
+      "target": "https://www.zoopla.co.uk/to-rent/property/e8/?price_frequency=per_month&price_max=2500&beds_min=1&q=E8"
+    }
+  ]
+}

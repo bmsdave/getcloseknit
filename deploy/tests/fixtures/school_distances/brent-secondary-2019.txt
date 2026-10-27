@@ -1,0 +1,30 @@
+            How places were allocated at Brent secondary schools - September 2019
+                                                      Data as at 1 March 2019
+                                              EHCP - Education, Health and Care plans
+School Name                                                                  Offers
+                                                                                           Number of offers
+                          Criteria/Band                                                 (max distance in metres)
+Alperton Community School EHCP                                                                       3
+                          Looked After Children/ Previously Looked After                             2
+                          Social/Medical                                                             1
+                          Sibling                                                             76 (4230.01)
+                          Feeder School                                                      144 (6996.46)
+                          Distance                                                            98 (1988.86)
+                          Total                                                                    324
+Ark Academy               EHCP                                                                       3
+                          Current Yr 6                                                              59
+                          Sibling                                                             61 (6822.28)
+                          Zone A                                                               14 (593.86)
+                          Zone B                                                               43 (933.06)
+                          Total                                                                    180
+Ark Elvin Academy         All applicants were offered a place
+                          Total                                                                   259
+Capital City Academy      All applicants were offered a place
+                          Total                                                                   225
+Claremont High School     EHCP                                                                      0
+                          Sibling                                                           115 (10658.17)
+                          Feeder School                                                      128 (2670.58)
+                          Aptitude In Music                                                   27 (6127.43)
+                          Total                                                                    270
+Convent of Jesus and Mary All applicants were offered a place
+Language College          Total                                                                   134

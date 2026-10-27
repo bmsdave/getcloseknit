@@ -1,0 +1,74 @@
+{
+  "90332700": {
+    "id": "90332700",
+    "transactionType": "BUY",
+    "prices": {
+      "primaryPrice": "£700,000"
+    },
+    "propertySubType": "Apartment",
+    "soldPropertyType": "UNKNOWN",
+    "tenure": {
+      "tenureType": "LEASEHOLD",
+      "yearsRemainingOnLease": 109
+    },
+    "livingCosts": {
+      "councilTaxBand": "D",
+      "annualGroundRent": 610.16,
+      "annualServiceCharge": 3494
+    },
+    "keyFeatures": [
+      "EPC Rating = C"
+    ],
+    "listingHistory": {
+      "listingUpdateReason": "Reduced on 16/10/2026"
+    }
+  },
+  "92497806": {
+    "id": "92497806",
+    "transactionType": "BUY",
+    "prices": {
+      "primaryPrice": "£1,750,000"
+    },
+    "propertySubType": "Semi-Detached",
+    "soldPropertyType": "SEMI_DETACHED",
+    "tenure": {
+      "tenureType": "FREEHOLD",
+      "yearsRemainingOnLease": 0
+    },
+    "livingCosts": {
+      "councilTaxBand": "E",
+      "annualGroundRent": null,
+      "annualServiceCharge": null
+    },
+    "keyFeatures": [
+      "EPC Rating = D"
+    ],
+    "listingHistory": {
+      "listingUpdateReason": "Reduced on 14/10/2026"
+    }
+  },
+  "94199202": {
+    "id": "94199202",
+    "transactionType": "BUY",
+    "prices": {
+      "primaryPrice": "£475,000"
+    },
+    "propertySubType": "Apartment",
+    "soldPropertyType": "UNKNOWN",
+    "tenure": {
+      "tenureType": "LEASEHOLD",
+      "yearsRemainingOnLease": 101
+    },
+    "livingCosts": {
+      "councilTaxBand": null,
+      "annualGroundRent": null,
+      "annualServiceCharge": null
+    },
+    "keyFeatures": [
+      "EPC RATING C"
+    ],
+    "listingHistory": {
+      "listingUpdateReason": "Added on 12/10/2026"
+    }
+  }
+}

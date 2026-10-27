@@ -1,0 +1,24 @@
+# Hounslow: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000018
+slug: hounslow
+name: Hounslow
+register:
+  status: published        # published | search-only | on-request | not-found
+  url: https://blob.datopian.com/resources/77090a0e-afb3-42bc-9428-042a1a609658/HMO%20Public%20Register-fF17j8.csv
+  page: https://data.hounslow.gov.uk/london-borough-of-hounslow/register-of-licensed-hmos
+  format: csv
+  sheet: null
+  postcode_column: Premises Address   # full address "number street, town, POSTCODE"; postcode is the last part
+  rows: 1403
+  updated: 2026-10-15
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2025-12-11
+  end: 2030-12-10
+  url: https://www.hounslow.gov.uk/houses-multiple-occupation/hmo-licensing
+notes: >-
+  Council open-data portal (CKAN) with one CSV resource, refreshed often (resource created 2026-10-15), so the blob URL changes on each
+  update: resolve the current URL from the dataset page. Columns: Premises Address, ward, households, occupants, licn-expiry-date. No licence stated on the dataset.

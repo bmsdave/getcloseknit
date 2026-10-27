@@ -1,0 +1,6 @@
+/* Area heading: the friendly name and postcode district only; the official
+   name lives in the page's Sources. */
+.area-title { margin: 0; min-width: 0; overflow-wrap: break-word; hyphens: auto; }
+.area-title > h1 { display: inline; }
+.area-page > .area-title { margin: 0.67em 0; }
+.area-page > .area-title > h1 { font-size: clamp(2.25rem, 7vw, 4rem); }

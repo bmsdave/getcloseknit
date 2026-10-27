@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CUJ-09 Listing from portal v4</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/close-knit/components/bundle.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("ds/close-knit/fonts/BricolageGrotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+body { margin: 0; }
+a { color: #2f5bd3; } a:hover { color: #22252c; }
+
+.col { width: 480px; flex: none; display: flex; flex-direction: column; gap: 8px; }
+.hdr { height: 120px; display: flex; flex-direction: column; gap: 6px; }
+.sh { display: flex; align-items: center; gap: 10px; }
+.n { width: 30px; height: 30px; flex: none; border-radius: 15px; background: #22252c; color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
+.route { font-family: ui-monospace, Menlo, monospace; font-size: 15px; font-weight: 700; }
+.note { font-size: 15px; line-height: 1.3; }
+.wf { position: relative; width: 480px; height: 300px; box-sizing: border-box; border: 2px dashed #7a8494; border-radius: 8px; background: #ffffff; overflow: hidden; display: flex; flex-direction: column; }
+.hd { height: 34px; flex: none; box-sizing: border-box; padding: 0 8px; border-bottom: 2px solid #7a8494; display: flex; align-items: center; gap: 6px; }
+.pl { display: flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; border-radius: 999px; background: #eef2f7; border: 1px solid #7a8494; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.srch { display: inline-flex; align-items: center; height: 18px; padding: 0 9px; border-radius: 999px; background: #ffffff; color: #5b6270; font-weight: 400; }
+.hrt { display: inline-flex; align-items: center; gap: 4px; }
+.sp { flex: 1; }
+.bd { flex: 1; padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; border-left: 1px dotted #2f5bd3; border-right: 1px dotted #2f5bd3; margin: 0 6px; }
+.bar { height: 9px; background: #dfe7f0; border-radius: 3px; }
+.box { border: 1.5px solid #7a8494; border-radius: 6px; padding: 5px 8px; display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.btn { padding: 3px 10px; border: 2px solid #22252c; border-radius: 6px; font-weight: 800; font-size: 13px; white-space: nowrap; background: #ffffff; }
+.tap { outline: 3px solid #2f5bd3; outline-offset: 2px; }
+.tb { padding: 2px 9px; border-radius: 999px; background: #eef2f7; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.crumb { font-size: 12px; color: #5b6270; font-weight: 700; }
+.ar { width: 110px; flex: none; display: flex; flex-direction: column; gap: 6px; padding: 250px 6px 0; box-sizing: border-box; font-size: 13px; line-height: 1.25; text-align: center; }
+.ln { display: flex; align-items: center; }
+.ln i { flex: 1; height: 2px; background: #7a8494; }
+.ln b { width: 0; height: 0; border-left: 11px solid #7a8494; border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+.cap { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6270; }
+.ext { width: 480px; height: 300px; box-sizing: border-box; border: 2px dashed #7a8494; border-radius: 8px; background: #f4f7fa; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; }
+.hl { background: #fdf1cc; border: 2px solid #c08a00; border-radius: 8px; padding: 5px 8px; display: flex; flex-direction: column; gap: 4px; }
+.ph { width: 210px; height: 400px; flex: none; box-sizing: border-box; border: 2px dashed #7a8494; border-radius: 22px; background: #ffffff; overflow: hidden; display: flex; flex-direction: column; font-size: 12px; }
+.phd { height: 32px; flex: none; box-sizing: border-box; padding: 0 8px; border-bottom: 2px solid #7a8494; display: flex; align-items: center; gap: 5px; font-weight: 800; }
+.pbd { flex: 1; padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+.par { width: 70px; flex: none; display: flex; flex-direction: column; gap: 4px; padding: 190px 4px 0; box-sizing: border-box; font-size: 12px; text-align: center; }
+.tg { display: inline-flex; align-items: center; height: 18px; padding: 0 6px; border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.pro { background: #e3f4e8; border: 1px solid #1d6b3a; color: #1d6b3a; }
+.con { background: #fdf1cc; border: 1px solid #c08a00; color: #7a5600; }
+</style>
+</helmet>
+<div style="width: 2400px; height: 1590px; box-sizing: border-box; padding: 64px; display: flex; flex-direction: column; gap: 28px; background: #ffffff; color: #22252c; font-family: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;">
+  <header style="display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; gap: 16px; align-items: center; font-size: 14px; font-weight: 650; color: #5b6270; letter-spacing: 0.04em; text-transform: uppercase;"><a href="CUJ09-listing-from-portal-v2.dc.html" style="color: #2f5bd3;">Open v2</a><span>Journey 9 of 15 · desktop + phone</span></div>
+    <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+      <h1 style="margin: 0; font-size: 44px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;">CUJ-09 Listing from a portal · v4</h1>
+      <div style="padding: 6px 14px; border-radius: 999px; background: #22252c; color: #ffffff; font-size: 18px; font-weight: 800;">v2 4 → v4 4 steps</div>
+      <div style="font-size: 17px; color: #5b6270;">Save a listing → see it in the area → check its price</div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 18px; font-size: 14px;">
+      <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 28px; height: 18px; border: 2px dashed #7a8494; border-radius: 4px;"></div><div>v4 wireframe</div></div>
+      <div style="display: flex; align-items: center; gap: 8px;"><div style="width: 28px; height: 18px; outline: 3px solid #2f5bd3; outline-offset: 2px; border-radius: 4px;"></div><div>Tap</div></div>
+      <span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix N · shipped</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 12px; font-weight: 800; white-space: nowrap;">v4 Task N · planned</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #fde4e2; border: 1.5px solid #c0352c; color: #a52a22; font-size: 12px; font-weight: 800; white-space: nowrap;">open</span>
+      <div style="color: #5b6270;">Values illustrative</div>
+    </div>
+  </header>
+
+  <div class="cap" style="font-size: 14px;">Desktop · 1440 · dotted blue = the 1120 container</div>
+  <section style="display: flex; margin-top: -16px;">
+    <div class="col">
+      <div class="hdr"><div class="sh"><div class="n">1</div><div class="route">Portal listing</div></div><div class="note">Extension card: Save. With a My match search it also says if the home is inside it.</div><div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 12px; font-weight: 800; white-space: nowrap;">v4 Task 9</span></div></div>
+      <div class="ext">
+        <div class="cap">External · portal + Close Knit extension</div>
+        <div style="width: 320px; display: flex; flex-direction: column; gap: 6px;"><div class="bar" style="height: 60px;"></div><div class="bar"></div><div class="bar" style="width: 60%;"></div></div>
+        <div style="display: flex; gap: 8px; align-items: center;"><span class="tg pro" style="height: 22px; font-size: 12px;">Inside your search · St James's</span></div>
+        <div class="btn tap hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>Save to Close Knit</div>
+      </div>
+    </div><div class="ar"><div>Save</div><div class="ln"><i></i><b></b></div></div><div class="col">
+      <div class="hdr"><div class="sh"><div class="n">2</div><div class="route">/save-listing#listing=…</div></div><div class="note">Short Saved confirmation. Count goes up.</div><div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix 17</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 12px; font-weight: 800; white-space: nowrap;">v4 Task 16</span></div></div>
+      <div class="wf"><div class="hd"><div class="pl">≡ close knit <span class="srch">Search</span></div><div class="sp"></div><div class="pl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</div><div class="pl">Map →</div></div>
+        <div class="bd" style="align-items: flex-start; gap: 10px; padding-top: 22px;">
+          <div class="hrt" style="font-size: 20px; font-weight: 800;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#c0352c" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>Saved</div>
+          <div class="box">1 Example Street · SW1A · <b>£600,000</b> asking · 2 bed</div>
+          <div style="display: flex; gap: 8px;"><div class="btn tap">St James's →</div><div class="btn">Open Saved</div></div>
+          <div style="color: #5b6270;">Back to listing →</div>
+        </div>
+      </div>
+    </div><div class="ar"><div>St James's →</div><div class="ln"><i></i><b></b></div></div><div class="col">
+      <div class="hdr"><div class="sh"><div class="n">3</div><div class="route">/area/lsoa/E01000001#saved</div></div><div class="note">Opens at “Your homes here”, under the v3 header.</div><div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix 27G</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix 28</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix 22</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 12px; font-weight: 800; white-space: nowrap;">v4 Task 16</span></div></div>
+      <div class="wf"><div class="hd"><div class="pl">≡ close knit <span class="srch">Search</span></div><div class="sp"></div><div class="pl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</div><div class="pl">Map →</div></div>
+        <div class="bd" style="gap: 5px; padding-top: 6px;">
+          <div class="crumb">London › Westminster › St James's</div>
+          <div style="display: flex; align-items: center; gap: 4px;"><b style="font-size: 17px;">St James's · SW1A</b><span class="sp"></span><div class="tb hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg></div><div class="tb">Compare</div><div class="tb">On map</div><div class="tb">⋯</div></div>
+          <div style="font-size: 11px; color: #5b6270;">Central and green, close to everything; pricey, busy and loud.</div>
+          <div style="display: flex; gap: 3px; flex-wrap: wrap;"><span class="tg pro">+ Station 6 min walk</span><span class="tg pro">+ Park 2 min</span><span class="tg con">− Pricier than 99%</span><span class="tg con">− More crime than 97%</span></div>
+          <div class="hl">
+            <b>Your homes here · 1</b>
+            <div style="display: flex; align-items: center; gap: 6px;">1 Example Street · £600,000 asking<span class="sp"></span><div class="btn tap" style="padding: 2px 7px;">Check this price</div></div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px;"><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Price</span><span style="font-size: 11px; font-weight: 800; line-height: 1.1;">£17,900/m²</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(99% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Safety</span><span style="font-size: 11px; font-weight: 800; line-height: 1.1;">More crime than 97%</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(97% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Schools</span><span style="font-size: 11px; font-weight: 800; line-height: 1.1;">4 within 1.5 km</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(40% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Station walk</span><span style="font-size: 11px; font-weight: 800; line-height: 1.1;">6 min</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(12% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div></div>
+        </div>
+      </div>
+    </div><div class="ar"><div>Check this price</div><div class="ln"><i></i><b></b></div></div><div class="col">
+      <div class="hdr"><div class="sh"><div class="n">4</div><div class="route">/tools/check-a-home?home=…</div></div><div class="note">Starts at the asking price. Done.</div><div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;"><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 12px; font-weight: 800; white-space: nowrap;">v3 Fix 18</span><span style="display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 12px; font-weight: 800; white-space: nowrap;">v4 Task 16</span></div></div>
+      <div class="wf"><div class="hd"><div class="pl">≡ close knit <span class="srch">Search</span></div><div class="sp"></div><div class="pl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</div><div class="pl">Map →</div></div>
+        <div class="bd">
+          <div style="display: flex; gap: 4px;"><div class="tb" style="">Stamp duty</div><div class="tb" style="">Mortgage rates</div><div class="tb" style="">Buy-to-let</div><div class="tb" style="background: #22252c; color: #ffffff;">Check a home</div></div>
+          <div class="crumb">← 1 Example Street · St James's</div>
+          <div class="box" style="border-color: #c08a00; background: #fdf1cc;">Asking price<span class="sp"></span><b>£600,000</b></div>
+          <div style="display: flex; gap: 6px;"><div class="box" style="flex: 1;">Deposit<span class="sp"></span><b>£60,000</b></div><div class="box" style="flex: 1;">Rate<span class="sp"></span><b>4.78%</b></div></div>
+          <div class="box" style="background: #eef2f7;">Monthly<span class="sp"></span><b>£ [—]</b></div>
+          <div style="font-size: 11px; color: #5b6270;">Not advice ?</div>
+          <div style="display: flex; gap: 6px; margin-top: auto;"><div class="tb">Stamp duty · £600k →</div><div class="tb">St James's →</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cap" style="font-size: 14px; border-top: 2px solid #dfe7f0; padding-top: 22px;">Phone · 390</div>
+  <section style="display: flex; align-items: flex-start; margin-top: -16px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div class="sh"><div class="n">1</div><b>Portal</b></div>
+      <div class="ph" style="background: #f4f7fa; align-items: center; justify-content: center; gap: 10px; padding: 12px;">
+        <div class="cap">External</div><div class="bar" style="width: 160px; height: 90px;"></div>
+        <span class="tg pro">Inside your search</span>
+        <div class="btn tap hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>Save to Close Knit</div></div></div><div class="par"><div>Save</div><div class="ln"><i></i><b></b></div></div><div style="display: flex; flex-direction: column; gap: 8px;"><div class="sh"><div class="n">2</div><b>Saved</b></div>
+      <div class="ph"><div class="phd"><div class="pl" style="height: 22px; padding: 0 6px; font-size: 12px; gap: 4px;">≡ close knit <span class="srch" style="padding: 0 6px;">Search</span></div><span class="sp"></span><span class="hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</span></div><div class="pbd" style="padding-top: 20px;">
+          <b class="hrt" style="font-size: 16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="#c0352c" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>Saved</b>
+          <div class="box" style="font-size: 12px;">1 Example Street · £600,000</div>
+          <div class="btn tap" style="text-align: center;">St James's →</div>
+          <div class="btn" style="text-align: center;">Open Saved</div></div></div></div><div class="par"><div>Area</div><div class="ln"><i></i><b></b></div></div><div style="display: flex; flex-direction: column; gap: 8px;"><div class="sh"><div class="n">3</div><b>Area</b></div>
+      <div class="ph"><div class="phd"><div class="pl" style="height: 22px; padding: 0 6px; font-size: 12px; gap: 4px;">≡ close knit <span class="srch" style="padding: 0 6px;">Search</span></div><span class="sp"></span><span class="hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</span></div><div class="pbd" style="gap: 5px;">
+          <div class="crumb">Westminster › St James's</div>
+          <div style="display: flex; align-items: center; gap: 3px;"><b style="font-size: 15px;">St James's</b><span class="sp"></span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg><span class="tb">⋯</span></div>
+          <div style="font-size: 10px; color: #5b6270;">Central and green, close to everything; pricey, busy and loud.</div>
+          <div style="display: flex; gap: 3px; flex-wrap: wrap;"><span class="tg pro">+ Station 6 min walk</span><span class="tg con">− More crime than 97%</span></div>
+          <div class="hl" style="font-size: 12px;"><b>Your homes here</b><div>1 Example Street · £600k</div><div class="btn tap" style="text-align: center; padding: 2px 6px;">Check this price</div></div>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px;"><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Price</span><span style="font-size: 10px; font-weight: 800; line-height: 1.1;">£17,900/m²</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(99% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div><div style="border: 1px solid #7a8494; border-radius: 6px; padding: 4px 6px; display: flex; flex-direction: column; gap: 1px; min-width: 0;"><span style="font-size: 10px; color: #5b6270; font-weight: 700;">Safety</span><span style="font-size: 10px; font-weight: 800; line-height: 1.1;">More crime than 97%</span><div style="position: relative; height: 5px; background: linear-gradient(90deg, #dfe7f0, #7a8494); border-radius: 3px; margin-top: 3px;"><div style="position: absolute; left: 50%; top: -2px; width: 1px; height: 9px; background: #5b6270;"></div><div style="position: absolute; left: calc(97% - 4px); top: -2px; width: 9px; height: 9px; border-radius: 50%; background: #22252c;"></div></div></div></div></div></div></div><div class="par"><div>Check</div><div class="ln"><i></i><b></b></div></div><div style="display: flex; flex-direction: column; gap: 8px;"><div class="sh"><div class="n">4</div><b>Check a home</b></div>
+      <div class="ph"><div class="phd"><div class="pl" style="height: 22px; padding: 0 6px; font-size: 12px; gap: 4px;">≡ close knit <span class="srch" style="padding: 0 6px;">Search</span></div><span class="sp"></span><span class="hrt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0352c" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"></path></svg>4</span></div><div class="pbd">
+          <div style="display: flex; gap: 3px; overflow: hidden;"><div class="tb">Mortgage</div><div class="tb" style="background: #22252c; color: #ffffff;">Check a home</div></div>
+          <div class="crumb">← 1 Example Street</div>
+          <div class="box" style="font-size: 12px; border-color: #c08a00; background: #fdf1cc;">Asking<span class="sp"></span><b>£600,000</b></div>
+          <div class="box" style="font-size: 12px;">Deposit<span class="sp"></span><b>£60,000</b></div>
+          <div class="box" style="font-size: 12px;">Rate<span class="sp"></span><b>4.78%</b></div>
+          <div style="font-size: 11px; color: #5b6270;">Not advice ?</div></div></div></div>
+  </section>
+
+  <footer style="display: flex; flex-direction: column; gap: 10px; border-top: 2px solid #dfe7f0; padding-top: 18px;">
+    <div style="font-size: 20px; font-weight: 800;">Changes</div>
+    <div style="display: flex; flex-direction: column; gap: 8px;"><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 15px; font-weight: 800; white-space: nowrap;">v4 Task 9</span></div><div>Extension marks the listing inside or outside your My match search (CUJ-17).</div></div><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 15px; font-weight: 800; white-space: nowrap;">v3 Fix 17</span></div><div>/save-listing is a short confirmation: area link + Open Saved.</div></div><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 15px; font-weight: 800; white-space: nowrap;">v3 Fix 27G · 28</span></div><div>Area page: verdict, tags, fixed tiles, one chip bar; no x/10.</div></div><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 15px; font-weight: 800; white-space: nowrap;">v3 Fix 22</span></div><div>Save is ♡ only.</div></div><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e3f4e8; border: 1.5px solid #1d6b3a; color: #1d6b3a; font-size: 15px; font-weight: 800; white-space: nowrap;">v3 Fix 18</span></div><div>Tool tabs fixed; Not advice as one short line.</div></div><div style="display: flex; align-items: center; gap: 12px; font-size: 16px;"><div style="flex: none; width: 170px;"><span style="display: inline-flex; align-items: center; height: 30px; padding: 0 14px; border-radius: 999px; background: #e6ecfb; border: 1.5px solid #2f5bd3; color: #1f3f9e; font-size: 15px; font-weight: 800; white-space: nowrap;">v4 Task 16</span></div><div>Same 1120 container on save, area and tool pages.</div></div></div>
+    <div style="font-size: 14px; color: #5b6270;">open: none</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2400,"height":1590}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

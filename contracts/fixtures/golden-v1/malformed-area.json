@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "area-summary.v1",
+  "summary": {
+    "geographyId": "preview-area",
+    "metricId": "crime",
+    "period": "2026-06",
+    "value": "forty-eight",
+    "regionPercentile": 61,
+    "londonPercentile": 61,
+    "countryPercentile": 44,
+    "englandPercentile": 44,
+    "sampleCount": 120,
+    "quality": "observed",
+    "sourceVersion": "police-uk-2026-06",
+    "carrier": "lsoa"
+  },
+  "priceTimeline": [],
+  "metricTimeline": []
+}

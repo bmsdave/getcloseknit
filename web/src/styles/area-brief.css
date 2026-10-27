@@ -1,0 +1,274 @@
+/* The map's area brief (components/evidence-panel.tsx) and the full area
+   page (components/area-full-page.tsx). Additive: the brief reuses the tile,
+   map-reading and section styles; the page reuses the area-page shell. */
+
+/* Brief: the chosen home in two lines */
+.brief-home {
+  display: grid; gap: 2px; margin: 10px 0 0; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 12px;
+  background: rgb(var(--surface-rgb) / .58);
+}
+.brief-home__address { margin: 0; font: 700 14px/1.3 var(--font-sans); letter-spacing: 0; overflow-wrap: break-word; hyphens: auto; }
+.brief-home__line { margin: 0; font-size: 13px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+.brief-home__line strong { font-weight: 800; }
+.brief-home__line .help-tip, .brief-home .quality-note .help-tip { vertical-align: middle; }
+.brief-home__caveat, .listing-photos__note { color: var(--muted); font-size: 12px; }
+.brief-home__caveat a { color: inherit; text-underline-offset: 3px; }
+/* Links out to the portals' listing photos: calm chips (DESIGN.md §7), 44px targets */
+.listing-photos { display: grid; gap: 4px; margin: 6px 0 2px; }
+.listing-photos__title { margin: 0; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; }
+.listing-photos__portals { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.listing-photos__portal {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 999px;
+  background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 800; text-decoration: none;
+}
+.listing-photos__portal:hover { text-decoration: underline; text-underline-offset: 3px; }
+.brief-home .home-correction { display: grid; gap: 0; margin: 0; padding: 0; border: 0; }
+.brief-home .home-correction .quality-note { margin: 2px 0 0; padding: 0; border: 0; background: none; font-size: var(--fs-2xs, .75rem); }
+.home-correction__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin: 0; }
+.home-correction__page { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 800; text-underline-offset: 3px; }
+.brief-home .home-correction .chip-button { padding: 4px 10px; background: transparent; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.brief-home .home-correction .chip-button:hover { color: var(--ink); }
+
+/* Brief: one line on what a home costs */
+.brief-cost { display: grid; gap: 2px; padding: 6px 12px 8px; border-radius: 12px; background: var(--chip); }
+.brief-cost__row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 8px; margin: 0; }
+.brief-cost__title { margin: 0; color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; }
+.brief-cost__size {
+  min-height: 44px; padding: 0 8px; border: 1px solid var(--rule); border-radius: 10px;
+  color: var(--ink); background: var(--surface); font: 700 12px/1 var(--font-sans);
+}
+.brief-cost__value { font: 800 18px/1.1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.brief-cost__sum { flex: 1 1 auto; color: var(--muted); font-size: var(--fs-2xs, .75rem); }
+.brief-cost__title .help-tip { vertical-align: middle; }
+.brief-cost .overview-warning { margin: 2px 0 0; padding: 2px 2px 2px 8px; font-size: var(--fs-2xs, .75rem); }
+
+/* The map's area view: one header, then the peek or the full view, one sticky footer. */
+.evidence-panel.area-brief { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.area-brief__head { display: grid; gap: 0; min-width: 0; }
+/* The name and ♡ share a row; the dock's ✕ sits in the corner above them (layout.css .dock-head). */
+.area-brief__title-row { display: flex; align-items: center; gap: var(--space-1); min-width: 0; }
+.area-brief__title-row .area-brief__title { flex: 1 1 auto; min-width: 0; }
+.area-brief__title-row .save-heart { margin-right: -10px; }
+/* With no crumbs yet the title row is the first: it keeps clear of the dock's corner (its toggle). */
+.dock-area .area-brief__head > .area-brief__title-row:first-child { padding-right: 48px; }
+/* Watch beside ♡ (CUJ12 v4): a small chip, never wrapping; the title gives way (ellipsis) first. */
+.area-brief__watch {
+  flex: none; display: inline-flex; align-items: center; min-height: 44px; margin-block: -8px; padding: 0 12px; border: 0;
+  border-radius: var(--radius-pill); color: var(--ink); background: var(--chip); font: 800 var(--fs-xs, .8125rem)/1 var(--font-sans);
+  white-space: nowrap; cursor: pointer;
+}
+.area-brief__watch:hover { background: color-mix(in srgb, var(--chip), var(--ink) 6%); }
+.area-brief__watch:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* My match's score beside the name, as on its rows. */
+.area-brief__score {
+  flex: none; min-width: 32px; padding: 4px 8px; border-radius: var(--radius-pill); color: var(--ink); background: var(--chip);
+  font: 800 var(--fs-sm, .875rem)/1 var(--font-sans); font-variant-numeric: tabular-nums; text-align: center;
+}
+/* Out: the neutral hatch from globals.css, never the score chip's fill. */
+.area-brief__score.fit-popup__out { background: repeating-linear-gradient(45deg, color-mix(in srgb, var(--muted) 38%, transparent) 0 3px, var(--chip) 3px 8px); }
+/* "← My match": back to the list, the area still chosen. */
+.area-brief__back { justify-self: start; min-height: 44px; margin: -10px 0 -6px; padding: 0; font-weight: 800; }
+/* Compare · Like this · Check a home: one row of small chips over "Open full area page". */
+.area-panel-actions { flex: 1 1 100%; display: grid; gap: 0; margin: 0; }
+.area-panel-actions .area-save-actions__row { display: flex; flex-wrap: nowrap; gap: 4px; }
+.area-panel-actions .area-save-actions__button {
+  flex: 1 1 auto; justify-content: center; gap: 4px; min-width: 0; min-height: 44px; padding: 0 8px; white-space: nowrap; font-size: var(--fs-xs, .8125rem);
+}
+.area-panel-actions .area-save-actions__status:empty { display: none; }
+.area-panel-actions .area-save-actions__status { margin: 4px 0 0; font-size: var(--fs-xs, .8125rem); }
+/* Breadcrumbs as on the area page ("London › Sutton › Wallington · SM6"), a free row clear of the ✕. */
+/* One row that swipes when long; 32px tall, its buttons still 44px targets (they overlap the row's padding). */
+.area-brief__parents.area-page__crumbs { min-width: 0; margin: -8px 0 -6px; padding-right: 44px; color: var(--muted); font-size: var(--fs-xs, .8125rem); line-height: 1.4; }
+.area-brief__parents.area-page__crumbs ol { flex-wrap: nowrap; overflow-x: auto; padding: 6px 0; scrollbar-width: none; white-space: nowrap; }
+.area-brief__parents.area-page__crumbs ol::-webkit-scrollbar { display: none; }
+/* CUJ16: a row longer than its room fades where more of it waits (evidence-panel.tsx useCrumbFade), never a
+   name cut mid-word at a hard edge. */
+.area-brief__parents.area-page__crumbs ol[data-fade="end"] { mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
+.area-brief__parents.area-page__crumbs ol[data-fade="start"] { mask-image: linear-gradient(to right, transparent, #000 32px); }
+.area-brief__parents.area-page__crumbs ol[data-fade="both"] { mask-image: linear-gradient(to right, transparent, #000 32px, #000 calc(100% - 32px), transparent); }
+.area-brief__parents.area-page__crumbs li { flex: none; display: inline-flex; align-items: center; min-height: 32px; }
+.area-brief__parents .area-brief__parent { margin: -6px 0; }
+.area-brief__district { color: var(--ink); font-weight: 800; }
+.area-brief__parent {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; border: 0; background: none;
+  color: var(--ink); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+.area-brief__parent:hover { text-decoration-thickness: 2px; }
+.area-brief__parent:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+/* The panel's verdict reads smaller than the page's. */
+.evidence-panel.area-brief .area-verdict__line { font-size: var(--fs-md); }
+.evidence-panel.area-brief .standout-tiles-wrap { margin-top: 0; }
+/* A side panel is phone-narrow: the tiles two a row, the first six and "Show all 12", as on a phone (the board's dock). */
+.dock-area .standout-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.dock-area .standout-tiles:not([data-all]) > li[data-phone-extra] { display: none; }
+.dock-area .standout-tiles-wrap > .standout-tiles__more { display: inline-flex; justify-self: start; }
+.dock-area .standout-tile { padding: 8px 10px; }
+.dock-area .standout-tile__value { flex-basis: 100%; justify-content: flex-start; text-align: left; white-space: normal; }
+/* Peek (a phone's half height): every tag in view, wrapping onto a second row rather than running off
+   the screen (round-2 finding 3; the half grows to fit, map-dock.tsx usePeekFit); 4 compact tiles, 2 × 2. */
+.evidence-panel[data-view="peek"] .area-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.evidence-panel[data-view="peek"] .area-tags > li { flex: 0 1 auto; min-width: 0; }
+.evidence-panel[data-view="peek"] .area-tag { min-height: 32px; padding: 0 8px; font-size: var(--fs-xs, .8125rem); }
+/* Peek fits ≈ 400px on an 844px phone (the board): a tighter header, rows and tiles. */
+.evidence-panel[data-view="peek"] .standout-tile { min-height: 0; gap: 2px; padding: 6px 10px; }
+.evidence-panel.area-brief[data-view="peek"], .evidence-panel[data-view="peek"] .area-brief__body { gap: var(--space-2); }
+.evidence-panel[data-view="peek"] .area-verdict__line { font-size: var(--fs-sm); }
+.evidence-panel[data-view="peek"] .area-brief__parents.area-page__crumbs { margin-bottom: -12px; }
+.evidence-panel[data-view="peek"] .area-brief__title-row .save-heart { margin-block: -6px; }
+.map-dock .dock-area .evidence-panel[data-view="peek"] .area-brief__actions { padding-block: 6px; }
+.standout-tiles--loading[data-limit] { min-height: 140px; }
+/* A phone on its side (the 360px side panel over a short map): the tags swipe in one row too, so the
+   verdict and tags sit above the sticky footer. */
+@media (max-height: 500px) {
+  .dock-area .area-tags { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .dock-area .area-tags::-webkit-scrollbar { display: none; }
+  .dock-area .area-tags > li { flex: none; }
+  .dock-area .area-tag { white-space: nowrap; }
+  .dock-area .area-verdict__line { font-size: var(--fs-sm); }
+}
+
+/* The way on: pinned to the bottom of the panel (and of the mobile sheet) at every height, so
+   "Open full area page" is on screen whatever the view's height; a rule above it, as on the match card. */
+.area-brief__actions { display: flex; flex-wrap: wrap; gap: 6px; }
+/* My match's phone sheet shows the same view when an area is chosen in it: the same padding and footer. */
+.match-sheet .evidence-panel.area-brief { padding: 4px 16px 0; }
+.dock-area .area-brief__actions, .match-sheet .area-brief__actions {
+  /* Above the full view's sticky section chips (area-card.css, z-index 6). */
+  position: sticky; bottom: 0; z-index: 7; margin: 0 -20px; padding: 8px 20px;
+  border-top: 1px solid var(--rule); background: var(--panel-solid);
+}
+.match-sheet .area-brief__actions { margin: 0 -16px; padding: 8px 16px; }
+/* CUJ06 phone: at My match's opening height the footer follows the 4 tiles instead of sitting over them, so
+   the peek reads verdict, tags and tiles, then Compare · Like this · Check a home and the full area page. */
+.match-sheet .evidence-panel[data-view="peek"] .area-brief__actions { position: static; }
+.area-brief__primary, .area-full__primary {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  color: var(--on-primary); background: var(--primary); font-size: 13px; font-weight: 800; text-decoration: none;
+}
+.area-brief__primary { flex: 1 1 auto; }
+.area-brief__primary:hover, .area-full__primary:hover { background: color-mix(in srgb, var(--primary) 86%, var(--ink)); }
+.area-brief__secondary, .area-full__secondary {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px;
+  border: 1px solid var(--rule); border-radius: 12px; color: var(--ink); background: var(--chip);
+  font: 800 13px/1 var(--font-sans); text-decoration: none; cursor: pointer;
+}
+.area-brief__secondary:hover, .area-full__secondary:hover { border-color: var(--ink); }
+.area-brief__secondary[aria-expanded="true"] { color: var(--on-ink); background: var(--ink); border-color: var(--ink); }
+/* One column that never grows past the panel: the phone's scrolling action row must not widen the view. */
+.area-brief__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.area-brief__body .overview-about { margin-top: 0; }
+
+/* Full area page */
+.area-full .area-title { margin-top: 4px; }
+.area-full__actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.area-full .area-page__demo { margin-top: 12px; }
+.area-full__glance { display: grid; gap: 10px; margin-top: 22px; }
+/* The page's one hero price: full width, the size chips beside the price on wide screens. */
+.area-full__glance .overview-home { max-width: none; }
+
+/* One primary action and a "…" menu for the rest. */
+.area-full__more-menu { position: relative; }
+.area-full__more-menu > summary {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 12px;
+  border: 1px solid var(--rule); border-radius: 12px; color: var(--ink); font: 800 18px/1 var(--font-sans);
+  list-style: none; cursor: pointer;
+}
+.area-full__more-menu > summary::-webkit-details-marker { display: none; }
+.area-full__more-menu > summary:hover, .area-full__more-menu[open] > summary { border-color: var(--ink); }
+.area-full__menu {
+  position: absolute; z-index: 5; top: calc(100% + 6px); left: 0; display: grid; min-width: 180px; padding: 6px;
+  border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); box-shadow: 0 8px 24px rgb(var(--ink-rgb) / .16);
+}
+.area-full__menu a {
+  display: flex; align-items: center; min-height: 44px; padding: 0 10px; border-radius: 8px;
+  color: var(--ink); font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.area-full__menu a:hover { background: var(--chip); }
+/* Narrow phones: the menu opens leftwards from the "…" so it never passes the screen edge. */
+@media (max-width: 399px) { .area-full__menu { left: auto; right: 0; } }
+
+/* Sources: the official name and code, and nowhere else. */
+.area-full__sources { margin: 32px 0 0; padding-top: 14px; border-top: 1px solid var(--rule); color: var(--muted); font-size: 13px; line-height: 1.5; }
+.area-full__sources h2 { margin: 0 0 4px; color: var(--ink); font-size: 13px; font-weight: 800; }
+.area-full__sources p { margin: 0; }
+
+/* Phones: a smaller title, no eyebrow, so figures sit above the fold. */
+.area-page.area-full > .area-title > h1 { font-size: clamp(26px, 6vw, 56px); line-height: 1.1; }
+@media (max-width: 520px) {
+  .area-full .site-header + .eyebrow, .area-full .area-page__crumbs + .eyebrow { display: none; }
+  .area-full .area-page__crumbs { margin-top: 4px; }
+  .area-full .area-title { margin-top: 12px; }
+  .area-full__actions { margin-top: 10px; }
+  .area-full__glance { margin-top: 14px; }
+}
+.area-full__fold { display: flex; justify-content: flex-end; gap: 4px; margin: 18px 0 6px; }
+.area-full__fold button {
+  min-width: 44px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 99px;
+  color: var(--muted); background: transparent; font: 700 13px/1 var(--font-sans); cursor: pointer;
+}
+.area-full__fold button:hover { color: var(--ink); background: var(--chip); }
+.area-full__cards { display: grid; gap: 10px; }
+.area-card.evidence-section { padding: 0 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); scroll-margin-top: 12px; }
+.area-card.evidence-section:last-child { border-bottom: 1px solid var(--line); }
+.area-card .evidence-section__toggle { min-height: 60px; }
+.area-card .evidence-section__title { font-size: 17px; }
+.area-card .evidence-section__figure { font-size: 13px; }
+.area-card__body { max-width: 780px; padding-bottom: 18px; }
+.area-card__sources { margin-top: 4px; }
+.area-card__source + .area-card__source { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule); }
+.area-card__source p { margin: 0 0 4px; }
+.area-full__more { display: grid; gap: 16px; margin-top: 28px; scroll-margin-top: 12px; }
+.cost-prefill { margin: 0 0 8px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.area-full .site-header + .eyebrow { margin-top: 18px; }
+
+
+/* Home tools on the wide page: fields in columns, form controls at full size. */
+.area-full .cost-worksheet, .area-full .leasehold-checklist { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); column-gap: 16px; }
+.area-full .cost-worksheet > :not(label), .area-full .leasehold-checklist > :not(label) { grid-column: 1 / -1; }
+.area-full .user-candidates form { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px 16px; align-items: end; }
+.area-full .user-candidates form > button { justify-self: start; }
+.area-full .user-candidates label, .area-full .viewing-checklist label { display: grid; gap: 4px; color: var(--muted); font-size: 12px; font-weight: 700; }
+.area-full .user-candidates input, .area-full .user-candidates select,
+.area-full .viewing-checklist input, .area-full .viewing-checklist select {
+  min-width: 0; width: 100%; min-height: 44px; padding: 0 10px; border: 1px solid var(--field-line, var(--rule)); border-radius: 8px;
+  color: var(--ink); background: var(--surface); font: inherit;
+}
+
+/* Noise visit concerns: each checkbox row is a full 44px target. */
+.visit-planner fieldset label { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+
+@media (max-width: 640px) {
+  .area-full .evidence-section__toggle { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "icon title chevron" "icon figure chevron"; row-gap: 0; }
+  .area-full .evidence-section__toggle > .chart-icon { grid-area: icon; }
+  .area-full .evidence-section__title { grid-area: title; white-space: normal; }
+  .area-full .evidence-section__figure { grid-area: figure; text-align: left; white-space: normal; }
+  .area-full .evidence-section__chevron { grid-area: chevron; }
+  .area-card.evidence-section { padding: 0 12px; }
+}
+
+/* Print: the evidence on paper. A small close knit header (subpage.css); no links bar, next steps, help or toggle buttons
+   (the figures name what they show); every card open (closed ones mount on
+   beforeprint); web links show their address, as in the evidence pack. */
+@media print {
+  .area-full__actions, .area-full .area-save-actions, .area-full__fold, .area-full .evidence-section__chevron,
+  .area-full .help-tip__button, .area-full button[aria-pressed], .area-full .price-sample__toggle,
+  .area-full .housing-show-all, .area-full .chip-button { display: none !important; }
+  .area-full .area-card__body[hidden] { display: block !important; }
+  .area-full .area-card__toggle { break-after: avoid-page; }
+  .area-full a[href^="http"]::after { content: " <" attr(href) ">"; font-size: .8em; word-break: break-all; }
+}
+/* The empty panel's one line is an h2 (the page's h1 is the intro): no heading margin, no outline when focused for screen readers. */
+.evidence-panel .evidence-empty-line { margin: 0; }
+.dock-area .evidence-panel .evidence-empty-line:focus-visible { outline: none; }
+
+/* The evidence pack (app/area/[carrier]/[code]/pack): the official name beneath the friendly heading. */
+.market-pack > h1 + .market-pack__official { margin: -6px 0 0; color: var(--ink); font-size: var(--fs-md, 1rem); font-weight: 700; }
+.market-pack .site-header + .back-link { margin-top: 12px; }
+@media print {
+  .market-pack .pack-section > summary::after { content: none; }
+  .market-pack > .back-link, .market-pack .area-save-actions { display: none !important; }
+}
+
+/* The name in full (round-2 finding 2): it wraps to a second line rather than ending in "…". */
+.evidence-panel.area-brief .area-brief__title h1 { display: block; font-size: var(--fs-xl); line-height: 1.15; white-space: normal; overflow-wrap: anywhere; }
+@media (max-height: 500px) { .evidence-panel.area-brief .area-brief__title h1 { font-size: var(--fs-lg); } }

@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>html,body{margin:0;background:#fff}#map{position:absolute;inset:0}.maplibregl-ctrl-attrib{display:none}#out{display:none}</style>
+</head>
+<body>
+<div id="map"></div>
+<pre id="out"></pre>
+<script>
+const q = new URLSearchParams(location.search);
+const theme = q.get('theme') || 'day';
+const T = theme === 'night'
+  ? {bg:'#16203a', water:'#0c1a35', park:'#18293a', building:'#1d2944', road:'#27334f', major:'#34436a', casing:'#1b2540', rail:'#2c3858', label:'#a9b6cc', halo:'#16203a', boundary:'#2a3656'}
+  : {bg:'#f4f7fa', water:'#cfe5f6', park:'#e2f1e6', building:'#e5eaf1', road:'#ffffff', major:'#ffffff', casing:'#d9e0e9', rail:'#cdd5df', label:'#5b6270', halo:'#f4f7fa', boundary:'#cfd8e3'};
+const map = new maplibregl.Map({
+  container: 'map', style: 'https://tiles.openfreemap.org/styles/positron',
+  center: [parseFloat(q.get('lng')), parseFloat(q.get('lat'))], zoom: parseFloat(q.get('z')),
+  interactive: false, attributionControl: false, fadeDuration: 0, preserveDrawingBuffer: true
+});
+window.M = map;
+map.on("load", () => {
+  for (const l of map.getStyle().layers) {
+    const id = l.id, set = (p, v) => { try { map.setPaintProperty(id, p, v); } catch (e) {} };
+    if (l.type === 'background') set('background-color', T.bg);
+    else if (l.type === 'fill') {
+      if (/water|ocean|lake/.test(id)) set('fill-color', T.water);
+      else if (/park|wood|grass|landcover|green|cemetery/.test(id)) set('fill-color', T.park);
+      else if (/building/.test(id)) { set('fill-color', T.building); set('fill-outline-color', T.building); }
+      else set('fill-color', T.bg);
+    } else if (l.type === 'line') {
+      if (/water|river|canal/.test(id)) set('line-color', T.water);
+      else if (/rail|transit/.test(id)) set('line-color', T.rail);
+      else if (/boundary|admin/.test(id)) set('line-color', T.boundary);
+      else if (/casing/.test(id)) set('line-color', T.casing);
+      else if (/motorway|trunk|primary|major/.test(id)) set('line-color', T.major);
+      else set('line-color', T.road);
+    } else if (l.type === 'symbol') {
+      set('text-color', T.label); set('text-halo-color', T.halo);
+    } else if (l.type === 'fill-extrusion') { set('fill-extrusion-color', T.building); }
+  }
+  const firstSymbol = map.getStyle().layers.find(l => l.type === 'symbol').id;
+  const night = theme === 'night';
+  map.addSource('zones', { type: 'geojson', data: 'zones.geojson' });
+  map.addLayer({ id: 'zones-fill', type: 'fill', source: 'zones', paint: {
+    'fill-color': night ? ['step', ['get', 'score'], '#1a2644', 45, '#203763', 55, '#285089', 65, '#336fb4', 75, '#4aa3df'] : ['step', ['get', 'score'], '#eef5fb', 45, '#cfe6f6', 55, '#9fd0f0', 65, '#5fb2e6', 75, '#2b8fd6'],
+    'fill-opacity': night ? 0.62 : 0.52 } }, firstSymbol);
+  map.addLayer({ id: 'zones-line', type: 'line', source: 'zones', paint: { 'line-color': night ? '#0f1729' : '#ffffff', 'line-width': 0.8, 'line-opacity': 0.8 } }, firstSymbol);
+  map.addLayer({ id: 'zones-sel', type: 'line', source: 'zones', filter: ['==', ['get', 'sel'], 1], paint: { 'line-color': night ? '#f6c445' : '#22252c', 'line-width': 3 } }, firstSymbol);
+});
+map.once('idle', () => {
+  const pts = JSON.parse(q.get('pts') || '[]');
+  document.getElementById('out').textContent = JSON.stringify(pts.map(p => { const a = map.project(p); return [Math.round(a.x * 10) / 10, Math.round(a.y * 10) / 10]; }));
+  document.title = 'ready';
+});
+</script>
+</body>
+</html>

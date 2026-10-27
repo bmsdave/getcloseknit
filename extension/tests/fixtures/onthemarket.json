@@ -1,0 +1,106 @@
+{
+ "18872270": {
+  "props": {
+   "pageProps": {
+    "initialReduxState": {
+     "property": {
+      "id": "18872270",
+      "price": "£650,000",
+      "humanisedPropertyType": "Apartment",
+      "epc": {
+       "rating": "B"
+      },
+      "keyInfo": [
+       {
+        "title": "Tenure",
+        "value": "Leasehold"
+       },
+       {
+        "title": "Ground rent",
+        "value": "£405.48 per annum  |  review period: unconfirmed"
+       },
+       {
+        "title": "Service charge",
+        "value": "£4,398.94 per annum"
+       },
+       {
+        "title": "Council tax",
+        "value": "Band D"
+       }
+      ],
+      "daysSinceAddedReduced": "Added > 14 days"
+     },
+     "metadata": {
+      "dataLayer": {
+       "channel": "sale"
+      }
+     }
+    }
+   }
+  }
+ },
+ "19344065": {
+  "props": {
+   "pageProps": {
+    "initialReduxState": {
+     "property": {
+      "id": "19344065",
+      "price": "£750,000",
+      "humanisedPropertyType": "Apartment",
+      "epc": {
+       "rating": "C"
+      },
+      "keyInfo": [
+       {
+        "title": "Tenure",
+        "value": "Leasehold  |  112 yrs left"
+       },
+       {
+        "title": "Council tax",
+        "value": "Band D"
+       }
+      ],
+      "daysSinceAddedReduced": "Reduced < 7 days"
+     },
+     "metadata": {
+      "dataLayer": {
+       "channel": "sale"
+      }
+     }
+    }
+   }
+  }
+ },
+ "19520649": {
+  "props": {
+   "pageProps": {
+    "initialReduxState": {
+     "property": {
+      "id": "19520649",
+      "price": "£750,000",
+      "humanisedPropertyType": "Apartment",
+      "epc": {
+       "rating": null
+      },
+      "keyInfo": [
+       {
+        "title": "Tenure",
+        "value": "Ask agent"
+       },
+       {
+        "title": "Council tax",
+        "value": "Ask agent"
+       }
+      ],
+      "daysSinceAddedReduced": "Added > 14 days"
+     },
+     "metadata": {
+      "dataLayer": {
+       "channel": "sale"
+      }
+     }
+    }
+   }
+  }
+ }
+}

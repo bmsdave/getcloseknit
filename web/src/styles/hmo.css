@@ -1,0 +1,10 @@
+/* HMOs and licensing in the Homes section (components/hmo.tsx). */
+.area-hmo { display: grid; gap: 6px; margin: 18px 0 0; }
+.area-hmo h3 { display: flex; align-items: center; gap: var(--space-1); margin: 0; font-size: var(--fs-md); }
+.area-hmo__bars { display: grid; gap: 6px; margin: 0; }
+.area-hmo__bars > div { display: grid; grid-template-columns: 6em auto minmax(0, 1fr); align-items: center; gap: 10px; }
+.area-hmo__bars dt, .area-hmo__bars dd { margin: 0; font-size: var(--fs-xs); }
+.area-hmo__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.area-hmo__line { margin: 0; font-size: var(--fs-xs); }
+.area-hmo__status { margin: 0; color: var(--muted); font-size: var(--fs-2xs); }
+.area-hmo__schemes { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; font-size: var(--fs-xs); }

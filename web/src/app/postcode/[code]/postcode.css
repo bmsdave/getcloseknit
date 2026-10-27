@@ -1,0 +1,171 @@
+/* Postcode page infographics (components/postcode-visuals.tsx, postcode-sales-chart.tsx).
+   Mobile first: one column; stats and tiles grow to more columns on wider screens. */
+.postcode-intro { margin-bottom: 0; }
+
+.postcode-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0 14px; }
+.postcode-stat, .postcode-tile {
+  display: grid; align-content: start; gap: 4px; min-width: 0; padding: 14px; border: 1px solid var(--line);
+  border-radius: 14px; background: var(--surface); color: var(--ink);
+}
+/* The last sale leads by size and an accent edge, on the same surface as the other tiles (no inverted ink card). */
+.postcode-stat[data-lead] { grid-column: 1 / -1; border-left: 4px solid var(--accent); }
+.postcode-stat__label { color: var(--muted); font: 800 var(--fs-2xs, .75rem)/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+.postcode-stat__value { font: 700 clamp(24px, 6vw, 32px)/1.05 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: -0.02em; }
+.postcode-stat[data-lead] .postcode-stat__value { font-size: clamp(36px, 10vw, 52px); }
+.postcode-stat__detail { color: var(--muted); font-size: 13px; line-height: 1.35; }
+/* Words ("Too few recent sales") and the flats/houses split wrap at a smaller size. */
+.postcode-stat__value[data-long] { font-size: clamp(20px, 5vw, 24px); white-space: normal; }
+.postcode-stat__kinds { display: grid; gap: 2px; }
+.postcode-stat__area { display: block; margin-top: 2px; color: var(--ink); font-weight: 700; }
+/* Phone: the last sale and the typical price span the row; an odd one out at the end spans it too. */
+.postcode-hero > [data-testid="postcode-typical-price"] { grid-column: 1 / -1; }
+.postcode-stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+.postcode-panel { margin-top: 14px; padding: 18px 16px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+/* While the area evidence streams in: the chart and comparison panels at their own height, so nothing below jumps. */
+.postcode-skeleton { background: color-mix(in srgb, var(--wool) 45%, var(--surface)); }
+.postcode-skeleton--chart { min-height: 300px; }
+.postcode-skeleton--compare { min-height: 390px; }
+@media (prefers-reduced-motion: no-preference) {
+  .postcode-skeleton { animation: postcode-skeleton-breathe 1.6s ease-in-out infinite; }
+}
+@keyframes postcode-skeleton-breathe { 50% { opacity: 0.6; } }
+.postcode-section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin: 36px 0 10px; }
+.postcode-section-head h2 { margin: 0; font: 700 26px/1.1 var(--font-display); letter-spacing: -0.02em; }
+/* Panel headings are H2s, styled small like the chart kit's titles. */
+.postcode-panel__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 12px; }
+.postcode-panel__head h2 { margin: 0; color: var(--muted); font: 800 12px/1.2 var(--font-sans); letter-spacing: .08em; text-transform: uppercase; }
+.postcode-panel__note, .postcode-chart__caption { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: 13px; }
+.postcode-mix__single { margin: 0; color: var(--ink); font-size: 15px; font-weight: 700; }
+.postcode-tile__value[data-long] { font-size: 18px; line-height: 1.2; }
+/* "Show all" buildings, and the page's one Sources fold. */
+.postcode-more > summary, .postcode-sources > summary {
+  display: inline-flex; align-items: center; min-height: 44px; margin: 6px 0; padding: 0 16px; border-radius: 999px;
+  background: var(--chip); color: var(--ink); font-weight: 700; cursor: pointer; list-style: none;
+}
+.postcode-more > summary::-webkit-details-marker, .postcode-sources > summary::-webkit-details-marker { display: none; }
+.postcode-more[open] .postcode-more__closed, .postcode-more:not([open]) .postcode-more__open { display: none; }
+.postcode-sources { margin-top: 28px; }
+.postcode-sources__body { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+/* Sales over time */
+.postcode-chart { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.postcode-chart__switch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.postcode-chart__switch button {
+  min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 99px; background: var(--chip);
+  color: var(--ink); font: 700 13px/1 var(--font-sans); cursor: pointer;
+}
+.postcode-chart__switch button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--on-ink); }
+.postcode-chart__switch button:disabled { opacity: .45; cursor: not-allowed; }
+.postcode-chart__switch button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.postcode-chart__count { margin-left: auto; color: var(--muted); font-size: 12px; }
+.postcode-chart__plot { min-width: 0; overflow: hidden; }
+.postcode-chart__plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.postcode-chart__line { fill: none; stroke: var(--tone); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.postcode-chart__line[data-chart-tone="c2"] { stroke-dasharray: 6 4; }
+.postcode-chart__dot { fill: var(--ink); fill-opacity: .8; stroke: var(--surface); stroke-width: 1.5; }
+.postcode-chart__legend { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 12px; }
+.postcode-chart__legend li { display: inline-flex; align-items: center; gap: 6px; }
+.postcode-chart__key { display: inline-block; width: 16px; height: 3px; border-radius: 2px; background: var(--tone); }
+.postcode-chart__key--dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink); }
+/* Flats filled, houses hollow, other types muted: shape, not only colour. */
+.postcode-chart__dot[data-kind="house"] { fill: var(--surface); fill-opacity: 1; stroke: var(--ink); stroke-width: 2; }
+.postcode-chart__dot[data-kind="other"] { fill: var(--muted); }
+.postcode-chart__key--dot[data-kind="house"] { background: var(--surface); box-shadow: inset 0 0 0 2px var(--ink); }
+.postcode-chart__key--dot[data-kind="other"] { background: var(--muted); }
+
+/* Compared with the area; the homes mix */
+.postcode-compare, .postcode-mix { display: grid; gap: 18px; }
+.postcode-compare__lead { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.45; }
+.postcode-compare__chart h3, .postcode-mix__part h3 { margin: 0 0 6px; color: var(--ink); font-size: 14px; }
+.postcode-mix__part small { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+/* Living here: area-card essentials as tiles linking to the card */
+.postcode-living__tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0 0 12px; padding: 0; list-style: none; }
+.postcode-living__tiles li { display: grid; }
+.postcode-tile { text-decoration: none; }
+.postcode-tile:hover { border-color: var(--ink); }
+.postcode-tile:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.postcode-tile__value { font: 700 24px/1.1 var(--font-display); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* Around here: the nearest Geograph photos, each with its photographer and licence */
+.postcode-photos { margin-top: 14px; }
+.postcode-photos__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 0 0 8px; padding: 0; list-style: none; }
+.postcode-photos figure { margin: 0; display: grid; gap: 6px; }
+.postcode-photos img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; border-radius: 12px; background: var(--surface); }
+.postcode-photos a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.postcode-photos figcaption { display: grid; gap: 2px; color: var(--muted); }
+.postcode-photos__title { color: var(--ink); font-size: 13px; line-height: 1.3; }
+.postcode-photos__more h3 { margin: 6px 0 6px; color: var(--ink); font-size: 14px; }
+.postcode-photos__more ul { display: grid; gap: 6px; margin: 0 0 8px; padding: 0; list-style: none; }
+.postcode-photos__more li { font-size: 13px; line-height: 1.35; }
+.postcode-photos__more .licence-note { color: var(--muted); }
+
+/* Every recorded sale: folded building cards under one heading */
+.postcode-sales .building-card h3 { margin: 0; font: 700 20px/1.15 var(--font-display); letter-spacing: -0.02em; }
+.postcode-sales .building-card > summary h3 { margin: 0; }
+
+@media (min-width: 720px) {
+  .postcode-hero { grid-template-columns: 1.25fr repeat(3, minmax(0, 1fr)); }
+  .postcode-stat__value { font-size: clamp(20px, 2.4vw, 26px); }
+  .postcode-stat[data-lead] .postcode-stat__value { font-size: clamp(28px, 3.4vw, 38px); }
+  .postcode-stat[data-lead], .postcode-stat:last-child:nth-child(odd), .postcode-hero > [data-testid="postcode-typical-price"] { grid-column: auto; }
+  .postcode-hero[data-count="2"] { grid-template-columns: 1fr 1.6fr; }
+  .postcode-panel { padding: 22px 24px; }
+  .postcode-skeleton--chart { min-height: 460px; }
+  .postcode-skeleton--compare { min-height: 265px; }
+  .postcode-compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .postcode-compare__lead { grid-column: 1 / -1; }
+  .postcode-mix { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 22px 28px; }
+  /* Sizes are the tall list: they take the right column; type, rating and tenure stack on the left, no gaps. */
+  .postcode-mix__part--size { grid-column: 2; grid-row: 1 / span 3; }
+  /* One or two size bands are short: a plain two-by-two grid, no empty right column. */
+  .postcode-mix__part--size[data-short] { grid-column: auto; grid-row: auto; }
+  /* Last sale, the typical price (the longest text) and the counts. */
+  .postcode-hero[data-count="3"] { grid-template-columns: 1.1fr 1.6fr 1fr; }
+  .postcode-living__tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .postcode-photos__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.postcode-stat__sep { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* The page's link row. */
+.postcode-page .panel-links a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; font-size: var(--fs-sm, .875rem); font-weight: 700;
+}
+.postcode-page .panel-links a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+/* The title with On map · Watch · ♡ beside it (under it on a narrow phone). */
+.postcode-title { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; margin-top: 8px; }
+.postcode-title h1 { margin: 0; }
+.postcode-title__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.postcode-title__actions .save-heart { background: var(--chip); }
+.postcode-title__actions .save-heart:hover { background: color-mix(in srgb, var(--chip) 80%, var(--ink)); }
+.postcode-title + .sector-chip { margin-top: 8px; }
+/* The friendly line under the postcode: the headline figures said as a sentence. */
+.postcode-summary { max-width: 62ch; margin: 4px 0 0; color: var(--ink); font-size: var(--fs-lg, 1.125rem); line-height: 1.45; }
+.postcode-page .property-notice { margin: 4px 0 8px; }
+/* Stacked on a phone, the 44px link targets need no extra row gap. */
+main.postcode-page .panel-links { row-gap: 0; }
+
+/* The postcode sector chip under the heading: links to /sector/W5-1. */
+.sector-chip {
+  display: inline-flex; align-items: center; min-height: 36px; margin: 0 0 12px; padding: 0 14px; border-radius: 999px;
+  background: var(--chip); color: var(--ink); font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.sector-chip:hover { text-decoration: underline; text-underline-offset: 3px; }
+.sector-chip:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* Homes here, at the top: one row per home (address link, type, last sale), "All N homes" in the head. */
+.postcode-homes-here__all { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: var(--fs-sm, .875rem); font-weight: 700; }
+.postcode-homes-here__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.postcode-homes-here__list li {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--space-3, 12px); align-items: baseline;
+  min-height: 44px; padding: var(--space-2, 8px) 0; border-top: 1px solid var(--line);
+}
+.postcode-homes-here__list li:first-child { border-top: 0; }
+/* At least 24px tall: the address is the row's link (tap target floor). */
+.postcode-homes-here__name { display: flex; align-items: center; min-width: 0; min-height: 24px; font-weight: 700; overflow-wrap: anywhere; }
+.postcode-homes-here__type { grid-row: 2; color: var(--muted); font-size: var(--fs-sm, .875rem); }
+.postcode-homes-here__sale {
+  grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--ink); font-size: var(--fs-sm, .875rem);
+  font-variant-numeric: tabular-nums; text-align: right;
+}

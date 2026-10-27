@@ -1,0 +1,6 @@
+{
+ "url": "https://www.onthemarket.com/for-sale/property/hackney/",
+ "scripts": [],
+ "nextData": "{\"props\": {\"pageProps\": {\"initialReduxState\": {\"results\": {\"list\": [{\"id\": \"4446213\", \"bedrooms\": 2, \"price\": \"\\u00a3730,000\", \"humanised-property-type\": \"Flat\", \"location\": {\"lon\": -0.058092, \"lat\": 51.5387645}, \"details-url\": \"/details/4446213/\", \"days-since-added-reduced\": \"Added on 12/10/2026\"}, {\"id\": \"20571821\", \"bedrooms\": 1, \"price\": \"\\u00a3400,000\", \"humanised-property-type\": \"Apartment\", \"location\": {\"lon\": -0.05997, \"lat\": 51.558535}, \"details-url\": \"/details/20571821/\", \"days-since-added-reduced\": \"Reduced yesterday\"}, {\"id\": \"20444550\", \"bedrooms\": 2, \"price\": \"\\u00a3525,000\", \"humanised-property-type\": \"Apartment\", \"location\": {\"lon\": -0.073324, \"lat\": 51.55148}, \"details-url\": \"/details/20444550/\", \"days-since-added-reduced\": \"Added > 14 days\"}, {\"id\": 3275}, {\"id\": \"18182906\", \"bedrooms\": 1, \"price\": \"\\u00a3553,000\", \"humanised-property-type\": \"Apartment\", \"location\": {\"lon\": -0.062363, \"lat\": 51.534188}, \"details-url\": \"/details/18182906/\"}]}}}}}",
+ "listingData": []
+}

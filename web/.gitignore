@@ -1,0 +1,8 @@
+.next/
+node_modules/
+playwright-report/
+test-results/
+public/maplibre/
+# The area tiles built locally (deploy/tools/area_pmtiles.py web/public/tiles): next dev serves them.
+public/tiles/
+*.tsbuildinfo

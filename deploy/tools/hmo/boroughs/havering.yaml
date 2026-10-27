@@ -1,0 +1,36 @@
+# Havering: HMO licence register and licensing schemes, researched 2026-10-18.
+code: E09000016
+slug: havering
+name: Havering
+register:
+  status: search-only      # published | search-only | on-request | not-found
+  url: https://housingpropertylicence.havering.gov.uk/public-register
+  page: https://www.havering.gov.uk/information-landlords/private-rented-property-licensing/3
+  format: null
+  sheet: null
+  postcode_column: null
+  rows: null
+  updated: null
+  terms: none stated
+  retrieved: 2026-10-18
+schemes:
+- kind: additional
+  wards: all
+  start: 2026-03-18
+  end: 2031-03-17
+  url: https://www.havering.gov.uk/propertylicensing
+- kind: selective
+  wards:
+  - Beam Park
+  - Harold Wood
+  - Rainham and Wennington
+  - Rush Green and Crowlands
+  - Squirrels Heath
+  - St Albans
+  - St Edwards
+  start: 2026-03-18
+  end: 2031-03-17
+  url: https://www.havering.gov.uk/propertylicensing
+notes: >-
+  Public register is a postcode search (Metastreet portal, reCAPTCHA); no download. The council's CSVs "Additional Licensing Scheme 1/2
+  Designation List 29 July 2022" list every address in the designated areas (address, postcode, ward), not licences, so are not a register.

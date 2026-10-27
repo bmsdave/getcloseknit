@@ -1,0 +1,159 @@
+# Hammersmith & Fulham (205): on-time offer documents, from the phase-0 source audit (2026-10-11).
+# licence_decision: approved only where the council's terms state OGL; otherwise unresolved
+# (loaded with publishable = false). aliases: name as printed -> URN, for names match.py cannot
+# resolve. Per-doc review keys: drop_counts: <reason> (counts known to be wrong), accept: [problem].
+la: 205
+slug: hammersmith_fulham
+name: Hammersmith & Fulham
+licence:
+  statement: All original council information material, including our logo and the content of this website,
+    is subject to council copyright. To ask for permission to copy and reuse our content, please email
+    webmaster@lbhf.gov.uk
+  url: https://web.archive.org/web/20190404014900/https://www.lbhf.gov.uk/councillors-and-democracy/data-and-information/freedom-information/copyright-re-using-our-information
+licence_decision: unresolved
+aliases:
+  Normand Croft Primary School: '134273'
+  Normand Croft Community School: '134273'
+  Larmenier & Sacred Heart: '134009'
+  St John XXIII Primary School: '149641'
+  St John's Walham Green: '100349'
+  St Peter's C of E Primary School: '100352'
+  St Thomas of Canterbury: '152441'
+  Fulham Cross Girls' School: '139365'
+docs:
+- phase: primary
+  year: 2021
+  url: https://web.archive.org/web/20220130092035/https://www.lbhf.gov.uk/sites/default/files/section_attachments/starting-school-2022.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - offers
+  accept:
+  - "'The Fulham Bilingual': no URN"
+  - "'Ark Swift Primary Academy': no URN"
+  - "'The London Oratory School Junior House': no URN"
+  accept_note: The Fulham Bilingual and Ark Swift Primary Academy are in neither table school nor
+    the GIAS London extract (2026-10-11); The London Oratory School Junior House (year 3 entry) prints
+    no breakdown ('contact the school'). Left out.
+- phase: primary
+  year: 2022
+  url: https://web.archive.org/web/20221118200823/https://www.lbhf.gov.uk/sites/default/files/section_attachments/starting_school_2023_web.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - offers
+  accept:
+  - "'The Fulham Bilingual': no URN"
+  - "'Ark Swift Primary Academy': no URN"
+  - "'The London Oratory School Junior House': no URN"
+  accept_note: The Fulham Bilingual and Ark Swift Primary Academy are in neither table school nor
+    the GIAS London extract (2026-10-11); The London Oratory School Junior House (year 3 entry) prints
+    no breakdown ('contact the school'). Left out.
+- phase: primary
+  year: 2023
+  url: https://web.archive.org/web/20240716051454/https://www.lbhf.gov.uk/sites/default/files/2024-05/Starting%20school%20-%202024.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - offers
+  accept:
+  - "'The Fulham Bilingual': no URN"
+  - "'Ark Swift Primary Academy': no URN"
+  - "'The London Oratory School Junior House': no URN"
+  accept_note: The Fulham Bilingual and Ark Swift Primary Academy are in neither table school nor
+    the GIAS London extract (2026-10-11); The London Oratory School Junior House (year 3 entry) prints
+    no breakdown ('contact the school'). Left out.
+- phase: primary
+  year: 2024
+  url: https://web.archive.org/web/20250416140305/https://www.lbhf.gov.uk/sites/default/files/2025-02/starting-primary-school-brochure-2025-rev1.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - offers
+  accept:
+  - "'The Fulham Bilingual': no URN"
+  - "'Ark Swift Primary Academy': no URN"
+  - "'The London Oratory School Junior House': no URN"
+  accept_note: The Fulham Bilingual and Ark Swift Primary Academy are in neither table school nor
+    the GIAS London extract (2026-10-11); The London Oratory School Junior House (year 3 entry) prints
+    no breakdown ('contact the school'). Left out.
+- phase: primary
+  year: 2025
+  url: https://web.archive.org/web/20251006131238/https://www.lbhf.gov.uk/sites/default/files/2025-09/primary-starting-school-2026-brochure-final.pdf
+  format: pdf-text
+  units: miles
+  method: null
+  counts:
+  - offers
+- phase: secondary
+  year: 2020
+  url: https://web.archive.org/web/20220419163117/https://www.lbhf.gov.uk/sites/default/files/section_attachments/moving_on_up_brochure_2021.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2021
+  url: https://web.archive.org/web/20211013083819/https://www.lbhf.gov.uk/sites/default/files/section_attachments/moving-on-up-2022.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2022
+  url: https://web.archive.org/web/20220421112405/https://www.lbhf.gov.uk/sites/default/files/section_attachments/how-hf-school-places-were-offered-2022.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2023
+  url: https://web.archive.org/web/20240517170213/https://www.lbhf.gov.uk/sites/default/files/section_attachments/how_lbhf_school_places_were_offered_2023.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2024
+  url: https://web.archive.org/web/20240618072014/https://www.lbhf.gov.uk/sites/default/files/2024-03/secondary-school-allocations-places-2024.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+- phase: secondary
+  year: 2025
+  url: https://web.archive.org/web/20250413133751/https://www.lbhf.gov.uk/sites/default/files/2025-02/how-lbhf-school-places-were-offered-2025_0.pdf
+  format: pdf-text
+  units: miles
+  method: straight-line
+  counts:
+  - applicants
+  - offers
+catchment_maps: null
+notes: 'Secondary: standalone "How places were offered for LBHF secondary schools for <year>" PDFs (per
+  school: places, applications, offers per criterion/band and "last offer up to X miles straight-line");
+  for 2020-2021 the same boxes are in the "Moving on up" brochure of the following year (verified: 2021
+  brochure = "How places were offered in 2020"; the 2026 brochure repeats 2025). Primary: per-school "How
+  places were offered in <previous year>" boxes in the "Starting school" brochure (siblings/staff/distance
+  offer counts, "last distance offered up to X of a mile"); verified 2022 brochure = 2021, 2025 brochure
+  = 2024; others inferred from the pattern. lbhf.gov.uk now returns 404 for every old file and page tried
+  (homepage 200), so all URLs are Wayback. Several snapshots are truncated at about 1 MB: the starting_school_brochure_2021
+  (2020 data) snapshot 20201021104054 is the only one, so primary 2020 is missing; full-size snapshots
+  were picked for the rest. Gaps: primary 2019, 2020 and 2026; secondary 2019 and 2026. Search engines
+  still index hf_secondary_outcomes_-_2019.pdf and sec_offer_outcomes_2021.pdf under section_attachments,
+  but both return 404 live and are not in Wayback. The "how ... offered 2025" file sits in a 2025-02 folder
+  but its numbers differ from the 2024 file, so it is treated as 2025 NOD.'
