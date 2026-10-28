@@ -41,6 +41,11 @@ must find `cost` tokens in every window or it is a 429 and nothing is taken:
              render reading the same detail path again (the page and its metadata) pays once.
              The key is compared in constant time; with it unset, or a wrong or
              missing one sent, the headers are ignored and the read is classed as above.
+  crawler    a search crawler's address (crawler_ranges: Google's and Bing's published ranges):
+             its default, discovery, bulk, hizoom, detail and render reads, at their usual
+             costs; report and download stay as they are. A person's budget turned a crawl of
+             ~1,140 sitemaps and ~300,000 pages into 429s. CLOSE_KNIT_CRAWLER_RANGES replaces
+             the ranges ("none" turns this off)          1200/minute,30000/hour,300000/day
 Tools are classed by name through TOOL_POLICY, both on /api/v2/tools/{name} and for
 MCP tools/call: a POST /mcp body (at most 64 KB, else 413) is read, classed and
 replayed; a JSON-RPC batch gets a 400 so one charge always covers one call.
@@ -86,7 +91,7 @@ from typing import Any, Callable, Mapping
 
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
-from . import assistant_ranges, feature_flags
+from . import assistant_ranges, crawler_ranges, feature_flags
 
 log = logging.getLogger(__name__)
 
@@ -110,6 +115,10 @@ DEFAULT_LIMITS = {
     "download": "2/minute,4/hour,10/day",
     "render": "30/minute,600/hour,3000/day",
 }
+# A search crawler's class (module docstring): apart from DEFAULT_LIMITS, which /about#teams publishes for people.
+CRAWLER_LIMITS = {"crawler": "1200/minute,30000/hour,300000/day"}
+# The classes a search crawler's reads are charged to "crawler" instead (module docstring).
+CRAWLER_CLASSES = ("default", "discovery", "bulk", "hizoom", "detail", "render")
 LEGACY_ENV = {"default": "CLOSE_KNIT_RATE_LIMIT", "bulk": "CLOSE_KNIT_TILE_RATE_LIMIT"}
 # Day windows of these classes are charged to the IPv6 /48 as well as the /64;
 # the /48 gets WIDE_DAY_FACTOR times the allowance.
@@ -200,7 +209,7 @@ def limits_from_env(env: Mapping[str, str], shared: bool = False) -> dict[str, t
     """Each class's windows; per-worker buckets (`shared` False) split the hour and day allowances."""
     limits = {}
     share = 1 if shared else workers(env)
-    for name, default in DEFAULT_LIMITS.items():
+    for name, default in {**DEFAULT_LIMITS, **CRAWLER_LIMITS}.items():
         configured = env.get(f"CLOSE_KNIT_RATE_{name.upper()}")
         rates = parse_rates(configured or default)
         legacy = env.get(LEGACY_ENV.get(name, ""))
@@ -223,6 +232,11 @@ def parse_ranges(text: str) -> tuple[Network, ...]:
 def assistant_ranges_from_env(env: Mapping[str, str]) -> tuple[Network, ...]:
     configured = env.get("CLOSE_KNIT_ASSISTANT_RANGES", "").strip()
     return parse_ranges(configured) if configured else parse_ranges(",".join(assistant_ranges.DEFAULT))
+
+
+def crawler_ranges_from_env(env: Mapping[str, str]) -> tuple[Network, ...]:
+    configured = env.get("CLOSE_KNIT_CRAWLER_RANGES", "").strip()
+    return parse_ranges(configured) if configured else parse_ranges(",".join(crawler_ranges.DEFAULT))
 
 
 def assistant_range(key: str, ranges: tuple[Network, ...]) -> str | None:
@@ -557,6 +571,8 @@ class RateLimiter:
     renders: "RecentIds | SharedBuckets" = field(default_factory=RecentIds)
     # Assistant egress ranges whose MCP sessions get their own buckets (module docstring).
     assistant_ranges: tuple[Network, ...] = ()
+    # Search crawlers' published ranges, charged to the crawler class (module docstring).
+    crawler_ranges: tuple[Network, ...] = ()
 
     @classmethod
     def from_env(cls) -> "RateLimiter":
@@ -566,7 +582,8 @@ class RateLimiter:
         return cls(limits=limits_from_env(os.environ, shared=store is not None),
                    trust_proxy=os.environ.get("CLOSE_KNIT_TRUST_PROXY") == "1",
                    internal_key=key.encode() if key else None,
-                   assistant_ranges=assistant_ranges_from_env(os.environ), **shared)
+                   assistant_ranges=assistant_ranges_from_env(os.environ),
+                   crawler_ranges=crawler_ranges_from_env(os.environ), **shared)
 
     def reset(self) -> None:
         """Forget every bucket and render id (tests: each starts with a full allowance)."""
@@ -617,6 +634,8 @@ class RateLimiter:
     def charge(self, scope: Scope, policy: Policy) -> Decision:
         name, cost = policy
         client = self.client(scope)
+        if name in CRAWLER_CLASSES and assistant_range(client, self.crawler_ranges) is not None:
+            name = "crawler"
         key = self.bucket_key(scope, name, client)
         rates = self.limits[name]
         windows = [(f"{name}:{key}", rate) for rate in rates]

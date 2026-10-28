@@ -16,12 +16,13 @@ import { areaCrumbs } from "@/lib/entity-nav";
 import { formatPricePerSquareMetre } from "@/lib/overview-scorecard";
 import type { AddressId, GeographyId, Carrier } from "@/lib/contracts";
 import { isTransientStatus, serverArea, serverStandouts } from "@/lib/deployment";
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
 import { applyEnvDefaults, parseMapState } from "@/lib/map-state";
 import { isUprn } from "@/lib/property-profile";
 import { loadPropertyProfile } from "@/lib/property-profile-server";
 import { regionScope, scopeName } from "@/lib/scope-name";
-import { NOT_FOUND_METADATA, pageMetadata, placeJsonLd, siteOrigin } from "@/lib/seo";
+import { areaSearchDescription, areaSearchTitle, NOT_FOUND_METADATA, pageMetadata, placeJsonLd, siteOrigin } from "@/lib/seo";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 
 interface AreaPageProps {
   params: Promise<{ carrier: string; code: string }>;
@@ -41,11 +42,9 @@ async function areaHeadline(geography: GeographyId): Promise<{ title: string; na
   const name = title ?? "Neighbourhood";
   const value = area.summary?.value;
   return {
-    title: name,
+    title: areaSearchTitle(name, "lsoa", ""),
     name,
-    description: value != null
-      ? `${name}: ${formatPricePerSquareMetre(value)} (${area.summary?.period}), with crime, flood, schools, transport and homes evidence.`
-      : `${name}: area evidence from validated public data.`,
+    description: areaSearchDescription(name, "lsoa", "", value != null ? formatPricePerSquareMetre(value) : null),
   };
 }
 
@@ -64,7 +63,7 @@ async function PlaceData({ geography }: { geography: GeographyId }) {
   if (!headline || !origin) return null;
   const data = placeJsonLd(origin, {
     name: headline.name, path: areaPath({ geographyId: geography }), description: headline.description,
-    region: scopeName(regionScope(trail[0]?.regionCode)),
+    region: scopeName(regionScope(trail[0]?.regionCode)), administrative: geography.startsWith("uk:lad:"),
   });
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: data }} />;
 }
@@ -91,7 +90,7 @@ export default async function AreaPage({ params, searchParams }: AreaPageProps) 
   const area = await serverArea(geography);
   // An API that refuses or fails (429, 503) gets a page saying so with Try again, never an
   // empty "London neighbourhood" shell with only its Sources.
-  if (isTransientStatus(area.status)) return <PageUnavailable status={area.status} what="area" />;
+  if (isTransientStatus(area.status)) return unavailablePage(area.status, "area");
   if (!area.known) notFound();
   // The map's mode and release, when the link carries them, win over the deployment's defaults
   // (demo on a real deployment only with ?dev=1).
@@ -111,6 +110,7 @@ export default async function AreaPage({ params, searchParams }: AreaPageProps) 
     uprn && isUprn(uprn) ? loadPropertyProfile(uprn) : null, loadAreaTrail(geography), serverStandouts(geography, mode),
     readAreaPageSeed(seedQuery, await headers()),
   ]);
+  const crumbs = areaCrumbs(trail, area.friendly?.friendlyName?.trim() || area.summary?.name || null);
   return (
     <SectionSeedProvider seed={seed}>
     <AreaFullPage
@@ -123,10 +123,11 @@ export default async function AreaPage({ params, searchParams }: AreaPageProps) 
       uprn={uprn && isUprn(uprn) ? uprn : null}
       addressId={address && /^uk:addr:[0-9a-f]+$/.test(address) ? address as AddressId : null}
       tenure={home?.body?.profile.facts.tenure ?? null}
-      crumbs={areaCrumbs(trail, area.friendly?.friendlyName?.trim() || area.summary?.name || null)}
+      crumbs={crumbs}
       standouts={standouts}
     />
     <PlaceData geography={geography} />
+    <BreadcrumbData crumbs={crumbs} path={areaPath({ geographyId: geography })} />
     </SectionSeedProvider>
   );
 }

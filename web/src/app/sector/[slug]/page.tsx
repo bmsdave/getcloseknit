@@ -8,6 +8,7 @@ import { SatinBlock, SatinValueBar } from "@/components/knit/satin";
 import { DemoNotice } from "@/components/property-profile";
 import { SectorDistributionChart, SectorIndexChart } from "@/components/sector-charts";
 import { SiteHeader } from "@/components/site-header";
+import { retryLaterForCrawlers } from "@/components/unavailable-page";
 import type { NearbySector, SectorStreet, SectorValue } from "@/lib/contracts";
 import { serverSector } from "@/lib/deployment";
 import { formatMonth } from "@/lib/market";
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: SectorPageProps): Promise<Met
   if (!found || !value) return { title: "Postcode sector" };
   // This segment's opengraph-image.tsx is the card: no image here.
   return pageMetadata({
-    title: `${sectorTitle(value.sector)}: £/m², price index and streets`,
+    title: `${sectorTitle(value.sector)}: house prices per m² and streets`,
     description: describe(value),
     path: sectorPath(found.code),
     image: null,
@@ -64,8 +65,10 @@ export default async function SectorPage({ params }: SectorPageProps) {
   if (!found) notFound();
   if ((await params).slug !== found.slug) permanentRedirect(sectorPath(found.code));
   const { mode, status, sector: value } = found.loaded;
-  if ((status >= 400 && status < 500) || (!value && mode === "demo")) notFound();
+  // A refused read (429) is "try again", never a 404 for a real sector.
+  if ((status >= 400 && status < 500 && status !== 429) || (!value && mode === "demo")) notFound();
   if (!value) {
+    await retryLaterForCrawlers(status, "sector");
     return (
       <main className="methodology postcode-page sector-page" data-testid="sector-page">
         <SiteHeader />

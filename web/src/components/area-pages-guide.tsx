@@ -4,6 +4,7 @@ import { friendlyTitle, plainPlaceName } from "@/lib/area-labels";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import type { GeographyId } from "@/lib/contracts";
 import { regionScope, scopeName } from "@/lib/scope-name";
+import { areaSearchDescription, areaSearchTitle } from "@/lib/seo";
 
 /**
  * The title and description of a borough or wider neighbourhood (MSOA) page. Both pages are the area
@@ -18,11 +19,7 @@ export async function areaGuideMetadata(geography: GeographyId): Promise<{ title
   if (!area || area.geographyId !== geography) return null;
   const region = scopeName(regionScope(area.regionCode ?? trail[0]?.regionCode));
   const name = friendlyTitle(area) ?? plainPlaceName(area.name) ?? area.name;
-  // A local authority's title names its region ("Bristol · South West"): several share a name with a town elsewhere.
-  const titled = area.carrier === "lad" ? `${name} · ${region}` : name;
-  return {
-    title: `${titled}: prices, crime, schools and deprivation`,
-    name,
-    description: `${name}, ${region}: typical price per square metre, recorded crime, schools, deprivation and income${area.carrier === "lad" ? ", with every area inside it" : ""}.`,
-  };
+  // A local authority's title names its region ("Bristol, South West"): several share a name with a town elsewhere.
+  const carrier = area.carrier === "lad" ? "lad" : "msoa";
+  return { title: areaSearchTitle(name, carrier, region), name, description: areaSearchDescription(name, carrier, region) };
 }

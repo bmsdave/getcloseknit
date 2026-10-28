@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
 import { connection } from "next/server";
 
+import { serverDefaults } from "@/lib/deployment";
 import { homeSitemapIndex, homeSitemapSectors } from "@/lib/home-sitemap";
 import { sectorSlug } from "@/lib/sector";
-import { homeSitemapPaths, siteOrigin } from "@/lib/seo";
+import { homeSitemapPaths, siteOrigin, sitemapEntries } from "@/lib/seo";
 
 /** One shard per postcode sector: /postcode/sitemap/W5-1.xml (listed by /sitemap-index.xml). */
 export async function generateSitemaps(): Promise<{ id: string }[]> {
@@ -14,6 +15,6 @@ export async function generateSitemaps(): Promise<{ id: string }[]> {
 export default async function sitemap({ id }: { id: Promise<string> }): Promise<MetadataRoute.Sitemap> {
   await connection();
   const origin = (await siteOrigin()) ?? "";
-  const { postcodes, uprns } = await homeSitemapIndex(await id);
-  return homeSitemapPaths(postcodes, uprns).map((path) => ({ url: `${origin}${path}` }));
+  const [{ postcodes, uprns }, defaults] = await Promise.all([homeSitemapIndex(await id), serverDefaults()]);
+  return sitemapEntries(origin, homeSitemapPaths(postcodes, uprns), defaults.served?.productReleaseId);
 }

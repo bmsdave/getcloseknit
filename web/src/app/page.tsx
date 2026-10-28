@@ -9,7 +9,7 @@ import { BASE_STYLE } from "@/lib/map-core";
 import { mapPreloads } from "@/lib/map-preload";
 import { PANEL_WIDTH_BOOT } from "@/lib/panel-width";
 import { applyEnvDefaults, DEV_QUERY_PARAM, parseMapState, selectedFitZoom, shouldFitSelectedArea } from "@/lib/map-state";
-import { pageMetadata, siteDescription, siteOrigin, siteTitle, websiteJsonLd } from "@/lib/seo";
+import { homeDescription, homeTitle, pageMetadata, siteOrigin, websiteJsonLd } from "@/lib/seo";
 
 interface HomePageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -19,7 +19,8 @@ interface HomePageProps {
 // hash, which link previews never see, so a preview never carries anyone's search.
 export async function generateMetadata(): Promise<Metadata> {
   const england = await serverCoversEngland();
-  return pageMetadata({ title: siteTitle(england), description: siteDescription(england), path: "/" });
+  // Short enough for a search result (lib/seo.ts › homeTitle); the layout default and the site card keep the full line.
+  return pageMetadata({ title: homeTitle(), description: homeDescription(england), path: "/" });
 }
 
 export default async function HomePage({ searchParams }: HomePageProps) {

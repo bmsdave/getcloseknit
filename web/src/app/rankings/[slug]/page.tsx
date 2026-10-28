@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 
 import { AreaPageShell, AreaUnavailable, DemoNote, RankingLinks } from "@/components/area-pages";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { Breadcrumbs } from "@/components/entity-nav";
 import { HelpTip } from "@/components/help-tip";
 import {
@@ -125,12 +126,14 @@ function LevelSwitch({ boroughs }: { boroughs: string | null }) {
  * ranking's school dots, a full load so the map reads its Show overlays from the address.
  */
 function RankingHeader({ ranking, onMap = null }: { ranking: RankingDefinition; onMap?: string | null }) {
+  const crumbs = [
+    { label: "London", href: "/area/london" }, { label: "Rankings", href: "/rankings" },
+    { label: ranking.group, href: `/rankings#${rankingGroupAnchor(ranking.group)}` },
+  ];
   return (
     <>
-      <Breadcrumbs label="Where this ranking sits" crumbs={[
-        { label: "London", href: "/area/london" }, { label: "Rankings", href: "/rankings" },
-        { label: ranking.group, href: `/rankings#${rankingGroupAnchor(ranking.group)}` },
-      ]} />
+      <Breadcrumbs label="Where this ranking sits" crumbs={crumbs} />
+      <BreadcrumbData crumbs={[...crumbs, { label: ranking.title, href: null }]} path={`/rankings/${ranking.slug}`} />
       <div className="ranking-title">
         <h1>{ranking.title}</h1>
         {onMap && ranking.kind !== "school" && (

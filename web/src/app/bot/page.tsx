@@ -6,11 +6,13 @@ import { SiteHeader } from "@/components/site-header";
 import { SubpageHero } from "@/components/subpage-hero";
 import { BOT_USER_AGENT } from "@/lib/bot";
 import { contactEmail, contactMailto } from "@/lib/contact";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "CloseKnitBot",
   description: "What CloseKnitBot reads on estate agents' websites, how politely, and how to opt out.",
-};
+  path: "/bot",
+});
 
 export default function BotPage() {
   const CONTACT = contactEmail();

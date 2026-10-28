@@ -1,4 +1,4 @@
-"""Discovery surface for agents that are not MCP clients (Meta Muse, crawlers):
+"""Discovery surface for agents that are not MCP clients (assistants with web tools, crawlers):
 where the tools are, what they return, and where the OpenAPI document lives."""
 import os
 
@@ -52,6 +52,25 @@ def mcp_server_card() -> JSONResponse:
         "tools": "dynamic",  # SEP-1649: full Tool objects or "dynamic"; tools/list has them
     }
     return JSONResponse(card, headers={"Access-Control-Allow-Origin": "*"})
+
+
+@router.get("/.well-known/mcp.json", summary="Where the MCP server is (domain-level pointer)")
+def mcp_pointer(request: Request) -> JSONResponse:
+    """One file at the domain root that directories such as mcpub read before they list a server: the endpoint,
+    its transport, and the richer manifest and card next to it."""
+    base = public_base_url(request)
+    return JSONResponse({
+        "name": mcp_server.REGISTRY_NAME,
+        "title": mcp_server.SERVER_TITLE,
+        "description": mcp_server.SERVER_DESCRIPTION,
+        "version": mcp_server.SERVER_VERSION,
+        "endpoint": f"{base}{mcp_server.MCP_PATH}",
+        "transport": "streamable-http",
+        "authentication": "none",
+        "manifest": f"{base}/.well-known/mcp/server.json",
+        "serverCard": f"{base}/.well-known/mcp/server-card.json",
+        "documentation": f"{base}/agents",
+    }, headers={"Access-Control-Allow-Origin": "*"})
 
 
 @router.get("/.well-known/mcp-registry-auth", response_class=PlainTextResponse,

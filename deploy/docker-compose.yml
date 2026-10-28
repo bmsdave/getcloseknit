@@ -118,6 +118,10 @@ services:
       # Assistant egress CIDRs (comma-separated) whose MCP sessions get their own budgets; empty = the
       # published Claude and ChatGPT ranges (api/area_api/assistant_ranges.py), "none" = off.
       CLOSE_KNIT_ASSISTANT_RANGES: ${CLOSE_KNIT_ASSISTANT_RANGES:-}
+      # Search crawler CIDRs charged to the crawler class; empty = Google's and Bing's published ranges
+      # (api/area_api/crawler_ranges.py), "none" = off.
+      CLOSE_KNIT_RATE_CRAWLER: ${CLOSE_KNIT_RATE_CRAWLER:-}
+      CLOSE_KNIT_CRAWLER_RANGES: ${CLOSE_KNIT_CRAWLER_RANGES:-}
       # Legacy single rates: the minute window of default and bulk.
       CLOSE_KNIT_RATE_LIMIT: ${CLOSE_KNIT_RATE_LIMIT:-}
       CLOSE_KNIT_TILE_RATE_LIMIT: ${CLOSE_KNIT_TILE_RATE_LIMIT:-}

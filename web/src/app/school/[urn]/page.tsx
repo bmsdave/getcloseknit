@@ -4,12 +4,13 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { cache } from "react";
 
 import { Breadcrumbs, WhatsNext } from "@/components/entity-nav";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { DemoNotice } from "@/components/property-profile";
 import { SchoolCardView } from "@/components/school/school-card";
 import { SiteHeader } from "@/components/site-header";
 import { areaPath } from "@/lib/area-pages";
 import { loadAreaTrail } from "@/lib/area-pages-data";
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
 import { isTransientStatus, serverArea } from "@/lib/deployment";
 import { beginRender } from "@/lib/server-render";
 import { areaCrumbs, upLinks, type Crumb } from "@/lib/entity-nav";
@@ -54,7 +55,7 @@ export default async function SchoolPage({ params, searchParams }: SchoolPagePro
   if (!card) {
     // A refused (429) or failed read is a page with Try again, never a 404 for a real school
     // nor a thrown render (HTTP 500, React #441 when opened in the app).
-    if (isTransientStatus(status)) return <PageUnavailable status={status} what="school" />;
+    if (isTransientStatus(status)) return unavailablePage(status, "school");
     notFound();
   }
   if (card.details.successorUrn && card.details.successorUrn !== urn) permanentRedirect(schoolPath(card.details.successorUrn));
@@ -89,6 +90,7 @@ export default async function SchoolPage({ params, searchParams }: SchoolPagePro
       <SiteHeader />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ld }} />
       <Breadcrumbs crumbs={crumbs} />
+      <BreadcrumbData crumbs={crumbs} path={schoolPath(urn)} />
       {back && <Link className="school-page__back" href={back} data-testid="school-back">← Back to the area</Link>}
       <DemoNotice mode={mode} />
       <SchoolCardView card={card} distance={distance}

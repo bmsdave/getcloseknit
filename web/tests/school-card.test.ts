@@ -111,8 +111,11 @@ test("straight-line distance from an area's centre", () => {
 
 test("the page title names Ofsted and results only when known; JSON-LD has no rating", () => {
   const card = demoSchoolCard("100002")!;
-  assert.equal(schoolTitle(card), "North London Secondary Preview – Ofsted Good (2023) · GCSE results 2024/25");
-  assert.match(schoolTitle(demoSchoolCard("100001")!), /Ofsted report card \(2026\) · KS2 results 2024\/25$/);
+  // Within a search result: the years go first (60 characters), the results next.
+  assert.equal(schoolTitle(card, 80), "North London Secondary Preview – Ofsted Good (2023) · GCSE results 2024/25");
+  assert.equal(schoolTitle(card), "North London Secondary Preview – Ofsted Good · GCSE results");
+  assert.equal(schoolTitle(card, 45), "North London Secondary Preview – Ofsted Good");
+  assert.match(schoolTitle(demoSchoolCard("100001")!, 90), /Ofsted report card \(2026\) · KS2 results 2024\/25$/);
   assert.equal(schoolSchemaType("primary"), "ElementarySchool");
   assert.equal(schoolSchemaType("secondary"), "HighSchool");
   const ld = JSON.parse(schoolJsonLd("https://x.test", { type: "HighSchool", name: "A", path: "/school/100002", postcode: "N1 1AA", locality: "Islington", latitude: 51.5, longitude: -0.1 }));

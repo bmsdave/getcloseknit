@@ -6,8 +6,9 @@ from unittest import mock
 
 from area_api import ratelimit
 from area_api.ratelimit import (
-    DEFAULT_LIMITS, EXPENSIVE, MAX_SESSION_ID, RENDER_ID_TTL, TOOL_POLICY, Rate, RateLimiter, RecentIds, TokenBuckets,
-    assistant_range, assistant_ranges_from_env, classify, classify_mcp, client_key, limits_from_env, parse_ranges,
+    CRAWLER_LIMITS, DEFAULT_LIMITS, EXPENSIVE, MAX_SESSION_ID, RENDER_ID_TTL, TOOL_POLICY, Rate, RateLimiter, RecentIds, TokenBuckets,
+    assistant_range, assistant_ranges_from_env, classify, classify_mcp, client_key, crawler_ranges_from_env, limits_from_env,
+    parse_ranges,
     parse_rate, parse_rates, render_id)
 
 try:
@@ -160,7 +161,7 @@ class BucketTests(unittest.TestCase):
 
     def test_env_classes_and_legacy_minute_rates(self):
         limits = limits_from_env({})
-        self.assertEqual(set(limits), set(DEFAULT_LIMITS))
+        self.assertEqual(set(limits), set(DEFAULT_LIMITS) | set(CRAWLER_LIMITS))
         self.assertEqual(limits["hizoom"], (Rate(200, 60), Rate(600, 3600), Rate(1000, 86400)))
         legacy = limits_from_env({"CLOSE_KNIT_RATE_LIMIT": "90/minute", "CLOSE_KNIT_TILE_RATE_LIMIT": "300/minute"})
         self.assertEqual(legacy["default"], (Rate(90, 60), Rate(2000, 3600), Rate(10000, 86400)))
@@ -459,6 +460,57 @@ class AssistantSessionTests(unittest.TestCase):
         assistant, other = asyncio.run(run())
         self.assertEqual(assistant, [200] * 5 + [429], "assistant_init: 5/minute in this test")
         self.assertEqual(other, [200, 200, 429], "elsewhere initialize stays on default: 2/minute in this test")
+
+
+GOOGLEBOT_ADDRESS = "66.249.66.1"
+BINGBOT_ADDRESS = "157.55.39.10"
+
+
+class CrawlerClassTests(unittest.TestCase):
+    """Googlebot and Bingbot, by their published ranges, crawl on the crawler class; people and other bots stay limited."""
+
+    def limiter(self):
+        return RateLimiter(limits=limits_from_env({}), trust_proxy=True, buckets=TokenBuckets(clock=FakeClock()),
+                           internal_key=KEY.encode(), crawler_ranges=crawler_ranges_from_env({}))
+
+    def test_ranges_default_to_googles_and_bings_published_ones(self):
+        ranges = crawler_ranges_from_env({})
+        self.assertIsNotNone(assistant_range(GOOGLEBOT_ADDRESS, ranges), "Googlebot")
+        self.assertIsNotNone(assistant_range(BINGBOT_ADDRESS, ranges), "Bingbot")
+        self.assertIsNotNone(assistant_range("2001:4860:4801:10::/64", ranges), "Googlebot over IPv6 (a /64 key)")
+        self.assertIsNone(assistant_range("203.0.113.5", ranges))
+        self.assertIsNone(assistant_range(CLAUDE_EGRESS, ranges), "an assistant is not a crawler")
+        self.assertEqual(crawler_ranges_from_env({"CLOSE_KNIT_CRAWLER_RANGES": "none"}), ())
+        self.assertEqual(limits_from_env({})["crawler"], (Rate(1200, 60), Rate(30000, 3600), Rate(300000, 86400)))
+
+    def test_a_crawl_of_every_sitemap_is_never_refused_while_a_person_is(self):
+        limiter = self.limiter()
+        # 1,140 sitemaps in a minute: each reads the API once or twice on the default class.
+        crawled = [limiter.charge(scope("10.0.0.2", GOOGLEBOT_ADDRESS), ("default", 1)).allowed for _ in range(1140)]
+        self.assertTrue(all(crawled), crawled.count(False))
+        person = [limiter.charge(scope("10.0.0.2", "203.0.113.5"), ("default", 1)).allowed for _ in range(200)]
+        self.assertEqual(person.count(True), 120, "a person keeps 120/minute")
+
+    def test_page_renders_of_a_crawler_are_not_refused_at_a_persons_30_a_minute(self):
+        limiter = self.limiter()
+        for index in range(300):
+            render = f"render-{index:06d}"
+            self.assertTrue(limiter.charge_render(render_scope(render=render, address=BINGBOT_ADDRESS), render).allowed, index)
+        refused = [limiter.charge_render(render_scope(render=f"person-{i:06d}"), f"person-{i:06d}").allowed for i in range(40)]
+        self.assertEqual(refused.count(True), 30)
+
+    def test_a_crawler_still_has_a_ceiling_and_keeps_report_and_download_limits(self):
+        limiter = self.limiter()
+        googlebot = scope("10.0.0.2", GOOGLEBOT_ADDRESS)
+        self.assertEqual(sum(limiter.charge(googlebot, ("default", 1)).allowed for _ in range(1300)), 1200)
+        self.assertEqual(sum(limiter.charge(googlebot, ("report", 1)).allowed for _ in range(10)), 5)
+        self.assertEqual(sum(limiter.charge(googlebot, ("download", 1)).allowed for _ in range(5)), 2)
+
+    def test_a_crawler_user_agent_from_another_address_is_a_person(self):
+        limiter = self.limiter()
+        fake = {**scope("10.0.0.2", "198.51.100.7"), "headers": [(b"x-forwarded-for", b"198.51.100.7"),
+                                                              (b"user-agent", b"Googlebot/2.1")]}
+        self.assertEqual(sum(limiter.charge(fake, ("default", 1)).allowed for _ in range(200)), 120)
 
 
 class QueryGuardTests(unittest.TestCase):

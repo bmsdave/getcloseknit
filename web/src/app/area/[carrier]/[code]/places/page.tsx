@@ -12,7 +12,8 @@ import { fetchApi, isTransientStatus, serverArea } from "@/lib/deployment";
 import { placesPath, readAreaPlaces, type AreaPlacesState } from "@/lib/places";
 import { fixtureAreaPlaces } from "@/lib/places-fixture";
 import type { DataMode } from "@/lib/map-state";
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { REAL_PILOT_RELEASE } from "@/lib/map-state";
 import { SiteHeader } from "@/components/site-header";
 import { NOT_FOUND_METADATA, pageMetadata } from "@/lib/seo";
@@ -52,7 +53,7 @@ async function serverPlaces(geography: GeographyId, uprn: string | null, mode: D
 export default async function AreaPlacesPage({ params, searchParams }: PlacesPageProps) {
   const geography = await resolveGeography(params);
   const area = await serverArea(geography);
-  if (isTransientStatus(area.status)) return <PageUnavailable status={area.status} what="area" />;
+  if (isTransientStatus(area.status)) return unavailablePage(area.status, "area");
   if (!area.known) notFound();
   const { uprn } = await searchParams;
   const home = uprn && /^[0-9]{1,12}$/.test(uprn) ? uprn : null;
@@ -60,10 +61,12 @@ export default async function AreaPlacesPage({ params, searchParams }: PlacesPag
   const title = areaTitle(official, area.friendly).title ?? geography;
   const release = area.release ?? (area.mode === "real" ? REAL_PILOT_RELEASE : "demo");
   const [trail, places] = await Promise.all([loadAreaTrail(geography), serverPlaces(geography, home, area.mode, release)]);
+  const crumbs = areaCrumbs(trail, area.friendly.friendlyName?.trim() || official);
   return (
     <main className="places-page area-page" data-testid="places-page">
       <SiteHeader />
-      <Breadcrumbs crumbs={areaCrumbs(trail, area.friendly.friendlyName?.trim() || official)} label="Where this area sits" />
+      <Breadcrumbs crumbs={crumbs} label="Where this area sits" />
+      <BreadcrumbData crumbs={[...crumbs, { label: "Places", href: null }]} path={`${areaPath({ geographyId: geography })}/places`} />
       {geography.startsWith("uk:lsoa:") && <BackToArea geographyId={geography} name={title.split(" · ")[0]} />}
       <h1 className="places-page__title">{title}</h1>
       <PlacesSection geographyId={geography} uprn={home} mode={area.mode} release={release} initial={places} />

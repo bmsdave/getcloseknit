@@ -5,7 +5,7 @@ import { cache } from "react";
 import { loadAreaMarket } from "@/app/postcode/[code]/area-context";
 import { HomeAreaSections } from "@/components/home-area-sections";
 import { HomePage, homeFloodContext, type HomeData } from "@/components/home-page";
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import type { GeographyId } from "@/lib/contracts";
 import { serverDefaults } from "@/lib/deployment";
@@ -51,7 +51,7 @@ export default async function StreetHomePage({ params }: StreetHomePageProps) {
   if (!loaded) notFound();
   const { home, mode } = loaded;
   // A busy or unreachable API gets a page saying so with Try again, never a 500.
-  if ("unavailable" in home) return <PageUnavailable status={home.unavailable} what="home" />;
+  if ("unavailable" in home) return unavailablePage(home.unavailable, "home");
   if ("uprn" in home) redirect(`/property/${home.uprn}`);
   if ("postcodePage" in home) redirect(`/postcode/${postcodeSlug(loaded.postcode)}`);
   const areaId = home.areaId as GeographyId | null;

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import type { GeographyId } from "@/lib/contracts";
 import { areaCrumbs, type Crumb } from "@/lib/entity-nav";
@@ -34,7 +34,7 @@ export default async function PostcodeHomesPage({ params }: PostcodeHomesPagePro
   if (!postcode) notFound();
   const loaded = await loadPostcodeHomes(postcode);
   if (loaded.status === 404 || loaded.status === 400) notFound();
-  if (!loaded.body) return <PageUnavailable status={loaded.status} what="list of homes" />;
+  if (!loaded.body) return unavailablePage(loaded.status, "list of homes");
   const { body } = loaded;
   return (
     <PostcodeHomesView postcode={body.postcode} homes={body.homes} disclaimer={body.disclaimer} mode={loaded.mode} withheld={body.withheld}

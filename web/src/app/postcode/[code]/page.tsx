@@ -11,6 +11,8 @@ import { PostcodeSalesChart } from "@/components/postcode-sales-chart";
 import { SaveItemButton } from "@/components/save-item-button";
 import { WatchListings } from "@/components/watch-listings";
 import { Breadcrumbs, WhatsNext } from "@/components/entity-nav";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
+import { retryLaterForCrawlers, unavailablePage } from "@/components/unavailable-page";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import { londonOnlyWords, outsideLondon } from "@/lib/coverage-reason";
 import { LONDON_SCOPE, regionScope, scopeName } from "@/lib/scope-name";
@@ -73,9 +75,11 @@ export async function generateMetadata({ params }: PostcodePageProps): Promise<M
   const page = await loadPostcode(postcode);
   if (!page.geography && page.addresses.length === 0) return NOT_FOUND_METADATA;
   const area = await postcodeArea(page);
+  // The postcode first, in the words people search with ("W5 1AA house prices", "flood risk W5 1AA").
   return pageMetadata({
-    title: area ? `${postcode} · ${area}` : postcode,
-    description: `Recorded property sales, homes and area evidence for ${postcode}${area ? ` in ${area}` : ""}. Achieved prices, not valuations.`,
+    title: `${postcode} house prices${area ? `, ${area}` : ""}`,
+    description: `${postcode}${area ? `, ${area}` : ""}: sold house prices and the homes here, ` +
+      "with flood risk, crime, schools and stations nearby. Achieved prices, not valuations.",
     path: `/postcode/${postcodeSlug(postcode)}`,
     image: areaCard(page.geography),
   });
@@ -95,6 +99,12 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
   const searched = parseSearchedHome(await searchParams);
   if (searched && STARTS_WITH_NUMBER.test(searched.address)) permanentRedirect(streetHomePath(postcode, searched.address));
   const page = await loadPostcode(postcode);
+  // A refused or failed read is "try again" (a 500 for a crawler), never a 404 for a real postcode; a crawler
+  // never gets the page without its sales either.
+  if (page.unavailable && page.addresses.length === 0) {
+    if (!page.geography) return unavailablePage(page.unavailable, "postcode");
+    await retryLaterForCrawlers(page.unavailable, "postcode");
+  }
   if (!page.geography && page.addresses.length === 0) notFound();
   const [friendly, trail] = page.geography
     ? await Promise.all([loadAreaFriendly(page.geography), loadAreaTrail(page.geography)])
@@ -137,6 +147,7 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
       <SiteHeader />
       {ld && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ld }} />}
       <Breadcrumbs crumbs={crumbs} />
+      <BreadcrumbData crumbs={crumbs} path={`/postcode/${postcodeSlug(postcode)}`} />
       {/* r3 #31 (CUJ02 step 2): On map, Watch and ♡ by the title; no "Postcode" eyebrow (the crumbs say it). */}
       <div className="postcode-title">
         <h1>{postcode}</h1>

@@ -10,11 +10,13 @@ import { AreaVerdict } from "./area-standouts";
 import { AreaTitle } from "./area-title";
 import { BoroughAreas, BoroughLivingCosts, BoroughTiles } from "./borough-page-client";
 import { Breadcrumbs, WhatsNext } from "./entity-nav";
+import { retryLaterForCrawlers } from "./unavailable-page";
+import { BreadcrumbData } from "./breadcrumb-data";
 import { SectionTabs, type TabSection } from "./section-tabs";
 import { SiteHeader } from "./site-header";
 import { friendlyTitle } from "@/lib/area-labels";
 import {
-  areaFacts, breadcrumb, countOf, descendants, formatCrimeRate, formatPercent, formatPerSquareMetre, indexScopeName, LONDON, median, neighbourhoodsWithPrice,
+  areaFacts, areaPath, breadcrumb, countOf, descendants, formatCrimeRate, formatPercent, formatPerSquareMetre, indexScopeName, LONDON, median, neighbourhoodsWithPrice,
   type AreaFacts, type AreaIndex, type PageMetricId,
 } from "@/lib/area-pages";
 import { loadAreaProfile, loadAreaPages } from "@/lib/area-pages-data";
@@ -106,7 +108,10 @@ const typicalOf = (region: string) => `typical ${region} neighbourhood`;
 export async function BoroughPage({ geography, sort }: { geography: GeographyId; sort: string | string[] | undefined }) {
   await connection();
   const loaded = await loadAreaPages(geography);
-  if (!loaded) return <AreaUnavailable />;
+  if (!loaded) {
+    await retryLaterForCrawlers(503, "area");
+    return <AreaUnavailable />;
+  }
   const { index, mode } = loaded;
   const area = index.byId.get(geography);
   if (!area || area.carrier !== "lad") notFound();
@@ -137,6 +142,7 @@ export async function BoroughPage({ geography, sort }: { geography: GeographyId;
       <header className="area-head">
         <div className="area-head__main">
           <Breadcrumbs crumbs={crumbs} label="Where this area sits" />
+          <BreadcrumbData crumbs={crumbs} path={areaPath({ geographyId: geography })} />
           <AreaTitle officialName={area.name} fields={area} fallback={area.name} testId="area-page-title" />
           <p className="area-head__borough" data-testid="area-level">{region === "London" ? "London borough" : `Local authority in ${region}`} · {countOf(lsoas.length, "neighbourhood")}</p>
           <AreaVerdict standouts={standouts ?? "unknown"} />

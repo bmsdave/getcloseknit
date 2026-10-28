@@ -41,6 +41,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/.well-known/mcp.json": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Where the MCP server is (domain-level pointer)
+         * @description One file at the domain root that directories such as mcpub read before they list a server: the endpoint,
+         *     its transport, and the richer manifest and card next to it.
+         */
+        get: operations["mcp_pointer__well_known_mcp_json_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/.well-known/mcp-registry-auth": {
         parameters: {
             query?: never;
@@ -4579,6 +4600,26 @@ export interface operations {
         };
     };
     mcp_server_card__well_known_mcp_server_card_json_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    mcp_pointer__well_known_mcp_json_get: {
         parameters: {
             query?: never;
             header?: never;

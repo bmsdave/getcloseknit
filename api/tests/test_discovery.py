@@ -96,6 +96,15 @@ class DiscoveryTests(unittest.TestCase):
         manifest = self.client.get("/.well-known/mcp/server.json").json()
         self.assertEqual(manifest["remotes"][0]["url"], "http://testserver/mcp")
 
+    def test_domain_pointer_names_the_endpoint_and_manifest(self):
+        response = self.client.get("/.well-known/mcp.json")
+        self.assertEqual(response.status_code, 200)
+        pointer = response.json()
+        self.assertEqual(pointer["endpoint"], "http://testserver/mcp")
+        self.assertEqual(pointer["transport"], "streamable-http")
+        self.assertEqual(pointer["manifest"], "http://testserver/.well-known/mcp/server.json")
+        self.assertEqual(pointer["version"], json.loads(SERVER_JSON.read_text(encoding="utf-8"))["version"])
+
     def test_server_card_matches_server_json(self):
         response = self.client.get("/.well-known/mcp/server-card.json")
 

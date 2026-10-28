@@ -52,9 +52,10 @@ test("only CLOSE_KNIT_ACCESS=public is indexable; robots.txt names the sitemap i
   for (const access of [undefined, "", "private", "PUBLIC-ish"]) assert.equal(searchIndexable(access), false, String(access));
   const open = robotsRules(origin, true);
   assert.equal(open.sitemap, `${origin}/sitemap-index.xml`);
-  assert.deepEqual(open.rules.disallow, ["/api/", "/mcp"]);
+  assert.deepEqual(open.rules.disallow, ["/api/", "/mcp", "/?", "/go/"], "crawl traps: map states on / and click-outs");
   const closed = robotsRules(origin, false);
   assert.equal(closed.sitemap, undefined);
+  assert.deepEqual(closed.rules.disallow, ["/api/", "/mcp"]);
   assert.equal(closed.rules.allow, "/", "pages stay crawlable so the noindex is seen");
 });
 
@@ -62,7 +63,11 @@ test("Caddy sends the noindex header only for a private site", () => {
   const caddyfile = readFileSync(new URL("../../deploy/Caddyfile", import.meta.url), "utf8");
   const privateAccess = readFileSync(new URL("../../deploy/access-private.caddy", import.meta.url), "utf8");
   const publicAccess = readFileSync(new URL("../../deploy/access-public.caddy", import.meta.url), "utf8");
-  assert.ok(!/^\s*header X-Robots-Tag/m.test(caddyfile));
+  // The server's own name (private sites) is never indexed; the public domain's blocks never send it.
+  const sitesStart = caddyfile.indexOf("{$CLOSE_KNIT_SITES_HOST");
+  const sitesBlock = caddyfile.slice(sitesStart, caddyfile.indexOf("\n}\n", sitesStart));
+  assert.match(sitesBlock, /^\s*header X-Robots-Tag "noindex, nofollow"$/m);
+  assert.ok(!/^\s*header X-Robots-Tag/m.test(caddyfile.replace(sitesBlock, "")));
   assert.ok(!/^\s*header X-Robots-Tag/m.test(publicAccess));
   assert.match(privateAccess, /^header X-Robots-Tag "noindex, nofollow"$/m);
   const compose = readFileSync(new URL("../../deploy/docker-compose.yml", import.meta.url), "utf8");

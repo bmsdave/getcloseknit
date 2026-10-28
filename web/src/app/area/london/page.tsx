@@ -18,7 +18,9 @@ import { BoroughTable } from "./borough-table";
 const DESCRIPTION = "London as a whole and all 33 boroughs side by side: typical price per square metre, recorded crime, household income, schools, places for families and going out, from official public data.";
 
 export const metadata: Metadata = pageMetadata({
-  title: "London boroughs side by side: prices, crime, schools", description: DESCRIPTION, path: "/area/london",
+  // The Dataset keeps the long description; a search result shows 155 characters.
+  title: "London boroughs compared: house prices, crime, schools", path: "/area/london",
+  description: "All 33 London boroughs side by side: house prices per m², crime rate, income, schools, and places for families and going out, from official data.",
 });
 
 // Top of the area hierarchy: London → borough → MSOA → neighbourhood.

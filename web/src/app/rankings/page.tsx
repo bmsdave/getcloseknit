@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 
 import { AreaPageShell, DemoNote } from "@/components/area-pages";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { Breadcrumbs } from "@/components/entity-nav";
 import {
   availableRankings, boroughTable, RANKING_GROUPS, RANKING_TILES, rankingBySlug, rankingGroupAnchor, rankingPreview, tileGoodPair, type RankingGroup,
@@ -13,10 +14,12 @@ import { RankingTileCard, type TileVariant } from "./ranking-tile";
 import "./rankings.css";
 
 export const metadata: Metadata = pageMetadata({
-  title: "London area rankings",
-  description: "London areas ranked by prices, recorded crime, schools, getting around, deprivation, household income, social renting and the places around them; state schools by results and Ofsted grades; and boroughs side by side.",
+  title: "London area rankings: best areas to live",
+  description: "London areas ranked by house prices, crime, schools, transport, deprivation and income; state schools by results and Ofsted; and boroughs side by side.",
   path: "/rankings",
 });
+
+const CRUMBS = [{ label: "London", href: "/area/london" }, { label: "Rankings", href: null }];
 
 /** Each group's yarn: the dot by its name and its tiles' mini bars. */
 const GROUP_YARN: Record<RankingGroup | "Boroughs", string> = {
@@ -54,7 +57,8 @@ export default async function RankingsPage() {
   const count = (n: number) => `${n} ${n === 1 ? "ranking" : "rankings"}`;
   return (
     <AreaPageShell testId="rankings-page" className="rankings-index">
-      <Breadcrumbs label="Where this sits" crumbs={[{ label: "London", href: "/area/london" }, { label: "Rankings", href: null }]} />
+      <Breadcrumbs label="Where this sits" crumbs={CRUMBS} />
+      <BreadcrumbData crumbs={CRUMBS} path="/rankings" />
       <div className="rankings-index__head">
         <h1>Rankings</h1>
         <p>London areas and schools, best and worst first.</p>

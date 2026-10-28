@@ -878,21 +878,29 @@ export function hasEvidence(card: Pick<SchoolCard, "history">): boolean {
 /** KS2 for primaries, GCSE for secondaries: the results the title names. */
 export const RESULTS_NAME: Record<SchoolSummary["phase"], string> = { primary: "KS2", secondary: "GCSE" };
 
-/** "Montpelier Primary School – Ofsted Good (2023) · KS2 results 2024/25" (the layout adds the site name): only what is known. */
-export function schoolTitle(card: SchoolCard): string {
+/**
+ * "Montpelier Primary School – Ofsted Good (2023) · KS2 results 2024/25" (the layout adds the site name): only what
+ * is known, and short enough for a search result (`max`, lib/seo.ts › TITLE_MAX): the years go first, the results
+ * next, so the school's name and Ofsted standing stay.
+ */
+export function schoolTitle(card: SchoolCard, max = 60): string {
   const standing = ofstedStanding(card.history.inspections);
-  const year = (date: string | null) => (date ?? "").slice(0, 4);
-  const ofsted = !standing ? null
-    : standing.kind === "legacy" ? `Ofsted ${standing.grade} (${year(standing.date)})`
-      : standing.framework === "report-card" ? `Ofsted report card (${year(standing.date)})`
-        : `Ofsted inspected ${year(standing.date)}`;
   const headline = HEADLINE_MEASURES[card.school.phase][0];
   const latest = card.history.measures.find((measure) => measure.id === headline)?.series
     .filter((point) => typeof point.value === "number").at(-1)?.academicYear;
-  const results = latest ? `${RESULTS_NAME[card.school.phase]} results ${latest}` : null;
-  const facts = [ofsted, results].filter(Boolean).join(" · ");
-  // The layout's template adds " · Close Knit", as on every other page.
-  return `${card.school.name}${facts ? ` – ${facts}` : ""}`;
+  const variant = (years: boolean, withResults: boolean) => {
+    const year = (date: string | null) => (years ? ` (${(date ?? "").slice(0, 4)})` : "");
+    const ofsted = !standing ? null
+      : standing.kind === "legacy" ? `Ofsted ${standing.grade}${year(standing.date)}`
+        : standing.framework === "report-card" ? `Ofsted report card${year(standing.date)}`
+          : `Ofsted inspected${years ? ` ${(standing.date ?? "").slice(0, 4)}` : ""}`;
+    const results = latest && withResults ? `${RESULTS_NAME[card.school.phase]} results${years ? ` ${latest}` : ""}` : null;
+    const facts = [ofsted, results].filter(Boolean).join(" · ");
+    return `${card.school.name}${facts ? ` – ${facts}` : ""}`;
+  };
+  // The site name follows only when it still fits (lib/seo.ts › searchTitle).
+  const variants = [variant(true, true), variant(false, true), variant(false, false)];
+  return variants.find((title) => title.length <= max) ?? variants[2];
 }
 
 /** The page's description: the facts a search result can show, no adjectives. */
@@ -902,7 +910,13 @@ export function schoolDescription(card: SchoolCard): string {
     card.topBadge.isTop && card.topBadge.line ? card.topBadge.line : null,
     ...card.kpis.filter((kpi) => kpi.percentile !== null).slice(0, 2).map((kpi) => `${kpi.label} ${kpi.valueText} (${kpi.year})`),
   ];
-  return `${parts.filter(Boolean).join(". ")}. Ofsted, exam results by year against London, and last distance offered.`;
+  // Within a search result's 155 characters: the facts first (the last ones dropped until they fit), the page's
+  // contents when they still fit.
+  const kept = parts.filter((part): part is string => !!part);
+  while (kept.length > 1 && `${kept.join(". ")}.`.length > 155) kept.pop();
+  const facts = `${kept.join(". ")}.`;
+  const more = " Ofsted, exam results by year against London, and last distance offered.";
+  return facts.length + more.length <= 155 ? `${facts}${more}` : facts;
 }
 
 /** The schema.org type for the JSON-LD: no aggregateRating, ever. */

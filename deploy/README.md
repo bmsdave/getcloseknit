@@ -166,9 +166,8 @@ Other sites on the same host live on the server's own name
 their own login, outside this repo: one Caddy snippet per site in
 `/srv/caddy-sites/*.caddy` (imported by that host's block in `Caddyfile`; every
 other path there redirects to `CLOSE_KNIT_DOMAIN`), files in
-`/srv/sites/<site>`, app sockets in `/run/caddy-upstreams`. Today that is `/muse/`: one agent's projects
-(`/muse/radar/`, …) behind one login, uploaded by the rsync-only user
-`muse-deploy`, with its Node app `muse-ada` sandboxed by systemd. fail2ban jail
+`/srv/sites/<site>`, app sockets in `/run/caddy-upstreams`. Their names and users live on the host only,
+never in this repo (it is published). fail2ban jail
 `caddy-auth` (`/etc/fail2ban/jail.d/caddy-auth.conf`, filter in `filter.d/`)
 reads `/var/log/close-knit/access.log` and bans an IP for a day (doubling on
 repeat) after 5 wrong passwords in an hour on any login: the site lock and

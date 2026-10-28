@@ -10,7 +10,9 @@ import { areaTitle } from "@/lib/area-labels";
 import type { GeographyId, Carrier } from "@/lib/contracts";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import { serverArea, serverAreaPack } from "@/lib/deployment";
-import { areaCrumbs } from "@/lib/entity-nav";
+import { areaCrumbs, crumbName } from "@/lib/entity-nav";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
+import { retryLaterForCrawlers } from "@/components/unavailable-page";
 import { buildMarketPack, renderPackMarkdown, type PackSection } from "@/lib/market-pack";
 import { pageMetadata } from "@/lib/seo";
 import { OpenOnPrint } from "./open-on-print";
@@ -34,9 +36,13 @@ const FOLDED: ReadonlySet<PackSection["id"]> = new Set(["limits"]);
 export async function generateMetadata({ params }: PackPageProps): Promise<Metadata> {
   const { carrier, code } = await params;
   const path = `/area/${encodeURIComponent(carrier)}/${encodeURIComponent(code)}`;
+  // The area by the name people use, as its page and crumbs name it; the code only when the trail is unknown.
+  const area = /^(lsoa|msoa|lad)$/.test(carrier) && /^E\d{8}$/.test(code)
+    ? (await loadAreaTrail(`uk:${carrier as Carrier}:${code}`)).at(-1) : undefined;
+  const name = area ? crumbName(area) : `${carrier.toUpperCase()} ${code}`;
   return pageMetadata({
-    title: `Area evidence pack · ${carrier.toUpperCase()} ${code}`,
-    description: "Local market depth, crime, noise and nearby schools for one area, each figure cited " +
+    title: `${name}: area evidence pack`,
+    description: `${name}: local market depth, crime, noise and nearby schools, each figure cited ` +
       "to its public source release. Aggregates only: no valuation and no listings.",
     // The pack's own address filter (?address=) never reaches the canonical or the card.
     path: `${path}/pack`,
@@ -56,13 +62,16 @@ export default async function AreaPackPage({ params, searchParams }: PackPagePro
   ]);
   if (result.status === 404) notFound();
   // The area's breadcrumbs and (for a neighbourhood) the way back to its page.
+  const crumbs = areaCrumbs(trail, friendly?.friendlyName?.trim() || (trail.length ? null : `${carrier.toUpperCase()} ${code}`));
   const back = (
     <div className="no-print">
-      <Breadcrumbs crumbs={areaCrumbs(trail, friendly?.friendlyName?.trim() || (trail.length ? null : `${carrier.toUpperCase()} ${code}`))} label="Where this area sits" />
+      <Breadcrumbs crumbs={crumbs} label="Where this area sits" />
+      <BreadcrumbData crumbs={[...crumbs, { label: "Evidence pack", href: null }]} path={`/area/${carrier}/${code}/pack`} />
       {carrier === "lsoa" && <BackToArea geographyId={geography} name={friendly?.friendlyName?.trim() || trail.at(-1)?.name || code} />}
     </div>
   );
   if (!result.pack) {
+    if (result.status !== 400) await retryLaterForCrawlers(result.status, "evidence pack");
     return (
       <main className="methodology market-pack" data-testid="market-pack-unavailable">
         <SiteHeader />

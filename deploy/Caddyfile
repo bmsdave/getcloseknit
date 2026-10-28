@@ -107,13 +107,22 @@
 # The server's own name (CLOSE_KNIT_SITES_HOST) keeps the other sites on
 # this host, each under its own path with its own login: one file per site
 # in /srv/caddy-sites on the host (outside this repo), files in
-# /srv/sites/<site>, app sockets in /run/caddy-upstreams. Today: /muse/.
+# /srv/sites/<site>, app sockets in /run/caddy-upstreams.
 # Every other path redirects to CLOSE_KNIT_DOMAIN. Unset, the block only
 # answers a local name.
 {$CLOSE_KNIT_SITES_HOST:http://sites.localhost} {
 	encode zstd gzip
 	import access_log
 	import security_headers
+	# Never indexed: every response says so, and its own robots.txt shuts crawlers out (the redirect below
+	# would otherwise hand them CLOSE_KNIT_DOMAIN's Allow: /). No path is named, so nothing is advertised.
+	header X-Robots-Tag "noindex, nofollow"
+	handle /robots.txt {
+		header Content-Type "text/plain; charset=utf-8"
+		respond "User-agent: *
+Disallow: /
+" 200
+	}
 	import /etc/caddy/sites/*.caddy
 	handle {
 		redir https://{$CLOSE_KNIT_DOMAIN}{uri} permanent

@@ -5,7 +5,8 @@ import { cache } from "react";
 
 import { AreaSectionsForHome } from "@/components/area-full-page";
 import { HomePage, homeFloodContext, type HomeData } from "@/components/home-page";
-import { PageUnavailable } from "@/components/page-unavailable";
+import { unavailablePage } from "@/components/unavailable-page";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { SectionSeedProvider } from "@/components/section-seed";
 import { readAreaPageSeed } from "@/lib/area-page-seed";
 import { loadAreaTrail } from "@/lib/area-pages-data";
@@ -55,7 +56,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   if (!isUprn(uprn)) notFound();
   const loaded = await loadProfile(uprn);
   if (loaded.status === 404 || loaded.status === 400) notFound();
-  if (!loaded.body) return <PageUnavailable status={loaded.status} what="home" />;
+  if (!loaded.body) return unavailablePage(loaded.status, "home");
   const { profile } = loaded.body;
   const lsoa = profile.areas.lsoa.id as GeographyId;
   const [trail, area, defaults, standouts] = await Promise.all([
@@ -84,6 +85,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
   return (
     <SectionSeedProvider seed={seed}>
       {ld && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: ld }} />}
+      <BreadcrumbData crumbs={crumbs} path={`/property/${profile.uprn}`} />
       <HomePage home={home} mode={loaded.mode}
         release={defaults.release} crumbs={crumbs}
         areaSections={(

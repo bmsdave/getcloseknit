@@ -14,14 +14,16 @@ import { EXPENSIVE_COST, RATE_LIMITS } from "@/lib/teams-limits";
 
 import "./about.css";
 import "./teams.css";
+import { pageMetadata } from "@/lib/seo";
 
 // Controller, contact and the served release come from the deployment at request time.
 export const dynamic = "force-dynamic";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description: "Who runs Close Knit, why it is independent, how fresh each figure is and how to report a wrong one.",
-};
+  path: "/about",
+});
 
 interface Freshness {
   demo: boolean;

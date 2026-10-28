@@ -4,6 +4,7 @@ import { connection } from "next/server";
 import type { ReactNode } from "react";
 
 import { AreaPageShell, DemoNote } from "@/components/area-pages";
+import { BreadcrumbData } from "@/components/breadcrumb-data";
 import { Breadcrumbs } from "@/components/entity-nav";
 import { SchoolFilterChips, SchoolSearch } from "@/components/schools/school-filters";
 import { SchoolList } from "@/components/schools/school-list";
@@ -34,7 +35,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Search 
   const { borough } = readSchoolFilters(await searchParams, boroughs);
   const scope = hubScope(boroughs);
   return pageMetadata({
-    title: borough ? `Schools in ${borough.name}` : `Schools in ${scope}`,
+    title: borough ? `Schools in ${borough.name}: Ofsted and results` : `Schools in ${scope}`,
     description: borough
       ? `Every state school in ${borough.name}: Ofsted grades, results and a page for each school.`
       : `${scope}'s state schools: search a school, top lists by results and Ofsted, every ${councilWord(scope === "London")}'s schools, and Schools 101 for families new to the UK system.`,
@@ -71,13 +72,15 @@ export default async function SchoolsPage({ searchParams }: { searchParams: Sear
   const shown = directory && listsSchools(filters) ? filterSchools(directory.schools, filters) : [];
   const rows = borough ? shown : shown.slice(0, LONDON_ROWS);
   const mode = directory?.mode ?? loaded?.mode;
+  const crumbs = [
+    { label: scope, href: scope === "London" ? "/area/london" : "/area/england" },
+    { label: "Schools", href: borough ? "/schools" : null },
+    ...(borough ? [{ label: borough.name, href: null }] : []),
+  ];
   return (
     <AreaPageShell testId="schools-page" className="rankings-index schools-hub">
-      <Breadcrumbs label="Where this sits" crumbs={[
-        { label: scope, href: scope === "London" ? "/area/london" : "/area/england" },
-        { label: "Schools", href: borough ? "/schools" : null },
-        ...(borough ? [{ label: borough.name, href: null }] : []),
-      ]} />
+      <Breadcrumbs label="Where this sits" crumbs={crumbs} />
+      <BreadcrumbData crumbs={crumbs} path={borough ? `/schools?borough=${borough.slug}` : "/schools"} />
       <div className="rankings-index__head">
         <h1>{borough ? `Schools in ${borough.name}` : `Schools in ${scope}`}</h1>
         <p>Inspections, results, admissions. Living nearby is not a place.</p>

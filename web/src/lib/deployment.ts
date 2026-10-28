@@ -50,7 +50,7 @@ const FETCH_TIMEOUT_MS = 2500;
  * The sitemap's sector list with homes probes the address index once per sector: about 0.6 s warm, 3.5 s from a
  * cold cache on prod. A sitemap is read by crawlers, not people: it waits rather than drop every per-address shard.
  */
-const SITEMAP_FETCH_TIMEOUT_MS = 20_000;
+export const SITEMAP_FETCH_TIMEOUT_MS = 20_000;
 const POSTCODE_ADDRESS_LIMIT = 25;
 
 export function deploymentDefaults(deployment: DeploymentEnv, served: ServedRelease | null): DeploymentDefaults {
@@ -288,16 +288,19 @@ export interface ServerPostcode extends PostcodePlan {
   histories: AddressHistory[];
   /** Every recorded home in the postcode (type, tenure, size, energy rating); null when unavailable. */
   homes: PostcodeHome[] | null;
+  /** The API's refusal or failure (429, 5xx) when it found nothing: "try again", never a 404 for a real postcode. */
+  unavailable: number | null;
 }
 
 interface UpstreamSearchResult extends Omit<SearchResult, "id" | "addressId"> {
   addressId?: SearchResult["addressId"];
 }
 
-async function searchAddresses(mode: DataMode, postcode: string): Promise<SearchResult[]> {
+async function searchAddresses(mode: DataMode, postcode: string, statuses: number[] = []): Promise<SearchResult[]> {
   if (mode === "demo") return searchFixtures(postcode);
   const upstream = await fetchApi<{ results: UpstreamSearchResult[] }>(
     `/api/v1/search?q=${encodeURIComponent(postcode)}&limit=${POSTCODE_ADDRESS_LIMIT}`);
+  statuses.push(upstream.status);
   return (upstream.body?.results ?? []).map((result, index) => ({
     ...result, id: `${result.geographyId}-${index}`, addressId: result.addressId ?? null,
   }));
@@ -310,9 +313,10 @@ async function addressHistory(mode: DataMode, addressId: string): Promise<Addres
 }
 
 /** Homes listed for one postcode: one exact-postcode lookup (fast), unlike the fuzzy search. */
-async function postcodeHomes(mode: DataMode, postcode: string): Promise<PostcodeHomesResponse | null> {
+async function postcodeHomes(mode: DataMode, postcode: string, statuses: number[] = []): Promise<PostcodeHomesResponse | null> {
   if (mode === "demo") return demoPostcodeHomes(postcode);
   const upstream = await fetchApi<PostcodeHomesResponse>(`/api/v1/postcodes/${encodeURIComponent(postcode)}/homes?sales=true`);
+  statuses.push(upstream.status);
   return upstream.body;
 }
 
@@ -373,10 +377,11 @@ export function homesAsHistories(response: PostcodeHomesResponse): AddressHistor
 export async function serverPostcode(postcode: string): Promise<ServerPostcode> {
   const defaults = await serverDefaults();
   const mode: DataMode = defaults.mode ?? "demo";
-  const homes = await postcodeHomes(mode, postcode);
+  const statuses: number[] = [];
+  const homes = await postcodeHomes(mode, postcode, statuses);
   const listed = mode === "real" && homes ? homesAsResults(homes) : [];
   const batched = mode === "real" && homes ? homesAsHistories(homes) : null;
-  const results = listed.length > 0 ? listed : await searchAddresses(mode, postcode);
+  const results = listed.length > 0 ? listed : await searchAddresses(mode, postcode, statuses);
   const needsLookup = results.length === 0 && mode === "real";
   const lookup = needsLookup ? await lookupPostcode(postcode) : null;
   const plan = planPostcodePage(postcode, results, lookup ? { area: lookup.area, areaName: lookup.areaName } : null);
@@ -388,5 +393,6 @@ export async function serverPostcode(postcode: string): Promise<ServerPostcode> 
     ...plan, areaName, mode, release: defaults.release,
     histories: (histories as (AddressHistory | null)[]).filter((h): h is AddressHistory => h !== null),
     homes: homes?.homes ?? null,
+    unavailable: statuses.find(isTransientStatus) ?? null,
   };
 }

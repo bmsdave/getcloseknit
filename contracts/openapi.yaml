@@ -64,6 +64,20 @@ paths:
           content:
             application/json:
               schema: {}
+  /.well-known/mcp.json:
+    get:
+      tags: [discovery]
+      summary: Where the MCP server is (domain-level pointer)
+      description: 'One file at the domain root that directories such as mcpub read before they list a server: the endpoint,
+
+        its transport, and the richer manifest and card next to it.'
+      operationId: mcp_pointer__well_known_mcp_json_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
   /.well-known/mcp-registry-auth:
     get:
       tags: [discovery]

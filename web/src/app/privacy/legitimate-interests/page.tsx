@@ -1,13 +1,15 @@
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 
 // The public copy of docs/legal/legitimate-interests-assessment.md; keep the two in step.
 // The controller comes from the deployment environment at request time.
 export const dynamic = "force-dynamic";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Legitimate interests assessment",
   description: "Why Close Knit may show per-home property records, and the safeguards that make it fair.",
-};
+  path: "/privacy/legitimate-interests",
+});
 
 export default function LegitimateInterestsPage() {
   const CONTROLLER = process.env.CLOSE_KNIT_CONTROLLER || "the Close Knit operator";
