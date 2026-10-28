@@ -8,7 +8,7 @@ import { INTRO_BOOT_SCRIPT } from "@/lib/intro-boot";
 import { BASE_STYLE } from "@/lib/map-core";
 import { mapPreloads } from "@/lib/map-preload";
 import { PANEL_WIDTH_BOOT } from "@/lib/panel-width";
-import { applyEnvDefaults, DEV_QUERY_PARAM, parseMapState, shouldFitSelectedArea } from "@/lib/map-state";
+import { applyEnvDefaults, DEV_QUERY_PARAM, parseMapState, selectedFitZoom, shouldFitSelectedArea } from "@/lib/map-state";
 import { pageMetadata, siteDescription, siteOrigin, siteTitle, websiteJsonLd } from "@/lib/seo";
 
 interface HomePageProps {
@@ -57,7 +57,8 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <InlineScript html={INTRO_BOOT_SCRIPT} />
       {/* And the side panel at the width this browser left it (lib/panel-width.ts), so it never jumps. */}
       <InlineScript html={PANEL_WIDTH_BOOT} />
-      <ExplorerPage initialState={initialState} link={link} fitSelected={shouldFitSelectedArea(parameters)} dev={dev} />
+      <ExplorerPage initialState={initialState} link={link} fitSelected={shouldFitSelectedArea(parameters)}
+        fitZoom={selectedFitZoom(parameters)} dev={dev} />
     </>
   );
 }

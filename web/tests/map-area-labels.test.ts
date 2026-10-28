@@ -14,6 +14,7 @@ import {
   DISTRICT_LABEL_LAYER_ID,
   DISTRICT_LABEL_MIN_ZOOM,
   REGION_LABEL_LAYER_ID,
+  basemapLabelZooms,
 } from "../src/lib/map-area-labels";
 import { LAD_ZOOM } from "../src/lib/map-coverage";
 
@@ -34,7 +35,12 @@ test("the three label layers split the zoom range at the same breaks as the area
   assert.deepEqual(AREA_LABEL_LAYER_IDS, [REGION_LABEL_LAYER_ID, BOROUGH_LABEL_LAYER_ID, DISTRICT_LABEL_LAYER_ID]);
   assert.equal(region.minzoom, undefined);
   assert.equal(region.maxzoom, LAD_ZOOM);
-  assert.equal(region.layout?.["text-size"], 17);
+  // All nine regions fit at z5-6 on a desktop (England ~300 px wide at z5.3): smaller, wrapped, free to move.
+  assert.deepEqual(region.layout?.["text-size"], ["step", ["zoom"], 12, 5.5, 13, 6, 14]);
+  assert.equal(region.layout?.["text-max-width"], 7);
+  assert.ok((region.layout?.["text-variable-anchor"] as string[]).includes("center"));
+  assert.equal(borough.layout?.["text-max-width"], 14);
+  assert.equal(borough.layout?.["text-padding"], 6);
   assert.equal(region.layout?.["text-transform"], undefined, "a region is in ordinary case");
   assert.equal(borough.minzoom, LAD_ZOOM);
   assert.equal(borough.maxzoom, DISTRICT_LABEL_MIN_ZOOM);
@@ -91,4 +97,15 @@ test("demo areas get friendly names; unknown areas read null", () => {
   assert.deepEqual(demoFriendlyFields("uk:lsoa:E01000001"),
     { friendlyName: "St James's", postcodeDistrict: "SW1A", displayName: "St James's · SW1A" });
   assert.deepEqual(demoFriendlyFields("uk:lsoa:E09999999"), { friendlyName: null, postcodeDistrict: null, displayName: null });
+});
+
+test("basemap country and state names wait for LAD zoom, under England's region labels (G-E32)", () => {
+  const zooms = basemapLabelZooms([
+    { id: "label_country_1", type: "symbol", maxzoom: 9 },
+    { id: "label_country_3", type: "symbol", minzoom: 2, maxzoom: 9 },
+    { id: "label_state", type: "symbol", minzoom: 5, maxzoom: 8 },
+    { id: "label_city", type: "symbol", minzoom: 3 },
+    { id: "water", type: "fill" },
+  ]);
+  assert.deepEqual(zooms, [["label_country_1", LAD_ZOOM, 9], ["label_country_3", LAD_ZOOM, 9], ["label_state", LAD_ZOOM, 8]]);
 });

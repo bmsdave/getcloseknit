@@ -34,8 +34,8 @@ SERVER_NAME = "close-knit"
 # same values for the MCP Registry (a test keeps them equal). Bump the version with every metadata change.
 REGISTRY_NAME = "com.getcloseknit/close-knit"
 SERVER_TITLE = "Close Knit"
-SERVER_DESCRIPTION = "London neighbourhoods and homes: crime, schools, prices, rents, commute, green space, sourced."
-SERVER_VERSION = "2.0.4"
+SERVER_DESCRIPTION = "Neighbourhoods and homes in England, London in depth: crime, schools, prices, rents, sourced."
+SERVER_VERSION = "2.0.6"
 WEBSITE_URL = "https://getcloseknit.com"
 # The public install guide and Gemini CLI extension.
 REPOSITORY = {"url": "https://github.com/bmsdave/close-knit-mcp", "source": "github"}
@@ -171,7 +171,28 @@ class McpMount:
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         if self.app is None:
             raise RuntimeError("MCP server is not running: the application lifespan has not started")
+        if _browser_visit(scope):
+            # Someone opened the address from /agents in a browser: the set-up page, not a JSON-RPC 400.
+            await send({"type": "http.response.start", "status": 302,
+                        "headers": [(b"location", AGENTS_PAGE.encode()), (b"content-length", b"0")]})
+            await send({"type": "http.response.body", "body": b""})
+            return
         await self.app(scope, receive, send)
+
+
+AGENTS_PAGE = "/agents"
+
+
+def _browser_visit(scope: Scope) -> bool:
+    """A plain GET that asks for a page: no MCP session, HTML accepted and no event stream asked for."""
+    if scope.get("type") != "http" or scope.get("method") != "GET":
+        return False
+    headers = dict(scope.get("headers") or [])
+    accept = headers.get(b"accept", b"").decode("latin-1").lower()
+    return SESSION_HEADER not in headers and "text/html" in accept and "text/event-stream" not in accept
+
+
+SESSION_HEADER = b"mcp-session-id"
 
 
 def _tool_function(spec: ToolSpec, context_factory: Callable[[], ToolContext],
@@ -179,10 +200,12 @@ def _tool_function(spec: ToolSpec, context_factory: Callable[[], ToolContext],
     notes = notes and spec.name not in NOTELESS_TOOLS
 
     async def invoke(**arguments: Any) -> dict[str, Any]:
-        session, client = request_identity(arguments.pop(CONTEXT_ARG, None))
-        context = replace(context_factory(), session=session)
+        request_context = arguments.pop(CONTEXT_ARG, None)
+        session, client = request_identity(request_context)
+        kind = request_traffic(request_context, client)
+        context = replace(context_factory(), session=session, traffic=kind)
         note = (arguments.pop(INTENT_ARG, None), arguments.pop(RATE_ARG, None)) if notes else None
-        return await anyio.to_thread.run_sync(_call_with_codes, spec.name, context, arguments, client, note)
+        return await anyio.to_thread.run_sync(_call_with_codes, spec.name, context, arguments, client, note, kind)
 
     invoke.__name__ = spec.name
     invoke.__doc__ = spec.description
@@ -240,8 +263,18 @@ def client_name(ctx: Context | None) -> str | None:
     return params.client_info.name if params is not None and params.client_info is not None else None
 
 
+def request_traffic(ctx: Context | None, client: str | None) -> str:
+    """live, team or tech for this call (usage.traffic): the team header, the client's name, or a script's agent."""
+    try:
+        request = ctx.request_context.request if ctx is not None else None
+    except ValueError:
+        request = None
+    headers = getattr(request, "headers", None) or {}
+    return usage.traffic(client, headers.get(usage.TEAM_HEADER), headers.get("user-agent"))
+
+
 def _call_with_codes(name: str, context: ToolContext, arguments: dict, client: str | None = None,
-                     note: tuple[Any, Any] | None = None) -> dict:
+                     note: tuple[Any, Any] | None = None, kind: str = "live") -> dict:
     """The tool's answer, or a ToolError with its code. `note` is (intent, rate_previous) when
     CLOSE_KNIT_MCP_REQUEST_NOTES is on: the call is stored for a later rating and its answer carries a callId."""
     started = time.monotonic()
@@ -260,18 +293,18 @@ def _call_with_codes(name: str, context: ToolContext, arguments: dict, client: s
         code, message = errors.classify(error)
         if code == "internal-error":
             logger.exception("mcp tool %s failed", name)
-        usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, None, code, client),
+        usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, None, code, client, kind),
                      context.session)
         if call_id is not None:
             call_notes.record_call(connect, call_id, tool=name, ok=False, code=code, session=context.session,
-                                   client=client, intent=intent)
+                                   client=client, intent=intent, traffic=kind)
         raise ToolError(f"{code}: {message}") from error
-    usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, result, None, client),
+    usage.record(connect, "mcp", "tool_call", usage.tool_call_props(name, started, result, None, client, kind),
                  context.session)
     if call_id is None:
         return result
     call_notes.record_call(connect, call_id, tool=name, ok=True, session=context.session, client=client,
-                           intent=intent)
+                           intent=intent, traffic=kind)
     return {**result, "callId": call_id}
 
 

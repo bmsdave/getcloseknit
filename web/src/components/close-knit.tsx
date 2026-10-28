@@ -100,12 +100,12 @@ const ZoneDrawBar = dynamic(() => import("./match/zone-draw-bar").then((loaded) 
 const PersonalMatchPanel = dynamic(() => import("./personal-match-panel").then((loaded) => loaded.PersonalMatchPanel));
 
 /** Two blocks over the map: the top bar and the map dock. */
-export function CloseKnit({ initialState, link, fitSelected = false, dev = false }: {
-  initialState: MapState; link?: string; fitSelected?: boolean; dev?: boolean;
+export function CloseKnit({ initialState, link, fitSelected = false, fitZoom = null, dev = false }: {
+  initialState: MapState; link?: string; fitSelected?: boolean; fitZoom?: number | null; dev?: boolean;
 }) {
   // The served scope (app/layout.tsx): the first view's words say England from the first paint.
   const england = coversEngland(useScope());
-  const explorer = useExplorerController(initialState, fitSelected, dev, link);
+  const explorer = useExplorerController(initialState, fitSelected, dev, link, fitZoom);
   // The interface theme is applied on load, not when Map settings first opens.
   const theme = useUiTheme();
   const findButton = useRef<HTMLButtonElement>(null);
@@ -516,6 +516,7 @@ export function CloseKnit({ initialState, link, fitSelected = false, dev = false
     <PersonalMatchPanel
       pack={matchPack}
       jobStatus={explorer.routeJobStatus}
+      busy={{ state: explorer.matchBusy, onRetry: explorer.retryMatch }}
       profile={explorer.profile}
       selected={explorer.selected}
       mode={explorer.mode}
@@ -766,7 +767,8 @@ export function CloseKnit({ initialState, link, fitSelected = false, dev = false
           />
         )}
         label={topicTitle(topicState, customCriteria, explorer.metric.shortLabel)}
-        pill={topicPillLabel(topicState, customCriteria, explorer.metric.shortLabel)}
+        // A phone's legend chip shows the scale only: the pill names the layer and its "London only".
+        pill={[topicPillLabel(topicState, customCriteria, explorer.metric.shortLabel), legendProps.coverageTag].filter(Boolean).join(" · ")}
         selector={() => (
           <MapDataSelector
             layer={explorer.layer}

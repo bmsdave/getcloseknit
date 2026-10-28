@@ -138,6 +138,53 @@ class PortalDistrictFallbackTests(FlagCase):
         self.assertEqual(zone["districts"], [])
 
 
+class AreaLookupOutcodeTests(FlagCase):
+    """G-E10: get_listing_search_links outside London takes the LSOA's postcode districts from ONSPD."""
+
+    class Connection:
+        def __init__(self):
+            self.markers = []
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *exc):
+            return False
+
+        def execute(self, sql, params=()):
+            marker = sql.split("\n", 1)[0]
+            self.markers.append(marker)
+            if marker == "-- evidence:active-release":
+                return [{"release_id": "rel-1"}]
+            if marker == "-- evidence:area-lookup":
+                return [{"id": "uk:lsoa:E01005125", "kind": "lsoa", "name": "Manchester 045A", "parent_id": None,
+                         "borough": "Manchester", "center_lon": -2.22, "center_lat": 53.42,
+                         "friendly_name": "Withington East", "postcode_district": "M19"}]
+            if marker == "-- evidence:area-outcodes":
+                return []  # no address rows outside London
+            if marker == "-- evidence:area-postcode-outcodes":
+                assert params[0] == ["E01005125"], params
+                return [{"geography_id": "uk:lsoa:E01005125", "outcode": "M20", "addresses": 3},
+                        {"geography_id": "uk:lsoa:E01005125", "outcode": "M19", "addresses": 40}]
+            return []
+
+    def lookup(self):
+        from area_api.evidence import EvidenceReader
+        connection = self.Connection()
+        found = EvidenceReader(connect=lambda: connection).area_lookup(["uk:lsoa:E01005125"])
+        return connection, found["places"]["uk:lsoa:E01005125"]["outcodes"]
+
+    def test_outside_london_the_postcode_directory_gives_the_districts_busiest_first(self):
+        self.england()
+        _, outcodes = self.lookup()
+        self.assertEqual(outcodes, ["M19", "M20"])
+
+    def test_flag_off_never_asks_the_postcode_directory(self):
+        connection, outcodes = self.lookup()
+        self.assertEqual(outcodes, [])
+        self.assertNotIn("-- evidence:area-postcode-outcodes", connection.markers)
+
+
 class CommuteOutsideLondonTests(FlagCase):
     def setUp(self):
         super().setUp()

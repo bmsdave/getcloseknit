@@ -145,6 +145,26 @@ class AreaPlacesTests(unittest.TestCase):
                                               "Zones are TfL's."])
         self.assertEqual([s["id"] for s in payload["sources"]], [OSM["id"], TFL["id"]])
 
+    def test_one_station_mapped_twice_is_one_row_and_no_fare_zones_outside_london(self):
+        rail = {"id": "northern", "mode": "national-rail", "name": "Northern Rail"}
+        rows = [
+            {"name": "East Didsbury", "modes": ["national-rail"], "zone": None, "lines": [rail],
+             "lon": -2.2219, "lat": 53.4093, "distance_metres": 323},
+            {"name": "East Didsbury", "modes": ["tram"], "zone": None, "lines": [rail],
+             "lon": -2.2165, "lat": 53.4117, "distance_metres": 734},
+            {"name": "Didsbury Village", "modes": ["tram"], "zone": None, "lines": [],
+             "lon": -2.2310, "lat": 53.4170, "distance_metres": 892},
+        ]
+        release = {"id": "r", "licence": "ODbL", "attribution": "OSM",
+                   "caveats": ["Fare zones and lines are TfL's; stations TfL does not list show them as unknown."]}
+        payload = places.places_payload(AREA, "r1", None, [release], rows, [], [], fare_zones=False)
+        self.assertEqual([s["name"] for s in payload["stations"]], ["East Didsbury", "Didsbury Village"])
+        self.assertEqual(payload["stations"][0]["modes"], ["national-rail", "tram"])
+        self.assertEqual(payload["stations"][0]["lines"], [rail])
+        self.assertFalse(payload["fareZones"])
+        self.assertEqual(payload["caveats"], [])
+        self.assertTrue(places.places_payload(AREA, "r1", None, [release], rows, [], [])["fareZones"])
+
     def test_home_origin(self):
         connection = FakeConnection(homes={"100023336956": {"lon": -0.12, "lat": 51.49}})
         payload = places.area_places(connector(connection), AREA, "100023336956")

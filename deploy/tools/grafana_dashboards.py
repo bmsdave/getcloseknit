@@ -10,6 +10,7 @@ web; click-outs and the north star also count MCP conversations (a session tag) 
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -17,11 +18,32 @@ OUT = Path(__file__).resolve().parents[1] / "grafana" / "dashboards"
 DS = {"type": "grafana-postgresql-datasource", "uid": "close-knit-analytics"}
 PERSON = "coalesce(visitor_id::text, session_id)"
 ACTED = "name IN ('portal_click', 'watch_open', 'brief_share')"
+# Every usage query reads only the traffic ticked in the dashboard's Traffic box (default: live people).
+# area_api.usage.traffic sets it: live, team (our own checks and visits) or tech (scanners, scripts).
+USAGE_TABLES = ("product_event", "mcp_call_note", "mcp_feedback", "profile_analytics_event", "site_feedback")
+LIVE = {table: "traffic IN ($traffic)" for table in USAGE_TABLES} | {"product_event": "coalesce(props->>'traffic', 'live') IN ($traffic)"}
+FILTERED = re.compile(rf"FROM ({'|'.join(USAGE_TABLES)})((?: LEFT JOIN area_label l ON l\.geography_id = props->>'area'|, unnest\(tags\) AS reason)?) WHERE ")
+TRAFFIC_VARIABLE = {
+    "name": "traffic", "label": "Traffic", "type": "custom", "multi": True, "includeAll": False,
+    "description": "Live = people and their assistants; Team = our own checks and visits; Tech = scanners and scripts.",
+    "query": "Live : live, Team : team, Tech : tech",
+    "current": {"text": ["Live"], "value": ["live"]},
+    "options": [{"text": text, "value": value, "selected": value == "live"}
+                for text, value in (("Live", "live"), ("Team", "team"), ("Tech", "tech"))],
+}
+
+
+def live_only(sql: str) -> str:
+    """The query with its usage tables narrowed to the ticked traffic; a table read without WHERE fails here."""
+    sql = FILTERED.sub(lambda m: f"FROM {m.group(1)}{m.group(2)} WHERE {LIVE[m.group(1)]} AND ", sql)
+    unfiltered = len(re.findall(rf"FROM (?:{'|'.join(USAGE_TABLES)})\b", sql)) - sql.count("IN ($traffic)")
+    assert unfiltered == 0, f"usage table read without the traffic filter: {sql}"
+    return sql
 
 
 def target(sql: str, fmt: str = "table") -> dict:
     return {"refId": "A", "datasource": DS, "editorMode": "code", "rawQuery": True, "format": fmt,
-            "rawSql": " ".join(sql.split())}
+            "rawSql": live_only(" ".join(sql.split()))}
 
 
 def panel(kind: str, title: str, sql: str, x: int, y: int, w: int, h: int, *, fmt: str = "table",
@@ -74,9 +96,10 @@ def row(title: str, y: int) -> dict:
 def dashboard(uid: str, title: str, description: str, panels: list[dict], time_from: str) -> dict:
     for index, item in enumerate(panels, 1):
         item["id"] = index
+    filtered = any("$traffic" in t["rawSql"] for item in panels for t in item.get("targets", []))
     return {"uid": uid, "title": title, "description": description, "tags": ["close-knit"], "editable": False,
             "timezone": "browser", "schemaVersion": 41, "version": 1, "refresh": "",
-            "time": {"from": time_from, "to": "now"}, "templating": {"list": []}, "annotations": {"list": []},
+            "time": {"from": time_from, "to": "now"}, "templating": {"list": [TRAFFIC_VARIABLE] if filtered else []}, "annotations": {"list": []},
             "links": [{"type": "dashboards", "tags": ["close-knit"], "asDropdown": False, "title": "Dashboards"}],
             "panels": panels}
 

@@ -7,6 +7,7 @@ import { ofstedMark } from "../src/components/area-schools";
 import { OfstedIcon } from "../src/components/school/ofsted-icon";
 import { sectionInView } from "../src/components/section-tabs";
 import { readAreaPageSeed, SEED_OFF_HEADER } from "../src/lib/area-page-seed";
+import { areaSafetyPathFor } from "../src/lib/area-safety";
 import type { GeographyId, MetricDefinition, SchoolObservation } from "../src/lib/contracts";
 import { METRICS } from "../src/lib/fixtures";
 import { areaSeedFollowUps, areaSeedPaths, METRICS_PATH, type AreaSeedQuery } from "../src/lib/section-seed";
@@ -34,6 +35,10 @@ test("the seed asks for exactly the URLs the area page's hooks read (demo, E0100
   assert.equal(areaSeedFollowUps({ ...QUERY, mode: "real" }, METRICS, true).length, 2);
   // A chosen home reads its own noise, nature, flood and places.
   assert.ok(areaSeedPaths({ ...QUERY, uprn: "100000000001" }).includes(`${AREA}/noise?uprn=100000000001`));
+  // G-E02: an MSOA reads its Safety rows too (the API sums its neighbourhoods); a borough has its own section.
+  const msoa: GeographyId = "uk:msoa:E02000001";
+  assert.ok(areaSeedPaths({ ...QUERY, geographyId: msoa, areaId: msoa }).includes("/api/v1/areas/uk%3Amsoa%3AE02000001/safety"));
+  assert.equal(areaSafetyPathFor("uk:lad:E09000001"), null);
 });
 
 test("the server seed reads each section through its route, trims what the page never reads, shares timelines", async () => {

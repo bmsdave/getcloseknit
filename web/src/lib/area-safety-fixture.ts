@@ -23,7 +23,7 @@ function monthsBetween(start: string, end: string): number {
 }
 
 export function fixtureAreaSafety(id: GeographyId): AreaSafety | null {
-  if (!id.startsWith("uk:lsoa:")) return null;
+  if (!id.startsWith("uk:lsoa:") && !id.startsWith("uk:msoa:")) return null;
   const latest = getAreaSummary(id, "crime", LATEST);
   if (!latest || latest.value === null) return null;
   const points = Array.from({ length: 37 }, (_, index) => monthsBack(LATEST, 36 - index))

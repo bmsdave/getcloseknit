@@ -17,8 +17,12 @@ Stages (run in order; each is restartable):
            and the postcode sector zones (migration 057; needs `cpih_month`
            from etl_cpih.py for real figures):
            python3 etl_sales.py load <url>
-  release  stage and activate a product release = the active one plus the
-           sales source and the `tiles/sale_tile` asset: ... release <url>
+  release  stage a product release = the active one plus the sales source and
+           the `tiles/sale_tile` asset, and activate it unless CLOSE_KNIT_STAGE_ONLY
+           is set (etl.py runs it stage only and activates once at the end of the
+           refresh, release_guard.py): ... release <url>
+  Every rebuild replaces London's rows only (migration 133): England's come
+  from the England prices bundle.
 
   AE_DATA=~/data AE_WORK=~/data/aework/sales python3 etl_sales.py extract
 
@@ -38,6 +42,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "pipelines/area-analytics-ingest"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import release_guard  # noqa: E402
 from area_analytics.epc_link import (  # noqa: E402  (one tolerant linker, B3 #153)
     address_tokens,
     build_epc_index,
@@ -381,12 +387,18 @@ def stage_release(url: str) -> None:
                   f"of {threshold}; {release_id} recorded but NOT activated. Fix the linkage, or "
                   f"for a known, accepted count re-run with {ZERO_FLOOR_THRESHOLD_ENV}={zero_count}")
             return
+        # `sale` holds one load, so an earlier London sales source (src-hmlr-pp-sales-YYYY-MM) is dropped.
         cur.execute(
             """INSERT INTO product_release_member (release_id, source_release_id)
                SELECT %s, source_release_id FROM product_release_member WHERE release_id = %s
+                 AND source_release_id !~ '^src-hmlr-pp-sales-[0-9]{4}-[0-9]{2}$'
                UNION SELECT %s, %s""", (release_id, active, release_id, source_id))
-        cur.execute("SELECT activate_product_release(%s)", (release_id,))
-        print(f"release: activated {release_id}: {dict(counts)}")
+        # Inside an etl.py run (CLOSE_KNIT_STAGE_ONLY) the release is only staged: the run activates once at the
+        # end, after the England bundle and release_build (release_guard.finish).
+        if release_guard.activate(cur, release_id):
+            print(f"release: activated {release_id}: {dict(counts)}")
+        else:
+            print(f"release: staged {release_id}: {dict(counts)}")
 
 
 if __name__ == "__main__":

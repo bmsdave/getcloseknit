@@ -15,8 +15,10 @@ import {
   initialPitch,
   createEvidenceRequestScope,
   isLayerAvailableInMode,
+  linkedLayer,
   matchRequestPath,
   parseMapState,
+  unknownLayerNotice,
   preserveDiagnosticsQuery,
   restoreSavedMapState,
   SAVED_MAP_STATE_KEY,
@@ -57,6 +59,7 @@ import type { ChangeWindow } from "@/lib/price-change";
 import { DEFAULT_CHANGE_WINDOW, scaleFromQuery, withScaleQuery } from "@/lib/map-trend";
 import { AUTO_SCALE, bootLegendScales, committedLegendScale, legendScaleKey, subscribeLegendScale, withLegendScaleQuery } from "@/lib/legend-range";
 import { addressWriteDelay, onlyPeriodChanged } from "@/lib/address-writes";
+import { prefetchAllBoxes } from "@/lib/area-boxes";
 import { setUsageLayer, track } from "@/lib/usage";
 import { showMapToast } from "@/lib/map-toast";
 import { profileLinkEvent, profileLinkToast, readProfileLink } from "@/lib/profile-link";
@@ -65,8 +68,10 @@ import { isDetailLayer, detailAreaLayer, type DetailLayerId } from "@/lib/nature
 import { mapPeriod } from "@/lib/map-period";
 import { PRICE_METRIC_ID, PRICE_STEPS } from "@/lib/price-scale";
 import { paintedMetric } from "@/lib/map-metric-paint";
+import { isBusyStatus, MATCH_RETRIES, matchRetryDelay, type MatchBusy } from "@/lib/match-retry";
 
-export function useExplorerController(initialState: MapState, fitSelected = false, dev = false, link?: string) {
+export function useExplorerController(initialState: MapState, fitSelected = false, dev = false, link?: string,
+  fitZoom: number | null = null) {
   // The setup this map opens with: the link's own params, then the setup saved on this
   // device, then the defaults (lib/map-setup.ts). Read once per mount, before the first address write
   // saves anything; the server render has neither, so it is applied in the effects below.
@@ -104,11 +109,12 @@ export function useExplorerController(initialState: MapState, fitSelected = fals
   const [changeWindow, setChangeWindow] = useState<ChangeWindow>(DEFAULT_CHANGE_WINDOW);
   const [excludedCrime, setExcludedCrime] = useState<string[]>([]);
   const [crimeScaleStops, setCrimeScaleStops] = useState<LegendStop[] | null>(null);
-  const [zoomTo, setZoomTo] = useState<{ id: GeographyId; nonce: number } | null>(
-    () => fitOnLoad && initialState.selected ? { id: initialState.selected, nonce: 0 } : null,
+  const [zoomTo, setZoomTo] = useState<{ id: GeographyId; nonce: number; zoom?: number } | null>(
+    () => fitOnLoad && initialState.selected
+      ? { id: initialState.selected, nonce: 0, ...(fitZoom !== null ? { zoom: fitZoom } : {}) } : null,
   );
   const [saleView, setSaleView] = useState<SaleView>(() => defaultSaleView(latestSaleYear(initialState.period)));
-  const dataMode = useDataMode(initialState, dev);
+  const dataMode = useDataMode(initialState, dev, link);
   const profiles = useSharedProfile();
   const matches = useMatchPack(layer, profiles.profile, dataMode.mode, dataMode.release, dataMode.channel);
   // Real mode describes each layer with the release's own definition (legend,
@@ -155,7 +161,8 @@ export function useExplorerController(initialState: MapState, fitSelected = fals
   useEffect(() => {
     if (!evidenceMetric || !evidenceMetric.periods.length) return;
     // The linked layer's own definition (never the placeholder, nor the server's first price layer).
-    const linked = periodFollowsLayer.current && evidenceMetric.id === new URLSearchParams(boot).get("layer");
+    // ?layer=hmo is hmo-per-1000: the short name too, or its evidence asks for the price month (a 404).
+    const linked = periodFollowsLayer.current && evidenceMetric.id === linkedLayer(boot);
     if (linked) periodFollowsLayer.current = false;
     if ((linked || !evidenceMetric.periods.includes(period)) && evidenceMetric.defaultPeriod && evidenceMetric.defaultPeriod !== period) {
       setPeriod(evidenceMetric.defaultPeriod);
@@ -164,7 +171,7 @@ export function useExplorerController(initialState: MapState, fitSelected = fals
   // The month an area's evidence is asked for. A link naming a layer but no month waits for that layer's
   // own definition: the placeholder knows no months, and the price month is a 404 for noise.
   const requestPeriod = periodFollowsLayer.current && dataMode.mode === "real" && evidenceMetric !== null
-    && isPlaceholderMetric(evidenceMetric) && evidenceMetric.id === new URLSearchParams(boot).get("layer") ? "" : period;
+    && isPlaceholderMetric(evidenceMetric) && evidenceMetric.id === linkedLayer(boot) ? "" : period;
   // The month the map's packs are asked for: never a month the explorer is about to replace (lib/map-period.ts).
   const mapMonth = mapPeriod({
     metric: evidenceMetric, period, waiting: requestPeriod === "",
@@ -503,7 +510,8 @@ export function useExplorerController(initialState: MapState, fitSelected = fals
     latestSaleYear: latestSaleYear(period), selectSale, zoomTo, selectAndZoom,
     paletteId, setPaletteId: choosePalette,
     profile: profiles.profile, profileReady: profiles.ready, profileOpen: profiles.profileOpen,
-    matchPack: matches.matchPack, matchKey: matches.matchKey, routeJobStatus: matches.routeJobStatus, lastMapLayer,
+    matchPack: matches.matchPack, matchKey: matches.matchKey, routeJobStatus: matches.routeJobStatus,
+    matchBusy: matches.matchBusy, retryMatch: matches.retryMatch, lastMapLayer,
     matchList, setMatchList,
     customCriterion: custom.criterion, customPack: custom.valuePack, customTooltip: custom.tooltip, customRollup: custom.rollup, showCriterion: custom.show,
     exploreCriterion: (criterion: Parameters<typeof custom.explore>[0]) => {
@@ -527,7 +535,7 @@ export function useExplorerController(initialState: MapState, fitSelected = fals
 }
 
 /** `demoAllowed` (?dev=1): a real deployment otherwise never restores a saved demo choice. */
-function useDataMode(initialState: MapState, demoAllowed: boolean) {
+function useDataMode(initialState: MapState, demoAllowed: boolean, link?: string) {
   const [mode, setMode] = useState<DataMode>(initialState.mode);
   const [release, setRelease] = useState<string>(initialState.release);
   const [notice, setNotice] = useState<string | null>(() => initialNotice(initialState));
@@ -547,6 +555,9 @@ function useDataMode(initialState: MapState, demoAllowed: boolean) {
 
   useEffect(() => {
     const search = window.location.search;
+    // ?layer=commute names no layer: the map opens Price per m² and says so.
+    const unknownLayer = unknownLayerNotice(link ?? search);
+    if (unknownLayer) setNotice(unknownLayer);
     if (!shouldAdoptSavedState(search)) {
       const conflict = urlModeNotice(search, demoAllowed);
       if (conflict) setNotice(conflict);
@@ -673,6 +684,10 @@ function useMatchPack(
 ) {
   const [matched, setMatched] = useState<{ pack: MatchPack; key: string } | null>(null);
   const [routeJobStatus, setRouteJobStatus] = useState<string | null>(null);
+  // A 429 or 5xx (lib/match-retry.ts): retried with a growing wait, then Try again (`retry` asks once more).
+  const [busy, setBusy] = useState<MatchBusy>(null);
+  const [retry, setRetry] = useState(0);
+  const asked = useRef(false);
   // What is sent (v4: the ordered list, preference-profile.v2): marks, notes and the Kids/Drive answers that
   // change nothing in the match never ask again. Nothing asked yet (no criteria): no match, the map waits.
   const key = useMemo(() => (isUnsetProfile(profile) || !searchCriteria(profile).length ? null : searchKey(profile)), [profile]);
@@ -680,22 +695,41 @@ function useMatchPack(
   useEffect(() => {
     // The ranking stays live under a custom criterion's map layer: the panel keeps showing it.
     if ((layer !== "personal-match" && !isCustomLayerId(layer)) || !isLayerAvailableInMode("personal-match", mode)) return;
+    setBusy(null);
     if (!key) {
       setMatched(null);
       return;
     }
     const controller = new AbortController();
-    const target = { path: matchRequestPath(mode, release), sequence: channel.scope.issue(), scope: channel.scope };
-    const handlers = { onMatch: (pack: MatchPack) => setMatched({ pack, key }), onJobStatus: setRouteJobStatus, onConnection: channel.onConnection };
-    const timeout = window.setTimeout(
-      () => void requestMatches(key, controller.signal, target, handlers),
-      120,
-    );
+    const handlers = {
+      onMatch: (pack: MatchPack) => { setBusy(null); setMatched({ pack, key }); },
+      onJobStatus: setRouteJobStatus, onConnection: channel.onConnection,
+    };
+    let timeout = 0;
+    // The pack is painted over every LSOA's box: those load while it is scored, not after it.
+    if (mode === "real") prefetchAllBoxes("lsoa", release);
+    const attempt = async (tries: number) => {
+      const target = { path: matchRequestPath(mode, release), sequence: channel.scope.issue(), scope: channel.scope };
+      const refused = await requestMatches(key, controller.signal, target, handlers);
+      if (!refused || controller.signal.aborted || !target.scope.isCurrent(target.sequence)) return;
+      if (tries >= MATCH_RETRIES) {
+        setBusy("failed");
+        return;
+      }
+      setBusy("retrying");
+      timeout = window.setTimeout(() => void attempt(tries + 1), matchRetryDelay(tries, refused.retryAfter));
+    };
+    // Edits in a row wait 120 ms and ask once; the first ask (a shared search opening) goes at once.
+    timeout = window.setTimeout(() => void attempt(0), asked.current ? 120 : 0);
+    asked.current = true;
     return () => { window.clearTimeout(timeout); controller.abort(); };
-  }, [layer, key, mode, release, channel]);
+  }, [layer, key, mode, release, channel, retry]);
 
   // `matchKey` names the search the pack answers: the panel re-scores the pack on the client until the next one arrives.
-  return { matchPack: matched?.pack ?? null, matchKey: matched?.key ?? null, routeJobStatus };
+  return {
+    matchPack: matched?.pack ?? null, matchKey: matched?.key ?? null, routeJobStatus,
+    matchBusy: busy, retryMatch: () => setRetry((count) => count + 1),
+  };
 }
 
 interface NavigationSnapshot {
@@ -841,7 +875,7 @@ async function requestMatches(
   signal: AbortSignal,
   target: MatchTarget,
   handlers: MatchHandlers,
-) {
+): Promise<{ retryAfter: string | null } | null> {
   try {
     const response = await fetch(target.path, {
       method: "POST",
@@ -849,16 +883,18 @@ async function requestMatches(
       body,
       signal,
     });
-    if (!target.scope.isCurrent(target.sequence)) return;
+    if (!target.scope.isCurrent(target.sequence)) return null;
     // An answer of any status means the connection is there (lib/connection.ts).
     handlers.onConnection("online");
-    if (!response.ok) return;
+    if (isBusyStatus(response.status)) return { retryAfter: response.headers.get("retry-after") };
+    if (!response.ok) return null;
     await resolveMatchPayload(await response.json() as MatchPack | MatchJob, target, signal, handlers);
   } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") return;
+    if (error instanceof Error && error.name === "AbortError") return null;
     handlers.onConnection("offline");
     console.error("Match request failed", error);
   }
+  return null;
 }
 
 async function resolveMatchPayload(

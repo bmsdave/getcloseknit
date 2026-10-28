@@ -20,7 +20,7 @@ from typing import Any, Callable, Mapping
 
 from pydantic import BaseModel, Field
 
-from . import feedback
+from . import feedback, usage
 
 logger = logging.getLogger(__name__)
 
@@ -34,15 +34,16 @@ FULL_POSTCODE = re.compile(r"\b([A-Z]{1,2}\d[A-Z\d]?) ?\d[A-Z]{2}\b", re.IGNOREC
 CONTROL = re.compile(r"[\x00-\x1f\x7f]+")
 
 INSERT_SQL = """-- call_notes:insert
-INSERT INTO mcp_call_note (call_id, session_id, client, tool, ok, code, intent) VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+INSERT INTO mcp_call_note (call_id, session_id, client, tool, ok, code, intent, traffic)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
 RATE_SQL = f"""-- call_notes:rate
 UPDATE mcp_call_note SET rating = %s, good = %s, bad = %s, fix = %s, rated_at = now()
 WHERE call_id = %s AND created_at >= now() - interval '{RATE_WINDOW}' RETURNING call_id"""
 PURGE_SQL = """-- call_notes:purge
 WITH gone AS (DELETE FROM mcp_call_note WHERE created_at < %s RETURNING 1) SELECT count(*) AS purged FROM gone"""
 LIST_SQL = """-- call_notes:list
-SELECT call_id, created_at, client, tool, ok, code, intent, rating, good, bad, fix FROM mcp_call_note
-WHERE created_at >= %s ORDER BY created_at"""
+SELECT call_id, created_at, client, tool, ok, code, intent, rating, good, bad, fix, traffic FROM mcp_call_note
+WHERE created_at >= %s AND traffic = ANY(%s) ORDER BY created_at"""
 
 INTENT_DESCRIPTION = (
     "Optional, one to three sentences you write: what the user is looking for with this call and the "
@@ -91,14 +92,15 @@ def _purge_if_due(connection: Any) -> None:
 
 
 def record_call(connect: Callable[[], Any] | None, call_id: str, *, tool: str, ok: bool, code: str | None = None,
-                session: str | None = None, client: str | None = None, intent: Any = None) -> None:
+                session: str | None = None, client: str | None = None, intent: Any = None,
+                traffic: str = "live") -> None:
     """One row per call, so a later rating has something to land on."""
     if connect is None:
         return
     try:
         with connect() as connection:
             _purge_if_due(connection)
-            connection.execute(INSERT_SQL, (call_id, session, clean(client, 60), tool, ok, code, clean(intent)))
+            connection.execute(INSERT_SQL, (call_id, session, clean(client, 60), tool, ok, code, clean(intent), traffic))
     except Exception:  # noqa: BLE001 - a missing table or database is logged, not raised
         logger.warning("call note for %s not stored", tool, exc_info=True)
 
@@ -143,9 +145,9 @@ def rate_answer_result(stored: bool) -> dict:
             "evidence": [], "sources": [], "caveats": [caveat]}
 
 
-def recent(connect: Callable[[], Any], days: int = 7) -> list[dict]:
+def recent(connect: Callable[[], Any], days: int = 7, traffic: tuple[str, ...] = ("live",)) -> list[dict]:
     with connect() as connection:
-        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days),))]
+        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days), list(traffic)))]
 
 
 def purge(connect: Callable[[], Any]) -> int:
@@ -158,6 +160,8 @@ def main(argv: list[str] | None = None) -> int:
     commands = parser.add_subparsers(dest="command", required=True)
     listing = commands.add_parser("list", help="notes from the last N days as JSON lines, oldest first")
     listing.add_argument("--days", type=int, default=7)
+    listing.add_argument("--traffic", type=usage.parse_traffic, default=("live",),
+                         help="live (default), team, tech, a comma-separated mix, or all")
     commands.add_parser("purge", help=f"delete notes older than {RETENTION_DAYS} days")
     args = parser.parse_args(argv)
 
@@ -166,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "purge":
         print(f"purged {purge(evidence_connection)}")
         return 0
-    for row in recent(evidence_connection, args.days):
+    for row in recent(evidence_connection, args.days, args.traffic):
         print(json.dumps(row, default=str, ensure_ascii=False))
     return 0
 

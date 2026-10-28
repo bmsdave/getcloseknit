@@ -39,6 +39,11 @@ export function areaSafetyPath(id: GeographyId): string {
   return `/api/v1/areas/${encodeURIComponent(id)}/safety`;
 }
 
+/** The safety read for an area with one (a neighbourhood or MSOA: the API sums an MSOA's neighbourhoods), else null. */
+export function areaSafetyPathFor(id: GeographyId): string | null {
+  return id.startsWith("uk:lsoa:") || id.startsWith("uk:msoa:") ? areaSafetyPath(id) : null;
+}
+
 export function readAreaSafety(payload: unknown, mode: DataMode): AreaSafety | null {
   const value = payload as Partial<AreaSafety> | null;
   if (!value || value.schemaVersion !== "area-safety.v1" || !Array.isArray(value.types)) return null;

@@ -79,7 +79,8 @@ export interface AreaMapProps {
   /** Layers › Nature › Green & trees › Green streets (road links by their street trees) or Green cover (canopy): the area fill is left clear. */
   detailLayer?: DetailLayerId | null;
   /** Fit the view to this area (set when a ranked match is chosen). */
-  zoomTo: { id: GeographyId; nonce: number } | null;
+  /** An area to fit; with a zoom (a link's ?z=), centred at that zoom instead of its whole box. */
+  zoomTo: { id: GeographyId; nonce: number; zoom?: number } | null;
   onSelectSale: (sale: SalePinSelection) => void;
   /** Parcel of the selected dwelling (from its property payload); highlighted on the map. */
   selectedParcelId: string | null;

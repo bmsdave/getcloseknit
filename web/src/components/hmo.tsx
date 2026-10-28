@@ -10,6 +10,7 @@ import type { DataMode } from "@/lib/map-state";
 import { HelpTip } from "./help-tip";
 import { useSectionJson } from "./section-seed";
 import { regionShare } from "@/lib/evidence-format";
+import { SourceNote } from "@/components/source-note";
 
 const SCHEME_LABEL = { additional: "Additional HMO licensing", selective: "Selective licensing" } as const;
 
@@ -79,7 +80,7 @@ export function HmoSources({ hmo }: { hmo: AreaHmoResponse | null | "unknown" })
   return (
     <>
       {hmo.sources.map((source) => <p key={source.sourceId}>{source.attribution ?? source.sourceName}</p>)}
-      {hmo.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {hmo.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

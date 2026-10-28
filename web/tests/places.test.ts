@@ -32,6 +32,9 @@ test("missing data reads as unknown, never as a low score", () => {
   assert.equal(zoneLabel({ zone: null, modes: ["national-rail"] }), "Unknown");
   assert.equal(zoneLabel({ zone: null, modes: ["tram"] }), "No zones");
   assert.equal(zoneLabel({ zone: "2/3", modes: ["tube"] }), "Zone 2/3");
+  // Outside TfL's London (East Didsbury, Didsbury Village tram): no zone slot, never "Unknown" or "No zones".
+  assert.equal(zoneLabel({ zone: null, modes: ["national-rail"] }, false), null);
+  assert.equal(zoneLabel({ zone: null, modes: ["tram"] }, false), null);
 });
 
 test("plain labels for distances, lines and unnamed places", () => {

@@ -18,6 +18,7 @@ export const FOOTER_LINKS: { href: string; label: string; testId: string }[] = [
   { href: "/guide/demo-vs-real", label: "Real or demo data", testId: "footer-data-mode" },
   { href: "/privacy#hide-my-home", label: "Report or hide a home", testId: "footer-hide-home" },
   { href: "/about", label: "About", testId: "footer-about" },
+  { href: "/changelog", label: "Changelog", testId: "footer-changelog" },
   { href: "/feedback", label: "Feedback", testId: "footer-feedback" },
   { href: "/about#teams", label: "For teams", testId: "footer-teams" },
 ];

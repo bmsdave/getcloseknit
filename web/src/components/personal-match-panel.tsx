@@ -35,11 +35,14 @@ import "../styles/match-criteria.css";
 import "../styles/match-list.css";
 import type { CustomCriterion } from "@/lib/custom-criteria";
 import { BRIEF_LAYER_LABEL, BRIEF_LAYERS, homeLabel, type AreaBrief, type BriefLayer, type SchoolFilter } from "@/lib/brief-model";
+import { MATCH_BUSY_WORDS, type MatchBusy } from "@/lib/match-retry";
 
 interface PersonalMatchPanelProps {
   /** The match as shown: the API's, re-scored on the client while the search on screen is newer (null before the first). */
   pack: MatchPack | null;
   jobStatus: string | null;
+  /** The API refused the search (429 or 5xx): retrying, or Try again (lib/match-retry.ts). */
+  busy?: { state: MatchBusy; onRetry: () => void };
   profile: PreferenceProfile;
   selected: GeographyId | null;
   mode: DataMode;
@@ -213,6 +216,12 @@ export function PersonalMatchPanel(props: PersonalMatchPanelProps) {
       )}
       {shared.status}
       {props.jobStatus && <p className="route-job-status" role="status">{props.jobStatus}</p>}
+      {props.busy?.state && (
+        <p className="route-job-status" role="status" data-testid="match-busy">
+          {MATCH_BUSY_WORDS[props.busy.state]}
+          {props.busy.state === "failed" && <>{" "}<button type="button" className="text-button" onClick={props.busy.onRetry}>Try again</button></>}
+        </p>
+      )}
       {resultsNode}
       {/* Under the top 10, the matching areas (or the search's zones) on the portals. */}
       {display && list === "top" && <HomesInTheseAreas pack={display} profile={props.profile} brief={props.brief ?? null} />}

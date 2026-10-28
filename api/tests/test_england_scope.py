@@ -242,16 +242,19 @@ class MatchEvidenceScopeTests(FlagCase):
         self.assertIn("AND geography.id IN (SELECT id FROM area_geography WHERE region_id IN ('uk:region:E12000007'))",
                       repository.evidence_sql(scope.LONDON))
 
-    def test_load_match_evidence_keeps_the_scope(self):
-        class Connection:
-            def __init__(self):
-                self.sql = []
+    class Connection:
+        def __init__(self):
+            self.sql = []
+            self.release = "rel-1"
 
-            def execute(self, sql, params=()):
-                self.sql.append(sql)
-                return served(sql, [{"geography_id": area, "factor_id": "deprivation", "raw_value": 5, "utility": 50}
-                                    for area in REGION_MAP])
+        def execute(self, sql, params=()):
+            if sql == "SELECT release_id FROM active_product_release":
+                return [{"release_id": self.release}]
+            self.sql.append(sql)
+            return served(sql, [{"geography_id": area, "factor_id": "deprivation", "raw_value": 5, "utility": 50}
+                                for area in REGION_MAP])
 
+    def load(self, connection, profile, served_scope=None):
         class Pool:
             def __init__(self, connection):
                 self._connection = connection
@@ -267,20 +270,42 @@ class MatchEvidenceScopeTests(FlagCase):
                         return False
                 return Context()
 
-        profile = {"schemaVersion": "preference-profile.v2", "market": "buy", "analyticsConsent": False,
-                   "criteria": [{"kind": "range", "layer": "deprivation"}]}
-        connection = Connection()
         with mock.patch.object(repository, "_pool", return_value=Pool(connection)), \
                 mock.patch.object(repository, "match_sources", return_value={
                     "factors": ["deprivation"], "places": [], "custom": [], "ranges": [], "budget": False}):
-            london = repository.load_match_evidence(profile)
-            self.england()
-            north_west = repository.load_match_evidence(profile, scope.current([NORTH_WEST]))
-            everything = repository.load_match_evidence(profile)
+            return repository.load_match_evidence(profile, served_scope)
+
+    PROFILE = {"schemaVersion": "preference-profile.v2", "market": "buy", "analyticsConsent": False,
+               "criteria": [{"kind": "range", "layer": "deprivation"}]}
+
+    def test_load_match_evidence_keeps_the_scope(self):
+        connection = self.Connection()
+        london = self.load(connection, self.PROFILE)
+        self.england()
+        north_west = self.load(connection, self.PROFILE, scope.current([NORTH_WEST]))
+        everything = self.load(connection, self.PROFILE)
         self.assertEqual({row["geography_id"] for row in london}, {"uk:lsoa:L1", "uk:lsoa:L2", "uk:lsoa:L3"})
         self.assertEqual({row["geography_id"] for row in north_west}, {"uk:lsoa:N1", "uk:lsoa:N2"})
         self.assertEqual(len(everything), 5)
         self.assertIn("region_id IN ('uk:region:E12000002')", connection.sql[1])
+
+    def test_match_inputs_are_read_once_per_release_and_scope(self):
+        # Every /matches read every area's rows (England ~3.5 s on prod): now each worker reads them once per
+        # release, from release_artifact or the database, and a request only copies them.
+        self.addCleanup(repository.release_store.use_memory())
+        repository.forget_match_inputs()
+        connection = self.Connection()
+        first = self.load(connection, self.PROFILE)
+        first[0]["raw_value"] = 99  # a request's rows are its own
+        second = self.load(connection, self.PROFILE)
+        self.assertEqual(len(connection.sql), 1, "the second request reads no evidence")
+        self.assertEqual(second, [{**row, "raw_value": 5} for row in first])
+        repository.forget_match_inputs()  # another worker: the release's stored table, no evidence query
+        self.assertEqual(self.load(connection, self.PROFILE), second)
+        self.assertEqual(len(connection.sql), 1)
+        connection.release = "rel-2"  # a new release reads afresh
+        self.load(connection, self.PROFILE)
+        self.assertEqual(len(connection.sql), 2)
 
     def test_matches_route_refuses_an_unknown_region(self):
         try:

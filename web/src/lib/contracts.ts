@@ -794,6 +794,8 @@ export interface SectorListItem {
   code: string;
   slug: string;
   name: string | null;
+  /** [lon, lat] a point inside the sector (a q search only). */
+  center?: [number, number] | null;
 }
 
 export function addressId(value: string): AddressId {

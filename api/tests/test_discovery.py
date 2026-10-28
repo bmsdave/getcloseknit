@@ -78,6 +78,7 @@ class DiscoveryTests(unittest.TestCase):
         self.assertEqual(github, {'"url": "https://github.com/bmsdave/close-knit-mcp",'},
                          "only the public close-knit-mcp repo: close-knit itself is private, a link would 404")
         self.assertLessEqual(len(published["description"]), 100)
+        self.assertIn("England, London in depth", published["description"], "the server answers England (G-E11)")
         self.assertLessEqual(len(published["title"]), 100)
         self.assertTrue(published["icons"])
         for icon in published["icons"]:

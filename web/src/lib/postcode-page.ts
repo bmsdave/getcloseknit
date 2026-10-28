@@ -3,6 +3,7 @@
  * which statistical area the postcode sits in. Data comes from the same search
  * surface the explorer uses (fixtures in demo, the evidence API in real mode).
  */
+import { plainPlaceName } from "./area-labels";
 import { carrierOf, type GeographyId } from "./contracts";
 import type { SearchResult } from "./fixtures";
 import type { PostcodeArea } from "./postcode-search";
@@ -50,4 +51,22 @@ export function planPostcodePage(
   const geography = addresses[0]?.geographyId ?? area?.geographyId
     ?? (lookup?.area ? `uk:${carrierOf(lookup.area.carrier)}:${lookup.area.code}` as GeographyId : null);
   return { postcode, addresses, geography, areaName: area?.label ?? lookup?.areaName ?? null };
+}
+
+/**
+ * What the postcode page offers for its homes: their list when the API has one ("listed"); without one, a
+ * "London only" notice outside London (per-home pages cover London's addresses for now), never a link to a 404.
+ */
+export function postcodeHomesState(homes: readonly unknown[] | null, inLondon: boolean): "listed" | "none" | "london-only" {
+  if (homes !== null) return "listed";
+  return inLondon ? "none" : "london-only";
+}
+
+/**
+ * The rent table's words: the council by name, the comparison column by the area's own region (the API's
+ * regionMonthlyRent), and "borough" in London, "council" elsewhere.
+ */
+export function rentTableWords(boroughName: string | null | undefined, region: string): { name: string; region: string; unit: string } {
+  const unit = region === "London" ? "borough" : "council";
+  return { name: plainPlaceName(boroughName) ?? `the ${unit}`, region, unit };
 }

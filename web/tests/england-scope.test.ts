@@ -54,6 +54,10 @@ test("/area/england lists only the regions with boroughs, in ONS order", () => {
   assert.equal(regionPath(LONDON_SCOPE), "/area/london");
   assert.equal(regionPath(NORTH_WEST), "/area/england#north-west");
   assert.equal(regionPath(null), "/area/london");
+  // No region page yet (G-E26, owner board first): every region link is an anchor on /area/england, never a 404.
+  for (const region of REGIONS) {
+    assert.match(regionPath(region), region.code === "E12000007" ? /^\/area\/london$/ : new RegExp(`^/area/england#${regionSlug(region)}$`));
+  }
 });
 
 test("a region's index names its root and compares with it, never with London", () => {

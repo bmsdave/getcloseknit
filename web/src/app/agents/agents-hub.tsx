@@ -6,16 +6,18 @@ import { KnitIcon } from "@/components/knit/knit-icon";
 import { SiteHeader } from "@/components/site-header";
 import { SubpageHero } from "@/components/subpage-hero";
 import { AGENT_GROUPS, AGENT_SAMPLE_PROMPT, agentCard, agentPath, agentTab, type AgentCard, type AgentSlug } from "@/lib/agents";
+import { serverCoversEngland } from "@/lib/deployment";
 import { exampleSearchHref } from "@/lib/profile-state";
 import { pageMetadata, siteOrigin } from "@/lib/seo";
 
 import "@/styles/tools.css";
 import "./agents.css";
 
-export function agentsMetadata(slug: AgentSlug): Metadata {
+export async function agentsMetadata(slug: AgentSlug): Promise<Metadata> {
+  const place = (await serverCoversEngland()) ? "England" : "London";
   return pageMetadata({
     title: slug === "claude" ? "AI agents" : `${agentTab(slug).label} · AI agents`,
-    description: "Use Close Knit in Claude, ChatGPT, Gemini, Cursor, Codex or any agent: add it once, then ask where to live in London.",
+    description: `Use Close Knit in Claude, ChatGPT, Gemini, Cursor, Codex or any agent: add it once, then ask where to live in ${place}.`,
     path: agentPath(slug),
   });
 }

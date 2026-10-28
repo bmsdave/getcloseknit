@@ -3,6 +3,7 @@ import Link from "next/link";
 import { connection } from "next/server";
 
 import { AreaPageShell, AreaUnavailable, DemoNote } from "@/components/area-pages";
+import { plainPlaceName } from "@/lib/area-labels";
 import { areaPath, englandRegions } from "@/lib/area-pages";
 import { loadBoroughs } from "@/lib/area-pages-data";
 import { pageMetadata } from "@/lib/seo";
@@ -31,7 +32,7 @@ export default async function EnglandPage() {
           {region.name === "London" && <p><Link href="/area/london">Boroughs side by side</Link></p>}
           <ul className="area-page__list">
             {boroughs.map((borough) => (
-              <li key={borough.geographyId}><Link href={areaPath(borough)}>{borough.name}</Link></li>
+              <li key={borough.geographyId}><Link href={areaPath(borough)}>{plainPlaceName(borough.name) ?? borough.name}</Link></li>
             ))}
           </ul>
         </section>

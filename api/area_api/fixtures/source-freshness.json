@@ -1,22 +1,22 @@
 {
   "schemaVersion": "source-freshness.v1",
-  "about": "How long after retrieval each source release may sit in the active release before /health says stale-source. The longest matching id prefix wins; other sources use defaultStaleAfterDays.",
+  "about": "How long after retrieval each source release may sit in the active release before /health says stale-source. The longest matching id prefix wins; other sources use defaultStaleAfterDays. topic names the data in the warning people read ('Sales data last updated Sep 2026').",
   "defaultStaleAfterDays": 45,
   "windows": [
-    {"prefix": "src-hmlr-pp-", "staleAfterDays": 45, "cadence": "monthly", "source": "HM Land Registry Price Paid"},
-    {"prefix": "src-epc-bulk-", "staleAfterDays": 100, "cadence": "quarterly", "source": "EPC bulk certificates"},
-    {"prefix": "src-os-open-uprn-", "staleAfterDays": 100, "cadence": "quarterly", "source": "OS Open UPRN"},
-    {"prefix": "src-hmlr-inspire-", "staleAfterDays": 100, "cadence": "quarterly", "source": "HM Land Registry INSPIRE polygons"},
-    {"prefix": "src-osm-", "staleAfterDays": 100, "cadence": "quarterly", "source": "OpenStreetMap extracts and what is derived from them"},
-    {"prefix": "src-dfe-", "staleAfterDays": 100, "cadence": "annual", "source": "DfE school statistics"},
-    {"prefix": "src-la-admissions-", "staleAfterDays": 100, "cadence": "annual", "source": "Council admissions allocation reports"},
-    {"prefix": "src-gla-schools-atlas-", "staleAfterDays": 100, "cadence": "annual", "source": "GLA Schools Atlas feeders"},
-    {"prefix": "src-ofsted-inspections-", "staleAfterDays": 100, "cadence": "annual", "source": "Ofsted inspection history"},
-    {"prefix": "src-defra-noise-", "staleAfterDays": 100, "cadence": "annual", "source": "Defra strategic noise mapping"},
-    {"prefix": "src-dft-cgn0503-", "staleAfterDays": 100, "cadence": "annual", "source": "DfT journey time statistics"},
-    {"prefix": "src-mhclg-", "staleAfterDays": 100, "cadence": "annual", "source": "MHCLG council tax and deprivation"},
-    {"prefix": "src-ons-census-", "staleAfterDays": 100, "cadence": "annual", "source": "ONS Census 2021"},
-    {"prefix": "src-ons-income-", "staleAfterDays": 100, "cadence": "annual", "source": "ONS small-area income"},
-    {"prefix": "src-voa-ctsop-", "staleAfterDays": 100, "cadence": "annual", "source": "VOA council tax stock of properties"}
+    {"prefix": "src-hmlr-pp-", "topic": "Sales data", "staleAfterDays": 45, "cadence": "monthly", "source": "HM Land Registry Price Paid"},
+    {"prefix": "src-epc-bulk-", "topic": "Energy certificates", "staleAfterDays": 100, "cadence": "quarterly", "source": "EPC bulk certificates"},
+    {"prefix": "src-os-open-uprn-", "topic": "Address points", "staleAfterDays": 100, "cadence": "quarterly", "source": "OS Open UPRN"},
+    {"prefix": "src-hmlr-inspire-", "topic": "Land boundaries", "staleAfterDays": 100, "cadence": "quarterly", "source": "HM Land Registry INSPIRE polygons"},
+    {"prefix": "src-osm-", "topic": "Map places", "staleAfterDays": 100, "cadence": "quarterly", "source": "OpenStreetMap extracts and what is derived from them"},
+    {"prefix": "src-dfe-", "topic": "School figures", "staleAfterDays": 100, "cadence": "annual", "source": "DfE school statistics"},
+    {"prefix": "src-la-admissions-", "topic": "School admissions", "staleAfterDays": 100, "cadence": "annual", "source": "Council admissions allocation reports"},
+    {"prefix": "src-gla-schools-atlas-", "topic": "School catchments", "staleAfterDays": 100, "cadence": "annual", "source": "GLA Schools Atlas feeders"},
+    {"prefix": "src-ofsted-inspections-", "topic": "Ofsted ratings", "staleAfterDays": 100, "cadence": "annual", "source": "Ofsted inspection history"},
+    {"prefix": "src-defra-noise-", "topic": "Noise data", "staleAfterDays": 100, "cadence": "annual", "source": "Defra strategic noise mapping"},
+    {"prefix": "src-dft-cgn0503-", "topic": "Road data", "staleAfterDays": 100, "cadence": "annual", "source": "DfT journey time statistics"},
+    {"prefix": "src-mhclg-", "topic": "Deprivation data", "staleAfterDays": 100, "cadence": "annual", "source": "MHCLG council tax and deprivation"},
+    {"prefix": "src-ons-census-", "topic": "Census data", "staleAfterDays": 100, "cadence": "annual", "source": "ONS Census 2021"},
+    {"prefix": "src-ons-income-", "topic": "Income data", "staleAfterDays": 100, "cadence": "annual", "source": "ONS small-area income"},
+    {"prefix": "src-voa-ctsop-", "topic": "Council tax bands", "staleAfterDays": 100, "cadence": "annual", "source": "VOA council tax stock of properties"}
   ]
 }

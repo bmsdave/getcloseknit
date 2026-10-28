@@ -15,7 +15,42 @@
     "to": "now"
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "traffic",
+        "label": "Traffic",
+        "type": "custom",
+        "multi": true,
+        "includeAll": false,
+        "description": "Live = people and their assistants; Team = our own checks and visits; Tech = scanners and scripts.",
+        "query": "Live : live, Team : team, Tech : tech",
+        "current": {
+          "text": [
+            "Live"
+          ],
+          "value": [
+            "live"
+          ]
+        },
+        "options": [
+          {
+            "text": "Live",
+            "value": "live",
+            "selected": true
+          },
+          {
+            "text": "Team",
+            "value": "team",
+            "selected": false
+          },
+          {
+            "text": "Tech",
+            "value": "tech",
+            "selected": false
+          }
+        ]
+      }
+    ]
   },
   "annotations": {
     "list": []
@@ -68,7 +103,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'wizard_open') AS s1, bool_or(name = 'wizard_review') AS s2, bool_or(name = 'wizard_show') AS s3, bool_or(name = 'match_run' AND (props->>'results')::int > 0) AS s4, bool_or(name = 'area_open') AS s5, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS s6 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened Find my area' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 answered the basics' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 asked for areas' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got a shortlist' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 opened an area from it' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f UNION ALL SELECT 6 AS n, '6 acted ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5 AND s6) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'wizard_open') AS s1, bool_or(name = 'wizard_review') AS s2, bool_or(name = 'wizard_show') AS s3, bool_or(name = 'match_run' AND (props->>'results')::int > 0) AS s4, bool_or(name = 'area_open') AS s5, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS s6 FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened Find my area' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 answered the basics' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 asked for areas' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got a shortlist' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 opened an area from it' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f UNION ALL SELECT 6 AS n, '6 acted ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5 AND s6) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
         }
       ],
       "fieldConfig": {
@@ -185,7 +220,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'search' AND props->>'kind' <> 'home') AS s1, bool_or(name = 'page_view' AND props->>'path' ~ '^/(area|postcode)/') AS s2, bool_or(name = 'portal_click') AS s3 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 searched for a place' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 opened an area or postcode page' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 clicked out to a portal' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'search' AND props->>'kind' <> 'home') AS s1, bool_or(name = 'page_view' AND props->>'path' ~ '^/(area|postcode)/') AS s2, bool_or(name = 'portal_click') AS s3 FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 searched for a place' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 opened an area or postcode page' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 clicked out to a portal' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
         }
       ],
       "fieldConfig": {
@@ -302,7 +337,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or((name = 'search' AND props->>'kind' = 'home') OR (name = 'page_view' AND props->>'path' = '/property/:id')) AS s1, bool_or(name = 'portal_click' AND props->>'from' = 'home') AS s2 FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened a home' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 followed its portal links' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or((name = 'search' AND props->>'kind' = 'home') OR (name = 'page_view' AND props->>'path' = '/property/:id')) AS s1, bool_or(name = 'portal_click' AND props->>'from' = 'home') AS s2 FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 opened a home' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 followed its portal links' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
         }
       ],
       "fieldConfig": {
@@ -432,7 +467,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT session_id AS who, bool_or(name = 'tool_call') AS s1, bool_or(name = 'tool_call' AND props->>'tool' IN ('find_areas', 'match_areas', 'find_similar_areas', 'open_shared_search') AND (props->>'ok')::boolean) AS s2, bool_or(name = 'tool_call' AND props->>'tool' = 'get_area_overview') AS s3, bool_or(name = 'tool_call' AND props->>'tool' = 'get_listing_search_links') AS s4, bool_or(name = 'portal_click') AS s5 FROM product_event WHERE channel = 'mcp' AND session_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 used a tool' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 shortlisted areas' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 looked closer at an area' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got listing links' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 someone opened a listing ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
+          "rawSql": "WITH f AS (SELECT session_id AS who, bool_or(name = 'tool_call') AS s1, bool_or(name = 'tool_call' AND props->>'tool' IN ('find_areas', 'match_areas', 'find_similar_areas', 'open_shared_search') AND (props->>'ok')::boolean) AS s2, bool_or(name = 'tool_call' AND props->>'tool' = 'get_area_overview') AS s3, bool_or(name = 'tool_call' AND props->>'tool' = 'get_listing_search_links') AS s4, bool_or(name = 'portal_click') AS s5 FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'mcp' AND session_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, '1 used a tool' AS step, count(*) FILTER (WHERE s1) AS people FROM f UNION ALL SELECT 2 AS n, '2 shortlisted areas' AS step, count(*) FILTER (WHERE s1 AND s2) AS people FROM f UNION ALL SELECT 3 AS n, '3 looked closer at an area' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3) AS people FROM f UNION ALL SELECT 4 AS n, '4 got listing links' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4) AS people FROM f UNION ALL SELECT 5 AS n, '5 someone opened a listing ★' AS step, count(*) FILTER (WHERE s1 AND s2 AND s3 AND s4 AND s5) AS people FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\", round(100.0 * people / nullif(lag(people) OVER (ORDER BY n), 0)) AS \"% of previous\" FROM steps ORDER BY n"
         }
       ],
       "fieldConfig": {
@@ -549,7 +584,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'brief_share') AS shared, bool_or(name = 'page_view' AND props ? 'shared') AS opened_shared, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted, count(DISTINCT occurred_at::date) AS days FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, 'people in the period' AS step, count(*) AS people FROM f UNION ALL SELECT 2, 'shared a link', count(*) FILTER (WHERE shared) FROM f UNION ALL SELECT 3, 'arrived through a shared link', count(*) FILTER (WHERE opened_shared) FROM f UNION ALL SELECT 4, '…and then acted ★', count(*) FILTER (WHERE opened_shared AND acted) FROM f UNION ALL SELECT 5, 'came back on another day', count(*) FILTER (WHERE days > 1) FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\" FROM steps ORDER BY n"
+          "rawSql": "WITH f AS (SELECT visitor_id AS who, bool_or(name = 'brief_share') AS shared, bool_or(name = 'page_view' AND props ? 'shared') AS opened_shared, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted, count(DISTINCT occurred_at::date) AS days FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1), steps AS (SELECT 1 AS n, 'people in the period' AS step, count(*) AS people FROM f UNION ALL SELECT 2, 'shared a link', count(*) FILTER (WHERE shared) FROM f UNION ALL SELECT 3, 'arrived through a shared link', count(*) FILTER (WHERE opened_shared) FROM f UNION ALL SELECT 4, '…and then acted ★', count(*) FILTER (WHERE opened_shared AND acted) FROM f UNION ALL SELECT 5, 'came back on another day', count(*) FILTER (WHERE days > 1) FROM f) SELECT step, people, round(100.0 * people / nullif(first_value(people) OVER (ORDER BY n), 0)) AS \"% of start\" FROM steps ORDER BY n"
         }
       ],
       "fieldConfig": {
@@ -679,7 +714,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE found_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE found_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
         }
       ],
       "fieldConfig": {
@@ -726,7 +761,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM found_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND found_at IS NOT NULL"
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found_at FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM found_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND found_at IS NOT NULL"
         }
       ],
       "fieldConfig": {
@@ -773,7 +808,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE out_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT count(*) FILTER (WHERE out_at IS NOT NULL)::float / nullif(count(*), 0) FROM v WHERE $__timeFilter(first_seen)"
         }
       ],
       "fieldConfig": {
@@ -820,7 +855,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM out_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND out_at IS NOT NULL"
+          "rawSql": "WITH v AS (SELECT visitor_id, min(occurred_at) AS first_seen, min(occurred_at) FILTER (WHERE name = 'portal_click') AS out_at FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1) SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY extract(epoch FROM out_at - first_seen)) FROM v WHERE $__timeFilter(first_seen) AND out_at IS NOT NULL"
         }
       ],
       "fieldConfig": {
@@ -867,7 +902,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH f AS (SELECT visitor_id, bool_or(name = 'wizard_open') AS opened, bool_or(name = 'wizard_show') AS showed FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT count(*) FILTER (WHERE opened AND NOT showed)::float / nullif(count(*) FILTER (WHERE opened), 0) FROM f"
+          "rawSql": "WITH f AS (SELECT visitor_id, bool_or(name = 'wizard_open') AS opened, bool_or(name = 'wizard_show') AS showed FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT count(*) FILTER (WHERE opened AND NOT showed)::float / nullif(count(*) FILTER (WHERE opened), 0) FROM f"
         }
       ],
       "fieldConfig": {
@@ -914,7 +949,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'results')::int = 0)::float / nullif(count(*), 0) FROM product_event WHERE name = 'match_run' AND $__timeFilter(occurred_at)"
+          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'results')::int = 0)::float / nullif(count(*), 0) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'match_run' AND $__timeFilter(occurred_at)"
         }
       ],
       "fieldConfig": {
@@ -961,7 +996,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH entry AS ( SELECT DISTINCT ON (visitor_id) visitor_id, coalesce(props->>'source', 'direct') AS source FROM product_event WHERE name = 'page_view' AND visitor_id IS NOT NULL ORDER BY visitor_id, occurred_at), f AS (SELECT visitor_id, bool_or(name IN ('search', 'match_run', 'wizard_open')) AS searched, bool_or(name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found, bool_or(name = 'portal_click') AS clicked_out, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT e.source AS \"came from\", count(*) AS people, round(100.0 * count(*) FILTER (WHERE searched) / count(*)) AS \"searched %\", round(100.0 * count(*) FILTER (WHERE found) / count(*)) AS \"found %\", round(100.0 * count(*) FILTER (WHERE clicked_out) / count(*)) AS \"clicked out %\", round(100.0 * count(*) FILTER (WHERE acted) / count(*)) AS \"acted ★ %\" FROM f JOIN entry e USING (visitor_id) GROUP BY 1 ORDER BY people DESC"
+          "rawSql": "WITH entry AS ( SELECT DISTINCT ON (visitor_id) visitor_id, coalesce(props->>'source', 'direct') AS source FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'page_view' AND visitor_id IS NOT NULL ORDER BY visitor_id, occurred_at), f AS (SELECT visitor_id, bool_or(name IN ('search', 'match_run', 'wizard_open')) AS searched, bool_or(name = 'area_open' OR (name = 'match_run' AND (props->>'results')::int > 0) OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found, bool_or(name = 'portal_click') AS clicked_out, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT e.source AS \"came from\", count(*) AS people, round(100.0 * count(*) FILTER (WHERE searched) / count(*)) AS \"searched %\", round(100.0 * count(*) FILTER (WHERE found) / count(*)) AS \"found %\", round(100.0 * count(*) FILTER (WHERE clicked_out) / count(*)) AS \"clicked out %\", round(100.0 * count(*) FILTER (WHERE acted) / count(*)) AS \"acted ★ %\" FROM f JOIN entry e USING (visitor_id) GROUP BY 1 ORDER BY people DESC"
         }
       ],
       "fieldConfig": {

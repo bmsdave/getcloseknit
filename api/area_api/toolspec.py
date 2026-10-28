@@ -28,6 +28,8 @@ class ToolContext:
     # The MCP session's usage tag (area_api.usage.session_tag): /go links carry it so a click-out is
     # counted against the conversation that produced it.
     session: str | None = None
+    # Whose call this is (area_api.usage.traffic): live, team or tech, stored with any feedback it sends.
+    traffic: str = "live"
 
 
 class StrictInput(BaseModel):

@@ -276,6 +276,23 @@ class FindAreasTests(unittest.TestCase):
         self.assertEqual(qualities["affordability"], "fallback")
         self.assertEqual(qualities["range:crime"], "observed")
 
+    def test_an_area_without_crime_data_says_crime_was_not_scored(self):
+        # No crime is published for Greater Manchester: such an area is ranked with crime as half a fit, and
+        # find_areas says so on its row and in the caveats, like My match on the website.
+        def rows(profile):
+            return [row for row in _match_rows_fallback_affordability(profile)
+                    if not (row["geography_id"] == "uk:lsoa:E01000003" and "crime" in row["factor_id"])]
+        context = tools.ToolContext(reader=self.reader, load_match_rows=rows, load_zone_lsoas=lambda zones: None)
+        out = tools.call_tool("find_areas", context, {"max_budget": 600_000, "bedrooms": 2,
+                                                      "priorities": [{"factor": "crime", "importance": 4}]})
+
+        areas = {area["geographyId"]: area for area in out["value"]["areas"]}
+        self.assertEqual(areas["uk:lsoa:E01000003"]["notScored"], [
+            {"criterionId": "range:crime", "name": "crime", "reason": "no-data", "text": "not scored: crime (no data)"}])
+        self.assertEqual(areas["uk:lsoa:E01000001"]["notScored"], [])
+        self.assertIn("Not scored: crime (no data) for 1 of 2 areas (Area 003); it counts as half a fit there, "
+                      "so say so.", out["caveats"])
+
     def test_suppressed_row_feeding_no_component_does_not_drag_match_confidence(self):
         """Issue #198: match_areas confidence comes from the returned areas' components."""
         context = tools.ToolContext(reader=self.reader, load_match_rows=_match_rows_with_stray_suppressed,
@@ -285,6 +302,16 @@ class FindAreasTests(unittest.TestCase):
         out = tools.call_tool("match_areas", context, {"profile": profile})
 
         self.assertEqual(out["confidence"], "high")
+
+    def test_a_station_zone_carries_the_station_name_for_the_shared_search(self):
+        """G-E25: the briefUrl's banner reads "Within 20 min walk of East Didsbury", never its osm id."""
+        args = home_search.FindAreasInput(max_budget=400_000, bedrooms=2, priorities=[{"factor": "crime", "importance": 4}],
+                                          near_stations=[{"station_id": "osm:n21551301", "max_walk_minutes": 20}])
+        named = home_search.build_profile(args, {"osm:n21551301": "East Didsbury"})
+        zone = next(item for item in named["criteria"] if item["kind"] == "where")["zones"][0]
+        self.assertEqual(zone["label"], "East Didsbury")
+        bare = home_search.build_profile(args)
+        self.assertNotIn("label", next(item for item in bare["criteria"] if item["kind"] == "where")["zones"][0])
 
     def test_missing_rent_never_outranks_known_over_budget_rents(self):
         # #216: ONS PIPR publishes no City of London figure, so E01000003 has no rent
@@ -755,6 +782,19 @@ class HomeSearchToolTests(unittest.TestCase):
         self.assertIn("summer heat", off)
         self.assertIn("LAEI", on)
 
+    def test_overview_caveats_name_the_region_outside_london(self):
+        """G-E11: a Manchester overview speaks of North West, not London, and drops LAEI, heat and TfL words."""
+        north_west = {"rankScope": {"code": "E12000002", "name": "North West"}}
+        with mock.patch.dict(os.environ, {"CLOSE_KNIT_AIR_QUALITY": "1"}), \
+                mock.patch("area_api.home_search._location", return_value=north_west):
+            caveats = self.call("get_area_overview", area_id="uk:lsoa:E01000001")["caveats"]
+        health = next(caveat for caveat in caveats if caveat.startswith("health:"))
+        around = next(caveat for caveat in caveats if caveat.startswith("gettingAround:"))
+        self.assertIn("percentiles within North West", health)
+        self.assertNotIn("LAEI", health)
+        self.assertNotIn("summer heat", health)
+        self.assertNotIn("TfL", around)
+
     def test_overview_adds_getting_around_from_places(self):
         places = {"available": True, "connectivity": {"score": 8},
                   "stations": [{"name": f"Station {i}", "modes": ["underground"], "zone": "2",
@@ -1007,6 +1047,26 @@ class LayeredReader(StubReader):
 
 
 @unittest.skipIf(tools is None, "pydantic is not installed")
+class ToolCopyTests(unittest.TestCase):
+    """The MCP tools name the scope the server serves: England with London in depth, or London."""
+
+    def test_find_areas_names_the_served_scope(self):
+        from area_api import scope
+
+        with mock.patch.object(home_search.guidance, "served_scope", return_value=scope.ENGLAND):
+            self.assertEqual(home_search.coverage_words(), "in England (London in depth)")
+        with mock.patch.object(home_search.guidance, "served_scope", return_value=scope.LONDON):
+            self.assertEqual(home_search.coverage_words(), "in London")
+        description = tools.TOOLS["find_areas"].description
+        self.assertIn(f"Shortlist neighbourhoods {home_search.coverage_words()}", description)
+        self.assertIn("notScored", description)
+
+    def test_no_tool_calls_its_data_london_only(self):
+        for name, spec in tools.TOOLS.items():
+            for words in ("London neighbourhood", "London home", "London percentile", "borough's"):
+                self.assertNotIn(words, spec.description, name)
+
+
 class OverviewLayerTests(unittest.TestCase):
     """#232 HPI, #233 council tax / stamp duty / deprivation, #234 listed buildings and Article 4:
     the REST readers' figures reach get_area_overview and assess_listing, cited and caveated."""
@@ -1039,6 +1099,17 @@ class OverviewLayerTests(unittest.TestCase):
         self.assertTrue(any("hpi is the borough's official UK House Price Index" in c and "market.growth" in c
                             for c in out["caveats"]))
         self.assertIn("src-hmlr-uk-hpi-2026-07", {s["release"] for s in out["sources"]})
+
+    def test_overview_names_region_figures_and_keeps_the_london_names_as_aliases(self):
+        out = self.call("get_area_overview", area_id="uk:lsoa:E01000001")
+
+        hpi = out["value"]["hpi"]
+        everything = next(kind for kind in hpi["types"] if kind["type"] == "all")
+        self.assertEqual(everything["londonChange"], everything["regionChange"])
+        self.assertEqual(hpi["londonPercentile"], hpi["regionPercentile"])
+        description = tools.TOOLS["get_area_overview"].description
+        self.assertIn("regionChange, regionPercentile", description)
+        self.assertIn("deprecated aliases", description)
 
     def test_overview_reads_council_tax_deprivation_and_home(self):
         out = self.call("get_area_overview", area_id="uk:lsoa:E01000001")

@@ -289,7 +289,7 @@ export function parseMapStateWithStatus(parameters: URLSearchParams): MapStatePa
   const state: MapState = {
     latitude: numberParameter(parameters, "lat", DEFAULT_MAP_STATE.latitude, -90, 90),
     longitude: numberParameter(parameters, "lng", DEFAULT_MAP_STATE.longitude, -180, 180),
-    zoom: numberParameter(parameters, "zoom", DEFAULT_MAP_STATE.zoom, MIN_LINK_ZOOM, 18),
+    zoom: numberParameter(parameters, zoomKey(parameters), DEFAULT_MAP_STATE.zoom, MIN_LINK_ZOOM, 18),
     pitch: numberParameter(parameters, "pitch", DEFAULT_MAP_STATE.pitch, 0, 60),
     bearing: numberParameter(parameters, "bearing", DEFAULT_MAP_STATE.bearing, -180, 180),
     layer: metricParameter(parameters.get("layer")),
@@ -308,15 +308,24 @@ export function parseMapState(parameters: URLSearchParams): MapState {
 
 /**
  * A link that names an area but no map position should open on that area,
- * not on the default London view: the map fits the area once on load. Any
- * usable lat, lng or zoom is an explicit position and wins.
+ * not on the default London view: the map fits the area once on load. A
+ * usable lat or lng is an explicit position and wins; a zoom alone (?z=12)
+ * still opens on the area, centred at that zoom (selectedFitZoom).
  */
 export function shouldFitSelectedArea(parameters: URLSearchParams): boolean {
   if (!geographyParameter(parameters.get("selected"))) return false;
-  return !["lat", "lng", "zoom"].some((key) => {
-    const raw = parameters.get(key);
-    return raw !== null && raw.trim() !== "" && Number.isFinite(Number(raw));
-  });
+  return !["lat", "lng"].some((key) => usableNumber(parameters.get(key)));
+}
+
+/** The zoom a fitted link asks for (?zoom= or ?z=), within the link range; null fits the area's whole box. */
+export function selectedFitZoom(parameters: URLSearchParams): number | null {
+  if (!shouldFitSelectedArea(parameters)) return null;
+  const key = zoomKey(parameters);
+  return usableNumber(parameters.get(key)) ? numberParameter(parameters, key, DEFAULT_MAP_STATE.zoom, MIN_LINK_ZOOM, 18) : null;
+}
+
+function usableNumber(raw: string | null): boolean {
+  return raw !== null && raw.trim() !== "" && Number.isFinite(Number(raw));
 }
 
 export function serializeMapState(state: MapState): string {
@@ -665,8 +674,7 @@ export const MERGED_LAYERS: Partial<Record<MapLayerId, MapLayerId>> = {
   "custom:universities": "student-share",
 };
 
-function metricParameter(value: string | null): MapLayerId {
-  const valid: MapLayerId[] = [
+const LINKABLE_LAYERS: readonly MapLayerId[] = [
     "price-per-square-metre",
     "crime",
     "deprivation",
@@ -709,12 +717,50 @@ function metricParameter(value: string | null): MapLayerId {
     "supermarket-walk",
     "gp-walk",
     "broadband-gigabit",
-  ];
-  const merged = MERGED_LAYERS[value as MapLayerId];
+];
+
+/** Short or guessed layer names in hand-written links (?layer=schools); each opens the layer it means. */
+export const LAYER_ALIASES: Readonly<Record<string, MapLayerId>> = {
+  price: "price-per-square-metre",
+  schools: "good-schools-nearby",
+  hmo: "hmo-per-1000",
+  rent: "typical-rent",
+  air: "air-no2",
+  flood: "flood-risk",
+  broadband: "broadband-gigabit",
+  "short-lets": "short-lets-per-1000",
+  students: "student-share",
+  match: "personal-match",
+};
+
+function knownLayer(value: string | null): MapLayerId | null {
+  if (!value) return null;
+  const merged = MERGED_LAYERS[value as MapLayerId] ?? LAYER_ALIASES[value];
   if (merged) return merged;
   // A custom criterion's layer; the explorer falls back to My match when the profile lacks it.
-  if (value && /^custom:[a-z0-9-]{1,24}$/.test(value)) return value as MapLayerId;
-  return valid.includes(value as MapLayerId) ? (value as MapLayerId) : DEFAULT_MAP_STATE.layer;
+  if (/^custom:[a-z0-9-]{1,24}$/.test(value)) return value as MapLayerId;
+  return LINKABLE_LAYERS.includes(value as MapLayerId) ? (value as MapLayerId) : null;
+}
+
+function metricParameter(value: string | null): MapLayerId {
+  return knownLayer(value) ?? DEFAULT_MAP_STATE.layer;
+}
+
+/** The layer a link's ?layer= opens, its short names read (?layer=hmo is hmo-per-1000); null when it names none. */
+export function linkedLayer(search: string): MapLayerId | null {
+  return knownLayer(new URLSearchParams(search).get("layer"));
+}
+
+/** A link's ?layer= that names no layer (it opens Price per m²): the notice that says so; null otherwise. */
+export function unknownLayerNotice(search: string): string | null {
+  const raw = new URLSearchParams(search).get("layer");
+  if (!raw || knownLayer(raw)) return null;
+  return `No map layer called “${raw.slice(0, 40)}”: showing Price per m²`;
+}
+
+/** The zoom a link gives: ?zoom=, or the short ?z= when zoom is missing. */
+function zoomKey(parameters: URLSearchParams): string {
+  return parameters.has("zoom") || !parameters.has("z") ? "zoom" : "z";
 }
 
 function periodParameter(value: string | null): string {

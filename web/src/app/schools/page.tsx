@@ -10,6 +10,7 @@ import { SchoolList } from "@/components/schools/school-list";
 import { Schools101Grid } from "@/components/schools/schools-101-grid";
 import { availableRankings, RANKING_TILES, rankingBySlug, rankingPreview, tileGoodPair } from "@/lib/area-pages";
 import { loadAreaPages } from "@/lib/area-pages-data";
+import { councilWord } from "@/lib/coverage-words";
 import { SCHOOLS_101_PATH } from "@/lib/schools-101";
 import {
   filterSchools, hubBoroughs, hubPhase, hubScope, listsSchools, NO_FILTERS, readSchoolFilters, schoolsHref, type LondonBorough, type SchoolFilters,
@@ -36,7 +37,7 @@ export async function generateMetadata({ searchParams }: { searchParams: Search 
     title: borough ? `Schools in ${borough.name}` : `Schools in ${scope}`,
     description: borough
       ? `Every state school in ${borough.name}: Ofsted grades, results and a page for each school.`
-      : `${scope}'s state schools: search a school, top lists by results and Ofsted, every borough's schools, and Schools 101 for families new to the UK system.`,
+      : `${scope}'s state schools: search a school, top lists by results and Ofsted, every ${councilWord(scope === "London")}'s schools, and Schools 101 for families new to the UK system.`,
     path: borough ? `/schools?borough=${borough.slug}` : "/schools",
   });
 }
@@ -52,6 +53,7 @@ export default async function SchoolsPage({ searchParams }: { searchParams: Sear
   // Every local authority the school index names (London's 33 always); England's once its schools are loaded.
   const boroughs = hubBoroughs(directory?.schools ?? []);
   const scope = hubScope(boroughs);
+  const london = scope === "London";
   const filters = readSchoolFilters(await searchParams, boroughs);
   const index = loaded?.index ?? null;
   const available = new Set(availableRankings(index).map((ranking) => ranking.slug));
@@ -83,7 +85,7 @@ export default async function SchoolsPage({ searchParams }: { searchParams: Sear
       {directory && (
         <p className="schools-hub__stats" data-testid="schools-stats">
           <strong>{directory.schools.length.toLocaleString("en-GB")}</strong> state schools
-          <span aria-hidden="true"> · </span><strong>{boroughs.length}</strong> boroughs
+          <span aria-hidden="true"> · </span><strong>{boroughs.length}</strong> {councilWord(london, true)}
         </p>
       )}
       {mode && <DemoNote mode={mode} />}
@@ -104,14 +106,16 @@ export default async function SchoolsPage({ searchParams }: { searchParams: Sear
           )}
           {rows.length > 0 && <SchoolList schools={rows} />}
           {rows.length < shown.length && (
-            <p className="area-page__note">First {rows.length} of {shown.length}. Pick a borough for all.</p>
+            <p className="area-page__note">First {rows.length} of {shown.length}. Pick a {councilWord(london)} for all.</p>
           )}
         </section>
       )}
 
       <div className="rankings-index__groups">
         <section id="schools-top" className="rankings-group" aria-labelledby="schools-top-title" data-testid="schools-top-lists">
-          <GroupHead id="schools-top" label="London top lists" count={`${tiles.reduce((sum, { variants }) => sum + variants.flat().filter(Boolean).length, 0)} lists`} />
+          {/* The top lists rank London's schools alone: on England's hub they say so (DESIGN.md §6). */}
+          <GroupHead id="schools-top" label={london ? "London top lists" : "Top lists"}
+            count={`${tiles.reduce((sum, { variants }) => sum + variants.flat().filter(Boolean).length, 0)} lists${london ? "" : " · London only"}`} />
           <ul className="rankings-tiles">
             {tiles.map(({ tile, variants }) => (
               <RankingTileCard key={tile.id} id={tile.id} label={tile.label} typeLabels={tile.typeLabels} pair={tile.pair} types={tile.types}
@@ -123,7 +127,7 @@ export default async function SchoolsPage({ searchParams }: { searchParams: Sear
         </section>
 
         <section id="schools-boroughs" className="rankings-group" aria-labelledby="schools-boroughs-title" data-testid="schools-boroughs">
-          <GroupHead id="schools-boroughs" label="By borough" count={`${boroughs.length}`} />
+          <GroupHead id="schools-boroughs" label={london ? "By borough" : "By council"} count={`${boroughs.length}`} />
           <ul className="schools-boroughs">
             {boroughs.map((entry) => (
               <li key={entry.slug}>

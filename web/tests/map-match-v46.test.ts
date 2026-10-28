@@ -94,6 +94,16 @@ test("v4.6 CUJ01/CUJ08: tied scores say what orders them, and each tied row lead
   assert.deepEqual(whyParts(row, items, profile()).map((part) => part.id), ["range:crime"]);
 });
 
+test("G-E13/G-E14: a criterion with no data here says not scored; an unrouted pin's minutes say est.", () => {
+  // Greater Manchester publishes no crime: Safer streets is half a fit there, and the row says so.
+  const row = result(1, 75, { components: [component("place:kx", 4, { quality: "fallback" })], reasons: ["place:kx"], evidenceCompleteness: 60 });
+  const parts = whyParts(row, items, profile());
+  assert.deepEqual(parts.map((part) => [part.mark, part.text]), [["in", "#1 King's Cross 4′ est."], ["none", "#2 Safer streets: no data"]]);
+  // A routed pin (through a commute hub) is no estimate; nothing missing, nothing added.
+  const routed = result(2, 90, { components: [component("place:kx", 17), component("range:crime", 12, { percentile: 26 })], reasons: ["place:kx"] });
+  assert.deepEqual(whyParts(routed, items, profile()).map((part) => part.text), ["#1 King's Cross 17′"]);
+});
+
 test("v4.6 CUJ06/CUJ11: a tool's price is the budget, a Must (over it hatched), and the stretch fades above it", () => {
   assert.deepEqual(budgetFromTarget(570_000, "buy"), { targetBudget: 570_000, maximumBudget: 620_000 });
   assert.deepEqual(budgetFromTarget(500_000, "buy"), { targetBudget: 500_000, maximumBudget: 545_000 });

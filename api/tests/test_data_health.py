@@ -96,6 +96,18 @@ class ReadinessTests(unittest.TestCase):
         self.assertEqual(report["productReleaseId"], "product-2026-07")
         self.assertTrue(any("police-uk-2026-03" in reason
                             for reason in report["unavailableReasons"]))
+        # Without a topic for the source, the words for people still carry no ids (G-E03).
+        self.assertEqual(report["notice"], "Some data last updated Mar 2026")
+
+    def test_stale_notice_names_the_topic_and_month_not_ids(self):
+        """G-E03: the page reads 'Sales data last updated Sep 2026'; the ids stay in unavailableReasons."""
+        state = healthy_state(sources=[{
+            "sourceId": "src-hmlr-pp-complete-2026-07", "release": "src-hmlr-pp-complete-2026-07",
+            "retrievedAt": "2026-07-10T10:00:00+00:00", "staleAfterDays": 45}])
+        report = repository.assess_readiness(state)
+        self.assertEqual(report["notice"], "Sales data last updated Jul 2026")
+        self.assertIn("src-hmlr-pp-complete-2026-07", report["unavailableReasons"][0])
+        self.assertIsNone(repository.assess_readiness(healthy_state())["notice"])
 
     def test_missing_tile_asset_is_not_ready(self):
         report = repository.assess_readiness(healthy_state(assets=[]))
@@ -335,6 +347,26 @@ class LoadReadinessTests(unittest.TestCase):
         self.assertEqual(stale["code"], "stale-source")
         self.assertIn("45-day", repr(stale))
 
+    def test_loader_degrades_on_low_price_coverage_or_missing_artifacts(self):
+        # The October refresh: no typical price outside London and 157 artifacts, yet /health said ready.
+        release = [{"release_id": "rel-sales", "previous_release_id": "rel-old", "validation_status": "passed",
+                    "assets": ["tiles/x.pmtiles"]}]
+        sources = [{"id": "src-epc-bulk-2012-2026", "retrieved_at": "2026-10-20T10:00:00+00:00"}]
+        data = [{"check_name": "typical-price-coverage", "ok": False,
+                 "detail": "below 95% of LSOAs with a typical price: East of England 0/3300 LSOAs (0.0%)"},
+                {"check_name": "release-artifacts", "ok": False,
+                 "detail": "rel-sales has 157 artifacts and no tier-0/1 build"}]
+        report = repository.load_readiness(lambda: _fake_connection(release, sources, data), now="2026-10-28")
+        self.assertEqual(report["status"], "degraded")
+        self.assertEqual(report["code"], "price-coverage-low")
+        codes = {check["check"]: check["code"] for check in report["checks"]}
+        self.assertEqual(codes["release-artifacts"], "release-artifacts-missing")
+        self.assertIn("East of England 0/3300", repr(report["unavailableReasons"]))
+
+        healthy = [dict(row, ok=True) for row in data]
+        report = repository.load_readiness(lambda: _fake_connection(release, sources, healthy), now="2026-10-28")
+        self.assertEqual(report["status"], "ready")
+
     def test_loader_reports_empty_database_without_rows(self):
         connection = _fake_connection(readiness=[], sources=[])
 
@@ -345,9 +377,10 @@ class LoadReadinessTests(unittest.TestCase):
 
 
 class _FakeConnection:
-    def __init__(self, readiness, sources):
+    def __init__(self, readiness, sources, data=()):
         self._readiness = readiness
         self._sources = sources
+        self._data = data
 
     def __enter__(self):
         return self
@@ -361,11 +394,13 @@ class _FakeConnection:
             return list(self._readiness)
         if marker == "-- health:sources":
             return list(self._sources)
+        if marker == "-- health:data":
+            return list(self._data)
         raise AssertionError(f"unexpected statement: {marker}")
 
 
-def _fake_connection(readiness, sources):
-    return _FakeConnection(readiness, sources)
+def _fake_connection(readiness, sources, data=()):
+    return _FakeConnection(readiness, sources, data)
 
 
 try:

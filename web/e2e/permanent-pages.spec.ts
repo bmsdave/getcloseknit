@@ -29,7 +29,8 @@ test("unknown or malformed area ids are 404s", async ({ request }) => {
 
 test("a postcode page lists every recorded sale with its numbers and links the area", async ({ page }) => {
   await page.goto("/postcode/sw1a-1ab");
-  await expect(page).toHaveTitle(/SW1A 1AB/);
+  // G-E22: the neighbourhood by name, without its own district (the postcode says where it is).
+  await expect(page).toHaveTitle(/^SW1A 1AB · St James's · Close Knit$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("SW1A 1AB");
 
   // The infographics answer "what are homes like and what do they cost" first.

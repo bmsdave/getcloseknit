@@ -11,11 +11,13 @@ CLOSE_KNIT_ALIAS_SUNSET=YYYY-MM-DD (publication + 30 days, RELEASE-CHECKLIST.md)
 """
 from __future__ import annotations
 
+import json
 import os
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from typing import Any, Mapping
 
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from starlette.background import BackgroundTask
 
@@ -103,13 +105,25 @@ def _alias(value: Any) -> tuple[Any, bool]:
     return value, False
 
 
+def _dumps(content: Any) -> bytes:
+    return json.dumps(content, ensure_ascii=False, allow_nan=False, indent=None, separators=(",", ":"),
+                      default=jsonable_encoder).encode("utf-8")
+
+
 class AliasedJSONResponse(JSONResponse):
     """The API's JSON response: old field names added (`with_aliases`), with the Deprecation header (and Sunset, once
     set) when any was."""
 
     def render(self, content: Any) -> bytes:
+        # A route may return this response with its payload as built (the 22 MB England match pack skips FastAPI's
+        # jsonable_encoder walk): a value json cannot write (a database Decimal, a date) goes through it here.
+        body = _dumps(content)
+        # Every new name starts "region" or "country": a body without either key needs no alias, so a big answer
+        # (the England match pack, ~2 million values) skips the walk (0.2 s locally) for two scans of its bytes.
+        if b'"region' not in body and b'"country' not in body:
+            return body
         content, self._deprecated_names = has_aliases(content)
-        return super().render(content)
+        return _dumps(content) if self._deprecated_names else body
 
     def __init__(self, content: Any, status_code: int = 200, headers: Mapping[str, str] | None = None,
                  media_type: str | None = None, background: BackgroundTask | None = None) -> None:

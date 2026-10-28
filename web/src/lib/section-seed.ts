@@ -13,7 +13,7 @@ import { locationPath } from "./area-location";
 import { areaProfilePath } from "./area-profile-path";
 import { rentsPath } from "./area-rents";
 import { rentTrendPath } from "./rent-trend";
-import { areaSafetyPath } from "./area-safety";
+import { areaSafetyPathFor } from "./area-safety";
 import { civicPath } from "./civic";
 import { fallbackMetric, getMetric } from "./fixtures";
 import { floodPath } from "./flood-risk";
@@ -85,7 +85,7 @@ export function areaSeedPaths({ geographyId, areaId, mode, release, period, uprn
     areaProfilePath({ selected: areaId, period: LATEST_PROFILE_PERIOD, mode, release }),
     floodPath(areaId, uprn), placesPath({ selected: areaId, uprn, mode, release }),
     marketPath(geographyId), marketDepthPath(geographyId), recentSalesPath(geographyId, 1, "nearest"), rentTrendPath(geographyId),
-    geographyId.startsWith("uk:lsoa:") ? areaSafetyPath(geographyId) : null,
+    areaSafetyPathFor(geographyId),
     civicPath({ geographyId: areaId }), rentsPath(areaId),
     noisePath(areaId, uprn), naturePath(areaId, uprn), kidsPath(areaId), areaSchoolsPath(areaId), areaPeoplePath(areaId),
     real ? homePath(areaId) : null, real ? locationPath(areaId) : null, real ? healthPath(areaId) : null,

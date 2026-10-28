@@ -93,7 +93,9 @@ export function readSectorList(payload: unknown): SectorListItem[] {
   return rows.flatMap((row) => {
     const item = record(row);
     if (!item || typeof item.code !== "string" || typeof item.slug !== "string") return [];
-    return [{ code: item.code, slug: item.slug, name: typeof item.name === "string" ? item.name : null }];
+    const center = Array.isArray(item.center) && item.center.length === 2 && item.center.every((n) => typeof n === "number")
+      ? item.center as [number, number] : null;
+    return [{ code: item.code, slug: item.slug, name: typeof item.name === "string" ? item.name : null, ...(center ? { center } : {}) }];
   });
 }
 

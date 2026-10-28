@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 
 import { AGENT_TABS, agentPath } from "./agents";
+import { CHANGELOG_PATH, CHANGELOG_RSS_PATH, changelogPath } from "./changelog";
 import { valueLine } from "./coverage-words";
 import { areaPath, LONDON, RANKINGS, type RankingDefinition } from "./area-pages";
 import type { GeographyId } from "./contracts";
@@ -125,18 +126,28 @@ export function pageMetadata({ title, description, path, image = SITE_CARD }: Pa
   };
 }
 
+/** pageMetadata for /changelog pages, with the feed's autodiscovery <link rel="alternate" type="application/rss+xml">. */
+export function changelogMetadata(input: PageMetadataInput): Metadata {
+  const metadata = pageMetadata(input);
+  return {
+    ...metadata,
+    alternates: { ...metadata.alternates, types: { "application/rss+xml": [{ url: CHANGELOG_RSS_PATH, title: "Close Knit changelog" }] } },
+  };
+}
+
 /** Every permanent page for the sitemap: fixed pages, guide (glossary included), tools, rankings (school ones
  *  included when shown), every area with each neighbourhood's Places and evidence pack, every school with
  *  evidence (`schools`: URNs; a school with no result or inspection is noindex) and every postcode sector
- *  (`sectors`: codes, "W5 1"). Per-address pages are too many for one file: homeSitemapPaths, per sector. */
+ *  (`sectors`: codes, "W5 1") and the changelog with each entry (`changelog`: slugs). Per-address pages are too many for one file: homeSitemapPaths, per sector. */
 export function sitemapPaths(
   areas: readonly { geographyId: GeographyId }[],
   rankings: readonly RankingDefinition[] = RANKINGS.filter((ranking) => ranking.kind === "metric"),
   schools: readonly string[] = [],
   sectors: readonly string[] = [],
+  changelog: readonly string[] = [],
 ): string[] {
   return [
-    "/", "/about", ...AGENT_TABS.map((tab) => agentPath(tab.slug)), "/guide", "/guide/glossary", ...GUIDE_SLUGS.map((slug) => guidePath(slug)),
+    "/", "/about", CHANGELOG_PATH, ...changelog.map((slug) => changelogPath(slug)), ...AGENT_TABS.map((tab) => agentPath(tab.slug)), "/guide", "/guide/glossary", ...GUIDE_SLUGS.map((slug) => guidePath(slug)),
     "/tools", ...TOOLS.map((tool) => `/tools/${tool.slug}`),
     "/privacy", "/terms",
     // The rankings with a page (area-pages.ts › availableRankings): a lens with an empty pack is left out.

@@ -101,10 +101,14 @@ SELECT no2, air_pct, gp_practices, gp_nearest_m FROM area_health WHERE geography
 GP_LONDON_SQL = """-- standouts:gp-london
 SELECT gp_nearest_m AS v FROM area_health WHERE geography_id LIKE 'uk:lsoa:%%' AND gp_nearest_m IS NOT NULL"""
 
-KIDS_SQL = """-- standouts:kids
-SELECT coalesce(protected_km, 0) + coalesce(cycleway_km, 0) AS lanes_km FROM area_kids WHERE geography_id = %s"""
-LANES_LONDON_SQL = """-- standouts:lanes-london
-SELECT coalesce(protected_km, 0) + coalesce(cycleway_km, 0) AS v FROM area_kids WHERE geography_id LIKE 'uk:lsoa:%%'"""
+# TfL's lanes are London's alone: NULL elsewhere (migration 112) stays NULL, never 0 km.
+LANES_KM = ("CASE WHEN protected_km IS NULL AND cycleway_km IS NULL THEN NULL "
+            "ELSE coalesce(protected_km, 0) + coalesce(cycleway_km, 0) END")
+KIDS_SQL = f"""-- standouts:kids
+SELECT {LANES_KM} AS lanes_km FROM area_kids WHERE geography_id = %s"""
+LANES_LONDON_SQL = f"""-- standouts:lanes-london
+SELECT {LANES_KM} AS v FROM area_kids
+WHERE geography_id LIKE 'uk:lsoa:%%' AND (protected_km IS NOT NULL OR cycleway_km IS NOT NULL)"""
 
 NATURE_SQL = """-- standouts:nature
 SELECT green_share, site_name, site_kind, site_metres, nature_percentile FROM area_nature WHERE geography_id = %s"""
@@ -112,6 +116,10 @@ SELECT green_share, site_name, site_kind, site_metres, nature_percentile FROM ar
 STATION_SQL = """-- standouts:station
 SELECT s.name, s.zone FROM lsoa_station_walk w JOIN place_station s ON s.id = replace(w.station_id, 'osm:', '')
 WHERE w.geography_id = %s"""
+
+# Tiles whose source may not reach every region: the catalog metric whose coverage (metric_coverage) is the tile's.
+# Cycling is TfL's lanes (coverage.TFL_REGIONS), no metric. Outside the coverage a tile says "London only".
+COVERAGE_METRICS = {"nature": "nature-score", "air": "air-no2"}
 
 TILE_METRICS = ("price-per-square-metre", "crime", "station-access", "food-hygiene")
 # Read for a tag only: the official deprivation decile (a higher London percentile is less deprived).
@@ -207,6 +215,7 @@ def load_inputs(connection: Any, release_id: str, area_id: str, cancel: Callable
     evidence._check_cancelled(cancel)
     return {
         "place": coverage.region_name(region) or "London",
+        "coverage": coverage_reasons(connection, region),
         "metrics": metrics,
         "priceYearAgo": year_ago[0]["value"] if year_ago else None,
         "noise": one("noise", NOISE_SQL), "noiseLondon": london("noise", "noise", NOISE_LONDON_SQL),
@@ -228,6 +237,22 @@ def load_inputs(connection: Any, release_id: str, area_id: str, cancel: Callable
         "presets": {tile: _preset(connection, release_id, preset, area_id, formula)
                     for tile, (preset, formula) in PRESETS.items()},
     }
+
+
+def coverage_reasons(connection: Any, region: str | None) -> dict[str, str]:
+    """Each tile whose source does not reach the area's region, with why ("london-only"); none in London."""
+    if region is None or region == coverage.LONDON_REGION:
+        return {}
+    reached = coverage.metric_regions(connection, list(COVERAGE_METRICS.values()))
+    sources = {"cycling": coverage.TFL_REGIONS, **{tile: reached.get(metric) for tile, metric in COVERAGE_METRICS.items()}}
+    reasons = {tile: coverage.reason(region, regions) for tile, regions in sources.items()}
+    return {tile: why for tile, why in reasons.items() if why}
+
+
+def with_coverage(tiles: list[dict], reasons: Mapping[str, str]) -> list[dict]:
+    """Tiles outside their source's coverage: no value (never a 0 from an empty source) and the reason, so the page
+    says "London only" rather than "No data here"."""
+    return [{**_tile(tile["id"]), "coverage": reasons[tile["id"]]} if tile["id"] in reasons else tile for tile in tiles]
 
 
 def _outstanding(attributes: Mapping[str, Any] | None) -> bool:
@@ -310,7 +335,7 @@ def tile_dict(tile_id: str, label: str, section: str | None, topic: str | None, 
             "available": display is not None, "value": value, "display": display,
             "standing": oriented, "regionPercentile": standing if neutral else None,
             "extreme": None if neutral else _extreme(oriented, bounds),
-            "detail": detail, "trend": trend, "period": period}
+            "detail": detail, "trend": trend, "period": period, "coverage": None}
 
 
 def _minutes(metres: float) -> int:
@@ -423,7 +448,7 @@ def build_tiles(raw: Mapping[str, Any]) -> list[dict]:
         minutes = round(found["value"])
         tiles["families"] = _tile("families", minutes, f"{minutes} min walk", found["percentile"], detail=FAMILIES_DETAIL)
 
-    return [tiles.get(tile_id) or _tile(tile_id) for tile_id, *_ in TILES]
+    return with_coverage([tiles.get(tile_id) or _tile(tile_id) for tile_id, *_ in TILES], raw.get("coverage") or {})
 
 
 def _tag_text(tile: Mapping[str, Any], kind: str, raw: Mapping[str, Any]) -> str | None:

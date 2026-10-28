@@ -71,7 +71,7 @@ def llms_txt(request: Request) -> str:
     lines = [
         "# Close Knit — UK property intelligence tools",
         "",
-        "> Evidence-backed area and property facts for London. Every answer is an evidence "
+        "> Evidence-backed area and property facts for England, London in depth. Every answer is an evidence "
         "envelope: value, confidence (high|medium|low|none), evidence[], sources[] (named "
         "releases with licence and methodology), caveats[]. dataMode=demo marks illustrative "
         "fixtures that must not be presented as facts.",

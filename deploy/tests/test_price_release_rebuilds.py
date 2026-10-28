@@ -31,8 +31,8 @@ class PriceReleaseRebuildTests(unittest.TestCase):
 
     def test_rebuilds_run_before_the_release_is_reported_live(self):
         call = SOURCE.index("        rerun_index_rebuilds(cur)")
-        self.assertLess(SOURCE.index("activate_product_release"), call)
-        self.assertLess(call, SOURCE.index("activated {release_id}"))
+        self.assertLess(SOURCE.index("release_guard.activate(cur, release_id)"), call)
+        self.assertLess(call, SOURCE.index("'activated' if live else 'staged'"))
 
     def test_sales_sourced_rebuilds_use_the_loaded_sales(self):
         self.assertIn("SELECT DISTINCT source_release_id FROM sale", SOURCE)

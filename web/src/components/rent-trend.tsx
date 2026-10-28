@@ -8,6 +8,7 @@ import { useSectionJson } from "./section-seed";
 import { Sparkline } from "./sparkline";
 import { regionShare } from "@/lib/evidence-format";
 import { scopeName } from "@/lib/scope-name";
+import { SourceNote } from "@/components/source-note";
 
 const pounds = (value: number) => `£${value.toLocaleString("en-GB")}`;
 const pct = (value: number | null) => value === null ? "–" : `${value > 0 ? "+" : ""}${value.toFixed(1)}%`;
@@ -60,7 +61,7 @@ export function RentTrendSourcesBlock({ trend }: { trend: AreaRentTrendResponse 
   return (
     <>
       {trend.sources.map((source) => <p key={source.release}>{source.sourceName}: {source.attribution}</p>)}
-      {trend.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {trend.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

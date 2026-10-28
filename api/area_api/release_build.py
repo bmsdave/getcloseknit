@@ -172,6 +172,24 @@ class _Writers:
             connection.close()
 
 
+RECORD_RUN_SQL = """-- release-build:record-run
+INSERT INTO release_build_run (release_id, tiers, tasks, done, failed, skipped, artifacts)
+SELECT %(release)s, %(tiers)s::smallint[], %(tasks)s, %(done)s, %(failed)s, %(skipped)s, count(*)
+FROM release_artifact WHERE release_id = %(release)s
+ON CONFLICT (release_id, tiers) DO UPDATE SET tasks = EXCLUDED.tasks, done = EXCLUDED.done,
+  failed = EXCLUDED.failed, skipped = EXCLUDED.skipped, artifacts = EXCLUDED.artifacts, finished_at = now()
+RETURNING artifacts"""
+
+
+def record_run(connection: Any, release_id: str, tiers: set[int], tasks: int, counts: dict[str, int]) -> int:
+    """Stores what this build did for the release (release_build_run, migration 134): preflight and /health compare
+    the release's artifacts with it. Returns the release's artifact rows."""
+    row = list(connection.execute(RECORD_RUN_SQL, {
+        "release": release_id, "tiers": sorted(tiers), "tasks": tasks, "done": counts["done"],
+        "failed": counts["failed"], "skipped": counts["skipped"]}))[0]
+    return int(row["artifacts"])
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--tiers", default="0,1", help="comma-separated tiers (0: derived objects, 1: start views, "
@@ -179,11 +197,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--budget", type=float, default=1800, help="seconds after which no new task starts")
     parser.add_argument("--no-prune", action="store_true", help="keep rows of other releases and builds")
+    parser.add_argument("--release", help="build a staged release before it goes live (deploy/tools/release_guard.py): "
+                                          "every read of this build sees it as the active one")
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     from . import repository
     from .repository import evidence_connection
 
+    if args.release:
+        repository.read_as_active(args.release)
     release_store.raise_errors = True
     writers = _Writers(repository._database_url())
     release_store.store.writer = writers.connection
@@ -196,11 +218,13 @@ def main(argv: list[str] | None = None) -> int:
             release_id = _active_release(connection, None)
             pruned = 0 if args.no_prune else release_store.prune(connection)
             held = release_store.size(connection)
+            artifacts = record_run(connection, release_id, tiers, len(tasks), counts)
     finally:
         writers.close()
         repository.close_pool()
     print(f"release-build: {release_id} tiers {sorted(tiers)}: {counts['done']} built or read, {counts['failed']} "
-          f"failed, {counts['skipped']} over budget, {counts['seconds']} s; {pruned} rows pruned; table "
+          f"failed, {counts['skipped']} over budget, {counts['seconds']} s; {artifacts} artifacts of the release; "
+          f"{pruned} rows pruned; table "
           f"{held['rows']} rows, {held['bytes'] / 1e6:.1f} MB ({release_store.code_build()})", flush=True)
     return 1 if counts["failed"] else 0
 

@@ -59,6 +59,7 @@ class SqliteSearch:
         db.executescript("""
             CREATE TABLE area_geography (id text, kind text, official_code text, name text, parent_id text, geometry text);
             CREATE TABLE area_label (geography_id text, friendly_name text, postcode_district text);
+            CREATE TABLE area_population (geography_id text, population integer);
             CREATE TABLE active_product_release (release_id text);
             CREATE TABLE product_release_member (release_id text, source_release_id text);
             CREATE TABLE address (id text, display_address text, postcode text, geography_id text, source_release_id text);

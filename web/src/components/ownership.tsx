@@ -8,6 +8,7 @@ import type { DataMode } from "@/lib/map-state";
 import { versusLondon } from "@/lib/overview-text";
 import { BarList } from "./charts";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 /** Company and overseas ownership (HMLR CCOD/OCOD), real mode only; nothing while CLOSE_KNIT_OWNERSHIP is off. */
 export function Ownership({ geographyId, mode }: { geographyId: GeographyId; mode: DataMode }) {
@@ -31,7 +32,7 @@ export function OwnershipBlock({ ownership }: { ownership: AreaOwnershipResponse
         <summary>Sources &amp; method</summary>
         <div className="chart-sources__body">
           {ownership!.sources.map((source) => <p key={source.release}>{source.attribution}</p>)}
-          {ownership!.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {ownership!.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
         </div>
       </details>
     </div>

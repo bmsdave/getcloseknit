@@ -76,6 +76,22 @@ class ResponseTests(unittest.TestCase):
         self.assertEqual(response.headers["x-a"], "b")
         self.assertNotIn("deprecation", response.headers)
 
+    def test_a_body_without_renamed_names_skips_the_walk(self):
+        # The England match pack (~2 million values) has no renamed name: rendering it skipped a 0.2 s walk.
+        self.assertTrue(all(name.startswith(("region", "country")) for name in DEPRECATED), "the fast path's test")
+        pack = {"values": [{"geographyId": "uk:lsoa:E01000001", "name": "a region near country", "score": 80}]}
+        with mock.patch.object(contract_aliases, "has_aliases", wraps=contract_aliases.has_aliases) as walk:
+            response = contract_aliases.AliasedJSONResponse(pack)
+            self.assertEqual(json.loads(response.body), pack)
+            walk.assert_not_called()
+            nested = contract_aliases.AliasedJSONResponse({"values": [{"countryPercentile": 7}]})
+            walk.assert_called_once()
+        self.assertEqual(json.loads(nested.body), {"values": [{"countryPercentile": 7, "englandPercentile": 7}]})
+        self.assertIn("deprecation", nested.headers)
+        both = contract_aliases.AliasedJSONResponse({"regionRank": 1, "londonRank": 1})
+        self.assertEqual(json.loads(both.body), {"regionRank": 1, "londonRank": 1})
+        self.assertNotIn("deprecation", both.headers)
+
 
 if __name__ == "__main__":
     unittest.main()

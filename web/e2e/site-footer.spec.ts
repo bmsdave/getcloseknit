@@ -17,6 +17,7 @@ for (const path of PAGES) {
     await expect(footer.getByRole("link", { name: "Real or demo data" })).toHaveAttribute("href", "/guide/demo-vs-real");
     await expect(footer.getByRole("link", { name: "Report or hide a home" })).toHaveAttribute("href", "/privacy#hide-my-home");
     await expect(footer.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
+    await expect(footer.getByRole("link", { name: "Changelog" })).toHaveAttribute("href", "/changelog");
     await expect(footer.getByRole("link", { name: "For teams" })).toHaveAttribute("href", "/about#teams");
     await expect(footer).toContainText("no paid placement");
     // #17: the launch list and research sign-up are plain e-mails, nothing collected here.

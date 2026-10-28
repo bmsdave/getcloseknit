@@ -372,4 +372,4 @@ export function resetMapCoverage(): void {
 }
 
 /** What the layer list says on a layer whose data is London's alone (map-topics londonOnlyLayers) on the England map. */
-export const LONDON_ONLY_LABEL = "London only";
+export { LONDON_ONLY_LABEL } from "./coverage-reason";

@@ -382,7 +382,8 @@ export function sectorResults(code: string, list: readonly SectorListItem[]): Se
     geographyId: `uk:sector:${found.slug}` as GeographyId,
     uprn: null,
     addressId: null,
-    center: [0, 0],
+    // Its own point when the list gives one; [0, 0] only from an old API, and the href leads anyway.
+    center: found.center ?? [0, 0],
     href: sectorPath(found.code),
   }];
 }

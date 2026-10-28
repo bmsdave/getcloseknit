@@ -11,6 +11,10 @@ from __future__ import annotations
 import json
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import release_guard  # noqa: E402
 
 
 def stage(cur, label: str, sources: list[str], replace: tuple[str, ...] = ()) -> str:
@@ -41,7 +45,9 @@ def stage(cur, label: str, sources: list[str], replace: tuple[str, ...] = ()) ->
     # Good value inputs (migration 069) read those ranks, crime, air and the price bands: refresh them next.
     if cur.execute("SELECT to_regproc('public.rebuild_area_good_value') IS NOT NULL AS t").fetchone()["t"]:
         cur.execute("SELECT rebuild_area_good_value()")
-    cur.execute("SELECT activate_product_release(%s)", (release_id,))
+    # Stage only inside an etl.py run (CLOSE_KNIT_STAGE_ONLY): the run activates once at its end (release_guard.py).
+    if not release_guard.activate(cur, release_id):
+        return release_id
     print(f"activated {release_id} (+ {', '.join(sources)})")
     # What the release derives is built by the API's code (release_artifact, migration 128): RELEASE-CHECKLIST.md.
     print("next: build what it derives: docker compose ... exec -T api python -m area_api.release_build --tiers 0,1")

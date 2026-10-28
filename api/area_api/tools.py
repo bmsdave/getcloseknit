@@ -527,10 +527,10 @@ def home_prices_description() -> str:
         "differences. Otherwise describe the area."
         if feature_flags.per_home_valuation() else
         "Area statistics only: never say what the home is worth; describe the area.")
-    return ("One London home's recorded sales (date, price, HM Land Registry link) and prices in its area "
+    return ("One home's recorded sales (date, price, HM Land Registry link) and prices in its area "
             "today: the middle half (25th-75th percentile) of same-type standard sales since three years back, "
             "each adjusted to the latest month by the local price index, with sample size and the area used "
-            "(LSOA, else MSOA, else borough), and the coarse band its last sale fell in that year (top 10%, "
+            "(LSOA, else MSOA, else local authority), and the coarse band its last sale fell in that year (top 10%, "
             "top quarter, upper middle, lower middle, bottom quarter, bottom 10%) with today's prices of that "
             f"band in the area. Accepts a UPRN, an address id (uk:addr:…) from search_places, or an address "
             f"fragment. {guidance_text} When a fragment matches several homes the tool returns their "

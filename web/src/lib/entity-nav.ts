@@ -1,6 +1,7 @@
 // The frame every entity page shares (borough, area, postcode, home, school):
 // breadcrumbs up to London and one "What's next" block. Built from the area
 // hierarchy and the existing path helpers; nothing here fetches.
+import { plainPlaceName } from "./area-labels";
 import type { HierarchyArea } from "./area-pages";
 import { areaPath, regionPath } from "./area-pages";
 import { LONDON_SCOPE, regionScope } from "./scope-name";
@@ -28,7 +29,7 @@ export const NEXT_COLUMNS: readonly { id: keyof NextColumns; title: string }[] =
 
 /** The name people use for an area in a breadcrumb: its friendly name without the district, else the official name. */
 export function crumbName(area: Pick<HierarchyArea, "name" | "friendlyName">): string {
-  return area.friendlyName?.trim() || area.name;
+  return plainPlaceName(area.friendlyName) ?? plainPlaceName(area.name) ?? area.name;
 }
 
 /**

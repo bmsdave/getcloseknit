@@ -13,6 +13,7 @@ const testOrigin = `http://127.0.0.1:${testPort}`;
 // e2e/fixtures.ts fails a spec listed here that draws the map, so the list cannot go stale unnoticed.
 const DOM_SPECS = [
   "api-contracts.spec.ts",
+  "changelog.spec.ts",
   "charts.spec.ts",
   "civic.spec.ts",
   "kids-tiles.spec.ts",

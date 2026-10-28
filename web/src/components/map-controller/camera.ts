@@ -57,9 +57,22 @@ export function fitWiderArea(controller: MapController, id: GeographyId, box: Bb
 function fitArea(controller: MapController, id: GeographyId): boolean {
   const box = areaBounds(controller.paintedBoxes, id);
   if (!box) return false;
-  const { map } = controller;
-  map.fitBounds(box, { padding: blockPadding(map), maxZoom: 15, duration: motionDuration(700) });
+  fitBox(controller, box);
   return true;
+}
+
+/** Fits a box, or centres it at the zoom a link asked for (?z=12): that zoom is spent on this one fit. */
+function fitBox(controller: MapController, box: Bbox) {
+  const { map } = controller;
+  const zoom = controller.fitZoom;
+  controller.fitZoom = null;
+  const padding = blockPadding(map);
+  if (zoom === null) map.fitBounds(box, { padding, maxZoom: 15, duration: motionDuration(700) });
+  else map.easeTo({ center: boxCentre(box), zoom, offset: paddingOffset(padding), duration: motionDuration(700) });
+}
+
+export function boxCentre([west, south, east, north]: Bbox): [number, number] {
+  return [(west + east) / 2, (south + north) / 2];
 }
 
 export function fitPendingArea(controller: MapController) {
@@ -95,8 +108,19 @@ export function fitDistantArea(controller: MapController, id: GeographyId,
     map.setMinZoom(camera.minZoom);
     map.setMaxBounds(panBounds(camera.bounds, map.getContainer().clientWidth, isPhone()));
     map.stop();
-    map.fitBounds(box, { padding: blockPadding(map), maxZoom: 15, duration: motionDuration(700) });
+    fitBox(controller, box);
   }).catch(() => { if (controller.distantFit === id) controller.distantFit = null; });
+}
+
+/**
+ * The area a link named, still not in view after the first paint: its evidence box, whatever its carrier. An area
+ * of another carrier (an MSOA on an LSOA layer) is marked fitted, so the wider-area outline never fits it again.
+ */
+export function fitMissedArea(controller: MapController, id: GeographyId,
+  props: { mode: DataMode; release: string; metric: { id: string; carrier: string }; period: string }) {
+  if (controller.fittedWiderArea === id) return;
+  if (carrierOfId(id) !== props.metric.carrier) controller.fittedWiderArea = id;
+  fitDistantArea(controller, id, props);
 }
 
 export function focusMap(controller: MapController | null, focus: [number, number] | null) {

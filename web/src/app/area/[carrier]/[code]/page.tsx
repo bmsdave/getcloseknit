@@ -32,7 +32,7 @@ interface AreaPageProps {
 async function areaHeadline(geography: GeographyId): Promise<{ title: string; name: string; description: string } | null> {
   if (!geography.startsWith("uk:lsoa:")) {
     const guide = await areaGuideMetadata(geography);
-    return guide ? { ...guide, name: guide.title.replace(/: prices, crime, schools and deprivation$/, "") } : null;
+    return guide;
   }
   const area = await serverArea(geography);
   if (!area.known) return null;

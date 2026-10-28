@@ -21,6 +21,9 @@ export type AnalyticsMode = "off" | "anonymous" | "counted";
 export const ANALYTICS_STORAGE_KEY = "close-knit.analytics.v1";
 export const VISITOR_STORAGE_KEY = "close-knit.visitor.v1";
 const SESSION_STORAGE_KEY = "close-knit.session.v1";
+// Set by opening any page with ?team=1 (cleared by ?team=0): this browser is Close Knit's own, so its
+// batches say team: true and the dashboards leave its visits out of live use (area_api.usage.traffic).
+export const TEAM_STORAGE_KEY = "close-knit.team.v1";
 const SESSION_IDLE_MS = 30 * 60 * 1000;
 const FLUSH_DELAY_MS = 5000;
 const MAX_QUEUE = 20;
@@ -200,6 +203,23 @@ function sessionId(mode: AnalyticsMode, now: number): string {
   return current;
 }
 
+/** Whether this browser is marked as the team's, after applying a ?team=1 or ?team=0 in the address. */
+export function teamBrowser(search = window.location.search): boolean {
+  const local = storage("localStorage");
+  const asked = new URLSearchParams(search).get("team");
+  if (asked === "1" || asked === "0") write(local, TEAM_STORAGE_KEY, asked === "1" ? "1" : null);
+  return read(local, TEAM_STORAGE_KEY) === "1";
+}
+
+/** A browser driven by automation (Playwright, Selenium, Puppeteer set navigator.webdriver): counted as tech. */
+export function automatedBrowser(): boolean {
+  return typeof navigator !== "undefined" && navigator.webdriver === true;
+}
+
+// Read ?team= as soon as the page loads: the map rewrites the address with its own state before the
+// first batch goes out, so a check at flush time would never see it.
+if (typeof window !== "undefined") teamBrowser();
+
 /** Queue one event; batches go out every few seconds and when the page is hidden. */
 export function track(name: UsageName, props: UsageProps = {}): void {
   if (currentMode() === "off") return;
@@ -224,7 +244,8 @@ export function flushUsage(leaving = false): void {
   }));
   queue = [];
   const body = JSON.stringify({ visitor: visitorId(mode), session: sessionId(mode, Date.now()),
-    device: deviceClass(window.innerWidth), events });
+    device: deviceClass(window.innerWidth), ...(teamBrowser() ? { team: true } : {}),
+    ...(automatedBrowser() ? { automated: true } : {}), events });
   try {
     if (leaving && navigator.sendBeacon?.(ENDPOINT, new Blob([body], { type: "application/json" }))) return;
     void fetch(ENDPOINT, { method: "POST", body, keepalive: true, headers: { "content-type": "application/json" } }).catch(() => undefined);

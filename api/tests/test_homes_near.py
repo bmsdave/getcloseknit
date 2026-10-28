@@ -87,7 +87,9 @@ class HomesNearTests(unittest.TestCase):
             connection = FakeConnection()
             body = hn.homes_near(lambda: connection, lat, lon)
             self.assertEqual(body["postcodes"], [])
+            self.assertEqual(body["coverage"], "london-only")  # the page says "London only", not "no homes"
             self.assertFalse(any("homes-near:postcodes" in sql for sql, _ in connection.statements))
+        self.assertIsNone(hn.homes_near(lambda: FakeConnection(), 51.5, -0.1)["coverage"])
 
     def test_point_that_is_not_a_number_is_rejected(self):
         for lat, lon in (("north", 0), (float("nan"), 0), (51.5, float("inf"))):

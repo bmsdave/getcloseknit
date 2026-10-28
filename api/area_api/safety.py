@@ -8,6 +8,9 @@ its neighbourhoods with a figure, so the tick on each row is one region-wide fig
 their London names (regionRate, regionPercentile); rankScope names the region. The trend
 compares the newest 12-month window with the one about three years earlier (or the oldest loaded):
 a change under 15% either way reads "stable" and the page draws no line (owner decision).
+
+A wider neighbourhood (MSOA) reads its own crime series (the figure its Safety tile ranks), and its
+offence types and residents are its neighbourhoods' summed, so its section is never "unknown" under a ranked chip.
 """
 from __future__ import annotations
 
@@ -26,12 +29,17 @@ SELECT to_char(period, 'YYYY-MM') AS period, value, region_percentile, sample_co
 FROM metric_value WHERE geography_id = %s AND metric_id = 'crime' AND value IS NOT NULL
 ORDER BY period"""
 
-TYPES_SQL = """-- safety:types
-SELECT category, offence_count FROM metric_value_breakdown
-WHERE geography_id = %s AND metric_id = 'crime' AND period = to_date(%s, 'YYYY-MM')"""
+# An area's neighbourhoods (LSOAs): itself for a neighbourhood, the LSOAs inside it for an MSOA (never the
+# MSOA's own row as well, so nothing counts twice).
+MEMBERS = """(SELECT id FROM area_geography WHERE kind = 'lsoa' AND (id = %(area)s OR parent_id = %(area)s))"""
 
-POPULATION_SQL = """-- safety:population
-SELECT population, population_year FROM area_population WHERE geography_id = %s"""
+TYPES_SQL = f"""-- safety:types
+SELECT category, sum(offence_count)::int AS offence_count FROM metric_value_breakdown
+WHERE geography_id IN {MEMBERS} AND metric_id = 'crime' AND period = to_date(%(period)s, 'YYYY-MM')
+GROUP BY category"""
+
+POPULATION_SQL = f"""-- safety:population
+SELECT sum(population) AS population FROM area_population WHERE geography_id IN {MEMBERS}"""
 
 REGION_SQL = """-- safety:region
 SELECT region_code FROM area_region WHERE area_id = %s"""
@@ -60,10 +68,10 @@ CAVEATS = [
 
 
 def area_safety(reader: evidence.EvidenceReader, area_id: str, cancel: Callable[[], bool] | None = None) -> dict:
-    """area-safety.v1 for one neighbourhood; available=false when no crime figure is loaded for it."""
+    """area-safety.v1 for one neighbourhood or MSOA; available=false when no crime figure is loaded for it."""
     evidence._check_cancelled(cancel)
-    if not schools.AREA_PATTERN.match(area_id or "") or not area_id.startswith("uk:lsoa:"):
-        raise evidence.MalformedQuery(f"safety rows are for neighbourhoods (uk:lsoa:…): {area_id}")
+    if not schools.AREA_PATTERN.match(area_id or "") or not area_id.startswith(("uk:lsoa:", "uk:msoa:")):
+        raise evidence.MalformedQuery(f"safety rows are for neighbourhoods (uk:lsoa:…) and MSOAs: {area_id}")
     with reader._connect() as connection:
         release_id = evidence._active_release(connection, cancel)
         if not list(connection.execute(schools.AREA_EXISTS_SQL, (area_id,))):
@@ -73,8 +81,9 @@ def area_safety(reader: evidence.EvidenceReader, area_id: str, cancel: Callable[
             return {"schemaVersion": SCHEMA_VERSION, "productReleaseId": release_id, "geographyId": area_id,
                     "available": False, "rate": None, "types": [], "trend": None, "source": None, "caveats": CAVEATS}
         latest = series[-1]
-        types = {row["category"]: row["offence_count"] for row in connection.execute(TYPES_SQL, (area_id, latest["period"]))}
-        population = list(connection.execute(POPULATION_SQL, (area_id,)))
+        types = {row["category"]: row["offence_count"]
+                 for row in connection.execute(TYPES_SQL, {"area": area_id, "period": latest["period"]})}
+        population = list(connection.execute(POPULATION_SQL, {"area": area_id}))
         region_rows = list(connection.execute(REGION_SQL, (area_id,)))
         region = region_rows[0]["region_code"] if region_rows else coverage.LONDON_REGION
         london = release_store.cached(connection, release_id, ("safety", latest["period"], region),

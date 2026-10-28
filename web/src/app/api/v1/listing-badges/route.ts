@@ -24,6 +24,8 @@ export async function POST(request: NextRequest) {
       "user-agent": request.headers.get("user-agent") ?? "", ...clientHeaders(request.headers),
       // The extension's usage opt-out (first-run screen): the API then records no event.
       ...(request.headers.get("x-close-knit-analytics") === "off" ? { "x-close-knit-analytics": "off" } : {}),
+      // Our own checks (X-Close-Knit-Team: 1): the API marks the event as team.
+      ...(request.headers.get("x-close-knit-team") === "1" ? { "x-close-knit-team": "1" } : {}),
     },
     body,
     signal: request.signal,

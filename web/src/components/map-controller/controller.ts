@@ -99,6 +99,8 @@ export interface MapController {
   // ---- Camera (camera.ts) ----
   /** An area to fit once its box is known: on first load the zoomTo request arrives before any area's box. */
   pendingFit: GeographyId | null;
+  /** The zoom the pending fit lands at (a link's ?z=); null fits the area's whole box. */
+  fitZoom: number | null;
   /** An area to fit that the loaded pieces did not hold, while its box is asked for. */
   distantFit: GeographyId | null;
   /** The wider area (district, borough) fitted for this selection: it never refits. */
@@ -119,7 +121,7 @@ export function createMapController(map: MapLibreMap, callbacks: MapCallbacks): 
     saleView: null, placesOn: false, collisionView: null, collisionMarkersLoading: false, schoolsLoading: false,
     loadedSchools: null, latestSchools: null, universitiesOn: false, universitiesLoading: false,
     schoolPopup: null, homePin: null, hovered: null, areaTooltip: null, rolledTooltip: null,
-    pendingFit: null, distantFit: null, fittedWiderArea: null,
+    pendingFit: null, fitZoom: null, distantFit: null, fittedWiderArea: null,
   };
   controllers.set(map, controller);
   return controller;

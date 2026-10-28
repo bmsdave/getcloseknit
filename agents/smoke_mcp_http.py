@@ -4,7 +4,8 @@
 """
 import json, sys, urllib.request
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8080"
-HDR = {"content-type": "application/json", "accept": "application/json, text/event-stream"}
+# X-Close-Knit-Team marks these calls as ours, so the dashboards leave them out of live use (usage.traffic).
+HDR = {"content-type": "application/json", "accept": "application/json, text/event-stream", "x-close-knit-team": "1"}
 session = None
 def rpc(method, params=None, id=1):
     global session
@@ -17,9 +18,9 @@ def rpc(method, params=None, id=1):
     raw = r.read()
     return json.loads(raw) if raw else None
 def rest(name, args):
-    r = urllib.request.urlopen(urllib.request.Request(f"{BASE}/api/v2/tools/{name}", json.dumps(args).encode(), {"content-type": "application/json"}))
+    r = urllib.request.urlopen(urllib.request.Request(f"{BASE}/api/v2/tools/{name}", json.dumps(args).encode(), {"content-type": "application/json", "x-close-knit-team": "1"}))
     return json.loads(r.read())
-init = rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke", "version": "0"}})
+init = rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "ck-smoke", "version": "0"}})
 print("initialize:", init["result"]["serverInfo"]["name"], "session", session[:8])
 rpc("notifications/initialized", id=None)
 print("tools/list:", [t["name"] for t in rpc("tools/list", id=2)["result"]["tools"]])

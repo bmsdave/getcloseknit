@@ -13,7 +13,7 @@ import re
 from datetime import date as Date
 from typing import Any, Callable, Mapping
 
-from . import kinds
+from . import coverage, kinds, regions
 from .evidence import AreaNotFound, MalformedQuery, _active_release, _check_cancelled
 
 MIN_AREA_SALES = 10
@@ -217,6 +217,8 @@ def recent_sales(reader: Any, area_id: str, page: int = 1, page_size: int = DEFA
         found = list(connection.execute(RECENT_SQL.format(column=column, order=ORDERS[sort]),
                                         {"area": area["id"], "limit": page_size,
                                          "offset": (page - 1) * page_size}))
+        # Each sale is per-home data, London's alone: elsewhere the page says "London only", never "no sales".
+        why = coverage.reason(regions.area_regions_on(connection).get(area_id), coverage.PER_HOME_REGIONS)
         return {
             "schemaVersion": "area-recent-sales.v1",
             "productReleaseId": release_id,
@@ -237,6 +239,7 @@ def recent_sales(reader: Any, area_id: str, page: int = 1, page_size: int = DEFA
                 "distanceMetres": row["distance_metres"],
             } for row in found],
             "sourceVersion": found[0]["source_release_id"] if found else None,
+            "coverage": why,
         }
 
 

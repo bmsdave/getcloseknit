@@ -37,6 +37,8 @@ export const WARM_PATHS = [
   "/rankings/highest-income",
   "/sector/N1-0",
   "/about",
+  "/changelog",
+  "/changelog/close-knit-is-public",
   "/agents",
   "/agents/chatgpt",
   "/agents/claude-code",

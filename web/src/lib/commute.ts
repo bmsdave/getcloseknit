@@ -13,7 +13,7 @@ export interface PlaceCommute {
   /** No commute hub near the place: the straight-line minutes My match scores it with, not a route. */
   estimate?: boolean;
   /** The pin is outside Greater London, which the routing covers: no minutes. */
-  reason?: "outside-london";
+  reason?: "outside-london" | "outside-coverage";
   /** A kind of place with nothing found: how far around the area was searched. */
   searchedRadiusM?: number;
   /** Typical transit routes from the area's neighbourhood (MSOA centre), fastest first. */

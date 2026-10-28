@@ -21,6 +21,7 @@ import {
   compareRows, crimeVersusRegion, RECENT_YEARS, relativeWords, typicalHeadline, typicalSpan,
   type HomesMix, type MixPart, type PostcodeSummary, type Typical,
 } from "@/lib/postcode-visuals";
+import { councilWord, localNote } from "@/lib/coverage-words";
 import { plainWords } from "@/lib/property-profile";
 
 const homesWord = (count: number) => `${count} ${count === 1 ? "home" : "homes"}`;
@@ -347,16 +348,16 @@ export function LivingHere({ facts }: { facts: LivingFacts }) {
  * The page's one Sources fold: the record's own disclaimers and how each
  * panel is worked out, said once at the foot instead of under every chart.
  */
-export function PostcodeSources({ disclaimers }: { disclaimers: string[] }) {
+export function PostcodeSources({ disclaimers, london = true }: { disclaimers: string[]; london?: boolean }) {
   return (
     <details className="postcode-sources" data-testid="postcode-sources">
       <summary>Sources</summary>
       <div className="postcode-sources__body">
-        {disclaimers.map((text) => <p key={text}>{plainWords(text)}</p>)}
+        {disclaimers.map((text) => <p key={text}>{localNote(plainWords(text), london)}</p>)}
         <p>
           Sales: achieved prices HM Land Registry recorded for homes in this postcode, never valuations or asking prices.
           Coordinates are at postcode precision. Area lines: yearly medians of standard sales only in the neighbourhood,
-          or the wider area when it has too few, and in the borough.
+          or the wider area when it has too few, and in the {councilWord(london)}.
         </p>
         <p>
           Compared with the area: the postcode&apos;s figures are the middle of its recent sales; areas use typical £ per m²

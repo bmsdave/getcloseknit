@@ -82,7 +82,8 @@ class FakeConnection:
         if tag == "-- sector:with-homes":
             return ALL[:1]
         if tag == "-- sector:search":
-            return [row for row in ALL if row["code"].startswith(params[0].rstrip("%"))]
+            return [{**row, "center_lon": -1.581234567, "center_lat": 53.8234567}
+                    for row in ALL if row["code"].startswith(params[0].rstrip("%"))]
         raise AssertionError(f"unexpected query {tag}")
 
 
@@ -147,7 +148,8 @@ class SectorContractTests(unittest.TestCase):
 
     def test_search_prefix_and_all(self):
         connection = FakeConnection()
-        self.assertEqual(zones_sector.search(lambda: connection, "w5-1"), ALL[:1])
+        # A search row carries a point inside the sector, so the search box never pins it at [0, 0] (G-E21).
+        self.assertEqual(zones_sector.search(lambda: connection, "w5-1"), [{**ALL[0], "center": [-1.58123, 53.82346]}])
         self.assertEqual(connection.statements[-1], ("-- sector:search", ("W5 1%", "W5 1")))
         self.assertEqual(zones_sector.search(lambda: connection, ""), ALL)
         self.assertEqual(zones_sector.search(lambda: connection, "W5%"), [])
@@ -204,7 +206,8 @@ class SectorHttpTests(unittest.TestCase):
         missing = self.client.get("/api/v1/sectors/W9-9")
         self.assertEqual((missing.status_code, missing.json()["detail"]["error"]), (404, "area-not-found"))
         self.assertEqual(self.client.get("/api/v1/sectors/nonsense").status_code, 404)
-        self.assertEqual(self.client.get("/api/v1/sectors", params={"q": "W5"}).json(), ALL)
+        self.assertEqual(self.client.get("/api/v1/sectors", params={"q": "W5"}).json(),
+                         [{**row, "center": [-1.58123, 53.82346]} for row in ALL])
         self.assertEqual(self.client.get("/api/v1/sectors").json(), ALL)
 
 

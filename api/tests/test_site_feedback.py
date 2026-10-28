@@ -22,8 +22,9 @@ def review(**changes):
 
 
 def as_dict(row):
-    names = ("client_id", "kind", "surface", "target", "area", "vote", "rating", "tags", "message", "path", "device")
-    return dict(zip(names, row))
+    names = ("client_id", "kind", "surface", "target", "area", "vote", "rating", "tags", "message", "path", "device",
+             "traffic")
+    return dict(zip(names, row, strict=True))
 
 
 class FakeFeedbackConnection:
@@ -64,6 +65,12 @@ class CleanTests(unittest.TestCase):
         self.assertIsNone(row["message"])
         self.assertIsNone(row["rating"])
         self.assertEqual((row["path"], row["device"]), ("/area/msoa/E02000001", "mobile"))
+        self.assertEqual(row["traffic"], "live")
+
+    def test_a_team_browser_or_the_team_header_marks_the_feedback_as_ours(self):
+        self.assertEqual(as_dict(site_feedback.clean({**vote(), "team": True}))["traffic"], "team")
+        self.assertEqual(as_dict(site_feedback.clean(vote(), "1"))["traffic"], "team")
+        self.assertEqual(as_dict(site_feedback.clean({**vote(), "team": "yes"}))["traffic"], "live")
 
     def test_unknown_surface_target_or_bad_uuid_is_invalid(self):
         for payload in (vote(surface="x"), vote(target="crime"), vote(client_id="abc"),

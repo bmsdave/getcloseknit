@@ -194,6 +194,27 @@ class TagTests(unittest.TestCase):
         self.assertLessEqual(len(pros), 3)
         self.assertNotIn("deprivation", pros[:-1])
 
+    def test_a_tile_outside_its_sources_coverage_says_london_only_not_zero(self):
+        tiles = {t["id"]: t for t in standouts.build_tiles(_raw(coverage={"cycling": "london-only", "nature": "london-only"}))}
+        for tile_id in ("cycling", "nature"):
+            self.assertEqual(tiles[tile_id]["coverage"], "london-only")
+            self.assertFalse(tiles[tile_id]["available"])
+            self.assertIsNone(tiles[tile_id]["value"])
+            self.assertIsNone(tiles[tile_id]["extreme"])
+        self.assertIsNone(tiles["noise"]["coverage"])
+        self.assertTrue(tiles["noise"]["available"])
+
+    def test_coverage_reasons_from_metric_coverage_and_tfl(self):
+        class Connection:
+            def execute(self, sql, params=()):
+                self.sql = sql
+                return [{"metric_id": "nature-score", "regions": ["E12000007"]},
+                        {"metric_id": "air-no2", "regions": ["E12000007", "E12000002"]}]
+
+        self.assertEqual(standouts.coverage_reasons(Connection(), "E12000002"), {"cycling": "london-only", "nature": "london-only"})
+        self.assertEqual(standouts.coverage_reasons(Connection(), "E12000007"), {})
+        self.assertEqual(standouts.coverage_reasons(Connection(), None), {})
+
     def test_payload_names_withheld_laei_air(self):
         class Connection:
             def __enter__(self):
@@ -245,6 +266,42 @@ class SafetyTests(unittest.TestCase):
         rising = safety.trend([{"period": "2023-08", "value": 20}, {"period": "2026-08", "value": 24}])
         self.assertEqual((rising["changePercent"], rising["stable"]), (20.0, False))
         self.assertIsNone(safety.trend(series[:1]))
+
+    def test_msoa_reads_its_own_series_and_its_neighbourhoods_types(self):
+        """G-E02: an MSOA's Safety section has rows (its own rate; types and residents summed over its LSOAs)."""
+        from contextlib import contextmanager
+        from unittest import mock
+
+        calls = []
+
+        class Connection:
+            def execute(self, sql, params=None):
+                name = sql.split("\n", 1)[0]
+                calls.append((name, params))
+                if "series" in name:
+                    return [{"period": "2026-08", "value": 101.3, "region_percentile": 33, "sample_count": 900,
+                             "source_release_id": "src-police"}]
+                if "safety:types" in name:
+                    return [{"category": "burglary", "offence_count": 40}]
+                if "safety:population" in name:
+                    return [{"population": 8000}]
+                if "safety:region" in name:
+                    return [{"region_code": "E12000003"}]
+                return [{"x": 1}] if "area-exists" in name else []
+
+        class Reader:
+            @contextmanager
+            def _connect(self):
+                yield Connection()
+
+        with mock.patch.object(safety.evidence, "_active_release", return_value="r1"), \
+                mock.patch.object(safety.release_store, "cached", return_value={"rate": 90.0, "types": {"burglary": 4.0}}):
+            payload = safety.area_safety(Reader(), "uk:msoa:E02002373")
+        self.assertTrue(payload["available"])
+        self.assertEqual(payload["rate"], 101.3)
+        self.assertEqual(payload["types"], [{"category": "burglary", "offences": 40, "rate": 5.0, "regionRate": 4.0}])
+        self.assertIn(("-- safety:population", {"area": "uk:msoa:E02002373"}), calls)
+        self.assertIn("parent_id = %(area)s", safety.MEMBERS)
 
     def test_comparison_rate_is_the_areas_region(self):
         calls = []

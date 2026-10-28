@@ -22,6 +22,7 @@ class SiteConnection:
         self.base = base
         self.schools = []
         self.parks = []
+        self.independent = None  # independent_school rows (migration 067); None = no table
 
     def __getattr__(self, name):
         return getattr(self.base, name)
@@ -37,6 +38,11 @@ class SiteConnection:
         if marker == "-- evidence:school-search":
             needle = params[0].strip("%").lower()
             return [row for row in self.schools if needle in row["name"].lower()][:params[1]]
+        if marker == "-- evidence:independent-school-table":
+            return [{"t": self.independent is not None}]
+        if marker == "-- evidence:independent-school-search":
+            needle = params[0].strip("%")
+            return [row for row in self.independent or [] if needle in row["name"].lower().replace("'", "")][:params[1]]
         if marker == "-- evidence:park-search":
             needle = params[0].strip("%").lower()
             return [row for row in self.parks if needle in row["name"].lower()][:params[2]]
@@ -88,6 +94,18 @@ class SiteSearchTests(unittest.TestCase):
         self.assertEqual(extra[2]["placeId"], "w1")
         # Areas and homes come first, as plain search gives them.
         self.assertEqual(rows[:len(rows) - 3], self.reader.search_areas("camden")["results"])
+
+    def test_independent_schools_are_found_and_open_the_map(self):
+        # G-E17: "Withington Girls" found Withington Girls' School nowhere; GIAS lists it as independent.
+        self.connection.independent = [{"urn": "105574", "name": "Withington Girls' School",
+                                        "longitude": INSIDE[0], "latitude": INSIDE[1]}]
+        rows = [row for row in self.reader.search_site("Withington Girls")["results"] if row["kind"] == "school"]
+        self.assertEqual([(row["label"], row["secondaryLabel"], row["urn"], row["independent"], row["geographyId"])
+                          for row in rows], [("Withington Girls' School", "Independent · Camden", "105574", True, LSOA)])
+
+    def test_no_independent_table_no_independent_rows(self):
+        rows = self.reader.search_site("camden")["results"]
+        self.assertFalse([row for row in rows if row.get("independent")])
 
     def test_station_rows_name_their_tfl_lines(self):
         # Lines tell twin stations apart (#241); a station TfL lists no line for falls back to its modes.

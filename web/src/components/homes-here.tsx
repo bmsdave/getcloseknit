@@ -9,7 +9,7 @@ import { areaListingLinks, districtSoldPricesUrl, type AreaListingFilter } from 
 import { findLikeHref, isUnsetProfile, loadLocalProfile } from "@/lib/profile-state";
 import { track } from "@/lib/usage";
 
-type From = "shortlist" | "area_page";
+type From = "shortlist" | "area_page" | "postcode_page";
 
 interface HomesHereProps {
   geographyId: GeographyId;

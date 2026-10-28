@@ -2,6 +2,8 @@
 
     python3 deploy/tools/etl.py plan [--theme T ...] [--with-deps]     the order, without running anything
     python3 deploy/tools/etl.py run --theme T [--theme T2] [--step S ...] [--from S] [--with-deps] [--dry-run]
+    python3 deploy/tools/etl.py refresh prices [--from S] [--dry-run]  a refresh (etl_manifest.REFRESH) in its order
+    python3 deploy/tools/etl.py activate                               finish a run: build and activate what it staged
     python3 deploy/tools/etl.py bundle [--theme T ...] [--dry-run]     every bundle step, then bundles/manifest.json
     python3 deploy/tools/etl.py london-diff [--theme T ...] [--probe] [--take]
     python3 deploy/tools/etl.py themes                                 steps per theme, London-scoped ones named
@@ -11,6 +13,12 @@ run takes only the selected steps; their dependencies outside the selection are 
 --with-deps adds them. Steps marked manual (paid, days long, an owner login) run only when named with --step.
 Before a step runs, its `needs` must exist (EPC = the domestic EPC download, epc_bulk.source()). Steps that
 stage a product release hold the release lock (${LOCK}, a directory) while they run.
+
+One activation per run: when a run (run, refresh, bundle) has a step that stages a release, every step runs stage
+only (CLOSE_KNIT_STAGE_ONLY=1, PGOPTIONS -c close_knit.stage_only=on: activate_product_release refuses), and at
+the end release_guard.finish composes one release from what they staged, checks the coverage guard (migration
+134), builds it with ${RELEASE_BUILD} --tiers 0,1 --release <id> and activates it. A failed step or build leaves
+the releases staged and nothing activated: fix it, then `etl.py activate` (or rerun with --from).
 
 london-diff compares London's cells in london-snapshot.json with the database (${DB}); --probe first runs the
 themes' probe steps on the inputs already there (no download) with every write rolled back
@@ -120,7 +128,7 @@ def describe(item: manifest.Step) -> str:
     return f"{item.id:28} {'; '.join(flags)}{after}"
 
 
-def run_step(item: manifest.Step, values: dict[str, str], dry_run: bool) -> None:
+def run_step(item: manifest.Step, values: dict[str, str], dry_run: bool, env: dict[str, str] | None = None) -> None:
     command = expand(item.run, values)
     print(f"\n== {item.id} [{item.cwd}]\n{command}", flush=True)
     if dry_run:
@@ -140,13 +148,51 @@ def run_step(item: manifest.Step, values: dict[str, str], dry_run: bool) -> None
                 time.sleep(20)
     try:
         started = time.time()
-        result = subprocess.run(["bash", "-o", "pipefail", "-c", command], cwd=CWD[item.cwd])
+        result = subprocess.run(["bash", "-o", "pipefail", "-c", command], cwd=CWD[item.cwd], env=env)
         if result.returncode:
             raise SystemExit(f"etl: {item.id} failed (exit {result.returncode})")
         print(f"== {item.id} done in {time.time() - started:.0f} s", flush=True)
     finally:
         if lock:
             lock.rmdir()
+
+
+def refresh_steps(name: str | None, start: str | None = None) -> list[manifest.Step]:
+    """A refresh's steps in its own order (etl_manifest.REFRESH), from `start` when given."""
+    if name not in manifest.REFRESH:
+        raise SystemExit(f"etl: refresh one of {', '.join(manifest.REFRESH)} (got {name})")
+    ids = list(manifest.REFRESH[name])
+    if start:
+        if start not in ids:
+            raise SystemExit(f"etl: --from {start} is not a step of the {name} refresh")
+        ids = ids[ids.index(start):]
+    return [manifest.step(step_id) for step_id in ids]
+
+
+def run_start(url: str) -> tuple[str, object]:
+    """The active release and the database's clock when a run starts: what finish composes on top of."""
+    import psycopg
+
+    with psycopg.connect(url) as conn:
+        return conn.execute("SELECT (SELECT release_id FROM active_product_release), now()").fetchone()
+
+
+def run_steps(steps: list[manifest.Step], values: dict[str, str], dry_run: bool, label: str = "run",
+              finish=None) -> str | None:
+    """Run the steps. When one stages a release, every step runs stage only and the run ends with one activation
+    (release_guard.finish); returns the release that went live."""
+    import release_guard
+
+    if not any(item.lock for item in steps):
+        for item in steps:
+            run_step(item, values, dry_run)
+        return None
+    env = release_guard.step_environment()
+    base, since = (None, None) if dry_run else run_start(values["DB"])
+    for item in steps:
+        run_step(item, values, dry_run, env)
+    return (finish or release_guard.finish)(values["DB"], base=base, since=since, label=label,
+                                            release_build=expand("${RELEASE_BUILD}", values), dry_run=dry_run)
 
 
 def sha256(path: str) -> str:
@@ -205,7 +251,8 @@ def london_diff(themes: list[str], probe: bool, take: bool, values: dict[str, st
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="etl.py", description=__doc__.split("\n\n")[0])
-    parser.add_argument("command", choices=("plan", "run", "bundle", "london-diff", "themes"))
+    parser.add_argument("command", choices=("plan", "run", "refresh", "activate", "bundle", "london-diff", "themes"))
+    parser.add_argument("name", nargs="?", help="refresh: which one (etl_manifest.REFRESH)")
     parser.add_argument("--theme", action="append", default=[])
     parser.add_argument("--step", action="append", default=[])
     parser.add_argument("--from", dest="start")
@@ -223,15 +270,23 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "london-diff":
         return london_diff(args.theme, args.probe, args.take, values)
-    steps = select(args.theme, args.step, args.start, args.with_deps)
+    if args.command == "activate":
+        import release_guard
+
+        release_guard.finish(values["DB"], release_build=expand("${RELEASE_BUILD}", values), dry_run=args.dry_run)
+        return 0
+    if args.command == "refresh":
+        steps = refresh_steps(args.name, args.start)
+    else:
+        steps = select(args.theme, args.step, args.start, args.with_deps)
     if args.command == "plan":
         for number, item in enumerate(steps, 1):
             print(f"{number:3}. {describe(item)}")
         return 0
     if args.command == "bundle":
         steps = [item for item in steps if item.bundle]
-    for item in steps:
-        run_step(item, values, args.dry_run)
+    label = f"{args.name}-refresh" if args.command == "refresh" else "-".join(args.theme) or "run"
+    run_steps(steps, values, args.dry_run, label=label)
     if args.command == "bundle" and not args.dry_run:
         index = Path(values["BUNDLES"]) / "manifest.json"
         index.parent.mkdir(parents=True, exist_ok=True)

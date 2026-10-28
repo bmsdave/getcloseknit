@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { areaBox, clearBoxCache, knownAreaBox, paintBoxes } from "../src/lib/area-boxes";
+import { areaBox, clearBoxCache, knownAreaBox, paintBoxes, prefetchAllBoxes } from "../src/lib/area-boxes";
 import type { ValuePackEntry } from "../src/lib/contracts";
 import { londonPiece, type ViewPiece } from "../src/lib/map-coverage";
 
@@ -64,4 +64,13 @@ test("demo data's boxes are its fixtures', with no request; one area's box for a
   assert.deepEqual(calls, []);
   assert.deepEqual(await areaBox("uk:lsoa:E01030000", "real", "live", [surrey]), [-0.4, 51.3, -0.39, 51.31]);
   clearBoxCache();
+});
+
+test("a match pack's boxes asked for while it is scored are the ones its paint reads: one request (G-E29)", async () => {
+  clearBoxCache();
+  const calls = stubFetch();
+  prefetchAllBoxes("lsoa", "live");
+  // The pack lands later and paints over every area's box (no pieces): the prefetched answer, not a second ask.
+  await paintBoxes([], null, "real", "live");
+  assert.deepEqual(calls, ["/api/v1/areas/boxes?carrier=lsoa&release=live"]);
 });

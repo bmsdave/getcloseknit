@@ -1,6 +1,6 @@
 import { connection } from "next/server";
 
-import { friendlyTitle } from "@/lib/area-labels";
+import { friendlyTitle, plainPlaceName } from "@/lib/area-labels";
 import { loadAreaTrail } from "@/lib/area-pages-data";
 import type { GeographyId } from "@/lib/contracts";
 import { regionScope, scopeName } from "@/lib/scope-name";
@@ -11,14 +11,18 @@ import { regionScope, scopeName } from "@/lib/scope-name";
  * layout (a Topic/Here/London table and tabs) is gone. Read from the area's trail (a few rows), never its
  * region's data: an MSOA page needs nothing else of it, and loading it cost a page seconds.
  */
-export async function areaGuideMetadata(geography: GeographyId): Promise<{ title: string; description: string } | null> {
+export async function areaGuideMetadata(geography: GeographyId): Promise<{ title: string; name: string; description: string } | null> {
   await connection();
   const trail = await loadAreaTrail(geography);
   const area = trail.at(-1);
   if (!area || area.geographyId !== geography) return null;
   const region = scopeName(regionScope(area.regionCode ?? trail[0]?.regionCode));
+  const name = friendlyTitle(area) ?? plainPlaceName(area.name) ?? area.name;
+  // A local authority's title names its region ("Bristol · South West"): several share a name with a town elsewhere.
+  const titled = area.carrier === "lad" ? `${name} · ${region}` : name;
   return {
-    title: `${friendlyTitle(area) ?? area.name}: prices, crime, schools and deprivation`,
-    description: `${friendlyTitle(area) ?? area.name}, ${region}: typical price per square metre, recorded crime, schools, deprivation and income${area.carrier === "lad" ? ", with every area inside it" : ""}.`,
+    title: `${titled}: prices, crime, schools and deprivation`,
+    name,
+    description: `${name}, ${region}: typical price per square metre, recorded crime, schools, deprivation and income${area.carrier === "lad" ? ", with every area inside it" : ""}.`,
   };
 }

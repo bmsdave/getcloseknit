@@ -725,6 +725,7 @@ body:has(.first-visit-intro__find) .map-round.find-my-area::after { content: non
 .map-legend-stops span[data-edge="end"] { transform: translateX(-100%); }
 /* Labels that would crowd the ramp (map-legend.tsx useFittedTicks): hidden, place kept. */
 .map-legend-stops span[data-fit="hidden"] { visibility: hidden; }
+.map-legend-stops__words { font: inherit; }
 /* The period and ▶ at the top of the Layers tab. */
 .timeline-control { display: flex; align-items: center; gap: var(--space-1); }
 .timeline-control > button {
@@ -961,6 +962,7 @@ body:has(.first-visit-intro__find) .map-round.find-my-area::after { content: non
   .legend-chip .map-legend-caption__rest { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .legend-chip :is(.map-legend-typical, .map-legend-note, .map-legend-keys, .map-legend-sold) { display: none; }
   .legend-chip .map-legend-gradient.ramp-satin { height: 8px; }
+  .legend-chip .map-legend-stops__words { display: none; }
   /* Sheets: a 360px right-side panel, full height, title · ✕; the list scrolls inside. */
   .map-controls:has(.map-sheet) { z-index: 13; }
   .map-controls .map-sheet, .layers-card, .layers-card[data-card="show"], .map-key .map-key__explainer {
@@ -1125,6 +1127,8 @@ body:has(.first-visit-intro__find) .map-round.find-my-area::after { content: non
   .legend-chip .map-legend-caption { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .legend-chip .map-legend-stops { display: contents; }
   .legend-chip .map-legend-stops span { position: static; flex: none; transform: none; }
+  /* The ends' words ("Lowest in view", " in North West") stay in the wide legend; the chip keeps the values. */
+  .legend-chip .map-legend-stops__words { display: none; }
   .legend-chip .map-legend-stops span:not([data-edge]),
   .legend-chip :is(.map-legend-tick, .map-legend-typical, .map-legend-view-note) { display: none; }
   .legend-chip .map-legend-stops span[data-edge="start"] { order: 1; }

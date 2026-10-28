@@ -154,6 +154,10 @@ test("an MSOA page is the area page's frame: verdict, tags, 12 tiles and section
   await expect(page.getByTestId("area-tabs")).toBeVisible();
   await expect(page.getByTestId("area-guide-page")).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText(/Neighbourhood group|At a glance · Neighbourhoods/i);
+  // G-E02: its Safety section has figures under the ranked chip, never "unknown".
+  const safety = full.getByTestId("evidence-section-safety");
+  await expect(safety.getByTestId("crime-categories")).not.toContainText(/unknown|Loading/i);
+  await expect(safety.getByTestId("crime-categories")).toContainText(/per 1,000/);
 });
 
 test("a neighbourhood's full page: friendly name only, one row of actions with a menu, one Like this, no extra text blocks", async ({ page }) => {

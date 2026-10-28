@@ -14,8 +14,17 @@ export interface FriendlyAreaFields {
   displayName?: string | null;
 }
 
+/**
+ * A place's name as people say it: ONS lists a few local authorities inverted ("Bristol, City of",
+ * "Herefordshire, County of", "Kingston upon Hull, City of"); the site shows "Bristol". Other names pass through.
+ */
+export function plainPlaceName(name: string | null | undefined): string | null {
+  const text = name?.trim();
+  return text ? text.replace(/^(.+), (?:City|County) of$/, "$1") : null;
+}
+
 export function friendlyTitle(fields: FriendlyAreaFields | null | undefined): string | null {
-  const name = fields?.friendlyName?.trim();
+  const name = plainPlaceName(fields?.friendlyName);
   if (!name) return null;
   const district = fields?.postcodeDistrict?.trim();
   return district ? `${name} · ${district}` : name;
@@ -29,7 +38,7 @@ export function friendlyTitle(fields: FriendlyAreaFields | null | undefined): st
 export function areaDisplayName(
   area: (FriendlyAreaFields & { title?: string | null; name?: string | null }) | null | undefined,
 ): string | null {
-  return friendlyTitle(area) || area?.displayName?.trim() || area?.title?.trim() || area?.name?.trim() || null;
+  return friendlyTitle(area) || plainPlaceName(area?.displayName) || plainPlaceName(area?.title) || plainPlaceName(area?.name);
 }
 
 /** An official ONS name stored as a name ("Haringey 019A", "Westminster 013") or a bare id: resolve it. */
@@ -98,6 +107,6 @@ export function areaTitle(
 ): { title: string | null; code: string | null } {
   const friendly = friendlyTitle(fields);
   const official = officialName?.trim() || null;
-  if (!friendly) return { title: official, code: null };
+  if (!friendly) return { title: plainPlaceName(official), code: null };
   return { title: friendly, code: official && official !== friendly ? official : null };
 }

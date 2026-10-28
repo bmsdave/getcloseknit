@@ -27,3 +27,19 @@ export function rankPlace(england = coversEngland()): string {
 export function londonWord(england = coversEngland()): string {
   return england ? "" : "London ";
 }
+
+/** A local authority in words: London's are boroughs, the rest of England's councils (no "borough" outside London). */
+export function councilWord(london: boolean, plural = false): string {
+  return `${london ? "borough" : "council"}${plural ? "s" : ""}`;
+}
+
+/**
+ * A source note in the words of the area it sits under: London's notes say "borough", the rest of England's
+ * councils ("Borough-wide: every neighbourhood in a borough…" reads "Council-wide: … in a council…" in Leeds).
+ * Names that only contain the word (Peterborough, Borough Market) keep it.
+ */
+export function localNote(text: string, london: boolean): string {
+  if (london) return text;
+  return text.replace(/\b([Bb])orough(?! Market)(s?)\b/g, (_match, initial: string, plural: string) =>
+    `${initial === "B" ? "C" : "c"}ouncil${plural}`);
+}

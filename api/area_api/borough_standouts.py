@@ -61,9 +61,9 @@ LAYER_SQL = {
     "noise": ("noise", """-- borough-standouts:noise
 SELECT geography_id AS id, any_55_share AS v FROM area_noise
 WHERE geography_id LIKE 'uk:lsoa:%' AND any_55_share IS NOT NULL"""),
-    "lanes": ("kids", """-- borough-standouts:lanes
-SELECT geography_id AS id, coalesce(protected_km, 0) + coalesce(cycleway_km, 0) AS v FROM area_kids
-WHERE geography_id LIKE 'uk:lsoa:%'"""),
+    "lanes": ("kids", f"""-- borough-standouts:lanes
+SELECT geography_id AS id, {standouts.LANES_KM} AS v FROM area_kids
+WHERE geography_id LIKE 'uk:lsoa:%' AND (protected_km IS NOT NULL OR cycleway_km IS NOT NULL)"""),
     "green": ("nature", """-- borough-standouts:green
 SELECT geography_id AS id, green_share AS v FROM area_nature
 WHERE geography_id LIKE 'uk:lsoa:%' AND green_share IS NOT NULL"""),
@@ -76,6 +76,12 @@ WHERE geography_id LIKE 'uk:lsoa:%' AND gp_nearest_m IS NOT NULL"""),
     "primary": ("ranks", """-- borough-standouts:best-primary
 SELECT geography_id AS id, region_percentile AS v FROM area_rank WHERE rank_id = 'best-primary'"""),
 }
+
+# Each borough's (or MSOA's) own share of homes at 55 dB or more (area_noise counts its dwellings): the figure its
+# Green & quiet section shows, so the Noise tile agrees with it; the middle of its neighbourhoods without one.
+OWN_NOISE_SQL = """-- borough-standouts:own-noise
+SELECT n.geography_id AS id, n.any_55_share AS v FROM area_noise n JOIN area_geography g ON g.id = n.geography_id
+WHERE g.kind = %(kind)s::geography_kind AND n.any_55_share IS NOT NULL"""
 
 # State primaries and secondaries inside each borough (or MSOA), and how many Ofsted last judged Outstanding.
 SCHOOLS_SQL = """-- borough-standouts:schools
@@ -99,36 +105,37 @@ CARRIERS = (kinds.LAD, "msoa")
 
 LSOA_METRICS = ("price-per-square-metre", "crime", "station-access", "food-hygiene", "deprivation")
 
-# Tag words per tile, (pro, con), with the borough's standing among boroughs.
+# Tag words per tile, (pro, con), with the borough's standing among boroughs. {group}, {units} and {unit} are
+# London's boroughs, elsewhere the region's councils (local_words): no "borough" outside London.
 TAGS: dict[str, tuple[str | None, str | None]] = {
-    "safety": ("Safer than {s}% of boroughs", "More crime than {c}% of boroughs"),
-    "schools": ("Stronger primaries than {s}% of boroughs", None),
-    "station-walk": ("Closer to stations than {s}% of boroughs", "Further from stations than {c}% of boroughs"),
-    "cycling": ("More cycle lanes than {s}% of boroughs", "Fewer cycle lanes than {c}% of boroughs"),
-    "noise": ("Quieter than {s}% of boroughs", "Noisier than {c}% of boroughs"),
-    "nature": ("Greener than {s}% of boroughs", "Less green than {c}% of boroughs"),
-    "air": ("Cleaner air than {s}% of boroughs", "More polluted than {c}% of boroughs"),
-    "gp": ("GPs nearer than in {s}% of boroughs", "GPs further than in {c}% of boroughs"),
-    "food-hygiene": ("Better food hygiene than {s}% of boroughs", "Lower food hygiene than {c}% of boroughs"),
-    "families": ("Closer to playgrounds and nurseries than {s}% of boroughs",
-                 "Further from playgrounds and nurseries than {c}% of boroughs"),
+    "safety": ("Safer than {s}% of {group}", "More crime than {c}% of {group}"),
+    "schools": ("Stronger primaries than {s}% of {group}", None),
+    "station-walk": ("Closer to stations than {s}% of {group}", "Further from stations than {c}% of {group}"),
+    "cycling": ("More cycle lanes than {s}% of {group}", "Fewer cycle lanes than {c}% of {group}"),
+    "noise": ("Quieter than {s}% of {group}", "Noisier than {c}% of {group}"),
+    "nature": ("Greener than {s}% of {group}", "Less green than {c}% of {group}"),
+    "air": ("Cleaner air than {s}% of {group}", "More polluted than {c}% of {group}"),
+    "gp": ("GPs nearer than in {s}% of {group}", "GPs further than in {c}% of {group}"),
+    "food-hygiene": ("Better food hygiene than {s}% of {group}", "Lower food hygiene than {c}% of {group}"),
+    "families": ("Closer to playgrounds and nurseries than {s}% of {group}",
+                 "Further from playgrounds and nurseries than {c}% of {group}"),
 }
 
 # An MSOA stands among its region's MSOAs: its tags say "of <region>", as a neighbourhood's do.
 MSOA_TAGS: dict[str, tuple[str | None, str | None]] = {
-    tile: (None if pro is None else pro.replace(" in {s}% of boroughs", " {s}% of {place}").replace("of boroughs", "of {place}"),
-           None if con is None else con.replace(" in {c}% of boroughs", " {c}% of {place}").replace("of boroughs", "of {place}"))
+    tile: (None if pro is None else pro.replace(" in {s}% of {group}", " {s}% of {place}").replace("of {group}", "of {place}"),
+           None if con is None else con.replace(" in {c}% of {group}", " {c}% of {place}").replace("of {group}", "of {place}"))
     for tile, (pro, con) in TAGS.items()
 }
 
 # The verdict's words where a borough reads differently from one neighbourhood.
 VERDICT = {
     **standouts.VERDICT,
-    "safety": ("very safe", "more crime than most boroughs"),
+    "safety": ("very safe", "more crime than most {units}"),
     "schools": ("strong primaries", None),
     "station-walk": ("close to stations", "far from stations"),
     "gp": ("GPs close by", "GPs far away"),
-    "deprivation": ("among {place}'s least deprived boroughs", "among {place}'s most deprived boroughs"),
+    "deprivation": ("among {place}'s least deprived {units}", "among {place}'s most deprived {units}"),
 }
 
 # An MSOA reads as one neighbourhood for crime, as a group of them for schools, stations and GPs.
@@ -146,12 +153,33 @@ MSOA_CAVEATS = [
 ]
 
 CAVEATS = [
-    "A borough's figure is the middle of its neighbourhoods' figures; crime, the school count and the Nightlife count "
-    "are the borough's own; Families is the middle of its neighbourhoods' walks to a playground or nursery.",
-    "Standing compares the borough with {place}'s other boroughs on the same measure, where 100 is the better end; "
-    "tags pick what is in the best or worst 10% of boroughs, at most one per topic. People, income and social housing "
+    "A {unit}'s figure is the middle of its neighbourhoods' figures; crime, the school count and the Nightlife count "
+    "are the {unit}'s own; Families is the middle of its neighbourhoods' walks to a playground or nursery.",
+    "Standing compares the {unit} with {place}'s other {units} on the same measure, where 100 is the better end; "
+    "tags pick what is in the best or worst 10% of {units}, at most one per topic. People, income and social housing "
     "never make a tag.",
 ]
+
+
+def local_words(place: str) -> dict[str, str]:
+    """What the region's local authorities are called: London's boroughs; elsewhere councils ("of North West
+    councils" in a tag), so no page outside London says "borough"."""
+    london = place == "London"
+    return {"group": "boroughs" if london else f"{place} councils", "units": "boroughs" if london else "councils",
+            "unit": "borough" if london else "council"}
+
+
+def _localised(vocabulary: Mapping[str, tuple[str | None, str | None]], place: str) -> dict:
+    """The vocabulary with {group}, {units} and {unit} filled for the region; {place} is left for verdict()."""
+    words = local_words(place)
+
+    def fill(text: str | None) -> str | None:
+        if text is None:
+            return None
+        for key, value in words.items():
+            text = text.replace("{" + key + "}", value)
+        return text
+    return {key: (fill(pro), fill(con)) for key, (pro, con) in vocabulary.items()}
 
 
 def borough_standouts(reader: evidence.EvidenceReader, area_id: str, cancel: Callable[[], bool] | None = None) -> dict:
@@ -165,19 +193,21 @@ def borough_standouts(reader: evidence.EvidenceReader, area_id: str, cancel: Cal
         view = _in_region(connection, release_id, region_map, region_map.get(area_id))
         evidence._check_cancelled(cancel)
         near = near_schools(connection, area_id) if carrier != CARRIER else None
+        reasons = standouts.coverage_reasons(connection, region_map.get(area_id))
     place = coverage.region_name(region_map.get(area_id)) or "London"
     data = for_carrier(view, carrier)
     if area_id not in data["boroughs"]:
         raise evidence.AreaNotFound(f"unknown area: {area_id}")
     if near is not None:
         data["nearSchools"] = near
-    tiles = build_tiles(data, area_id)
+    tiles = standouts.with_coverage(build_tiles(data, area_id), reasons)
     tags = pick_tags(tiles, data, area_id, carrier, place)
     borough = carrier == CARRIER
     return {"schemaVersion": standouts.SCHEMA_VERSION, "productReleaseId": release_id, "geographyId": area_id,
-            "carrier": carrier, "verdict": standouts.verdict(tags, VERDICT if borough else MSOA_VERDICT, place), "tags": tags,
-            "tiles": tiles, "neighbourhoods": neighbourhoods(data, area_id),
-            "withheld": feature_flags.withheld(("laeiAir",)), "caveats": standouts.place_words(CAVEATS if borough else MSOA_CAVEATS, place)}
+            "carrier": carrier, "verdict": standouts.verdict(tags, _localised(VERDICT if borough else MSOA_VERDICT, place), place),
+            "tags": tags, "tiles": tiles, "neighbourhoods": neighbourhoods(data, area_id),
+            "withheld": feature_flags.withheld(("laeiAir",)),
+            "caveats": [line.format(place=place, **local_words(place)) for line in (CAVEATS if borough else MSOA_CAVEATS)]}
 
 
 def _everywhere(connection: Any, release_id: str) -> dict:
@@ -224,7 +254,8 @@ def for_carrier(london: Mapping[str, Any], carrier: str) -> dict:
     if carrier == CARRIER:
         return dict(london)
     return {**london, "carrier": carrier, "parent": london.get("msoaParent", {}), "boroughs": london.get("msoas", []),
-            "crime": london.get("msoaCrime", {}), "schools": london.get("msoaSchools", {})}
+            "crime": london.get("msoaCrime", {}), "schools": london.get("msoaSchools", {}),
+            "ownNoise": london.get("msoaOwnNoise", {})}
 
 
 def load_london(connection: Any, release_id: str, cancel: Callable[[], bool] | None = None) -> dict:
@@ -252,6 +283,8 @@ def load_london(connection: Any, release_id: str, cancel: Callable[[], bool] | N
                      if tables["kids"] else {})
     schools = _schools(connection, CARRIER)
     msoa_schools = _schools(connection, "msoa")
+    own_noise = {kind: ({row["id"]: float(row["v"]) for row in connection.execute(OWN_NOISE_SQL, {"kind": kind})}
+                        if tables["noise"] else {}) for kind in (CARRIER, "msoa")}
     presets = {tile: _preset(connection, release_id, preset, formula) for tile, (preset, formula) in standouts.PRESETS.items()}
     return {
         "parent": parent, "boroughs": boroughs, "pricePeriod": newest,
@@ -268,6 +301,7 @@ def load_london(connection: Any, release_id: str, cancel: Callable[[], bool] | N
         "schools": schools,
         "msoaParent": msoa_parent, "msoas": sorted(set(msoa_parent.values())),
         "msoaCrime": _crime(msoa_crime), "msoaSchools": msoa_schools,
+        "ownNoise": own_noise[CARRIER], "msoaOwnNoise": own_noise["msoa"],
     }
 
 
@@ -378,6 +412,14 @@ def _cycling(data: Mapping[str, Any], typical: Mapping[str, float], borough: str
     return _ranked("cycling", typical, borough, True, lambda v: f"{v:.1f} km lanes", detail="typical, within 1 km")
 
 
+def _noise(data: Mapping[str, Any], typical: Mapping[str, float], borough: str) -> dict | None:
+    """Its own share of homes over 55 dB among its kind's own shares, else the middle of its neighbourhoods'."""
+    own = data.get("ownNoise") or {}
+    values, detail = (own, None) if borough in own else (typical, "typical neighbourhood")
+    return _ranked("noise", values, borough, False, lambda v: f"{v * 100:.0f}% over 55 dB", lambda v: round(v * 100, 1),
+                   detail=detail)
+
+
 def build_tiles(data: Mapping[str, Any], borough: str) -> list[dict]:
     """The 12 tiles in the area page's fixed order, for one borough."""
     parent, lsoa = data["parent"], data["lsoa"]
@@ -421,8 +463,7 @@ def build_tiles(data: Mapping[str, Any], borough: str) -> list[dict]:
     for tile in (
         _ranked("station-walk", middle["station"], borough, False, lambda v: f"{round(v)} min median", round, detail="typical walk"),
         _cycling(data, middle["lanes"], borough),
-        _ranked("noise", middle["noise"], borough, False, lambda v: f"{v * 100:.0f}% over 55 dB", lambda v: round(v * 100, 1),
-                detail="typical neighbourhood"),
+        _noise(data, middle["noise"], borough),
         _ranked("nature", middle["green"], borough, True, lambda v: f"{round(v * 100)}% green", lambda v: round(v * 100),
                 detail="typical neighbourhood"),
         _ranked("air", middle["no2"], borough, False, lambda v: f"NO₂ {v:.0f} µg/m³") if feature_flags.air_quality() else None,
@@ -449,8 +490,9 @@ def _tag_words(vocabulary: Mapping[str, tuple[str | None, str | None]]) -> Calla
     def text(tile: Mapping[str, Any], kind: str, raw: Any) -> str | None:
         words = vocabulary.get(tile["id"], (None, None))[0 if kind == "pro" else 1]
         standing = tile["standing"]
+        place = standouts._place(raw)
         return None if words is None or standing is None else words.format(
-            s=standouts.london_share(standing), c=standouts.london_share(100 - standing), place=standouts._place(raw))
+            s=standouts.london_share(standing), c=standouts.london_share(100 - standing), place=place, **local_words(place))
     return text
 
 
@@ -470,12 +512,12 @@ def pick_tags(tiles: list[Mapping[str, Any]], data: Mapping[str, Any], borough: 
         kind = standouts._extreme(standing, bounds)
         if kind is None:
             return None
-        group = "10%" if msoa else "boroughs"
+        group = "10%" if msoa else local_words(place)["units"]
         text = f"Among {place}'s least deprived {group}" if kind == "pro" else f"Among {place}'s most deprived {group}"
         return standing if kind == "pro" else 100 - standing, {"id": "deprivation", "kind": kind, "text": text, "section": "people"}
 
     return standouts.pick_tags(tiles, {"place": place}, text=_tag_words(MSOA_TAGS) if msoa else _tag_text, deprivation=deprivation,
-                               verdict_words=MSOA_VERDICT if msoa else VERDICT)
+                               verdict_words=_localised(MSOA_VERDICT if msoa else VERDICT, place))
 
 
 def neighbourhoods(data: Mapping[str, Any], borough: str) -> list[dict]:

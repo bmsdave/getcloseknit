@@ -64,6 +64,22 @@ else
     fail "migrations pending or changed (listed above): run deploy/migrate.sh apply, or see RELEASE-CHECKLIST.md"
 fi
 
+echo "== Data release (release_data_health(), migration 134; /health reports the same)"
+# Every English region has a typical price for >= 95% of its LSOAs, and the active release has the artifacts its
+# tier-0/1 build left (python -m area_api.release_build --tiers 0,1). Rows: ok|check|detail.
+data_checks="$("${compose[@]}" exec -T database psql -U close_knit -d close_knit -At -F '|' \
+    -c "SELECT ok, check_name, detail FROM release_data_health(true)" 2>&1)"
+if [ -z "$data_checks" ] || ! printf '%s\n' "$data_checks" | grep -qE '^[tf]\|'; then
+    fail "release_data_health() did not answer: ${data_checks:-no output} (migration 134 applied?)"
+else
+    while IFS='|' read -r ok name detail; do
+        case "$ok" in
+            t) pass "$name: $detail" ;;
+            f) fail "$name: $detail" ;;
+        esac
+    done <<< "$data_checks"
+fi
+
 echo "== Notification channels (python -m area_api.notify test)"
 probe="${CLOSE_KNIT_CONTACT_EMAIL:-preflight@example.invalid}"
 if "${compose[@]}" exec -T api python -m area_api.notify test "$probe"; then
@@ -73,6 +89,11 @@ else
 fi
 
 echo "== Running stack ($web_url)"
+# Every curl from here on (xargs included) reads this config: the team header marks the checks as ours
+# (area_api.usage.traffic), and on a private site the login is added below.
+export CURL_HOME="$(mktemp -d)"
+trap 'rm -rf "$CURL_HOME"' EXIT
+printf 'header = "X-Close-Knit-Team: 1"\n' > "$CURL_HOME/.curlrc"
 if [ "${CLOSE_KNIT_ACCESS:-public}" = private ]; then
     code="$(curl -s -o /dev/null -m 10 -w '%{http_code}' "$web_url/")"
     if [ "$code" = 401 ]; then pass "site is private (401 without the login)"; else
@@ -86,10 +107,8 @@ if [ "${CLOSE_KNIT_ACCESS:-public}" = private ]; then
         if [ "$code" = 200 ]; then pass "$page is open (200 without the login)"; else
             fail "$page answers $code without a login (access-private.caddy)"; fi
     done
-    # Every curl below (xargs included) reads this config and sends the login.
-    export CURL_HOME="$(mktemp -d)"
-    trap 'rm -rf "$CURL_HOME"' EXIT
-    printf 'user = "%s:%s"\n' "${CLOSE_KNIT_ACCESS_USER:-}" "${CLOSE_KNIT_ACCESS_PASSWORD:-}" > "$CURL_HOME/.curlrc"
+    # Every curl below (xargs included) sends the login too.
+    printf 'user = "%s:%s"\n' "${CLOSE_KNIT_ACCESS_USER:-}" "${CLOSE_KNIT_ACCESS_PASSWORD:-}" >> "$CURL_HOME/.curlrc"
 elif [ "$mode" = prod ]; then
     warn "site is public (CLOSE_KNIT_ACCESS=public)"
 fi

@@ -155,3 +155,32 @@ class LabelHttpTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EnglandNameTests(unittest.TestCase):
+    """G-E24 and G-E15: ONS inverted names read as people say them; a LAD outside London is a council."""
+
+    def test_inverted_names_are_plain(self):
+        self.assertEqual(evidence.plain_place_name("Bristol, City of"), "Bristol")
+        self.assertEqual(evidence.plain_place_name("Herefordshire, County of"), "Herefordshire")
+        self.assertEqual(evidence.plain_place_name("City of London"), "City of London")
+        self.assertIsNone(evidence.plain_place_name(" "))
+        self.assertEqual(evidence.display_name({"name": "Kingston upon Hull, City of"}), "Kingston upon Hull")
+
+    def test_search_labels_a_council_outside_london(self):
+        row = {"id": "uk:lad:E06000014", "name": "York", "official_code": "E06000014", "kind": "lad",
+               "friendly_name": "York", "postcode_district": None, "center_lon": -1.08, "center_lat": 53.96}
+        self.assertEqual(evidence._search_result(row)["secondaryLabel"], "E06000014 · council")
+        camden = {**row, "id": "uk:lad:E09000007", "name": "Camden", "official_code": "E09000007", "friendly_name": "Camden"}
+        self.assertEqual(evidence._search_result(camden)["secondaryLabel"], "E09000007 · borough")
+        bristol = {**row, "id": "uk:lad:E06000023", "name": "Bristol, City of", "official_code": "E06000023",
+                   "friendly_name": "Bristol, City of"}
+        self.assertEqual(evidence._search_result(bristol)["label"], "Bristol")
+
+    def test_map_labels_name_a_borough_plainly(self):
+        class Rows:
+            def execute(self, sql, params=()):
+                return [{"kind": "borough", "code": "E06000023", "label": "Bristol, City of", "name": "Bristol, City of",
+                         "postcodes": None, "lon": -2.6, "lat": 51.45}]
+        props = labels._load(Rows(), None)[0]["properties"]
+        self.assertEqual((props["label"], props["name"]), ("Bristol", "Bristol"))

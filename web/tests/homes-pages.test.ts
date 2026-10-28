@@ -23,9 +23,17 @@ test("homes near: postcodes with homes, nearest first; bad rows are dropped", ()
       { postcode: "BR6 9SA", geographyId: "uk:lsoa:E01000757", homes: 0, metres: 5 },
     ],
   });
-  assert.deepEqual(rows?.map((row) => row.postcode), ["BR6 9SB", "BR6 9SD"]);
+  assert.ok(Array.isArray(rows));
+  assert.deepEqual(rows.map((row) => row.postcode), ["BR6 9SB", "BR6 9SD"]);
   assert.equal(readHomesNear({ schemaVersion: "other" }), null);
   assert.equal(readHomesNear(null), null);
+});
+
+test("homes near outside London: the reason, not an empty list (G-E07)", () => {
+  assert.equal(readHomesNear({
+    schemaVersion: "homes-near.v1", productReleaseId: "r", point: { latitude: 53.8, longitude: -1.58 }, radiusMetres: 800,
+    caveats: [], postcodes: [], coverage: "london-only",
+  }), "london-only");
 });
 
 test("homes near: the API path, distances and counts in words", () => {

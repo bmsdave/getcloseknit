@@ -246,11 +246,12 @@ class SearchStreet(Contract):
 
 class SearchResult(Contract):
     kind: Annotated[
-        Literal["lad", "msoa", "lsoa", "address", "street", "school", "station", "place"] | None,
+        Literal["lad", "msoa", "lsoa", "postcode", "address", "street", "school", "station", "place"] | None,
         Field(
             description=(
                 "What the row is; a school, station or place (named park) comes only with scope=all, its geographyId"
-                " the LSOA its point is in"
+                " the LSOA its point is in; a postcode (a full postcode with no recorded home) is labelled with the"
+                " postcode, its geographyId the LSOA it is in"
             )
         ),
     ] = None
@@ -258,6 +259,10 @@ class SearchResult(Contract):
     label: str
     secondaryLabel: str
     urn: Annotated[str | None, Field(description="A school's URN (kind school)")] = None
+    independent: Annotated[
+        bool | None,
+        Field(description="An independent school (kind school, GIAS): it has no school page, so it opens the map there"),
+    ] = None
     stationId: Annotated[str | None, Field(description="A station's id (kind station)")] = None
     placeId: Annotated[str | None, Field(description="A named park's OSM id (kind place)")] = None
     uprn: str | None = None
@@ -1372,6 +1377,10 @@ class HomesNearResponse(Contract):
     radiusMetres: int
     postcodes: list[HomesNearPostcode]
     caveats: list[str]
+    coverage: Annotated[
+        Literal["london-only"] | None,
+        Field(description="Why there is nothing here: per-home data is London's alone and this is elsewhere; null inside it"),
+    ] = None
 
 
 class StreetHomeResponse(Contract):
@@ -2323,6 +2332,10 @@ class AreaRecentSalesResponse(Contract):
     schemaVersion: Literal["area-recent-sales.v1"]
     total: int
     sales: list[Any]
+    coverage: Annotated[
+        Literal["london-only"] | None,
+        Field(description="Why there is nothing here: per-home data is London's alone and this is elsewhere; null inside it"),
+    ] = None
 
 
 class AreaSinceResponse(Contract):

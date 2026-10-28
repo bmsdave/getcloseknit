@@ -117,7 +117,9 @@ export function softenedWords(before: MatchCriterion, after: MatchCriterion, pro
 
 /** One criterion's value for an area, short: "King's Cross 22′", "safer than 91%", "typical £615k", "crime 46". */
 export function valueWords(item: MatchCriterion, component: MatchComponent, profile: PreferenceProfile): string {
-  if (item.kind === "place") return `${item.label} ${Math.round(component.rawValue)}′`;
+  // A pinned place's minutes without a route (no hub near it, or outside London's routing) are a straight-line
+  // estimate, said as on the area page ("12 min · estimate"): G-E14.
+  if (item.kind === "place") return `${item.label} ${Math.round(component.rawValue)}′${pinned(item) && component.quality === "fallback" ? " est." : ""}`;
   if (item.kind === "budget") return profile.market === "rent" ? `rent ${budgetMoney(component.rawValue, "rent")}` : `typical ${formatMoney(component.rawValue)}`;
   if (item.kind === "where") return component.rawValue <= 0 ? "in your Where" : `${(component.rawValue / 1000).toFixed(1)} km outside Where`;
   if (item.kind === "custom") return item.criterion.label;
@@ -126,8 +128,12 @@ export function valueWords(item: MatchCriterion, component: MatchComponent, prof
   return `${(rangeLayer(item.layer)?.short ?? itemName(item)).toLowerCase()} ${formatRangeValue(item.layer, component.rawValue)}`;
 }
 
-/** ✓ in range, ≈ on the soft edge, ✗ out (or a failed Must). */
-export type Mark = "in" | "edge" | "out";
+function pinned(item: Extract<MatchCriterion, { kind: "place" }>): boolean {
+  return item.target.kind === "point" || item.target.kind === "any-of";
+}
+
+/** ✓ in range, ≈ on the soft edge, ✗ out (or a failed Must); none: no data here, so not scored (half a fit). */
+export type Mark = "in" | "edge" | "out" | "none";
 
 export interface WhyPart { id: string; mark: Mark; text: string }
 
@@ -142,8 +148,17 @@ function markOf(component: MatchComponent | undefined, failed: boolean): Mark {
  * #2 safer than 91%"); a near miss names what is off instead ("≈ #1 King's Cross 41′").
  */
 export function whyParts(result: MatchResult, items: readonly SearchItem[], profile: PreferenceProfile, tied = false): WhyPart[] {
-  const byId = new Map(items.map((item) => [item.id, item]));
   const components = new Map(result.components.map((component) => [component.factorId as string, component]));
+  // A ranked criterion with no data here (no crime published for Greater Manchester) counts as half a fit: the row
+  // says it was not scored, never leaves it out silently (G-E13).
+  const missing = items.find((item) => !item.must && item.rank !== null && !components.has(item.id));
+  const parts = scoredParts(result, items, profile, tied, components);
+  return missing ? [...parts, { id: missing.id, mark: "none", text: `#${missing.rank} ${itemName(missing.criterion)}: no data` }] : parts;
+}
+
+function scoredParts(result: MatchResult, items: readonly SearchItem[], profile: PreferenceProfile, tied: boolean,
+  components: ReadonlyMap<string, MatchComponent>): WhyPart[] {
+  const byId = new Map(items.map((item) => [item.id, item]));
   const label = (item: SearchItem, component: MatchComponent) => `${item.rank ? `#${item.rank} ` : ""}${valueWords(item.criterion, component, profile)}`;
   const edges = items.filter((item) => !item.must && components.has(item.id) && markOf(components.get(item.id), false) === "edge");
   if (edges.length) {

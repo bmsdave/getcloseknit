@@ -15,7 +15,42 @@
     "to": "now"
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "traffic",
+        "label": "Traffic",
+        "type": "custom",
+        "multi": true,
+        "includeAll": false,
+        "description": "Live = people and their assistants; Team = our own checks and visits; Tech = scanners and scripts.",
+        "query": "Live : live, Team : team, Tech : tech",
+        "current": {
+          "text": [
+            "Live"
+          ],
+          "value": [
+            "live"
+          ]
+        },
+        "options": [
+          {
+            "text": "Live",
+            "value": "live",
+            "selected": true
+          },
+          {
+            "text": "Team",
+            "value": "team",
+            "selected": false
+          },
+          {
+            "text": "Tech",
+            "value": "tech",
+            "selected": false
+          }
+        ]
+      }
+    ]
   },
   "annotations": {
     "list": []
@@ -68,7 +103,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE channel = 'web' AND occurred_at >= now() - interval '1 day'"
+          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND occurred_at >= now() - interval '1 day'"
         }
       ],
       "fieldConfig": {
@@ -113,7 +148,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE channel = 'web' AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -158,7 +193,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE channel = 'web' AND occurred_at >= now() - interval '30 days'"
+          "rawSql": "SELECT count(DISTINCT visitor_id) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND occurred_at >= now() - interval '30 days'"
         }
       ],
       "fieldConfig": {
@@ -203,7 +238,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT visitor_id) FILTER (WHERE occurred_at >= now() - interval '1 day')::float / nullif(count(DISTINCT visitor_id), 0) FROM product_event WHERE channel = 'web' AND occurred_at >= now() - interval '30 days'"
+          "rawSql": "SELECT count(DISTINCT visitor_id) FILTER (WHERE occurred_at >= now() - interval '1 day')::float / nullif(count(DISTINCT visitor_id), 0) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND occurred_at >= now() - interval '30 days'"
         }
       ],
       "fieldConfig": {
@@ -250,7 +285,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT coalesce(visitor_id::text, session_id)) FROM product_event WHERE name IN ('portal_click', 'watch_open', 'brief_share') AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(DISTINCT coalesce(visitor_id::text, session_id)) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name IN ('portal_click', 'watch_open', 'brief_share') AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -295,7 +330,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT coalesce(visitor_id::text, session_id)) FROM product_event WHERE name = 'portal_click' AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(DISTINCT coalesce(visitor_id::text, session_id)) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'portal_click' AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -353,7 +388,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "time_series",
-          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), count(DISTINCT visitor_id) AS \"people\", count(DISTINCT session_id) AS \"sessions\" FROM product_event WHERE channel = 'web' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), count(DISTINCT visitor_id) AS \"people\", count(DISTINCT session_id) AS \"sessions\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -403,7 +438,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "time_series",
-          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 7d), count(DISTINCT coalesce(visitor_id::text, session_id)) FILTER (WHERE channel = 'web') AS \"site\", count(DISTINCT coalesce(visitor_id::text, session_id)) FILTER (WHERE channel <> 'web') AS \"Claude / agents\" FROM product_event WHERE name IN ('portal_click', 'watch_open', 'brief_share') AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 7d), count(DISTINCT coalesce(visitor_id::text, session_id)) FILTER (WHERE channel = 'web') AS \"site\", count(DISTINCT coalesce(visitor_id::text, session_id)) FILTER (WHERE channel <> 'web') AS \"Claude / agents\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name IN ('portal_click', 'watch_open', 'brief_share') AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -453,7 +488,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH people AS ( SELECT visitor_id, bool_or(name = 'page_view') AS visited, bool_or(name IN ('search', 'match_run')) AS searched, bool_or(name = 'area_open' OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found, bool_or(name = 'portal_click') AS clicked_out, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT '1 visited' AS step, count(*) FILTER (WHERE visited) AS people FROM people UNION ALL SELECT '2 searched', count(*) FILTER (WHERE searched) FROM people UNION ALL SELECT '3 found an area or home', count(*) FILTER (WHERE found) FROM people UNION ALL SELECT '4 clicked out to a portal', count(*) FILTER (WHERE clicked_out) FROM people UNION ALL SELECT '5 acted ★', count(*) FILTER (WHERE acted) FROM people ORDER BY 1"
+          "rawSql": "WITH people AS ( SELECT visitor_id, bool_or(name = 'page_view') AS visited, bool_or(name IN ('search', 'match_run')) AS searched, bool_or(name = 'area_open' OR (name = 'page_view' AND props->>'path' ~ '^/(area|property|postcode)/')) AS found, bool_or(name = 'portal_click') AS clicked_out, bool_or(name IN ('portal_click', 'watch_open', 'brief_share')) AS acted FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL AND $__timeFilter(occurred_at) GROUP BY 1) SELECT '1 visited' AS step, count(*) FILTER (WHERE visited) AS people FROM people UNION ALL SELECT '2 searched', count(*) FILTER (WHERE searched) FROM people UNION ALL SELECT '3 found an area or home', count(*) FILTER (WHERE found) FROM people UNION ALL SELECT '4 clicked out to a portal', count(*) FILTER (WHERE clicked_out) FROM people UNION ALL SELECT '5 acted ★', count(*) FILTER (WHERE acted) FROM people ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -505,7 +540,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "time_series",
-          "rawSql": "SELECT $__timeGroupAlias(day, 1d), percentile_cont(0.5) WITHIN GROUP (ORDER BY seconds) / 60 AS \"median\", percentile_cont(0.9) WITHIN GROUP (ORDER BY seconds) / 60 AS \"p90\" FROM (SELECT session_id, min(occurred_at) AS day, sum((props->>'seconds')::numeric) AS seconds FROM product_event WHERE name = 'engagement' AND $__timeFilter(occurred_at) GROUP BY 1) visits GROUP BY 1 ORDER BY 1"
+          "rawSql": "SELECT $__timeGroupAlias(day, 1d), percentile_cont(0.5) WITHIN GROUP (ORDER BY seconds) / 60 AS \"median\", percentile_cont(0.9) WITHIN GROUP (ORDER BY seconds) / 60 AS \"p90\" FROM (SELECT session_id, min(occurred_at) AS day, sum((props->>'seconds')::numeric) AS seconds FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'engagement' AND $__timeFilter(occurred_at) GROUP BY 1) visits GROUP BY 1 ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -569,7 +604,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT channel, props->>'portal' AS portal, props->>'kind' AS kind, props->>'from' AS \"from\", count(DISTINCT coalesce(visitor_id::text, session_id, id::text)) AS people, count(*) AS clicks FROM product_event WHERE name = 'portal_click' AND $__timeFilter(occurred_at) GROUP BY 1, 2, 3, 4 ORDER BY people DESC"
+          "rawSql": "SELECT channel, props->>'portal' AS portal, props->>'kind' AS kind, props->>'from' AS \"from\", count(DISTINCT coalesce(visitor_id::text, session_id, id::text)) AS people, count(*) AS clicks FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'portal_click' AND $__timeFilter(occurred_at) GROUP BY 1, 2, 3, 4 ORDER BY people DESC"
         }
       ],
       "fieldConfig": {
@@ -606,7 +641,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT coalesce(props->>'area', '-') AS area, props->>'outcode' AS district, count(DISTINCT coalesce(visitor_id::text, session_id)) AS people, count(*) AS clicks FROM product_event WHERE name = 'portal_click' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY people DESC LIMIT 20"
+          "rawSql": "SELECT coalesce(props->>'area', '-') AS area, props->>'outcode' AS district, count(DISTINCT coalesce(visitor_id::text, session_id)) AS people, count(*) AS clicks FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'portal_click' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY people DESC LIMIT 20"
         }
       ],
       "fieldConfig": {
@@ -656,7 +691,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "WITH firsts AS ( SELECT visitor_id, date_trunc('week', min(occurred_at)) AS cohort FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1), weeks AS (SELECT DISTINCT visitor_id, date_trunc('week', occurred_at) AS week FROM product_event WHERE channel = 'web' AND visitor_id IS NOT NULL) SELECT f.cohort::date AS \"week of\", count(DISTINCT f.visitor_id) AS \"new people\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '1 week') / count(DISTINCT f.visitor_id)) AS \"week 1 %\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '2 weeks') / count(DISTINCT f.visitor_id)) AS \"week 2 %\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '4 weeks') / count(DISTINCT f.visitor_id)) AS \"week 4 %\" FROM firsts f JOIN weeks w USING (visitor_id) WHERE f.cohort >= now() - interval '12 weeks' GROUP BY 1 ORDER BY 1 DESC"
+          "rawSql": "WITH firsts AS ( SELECT visitor_id, date_trunc('week', min(occurred_at)) AS cohort FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL GROUP BY 1), weeks AS (SELECT DISTINCT visitor_id, date_trunc('week', occurred_at) AS week FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND visitor_id IS NOT NULL) SELECT f.cohort::date AS \"week of\", count(DISTINCT f.visitor_id) AS \"new people\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '1 week') / count(DISTINCT f.visitor_id)) AS \"week 1 %\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '2 weeks') / count(DISTINCT f.visitor_id)) AS \"week 2 %\", round(100.0 * count(DISTINCT w.visitor_id) FILTER (WHERE w.week = f.cohort + interval '4 weeks') / count(DISTINCT f.visitor_id)) AS \"week 4 %\" FROM firsts f JOIN weeks w USING (visitor_id) WHERE f.cohort >= now() - interval '12 weeks' GROUP BY 1 ORDER BY 1 DESC"
         }
       ],
       "fieldConfig": {
@@ -693,7 +728,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT coalesce(props->>'source', 'direct') AS source, count(DISTINCT visitor_id) AS people FROM product_event WHERE name = 'page_view' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY people DESC LIMIT 10"
+          "rawSql": "SELECT coalesce(props->>'source', 'direct') AS source, count(DISTINCT visitor_id) AS people FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'page_view' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY people DESC LIMIT 10"
         }
       ],
       "fieldConfig": {
@@ -745,7 +780,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT coalesce(device, 'unknown') AS device, count(DISTINCT visitor_id) AS people FROM product_event WHERE channel = 'web' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY people DESC"
+          "rawSql": "SELECT coalesce(device, 'unknown') AS device, count(DISTINCT visitor_id) AS people FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY people DESC"
         }
       ],
       "fieldConfig": {
@@ -810,7 +845,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT props->>'query' AS query, count(*) AS times FROM product_event WHERE name = 'search_empty' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY times DESC LIMIT 20"
+          "rawSql": "SELECT props->>'query' AS query, count(*) AS times FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'search_empty' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY times DESC LIMIT 20"
         }
       ],
       "fieldConfig": {
@@ -847,7 +882,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(*) FILTER (WHERE name = 'search') AS \"results chosen\", count(*) FILTER (WHERE name = 'search_empty') AS \"searches with nothing\", count(*) FILTER (WHERE name = 'match_run') AS \"area matches\", count(*) FILTER (WHERE name = 'match_run' AND (props->>'results')::int = 0) AS \"matches with no area\" FROM product_event WHERE channel = 'web' AND $__timeFilter(occurred_at)"
+          "rawSql": "SELECT count(*) FILTER (WHERE name = 'search') AS \"results chosen\", count(*) FILTER (WHERE name = 'search_empty') AS \"searches with nothing\", count(*) FILTER (WHERE name = 'match_run') AS \"area matches\", count(*) FILTER (WHERE name = 'match_run' AND (props->>'results')::int = 0) AS \"matches with no area\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'web' AND $__timeFilter(occurred_at)"
         }
       ],
       "fieldConfig": {
@@ -884,7 +919,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT props->>'kind' AS kind, count(*) AS chosen FROM product_event WHERE name = 'search' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY chosen DESC"
+          "rawSql": "SELECT props->>'kind' AS kind, count(*) AS chosen FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'search' AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY chosen DESC"
         }
       ],
       "fieldConfig": {
@@ -921,7 +956,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT market, budget_band AS \"budget up to\", bedrooms, count(*) AS searches FROM profile_analytics_event WHERE $__timeFilter(created_at) GROUP BY 1, 2, 3 ORDER BY searches DESC LIMIT 20"
+          "rawSql": "SELECT market, budget_band AS \"budget up to\", bedrooms, count(*) AS searches FROM profile_analytics_event WHERE traffic IN ($traffic) AND $__timeFilter(created_at) GROUP BY 1, 2, 3 ORDER BY searches DESC LIMIT 20"
         }
       ],
       "fieldConfig": {
@@ -971,7 +1006,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT props->>'path' AS path, props->>'digest' AS digest, count(*) AS times, max(occurred_at) AS \"last\" FROM product_event WHERE name = 'client_error' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
+          "rawSql": "SELECT props->>'path' AS path, props->>'digest' AS digest, count(*) AS times, max(occurred_at) AS \"last\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'client_error' AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
         }
       ],
       "fieldConfig": {

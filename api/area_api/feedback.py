@@ -16,19 +16,19 @@ from typing import Any, Callable, Literal
 
 from pydantic import Field
 
-from . import envelope, notify
+from . import envelope, notify, usage
 from .toolspec import StrictInput, ToolContext, ToolSpec
 
 RETENTION_DAYS = 365
 KINDS = ("bug", "missing-data", "wrong-data", "idea", "praise", "other")
 
 INSERT_SQL = """-- feedback:insert
-INSERT INTO mcp_feedback (kind, message, rating, tools, client) VALUES (%s, %s, %s, %s, %s) RETURNING id"""
+INSERT INTO mcp_feedback (kind, message, rating, tools, client, traffic) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id"""
 PURGE_SQL = """-- feedback:purge
 WITH gone AS (DELETE FROM mcp_feedback WHERE created_at < %s RETURNING 1) SELECT count(*) AS purged FROM gone"""
 LIST_SQL = """-- feedback:list
-SELECT id, kind, message, rating, tools, client, created_at FROM mcp_feedback
-WHERE created_at >= %s ORDER BY created_at"""
+SELECT id, kind, message, rating, tools, client, traffic, created_at FROM mcp_feedback
+WHERE created_at >= %s AND traffic = ANY(%s) ORDER BY created_at"""
 
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+(\.[\w-]+)+")
 PHONE = re.compile(r"(?<!\w)(\+?\d[\d ()-]{8,}\d)(?!\w)")
@@ -56,19 +56,21 @@ def scrub(text: str) -> str:
     return PHONE.sub("[phone removed]", EMAIL.sub("[email removed]", text)).strip()
 
 
-def store(connect: Callable[[], Any], args: FeedbackInput) -> int:
-    """Insert one item and purge those past RETENTION_DAYS; returns the new id."""
+def store(connect: Callable[[], Any], args: FeedbackInput, traffic: str = "live") -> int:
+    """Insert one item and purge those past RETENTION_DAYS; returns the new id. traffic is the call's
+    (usage.traffic); a live call still counts as team or tech when the client it names is."""
     tool_names = [name for name in args.tools if re.fullmatch(r"[a-z_]{2,40}", name)]
+    kind = traffic if traffic in ("team", "tech") else usage.traffic(args.client)
     with connect() as connection:
         connection.execute(PURGE_SQL, (_now() - timedelta(days=RETENTION_DAYS),))
         rows = list(connection.execute(INSERT_SQL, (args.kind, scrub(args.message), args.rating, tool_names,
-                                                    args.client)))
+                                                    args.client, kind)))
     return rows[0]["id"]
 
 
-def recent(connect: Callable[[], Any], days: int = 30) -> list[dict]:
+def recent(connect: Callable[[], Any], days: int = 30, traffic: tuple[str, ...] = ("live",)) -> list[dict]:
     with connect() as connection:
-        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days),))]
+        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days), list(traffic)))]
 
 
 def purge(connect: Callable[[], Any]) -> int:
@@ -77,7 +79,7 @@ def purge(connect: Callable[[], Any]) -> int:
 
 
 def _send_feedback(context: ToolContext, args: FeedbackInput) -> dict:
-    item_id = store(context.reader._connect, args)
+    item_id = store(context.reader._connect, args, context.traffic)
     notify.deliver({"kind": "mcp-feedback", "id": item_id, "feedbackKind": args.kind, "rating": args.rating,
                     "tools": args.tools, "client": args.client, "message": scrub(args.message)})
     return envelope.wrap(
@@ -99,6 +101,8 @@ def main(argv: list[str] | None = None) -> int:
     listing = commands.add_parser("list", help="feedback from the last N days, oldest first")
     listing.add_argument("--days", type=int, default=30)
     listing.add_argument("--json", action="store_true")
+    listing.add_argument("--traffic", type=usage.parse_traffic, default=("live",),
+                         help="live (default), team, tech, a comma-separated mix, or all")
     commands.add_parser("purge", help=f"delete items older than {RETENTION_DAYS} days")
     args = parser.parse_args(argv)
 
@@ -107,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "purge":
         print(f"purged {purge(evidence_connection)}")
         return 0
-    items = recent(evidence_connection, args.days)
+    items = recent(evidence_connection, args.days, args.traffic)
     for item in items:
         if args.json:
             print(json.dumps({**item, "created_at": item["created_at"].isoformat()}))

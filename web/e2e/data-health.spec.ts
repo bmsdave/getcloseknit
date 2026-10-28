@@ -7,6 +7,7 @@ const DEGRADED_HEALTH = {
   code: "stale-source",
   productReleaseId: "product-2026-07",
   checks: [],
+  notice: "Crime data last updated Mar 2026",
   unavailableReasons: [
     "source police-uk release police-uk-2026-03 retrieved 2026-03-01 exceeds the 45-day expected cadence",
   ],
@@ -29,13 +30,16 @@ test("freshness warning opens and correction prepare stays profile-free", async 
 
   const warning = page.getByTestId("freshness-warning");
   await expect(warning).toBeVisible();
-  await expect(warning).toContainText("police-uk-2026-03");
+  // G-E03: words for people up front; the source and release ids only behind the toggle.
+  await expect(warning).toContainText("Crime data last updated Mar 2026");
+  await expect(warning).not.toContainText("police-uk-2026-03");
   const toggle = page.getByTestId("freshness-warning-toggle");
   await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-expanded", "true");
   const details = page.getByTestId("freshness-details");
   await expect(details).toContainText("stale-source");
+  await expect(details).toContainText("police-uk-2026-03");
   await expect(details).toContainText("product-2026-07");
 
   // "Report a wrong figure" stays at the end of the area view (G26; a phone's sheet at full, v4 Task 12);

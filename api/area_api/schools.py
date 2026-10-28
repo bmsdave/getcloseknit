@@ -16,6 +16,7 @@ from typing import Any, Iterable, Mapping
 
 from . import coverage
 from .scope import current as current_scope
+from .search_text import NAME_KEY_SQL
 
 # A school query's scope marker: TRUE with CLOSE_KNIT_ENGLAND on, London's schools only with it off.
 _SCOPE_RE = re.compile(r"/\*school-scope:(\w+)\*/TRUE")
@@ -234,6 +235,14 @@ SELECT s.urn, s.name, s.age_from, s.age_to, s.gender, s.religious_character, s.s
 FROM independent_school s, area
 WHERE s.{IN_ACTIVE_RELEASE} AND ST_DWithin(s.location::geography, area.point, %s) AND {scope()}
 ORDER BY distance_metres, s.urn"""
+
+# Independent schools by name for the site search (G-E17): the name compared in search_text's normal form, so
+# "Withington Girls School" finds Withington Girls' School.
+INDEPENDENT_SEARCH_SQL = f"""-- evidence:independent-school-search
+SELECT i.urn, i.name, ST_Y(i.location) AS latitude, ST_X(i.location) AS longitude
+FROM independent_school i
+WHERE i.{IN_ACTIVE_RELEASE} AND {NAME_KEY_SQL.format(column="i.name")} LIKE %s ESCAPE '\\' AND {scope("i")}
+ORDER BY i.name LIMIT %s"""
 
 OFSTED_GRADES = {"Outstanding": "outstanding", "Good": "good", "Requires improvement": "requires-improvement",
                  "Inadequate": "inadequate"}

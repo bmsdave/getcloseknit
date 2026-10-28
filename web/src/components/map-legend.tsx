@@ -91,7 +91,11 @@ interface LegendScale {
   /** The ramp, low to high, evenly spaced (knitted as the legend strip). */
   colours: string[];
   /** Tick labels along the gradient, each at its place (0..1): low…high, or −, 0, + for the change scale. */
-  ticks: { position: number; label: string }[];
+  /**
+   * `words` lead the label and `more` follows it on a wide legend ("Lowest in view £5k", "Lowest in North West");
+   * a phone's one-line chip drops both ("£5k", "Lowest"), so its ends never clip.
+   */
+  ticks: { position: number; label: string; words?: string; more?: string }[];
   testId: string | undefined;
   note: string;
   ariaLabel: string;
@@ -164,7 +168,7 @@ function RampLegend(props: MapLegendProps) {
   const { name, rest } = legendCaptionParts(caption, legendTitle(props.metric), props.layerName);
   // The Must hatch's key matches the map's, which recedes at night.
   const theme = useSyncExternalStore(onUiThemeChange, resolvedUiTheme, () => "day" as const);
-  const stops = useFittedTicks(scale.ticks.map((tick) => tick.label).join("|"));
+  const stops = useFittedTicks(scale.ticks.map((tick) => `${tick.words ?? ""}${tick.label}${tick.more ?? ""}`).join("|"));
   // A grey area in view: the key says what grey means (lib/no-data.ts); never on My match, whose grey is a Must's.
   const noData = useSyncExternalStore(subscribeViewCoverage, currentViewCoverage, () => null)?.noData === true
     && props.metric.id !== "personal-match";
@@ -191,7 +195,9 @@ function RampLegend(props: MapLegendProps) {
       <span className="map-legend-stops" data-testid={scale.testId} ref={stops}>
         {scale.ticks.map((tick, index) => (
           <span key={index} style={{ left: `${(tick.position * 100).toFixed(1)}%` }} data-edge={tick.position === 0 ? "start" : tick.position === 1 ? "end" : undefined}>
+            {tick.words && <small className="map-legend-stops__words">{tick.words} </small>}
             {tick.label}
+            {tick.more && <small className="map-legend-stops__words">{tick.more}</small>}
           </span>
         ))}
       </span>
@@ -332,9 +338,9 @@ function legendScale(
     return {
       colours: percentileStops(metric.legend).map((stop) => stop.colour),
       ticks: [
-        { position: 0, label: `Lowest in view ${value(0)}` },
+        { position: 0, words: "Lowest in view", label: value(0) },
         ...(mid > 0 && mid < last ? [{ position: mid / last, label: value(mid) }] : []),
-        { position: 1, label: `Highest ${value(last)}` },
+        { position: 1, words: "Highest", label: value(last) },
       ],
       testId: "legend-percentile", note: `${note} · Each colour an equal share of the areas in view`,
       ariaLabel: `${metric.label} colour legend, lowest to highest in view, ${value(0)} to ${value(last)}`,

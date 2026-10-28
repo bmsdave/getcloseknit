@@ -186,6 +186,23 @@ class ReleaseValidationTests(unittest.TestCase):
         self.assertEqual(params[4], "passed")
         self.assertTrue(_called(cursor, "activate_product_release"))
 
+    def test_inside_an_etl_run_the_release_is_staged_not_activated(self):
+        # The October refresh: `release` activated at once, before the England bundle and release_build ran.
+        with mock.patch.dict(os.environ, {"CLOSE_KNIT_STAGE_ONLY": "1"}):
+            _, cursor = _run(_script())
+
+        self.assertEqual(_release_insert(cursor)[4], "passed")
+        self.assertTrue(_called(cursor, "INSERT INTO product_release_member"))
+        self.assertFalse(_called(cursor, "activate_product_release"))
+
+    def test_the_coverage_threshold_reaches_the_guard(self):
+        with mock.patch.dict(os.environ, {"CLOSE_KNIT_COVERAGE_DROP_THRESHOLD_PERCENT": "12"}):
+            _, cursor = _run(_script())
+
+        calls = [(query, params) for query, params in cursor.calls if "set_config" in query]
+        self.assertEqual(calls[0][1], ("close_knit.coverage_drop_threshold_percent", "12"))
+        self.assertTrue(_called(cursor, "activate_product_release"))
+
     def test_clean_release_still_activates(self):
         _, cursor = _run(_script())
 

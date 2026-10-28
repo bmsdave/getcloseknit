@@ -59,7 +59,7 @@ class MarketDepthMigrationTests(unittest.TestCase):
         source = (DEPLOY / "tools" / "etl_price_release.py").read_text()
         self.assertLess(source.index('"rebuild_area_price_growth()"'),
                         source.index('"rebuild_market_depth()"'))
-        self.assertLess(source.index("activate_product_release(%s)"),
+        self.assertLess(source.index("release_guard.activate(cur, release_id)"),
                         source.rindex("rerun_index_rebuilds(cur)"))
 
 class GrowthQualityMigrationTests(unittest.TestCase):

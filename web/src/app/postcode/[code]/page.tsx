@@ -4,6 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { cache, Suspense } from "react";
 
 import { AskingPriceCheck } from "@/components/asking-price-check";
+import { HomesHere } from "@/components/homes-here";
 import { PostcodeHomesHere } from "@/components/postcode-homes-here";
 import { PostcodePhotos } from "@/components/postcode-photos";
 import { PostcodeSalesChart } from "@/components/postcode-sales-chart";
@@ -11,7 +12,8 @@ import { SaveItemButton } from "@/components/save-item-button";
 import { WatchListings } from "@/components/watch-listings";
 import { Breadcrumbs, WhatsNext } from "@/components/entity-nav";
 import { loadAreaTrail } from "@/lib/area-pages-data";
-import { regionScope, scopeName } from "@/lib/scope-name";
+import { londonOnlyWords, outsideLondon } from "@/lib/coverage-reason";
+import { LONDON_SCOPE, regionScope, scopeName } from "@/lib/scope-name";
 import { areaCrumbs, upLinks, type Crumb } from "@/lib/entity-nav";
 import { HomesMixPanel, LivingHere, PostcodeComparison, PostcodeHero, PostcodeSources, postcodeAskingBasis, postcodeSummaryLine } from "@/components/postcode-visuals";
 import { DemoNotice, findLikeHref } from "@/components/property-profile";
@@ -22,7 +24,7 @@ import type { DataMode } from "@/lib/map-state";
 import { formatDay, formatMonth } from "@/lib/market";
 import { formatMoney } from "@/lib/money-format";
 import { distinctDisclaimers, groupByBuilding, type BuildingGroup } from "@/lib/postcode-groups";
-import { postcodeFromParam, postcodeSlug } from "@/lib/postcode-page";
+import { postcodeFromParam, postcodeHomesState, postcodeSlug, rentTableWords } from "@/lib/postcode-page";
 import { sectorOfPostcode, sectorPath } from "@/lib/sector";
 import {
   dominantType, homesMix, marketTrend, postcodeSummary, salePoints,
@@ -54,10 +56,13 @@ const STARTS_WITH_NUMBER = /^\d/;
 /** One read per request, shared by the metadata and the page. */
 const loadPostcode = cache(serverPostcode);
 
-/** The postcode's neighbourhood by the name people use ("Barnsbury West · N1"), else the API's. */
+/**
+ * The postcode's neighbourhood by the name people use ("Barnsbury West"), else the API's. Never with the
+ * neighbourhood's own district ("· LS16" beside LS6 3QS): the postcode already says where it is.
+ */
 async function postcodeArea(page: Awaited<ReturnType<typeof serverPostcode>>): Promise<string | null> {
   const friendly = page.geography ? await loadAreaFriendly(page.geography) : null;
-  return friendly?.title ?? page.areaName;
+  return friendly?.name ?? page.areaName;
 }
 
 // The title names the postcode and its area, the preview is the area's card, and an
@@ -94,8 +99,14 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
   const [friendly, trail] = page.geography
     ? await Promise.all([loadAreaFriendly(page.geography), loadAreaTrail(page.geography)])
     : [null, []];
-  // The neighbourhood's friendly name ("Barnsbury West · N1"), never "Islington 019E (LSOA …)".
-  const areaName = friendly?.title ?? page.areaName;
+  // The neighbourhood's friendly name ("Barnsbury West"), never "Islington 019E (LSOA …)" nor another district.
+  const areaName = friendly?.name ?? page.areaName;
+  // Region first (London when unknown, as the crumbs): London-only data says so elsewhere, never a dead link.
+  const region = scopeName(regionScope(trail[0]?.regionCode));
+  const inLondon = region === LONDON_SCOPE.name;
+  // Every home's page needs the postcode's homes list (London's addresses for now); without it no link goes there.
+  const homesState = postcodeHomesState(page.homes, inLondon);
+  const homesListed = homesState === "listed";
   const groups = groupByBuilding(page.histories, postcode);
   const summary = postcodeSummary(page.histories, page.homes);
   const sales = salePoints(page.histories, page.homes);
@@ -106,6 +117,7 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
   const disclaimers = distinctDisclaimers(page.histories);
   const hero = { summary, postcode, lastSaleAddress };
   const summaryLine = postcodeSummaryLine(summary);
+  const perHomeLondonOnly = outsideLondon(trail[0]?.regionCode);
   // London › borough › area › this postcode.
   const crumbs: Crumb[] = [
     ...(page.geography ? areaCrumbs(trail, friendly?.name ?? page.areaName) : [{ label: "London", href: "/area/london" }]),
@@ -118,7 +130,7 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
     type: "Place", name: postcode, path: `/postcode/${postcodeSlug(postcode)}`, postcode,
     latitude: centre ? centre[1] : null, longitude: centre ? centre[0] : null,
     area: page.geography && areaName ? { name: areaName, path: areaPath({ geographyId: page.geography }) } : null,
-    region: scopeName(regionScope(trail[0]?.regionCode)),
+    region,
   }) : null;
   return (
     <main className="methodology postcode-page" data-testid="postcode-page">
@@ -149,7 +161,10 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
           Achieved sale prices from HM Land Registry, not valuations or asking prices.
         </p>
       )}
-      {page.geography && mapHref && <AreaLinks geography={page.geography} crumbs={crumbs} mapHref={mapHref} postcode={postcode} />}
+      {page.geography && mapHref && (
+        <AreaLinks geography={page.geography} crumbs={crumbs} mapHref={mapHref} postcode={postcode}
+          homes={homesState} />
+      )}
       {page.geography ? (
         <Suspense fallback={sales.length > 0 ? <InsightsSkeleton /> : null}>
           <PostcodeInsights geography={page.geography} areaName={areaName} mode={page.mode}
@@ -162,12 +177,12 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
       )}
       {homes.length > 0 ? (
         <HomesMixPanel mix={homesMix(homes)} postcode={postcode} homesHref={postcodeHomesPath(postcode)} />
-      ) : page.histories.length > 0 && (
+      ) : homesListed && page.histories.length > 0 && (
         <p className="panel-links"><Link href={postcodeHomesPath(postcode)} data-testid="postcode-homes-link">Every home in {postcode}: type, size, energy rating</Link></p>
       )}
       {page.geography && (
         <Suspense fallback={null}>
-          <PostcodeLiving geography={page.geography} areaName={areaName} mode={page.mode} homes={homes} />
+          <PostcodeLiving geography={page.geography} areaName={areaName} mode={page.mode} homes={homes} region={region} />
         </Suspense>
       )}
       {page.mode === "real" && (
@@ -196,14 +211,21 @@ export default async function PostcodePage({ params, searchParams }: PostcodePag
           )}
         </section>
       )}
-      {page.histories.length === 0 && (
+      {/* Per-home data is London's alone (FLAGS.md CLOSE_KNIT_ENGLAND): elsewhere one notice and the portals' searches. */}
+      {page.histories.length === 0 && (perHomeLondonOnly ? (
+        <section className="methodology-card" data-testid="per-home-london-only"><p>{londonOnlyWords("Individual homes")}</p></section>
+      ) : (
         <section className="methodology-card"><p>No recorded sales are published for this postcode yet.</p></section>
+      ))}
+      {perHomeLondonOnly && page.geography && (
+        <HomesHere geographyId={page.geography} from="postcode_page" outcodes={[postcode.split(" ")[0]]} />
       )}
-      <PostcodeSources disclaimers={disclaimers} />
+      <PostcodeSources disclaimers={disclaimers} london={inLondon} />
       <p className="quality-note" data-testid="postcode-privacy-note">
         Public-record data (HM Land Registry Price Paid; energy certificate facts about the building, never the occupant).
-        Wrong, or your home? Use <Link href={postcodeHomesPath(postcode)}>Report or hide this home</Link> beside it in the list
-        of homes, or read the <Link href="/privacy">privacy notice</Link>.
+        Wrong, or your home? {homesListed
+          ? <>Use <Link href={postcodeHomesPath(postcode)}>Report or hide this home</Link> beside it in the list of homes, or read</>
+          : "Read"} the <Link href="/privacy">privacy notice</Link>.
       </p>
     </main>
   );
@@ -302,32 +324,36 @@ function InsightsSkeleton() {
 }
 
 /** "Living here": the area card's essentials, below the homes mix, then the borough's rents. */
-async function PostcodeLiving({ geography, areaName, mode, homes }: {
-  geography: GeographyId; areaName: string | null; mode: DataMode; homes: PostcodeHome[];
+async function PostcodeLiving({ geography, areaName, mode, homes, region }: {
+  geography: GeographyId; areaName: string | null; mode: DataMode; homes: PostcodeHome[]; region: string;
 }) {
   const context = await loadPostcodeAreaContext(mode, geography, areaName);
   return (
     <>
       <LivingHere facts={{
-        areaHref: areaHref(geography), areaName: context.area.name,
+        // The neighbourhood's own name, never its district ("· LS16" beside LS6 3QS).
+        areaHref: areaHref(geography), areaName: areaName ?? context.area.name,
         stationWalk: context.stationWalk, places: context.places, profile: context.profile,
         flood: context.flood, homes, foodHygiene: context.foodHygiene, region: context.region,
       }} />
-      {context.rents && <BoroughRents rents={context.rents} />}
+      {context.rents && <BoroughRents rents={context.rents} region={region} />}
     </>
   );
 }
 
-/** The borough's average private rents by bedroom count, with London's: never one home's rent. */
-function BoroughRents({ rents }: { rents: AreaRentsResponse }) {
-  const name = rents.borough?.name ?? "the borough";
+/**
+ * The borough's (council's) average private rents by bedroom count, with its region's (`region`: London, North West, …;
+ * the API's regionMonthlyRent is the area's own region): never one home's rent.
+ */
+function BoroughRents({ rents, region }: { rents: AreaRentsResponse; region: string }) {
+  const { name, unit } = rentTableWords(rents.borough?.name, region);
   return (
     <section className="postcode-panel" data-testid="postcode-rents" aria-labelledby="postcode-rents-title">
       <h2 id="postcode-rents-title">Private rents in {name}</h2>
       <div className="property-table-wrap" tabIndex={0} role="region" aria-label={`Private rents in ${name}`}>
         <table className="sales-table">
-          <caption className="sr-only">Average monthly private rent in {name} and London</caption>
-          <thead><tr><th>Home</th><th>{name}, a month</th><th>London, a month</th></tr></thead>
+          <caption className="sr-only">Average monthly private rent in {name} and {region}</caption>
+          <thead><tr><th>Home</th><th>{name}, a month</th><th>{region}, a month</th></tr></thead>
           <tbody>
             {rents.rents.map((rent) => (
               <tr key={rent.bedrooms}>
@@ -340,7 +366,7 @@ function BoroughRents({ rents }: { rents: AreaRentsResponse }) {
         </table>
       </div>
       <p className="quality-note">
-        Average rent of new and existing private tenancies across the whole borough
+        Average rent of new and existing private tenancies across the whole {unit}
         {rents.period ? `, ${formatMonth(rents.period)}` : ""}. ONS Price Index of Private Rents.
       </p>
     </section>
@@ -371,14 +397,22 @@ function PostcodeActions({ postcode, mapHref, centre }: { postcode: string; mapH
   );
 }
 
-/** What's next from a postcode: up to its area, in to its homes, the map and Like this (Watch and ♡ are by the title). */
-function AreaLinks({ geography, crumbs, mapHref, postcode }: {
-  geography: GeographyId; crumbs: readonly Crumb[]; mapHref: string; postcode: string;
+/**
+ * What's next from a postcode: up to its area, in to its homes, the map and Like this (Watch and ♡ are by the title).
+ * `homes`: the homes list exists ("listed"), or not: outside London a notice, as the map's (DESIGN.md §6), never a 404.
+ */
+function AreaLinks({ geography, crumbs, mapHref, postcode, homes }: {
+  geography: GeographyId; crumbs: readonly Crumb[]; mapHref: string; postcode: string; homes: ReturnType<typeof postcodeHomesState>;
 }) {
   return (
     <WhatsNext testId="postcode-area" columns={{
       up: upLinks(crumbs).map((link, index) => (index === 0 ? { ...link, testId: "postcode-area-link" } : link)),
-      inside: [{ label: `Homes in ${postcode}`, href: postcodeHomesPath(postcode), testId: "next-homes" }],
+      inside: [
+        homes === "listed" && { label: `Homes in ${postcode}`, href: postcodeHomesPath(postcode), testId: "next-homes" },
+        homes === "london-only" && {
+          key: "homes", node: <span className="metric-description" data-testid="next-homes-london-only">Home pages: London only</span>,
+        },
+      ],
       nearby: [
         { label: "On map", href: mapHref, reload: true },
         // The one "Like this" (My match, starting from this area).

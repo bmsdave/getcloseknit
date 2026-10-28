@@ -44,6 +44,8 @@ export interface AreaPlacesResponse {
   walkRadiusMetres: number;
   amenities: AmenityGroupSummary[];
   connectivity: Connectivity | null;
+  /** false outside TfL's London: stations there have no fare zones, so none is shown (absent in an old payload). */
+  fareZones?: boolean;
   sources: Array<{ id: string; licence: string; attribution: string }>;
   caveats: string[];
 }
@@ -217,8 +219,10 @@ export function stationWalkMinutes(metres: number): number {
   return Math.max(1, Math.round((metres * 1.3) / 80));
 }
 
-export function zoneLabel(station: Pick<NearbyStation, "zone" | "modes">): string {
+/** The fare zone in words; null where fares have no zones (outside TfL's London, `fareZones` false). */
+export function zoneLabel(station: Pick<NearbyStation, "zone" | "modes">, fareZones = true): string | null {
   if (station.zone) return `Zone ${station.zone}`;
+  if (!fareZones) return null;
   if (station.modes.length > 0 && station.modes.every((mode) => mode === "tram")) return "No zones";
   return "Unknown";
 }

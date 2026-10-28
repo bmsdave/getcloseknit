@@ -9,7 +9,7 @@ import {
 } from "../src/lib/map-coverage";
 import { LONDON_BOUNDS, MIN_MAP_ZOOM } from "../src/lib/map-state";
 import { METRIC_IDS, type MetricCoverage, type MetricId } from "../src/lib/contracts";
-import { londonOnlyLayers, MAP_OVERLAYS } from "../src/lib/map-topics";
+import { londonOnlyLayers, MAP_OVERLAYS, metricRegions, piecesWithValues } from "../src/lib/map-topics";
 import { DETAIL_LAYER_IDS } from "../src/lib/nature-layers";
 import { createSplitPackCache, isPiecePackPath } from "../src/lib/timeline-playback";
 
@@ -242,4 +242,22 @@ test("no hand-written coverage: with no catalog, or every metric across England,
     if ("londonOnly" in overlay) assert.ok(!layers.has(overlay.id), `${overlay.id} is a layer: its coverage comes from the catalog`);
   }
   assert.deepEqual(MAP_OVERLAYS.filter((overlay) => "londonOnly" in overlay).map((overlay) => overlay.id), ["stations", "cycle-lanes", "trees"]);
+});
+
+test("a metric's regions decide which pieces are asked for: London's HMOs send nothing over Manchester", () => {
+  assert.deepEqual([...metricRegions({ coverage: londonAlone }) ?? []], ["E12000007"]);
+  assert.deepEqual([...metricRegions({ coverage: englandWide }) ?? []].sort(), ["E12000002", "E12000007"]);
+  // No region rows (demo, an older API): every piece is asked for.
+  assert.equal(metricRegions({}), null);
+  assert.equal(metricRegions({ coverage: [{ scopeId: "uk:country:GB", share: 1 }] }), null);
+});
+
+test("pieces outside a metric's regions are never asked for: a London start, or Manchester, on London's HMOs", () => {
+  const pieces = [{ chunk: LONDON_REGION }, { chunk: "E07000207" }, { chunk: "E08000003" }, { chunk: "E99999999" }, { chunk: null }];
+  assert.deepEqual(piecesWithValues(pieces, { coverage: londonAlone }, ENGLAND).map((piece) => piece.chunk),
+    [LONDON_REGION, "E99999999", null], "unknown regions are kept");
+  assert.equal(piecesWithValues(pieces, { coverage: englandWide }, ENGLAND).length, 4, "North West and London: Elmbridge (South East) left out");
+  // No catalog coverage or no map coverage yet: every piece.
+  assert.equal(piecesWithValues(pieces, {}, ENGLAND).length, 5);
+  assert.equal(piecesWithValues(pieces, { coverage: londonAlone }, null).length, 5);
 });

@@ -24,12 +24,18 @@ import math
 import re
 from typing import Any, Callable, Iterable, Mapping
 
+from . import coverage, regions
+
 SCHEMA_VERSION = "area-places.v1"
 AREA_PATTERN = re.compile(r"^uk:(lsoa|msoa|lad):E0[0-9]{7}$")
 UPRN_PATTERN = re.compile(r"^[0-9]{1,12}$")
 
 STATION_SEARCH_METRES = 3000
 STATION_LIMIT = 6
+# OpenStreetMap can map one station twice under one name (East Didsbury, ~440 m apart): one row in the list.
+SAME_STATION_METRES = 500
+# The release caveat that only holds where TfL's fare zones do (London).
+TFL_CAVEAT = "Fare zones and lines are TfL's"
 PARK_SEARCH_METRES = 2000
 PARK_LIMIT = 6
 AMENITY_SEARCH_METRES = 1500
@@ -70,7 +76,7 @@ def _bearing(target: str) -> str:
     return f"mod(round(degrees(ST_Azimuth({_POINT}, ({target})::geography)))::integer, 360)"
 
 STATIONS_SQL = f"""-- places:stations
-SELECT s.name, s.modes, s.zone, s.lines,
+SELECT s.name, s.modes, s.zone, s.lines, ST_X(s.location) AS lon, ST_Y(s.location) AS lat,
   round(ST_Distance(s.location::geography, {_POINT}))::integer AS distance_metres,
   {_bearing("s.location")} AS bearing_degrees
 FROM place_station s
@@ -259,6 +265,32 @@ def with_best_schools(ranks: dict | None, best: Mapping[str, Any]) -> dict | Non
             "bestSecondary": best["bestSecondary"]}
 
 
+def _metres_apart(a: Mapping[str, Any], b: Mapping[str, Any]) -> float | None:
+    if None in (a.get("lon"), a.get("lat"), b.get("lon"), b.get("lat")):
+        return None
+    lat = math.radians((float(a["lat"]) + float(b["lat"])) / 2)
+    dx = math.radians(float(b["lon"]) - float(a["lon"])) * math.cos(lat)
+    dy = math.radians(float(b["lat"]) - float(a["lat"]))
+    return 6_371_000 * math.hypot(dx, dy)
+
+
+def merge_stations(rows: list[Mapping[str, Any]]) -> list[dict]:
+    """Rows nearest first, one per station: a row named as a nearer one within SAME_STATION_METRES joins it (its
+    modes and lines added), so the list never shows one station twice."""
+    kept: list[dict] = []
+    for row in rows:
+        twin = next((item for item in kept if item["name"].lower() == (row["name"] or "").lower()
+                     and (_metres_apart(item, row) or SAME_STATION_METRES + 1) <= SAME_STATION_METRES), None)
+        if twin is None:
+            kept.append({**row, "modes": list(row["modes"] or []), "lines": list(row["lines"] or [])})
+            continue
+        twin["modes"] += [mode for mode in row["modes"] or [] if mode not in twin["modes"]]
+        names = {line.get("name") for line in twin["lines"]}
+        twin["lines"] += [line for line in row["lines"] or [] if line.get("name") not in names]
+        twin["zone"] = twin.get("zone") or row.get("zone")
+    return kept
+
+
 def with_bearing(item: dict, row: Mapping[str, Any]) -> dict:
     """Adds bearingDegrees when the row knows the direction; otherwise leaves it out."""
     bearing = row.get("bearing_degrees")
@@ -300,11 +332,15 @@ def connectivity(stations: Iterable[Mapping[str, Any]]) -> dict:
 
 def places_payload(area_id: str, release_id: str, uprn: str | None, releases: list[Mapping[str, Any]],
                    stations: list[Mapping[str, Any]], parks: list[Mapping[str, Any]],
-                   amenities: list[Mapping[str, Any]]) -> dict:
+                   amenities: list[Mapping[str, Any]], fare_zones: bool = True) -> dict:
+    """`fare_zones`: the area is in TfL's London, where stations have fare zones; elsewhere the payload says so
+    (fareZones false) and the page shows no zone at all, never "Unknown"."""
     available = bool(releases)
     station_list = [with_bearing({"name": row["name"], "modes": list(row["modes"]), "zone": row["zone"],
                                   "lines": list(row["lines"] or []), "distanceMetres": row["distance_metres"]}, row)
                     for row in stations]
+    shown = [with_bearing({"name": row["name"], "modes": row["modes"], "zone": row["zone"], "lines": row["lines"],
+                           "distanceMetres": row["distance_metres"]}, row) for row in merge_stations(stations)]
     groups = []
     if available:
         for group in AMENITY_GROUPS:
@@ -318,14 +354,16 @@ def places_payload(area_id: str, release_id: str, uprn: str | None, releases: li
             })
     caveats: list[str] = []
     for release in releases:
-        caveats += [caveat for caveat in release["caveats"] if caveat not in caveats]
+        caveats += [caveat for caveat in release["caveats"]
+                    if caveat not in caveats and (fare_zones or not caveat.startswith(TFL_CAVEAT))]
     return {
         "schemaVersion": SCHEMA_VERSION,
         "productReleaseId": release_id,
         "geographyId": area_id,
         "origin": {"kind": "home" if uprn else "area-centre", "uprn": uprn},
         "available": available,
-        "stations": station_list[:STATION_LIMIT],
+        "stations": shown[:STATION_LIMIT],
+        "fareZones": fare_zones,
         "parks": [with_bearing({"name": row["name"], "kind": row["kind"],
                                 "areaHectares": round(float(row["area_hectares"]), 2),
                                 "sizeClass": size_class(float(row["area_hectares"])),
@@ -369,4 +407,6 @@ def area_places(connect: Callable[[], Any], area_id: str, uprn: str | None = Non
         evidence._check_cancelled(cancel)
         amenities = list(connection.execute(AMENITIES_SQL, {
             **point, "radius": AMENITY_SEARCH_METRES, "walk": WALK_METRES, "limit": AMENITY_NEAREST}))
-        return places_payload(area_id, release_id, uprn, releases, stations, parks, amenities)
+        region = regions.area_regions_on(connection).get(area_id)
+        return places_payload(area_id, release_id, uprn, releases, stations, parks, amenities,
+                              fare_zones=coverage.reason(region, coverage.TFL_REGIONS) is None)

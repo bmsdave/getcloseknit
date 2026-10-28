@@ -1,6 +1,6 @@
 """Similar areas (wave 1 / feature 2).
 
-LSOAs whose London percentiles for crime, deprivation, household income,
+LSOAs whose percentiles (within each area's region) for crime, deprivation, household income,
 price level (market-level) and walk to a station sit closest to one area's.
 The vectors are the match evidence rows (EVIDENCE_SQL), so a similar area is
 judged on exactly the utilities the personal match scores. Demographic
@@ -20,7 +20,7 @@ PRICE_FACTOR = "market-level"
 SIMILAR_SQL = "-- evidence:similar-utilities" + EVIDENCE_SQL
 
 CAVEATS = (
-    "Similarity compares London percentiles of crime, deprivation, household income, price per m² "
+    "Similarity compares percentiles within each area's region of crime, deprivation, household income, price per m² "
     "and walk to a station. It never compares who lives in an area.",
     "Similar evidence is not a recommendation: check each area's own evidence before relying on it.",
 )

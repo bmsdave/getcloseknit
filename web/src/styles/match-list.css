@@ -196,6 +196,7 @@
 .match-row__name { overflow: hidden; font-size: 14.5px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
 .match-row__why { color: var(--muted); font-size: 12.5px; font-weight: 700; overflow-wrap: anywhere; }
 .match-why--out { color: var(--ink); }
+.match-why--none { color: var(--muted); }
 .match-why b { font-weight: 800; }
 .match-row__move { flex: none; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .match-row__move--up { color: var(--pro); }

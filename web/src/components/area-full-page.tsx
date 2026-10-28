@@ -41,12 +41,13 @@ import { checkHomeHref, searchBudgetPrefill } from "@/lib/tools";
 import { councilTaxBandLabel, postcodeHomesPath, propertyPath } from "@/lib/property-profile";
 import { upLinks, type Crumb } from "@/lib/entity-nav";
 import { describePriceSample, priceEnglandComparison } from "@/lib/price-history";
-import { areaSafetyPath, londonRateChip, offenceLabel, perThousand, readAreaSafety, safetyScope, spanWords, stableWords, type AreaSafety } from "@/lib/area-safety";
+import { areaSafetyPathFor, londonRateChip, offenceLabel, perThousand, readAreaSafety, safetyScope, spanWords, stableWords, type AreaSafety } from "@/lib/area-safety";
 import { personalTags, type PageTailor } from "@/lib/area-tailor";
 import { deprivationWords } from "@/lib/share-rows";
 import { readAreaRents, rentsPath, RENT_BEDROOM_LABELS, type AreaRentsResponse } from "@/lib/area-rents";
 import { LONDON_NOISE } from "@/lib/noise-evidence";
 import type { AreaStandouts, StandoutTile } from "@/lib/standouts";
+import { LONDON_ONLY_LABEL, type CoverageReason } from "@/lib/coverage-reason";
 import type { AreaCommute } from "@/lib/commute";
 import { homePath, sharePercent as homeShare, type AreaHomeResponse } from "@/lib/area-home";
 import { airShown, gpDistance, gpEssential, healthPath, type AreaHealthResponse } from "@/lib/area-health";
@@ -90,7 +91,7 @@ import { PeopleNotes, PeopleSection, useAreaPeople } from "./people-section";
 import { outstandingCount, SchoolPhaseRows, useAreaSchoolList, type SchoolPhase } from "./area-school-rows";
 import { AmenityGroups, Parks } from "./places-section";
 import { FOOD_HYGIENE_METHOD, useFoodHygiene } from "./food-hygiene";
-import { KIDS_METHOD, useAreaKids } from "./kids-tiles";
+import { kidsMethod, useAreaKids } from "./kids-tiles";
 import { STATION_WALK_METHOD } from "./station-access";
 import { useAreaNoise, type AreaNoise } from "./area-noise";
 import { NatureNotes, useAreaNature, type AreaNature } from "./area-nature";
@@ -107,6 +108,7 @@ import { HELP } from "@/lib/help-texts";
 import { scopeName } from "@/lib/scope-name";
 import { SiteHeader } from "@/components/site-header";
 import { OpenOnPrint } from "@/app/area/[carrier]/[code]/pack/open-on-print";
+import { AreaWords, SourceNote } from "@/components/source-note";
 
 const PRICE_METRIC: MetricId = "price-per-square-metre";
 /** The full page has no connection banner of its own: a lost connection reads as "Evidence cannot load". */
@@ -520,6 +522,11 @@ function tileOf(standouts: AreaStandouts | null | "unknown", id: StandoutTile["i
   return tile?.available ? tile : null;
 }
 
+/** Why a tile has no value here ("london-only": its source stops at London), for its section's row. */
+function coverageOf(standouts: AreaStandouts | null | "unknown", id: StandoutTile["id"]): CoverageReason | null {
+  return (standouts && standouts !== "unknown" ? standouts.tiles.find((entry) => entry.id === id)?.coverage : null) ?? null;
+}
+
 /** The region in words for an oriented tile: "Safer than 98% of London" style, from its standing. */
 function standingWords(tile: StandoutTile | null, better: string, worse: string, scope = "London"): string | null {
   if (!tile || tile.standing === null) return null;
@@ -561,7 +568,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
     const state = readCivic(payload, mode);
     return state.status === "available" ? state.civic : null;
   });
-  const safety = useSectionValue(geographyId.startsWith("uk:lsoa:") ? areaSafetyPath(geographyId) : "", (payload) => readAreaSafety(payload, mode));
+  const safety = useSectionValue(areaSafetyPathFor(geographyId) ?? "", (payload) => readAreaSafety(payload, mode));
   const rents = useSectionValue(rentsPath(areaId), (payload) => readAreaRents(payload, mode));
   const typicalPrice = homeCost(area.price?.value ?? null, area.homeSize);
   const ranks = area.facts.regionRanks ?? null;
@@ -604,6 +611,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
   const marketLive = marketReady?.available ? marketReady : null;
   const name = friendlyTitle(friendly ?? evidence)?.split(" · ")[0] ?? "This area";
   const priceTile = tileOf(standouts, "price");
+  const safetyTile = tileOf(standouts, "safety");
   // What every "of London" compares with: the area's region (API rankScope, from the tiles or the area's own read; London when absent).
   const scope = scopeName(standouts, evidence);
   const placesData = area.places?.status === "available" ? area.places.places : null;
@@ -623,7 +631,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
     price: [marketPath(geographyId), marketDepthPath(geographyId)],
     "getting-around": [places],
     // Road casualties come with the kids read.
-    safety: [geographyId.startsWith("uk:lsoa:") ? areaSafetyPath(geographyId) : null, kidsPath(areaId)],
+    safety: [areaSafetyPathFor(geographyId), kidsPath(areaId)],
     schools: [areaSchoolsPath(areaId), kidsPath(areaId)],
     "local-places": [places],
     environment: [noisePath(areaId, home), naturePath(areaId, home), floodPath(areaId, home)],
@@ -634,6 +642,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
   };
 
   return (
+    <AreaWords london={scope === "London"}>
     <div className="area-card-body" data-sheet={sheet ? "" : undefined}>
       <FreshnessWarning health={health} />
       <SectionTabs sections={SECTION_TABS} prefix={sheet ? "sheet-" : ""} scrollRoot={sheet ? ".dock-area" : null}
@@ -669,7 +678,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
           chip: standingWords(tileOf(standouts, "station-walk"), "Shorter walk", "Longer walk", scope),
           layer: "station-access",
         }}>
-        <KeyNumbers testId="getting-around-key-numbers" rows={transportRows(area.places, tileOf(standouts, "station-walk"), tileOf(standouts, "cycling"), kidsData, profile, commute, scope)} />
+        <KeyNumbers testId="getting-around-key-numbers" rows={transportRows(area.places, tileOf(standouts, "station-walk"), tileOf(standouts, "cycling"), kidsData, tripRows(profile, commute, geographyId), scope, coverageOf(standouts, "cycling"))} />
         {tailor.place === null && !sheet && <Link className="area-section__more" href="/?layer=personal-match" data-testid="pin-a-place">Pin a place <span aria-hidden="true">→</span></Link>}
       </Section>
 
@@ -677,13 +686,14 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
         head={{
           // r3 #8 (CUJ15 board): the rate beside London's, both with thousands separators.
           headline: safety && safety !== "unknown" && safety.rate !== null
-            ? `${headRate(safety.rate)} / 1,000${safety.regionRate != null ? ` · ${safetyScope(safety)} ${headRate(safety.regionRate)}` : ""}` : null,
-          chip: tileOf(standouts, "safety") ? `${tileOf(standouts, "safety")!.display} of ${scope}` : null,
+            ? `${headRate(safety.rate)} / 1,000${safety.regionRate != null ? ` · ${safetyScope(safety)} ${headRate(safety.regionRate)}` : ""}`
+            : safetyTile?.available && safetyTile.value !== null ? `${headRate(safetyTile.value)} / 1,000` : null,
+          chip: safetyTile ? `${safetyTile.display} of ${scope}` : null,
           layer: "crime",
         }}
         about={<SafetyNotes facts={area.facts} metric={metricFor("crime")} safety={ready(safety)} />}>
         <div data-testid="crime-categories">
-          <SafetyBody safety={safety} name={name} metric={metricFor("crime")} geographyId={areaId} mode={mode} release={release} scope={scope} />
+          <SafetyBody safety={safety} name={name} metric={metricFor("crime")} geographyId={areaId} mode={mode} release={release} scope={scope} tile={safetyTile} />
         </div>
         <KeyNumbers testId="safety-key-numbers" rows={safetyRows(ready(safety), kidsData, withKids, roadMissing, layerHref && withCollisionsOn(layerHref("crime")))} />
       </Section>
@@ -733,7 +743,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
         head={{ ...healthHead(ready(healthLayers), tileOf(standouts, "gp")), layer: null }}>
         {healthLayers === null && <p className="area-section__status">Loading…</p>}
         {healthLayers === "unknown" && !homePage && <p className="area-section__status" data-testid="health-unavailable">Air, heat and GP figures are not loaded for this area.</p>}
-        <KeyNumbers testId="health-key-numbers" rows={healthRows(ready(healthLayers), homePage && healthLayers === "unknown", scope)} />
+        <KeyNumbers testId="health-key-numbers" rows={healthRows(ready(healthLayers), homePage && healthLayers === "unknown", scope, coverageOf(standouts, "air"))} />
       </Section>
 
       <Section {...section("homes")}
@@ -788,6 +798,7 @@ function AreaFullBody({ geographyId, mode, release, uprn, addressId, friendly, e
       {/* A home page names its area as people do, never by its code. */}
       <AreaSources officialName={officialName ?? summary.name} code={code} ranks={ranks} sheet={sheet} plainName={homePage ? name : null} />
     </div>
+    </AreaWords>
   );
 }
 
@@ -892,17 +903,20 @@ function priceRows(perSquareMetre: number | null, depth: MarketDepth | null, mar
  * places first (door to door, TfL), connectivity and cycle lanes.
  */
 function transportRows(places: AreaPlacesState | null, walk: StandoutTile | null, cycling: StandoutTile | null,
-  kids: { cycling: { protectedKm: number; cyclewayKm: number } | null } | null, profile: PreferenceProfile, commute: AreaCommute | null, scope = "London"): KeyRow[] {
+  kids: { cycling: { protectedKm: number; cyclewayKm: number } | null } | null, trips: KeyRow[], scope = "London",
+  lanesCoverage: CoverageReason | null = null): KeyRow[] {
   const data = places?.status === "available" ? places.places : null;
-  const lanes = kids?.cycling ? kids.cycling.protectedKm + kids.cycling.cyclewayKm : null;
+  // TfL's lanes stop at London: elsewhere the row says so, never "0 km".
+  const lanes = kids?.cycling && !lanesCoverage ? kids.cycling.protectedKm + kids.cycling.cyclewayKm : null;
   const rows: MaybeRow[] = [
-    ...tripRows(profile, commute),
+    ...trips,
     walk && { term: "Typical walk from homes", testId: "station-walk", value: `${walk.display} to a station${walk.standing !== null ? ` · shorter than ${regionShare(walk.standing)}% of ${scope}` : ""}` },
     ...(data?.stations.slice(0, 3) ?? []).map((station) => ({
       term: station.name, testId: "station-row", valueTestId: "stations-list",
-      value: [`about ${stationWalkMinutes(station.distanceMetres)} min walk`, zoneLabel(station), lineNames(station).join(", ")].filter(Boolean).join(" · "),
+      value: [`about ${stationWalkMinutes(station.distanceMetres)} min walk`, zoneLabel(station, data?.fareZones), lineNames(station).join(", ")].filter(Boolean).join(" · "),
     })),
-    (lanes !== null || cycling) && {
+    lanesCoverage && { term: "Cycle lanes ≤ 1 km", testId: "cycle-lanes", value: LONDON_ONLY_LABEL },
+    !lanesCoverage && (lanes !== null || cycling) && {
       term: "Cycle lanes ≤ 1 km", testId: "cycle-lanes",
       // None at all ties with much of London: no "more than n%" for nothing.
       value: [lanes !== null ? `${lanes > 0 ? lanes.toFixed(1) : "0"} km protected` : cycling!.display,
@@ -914,11 +928,17 @@ function transportRows(places: AreaPlacesState | null, walk: StandoutTile | null
 }
 
 /** Offence types against the region (no rank of their own), then the line only when crime moved 15% or more. */
-function SafetyBody({ safety, name, metric, geographyId, mode, release, scope }: {
+function SafetyBody({ safety, name, metric, geographyId, mode, release, scope, tile }: {
   safety: AreaSafety | null | "unknown"; name: string; metric: MetricDefinition; geographyId: GeographyId; mode: DataMode; release: string; scope: string;
+  /** The Safety tile: its rate stands in when the rows are missing, so a ranked chip never sits over "unknown". */
+  tile: StandoutTile | null;
 }) {
   if (safety === null) return <p className="area-section__status">Loading…</p>;
-  if (safety === "unknown" || !safety.available) return <p className="area-section__status">Crime figures are unknown for this area.</p>;
+  if (safety === "unknown" || !safety.available) {
+    return tile?.available && tile.value !== null
+      ? <p className="area-section__status" data-testid="safety-tile-rate">{perThousand(tile.value)} crimes per 1,000 residents a year.</p>
+      : <p className="area-section__status">{NO_DATA}.</p>;
+  }
   // Each row shows London's own rate (▲ / ▼ when it differs by a quarter or more), never only the gap.
   const rows = safety.types.map((type) => ({
     id: type.category, label: offenceLabel(type.category), value: type.rate, london: type.regionRate,
@@ -995,7 +1015,7 @@ function PlacesNotes({ places }: { places: AreaPlacesState | null }) {
   return (
     <>
       <p>Straight-line distances from {data.origin.kind === "home" ? "this home" : "the middle of the area"}.</p>
-      {data.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {data.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
       {data.sources.map((source) => <p key={source.id}>{source.attribution}</p>)}
     </>
   );
@@ -1006,7 +1026,7 @@ function SafetyNotes({ facts, metric, safety }: { facts: AreaFacts; metric: Metr
   return (
     <>
       {busyCentre(facts.crime) && <p data-testid="crime-busy-centre">{BUSY_CENTRE_NOTE}.</p>}
-      {(safety?.caveats ?? ["Crime is counted where it happens, so busy shopping and night-life streets score high."]).map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {(safety?.caveats ?? ["Crime is counted where it happens, so busy shopping and night-life streets score high."]).map((caveat) => <SourceNote key={caveat} text={caveat} />)}
       {safety?.source && <p>{safety.source.attribution}</p>}
       <p>Road casualties: Department for Transport, Road Safety Data (STATS19), OGL v3.0. Many slight injuries are never reported to the police.</p>
       <MetricSources metrics={[metric]} />
@@ -1021,7 +1041,7 @@ function SchoolNotes({ scope }: { scope: string }) {
       <p>State schools within 1.5 km, nearest first, by straight-line distance. Not a catchment: being close does not guarantee a place.</p>
       <p>Top 10%: the school is in the top tenth of {scope}&apos;s schools on its latest published results and rated Good or better.</p>
       <p>Older Ofsted grades and the new report cards are not comparable; each badge says which it is.</p>
-      <p>{KIDS_METHOD}</p>
+      <p>{kidsMethod(scope)}</p>
     </>
   );
 }
@@ -1167,12 +1187,12 @@ function EnvironmentNotes({ flood, noise, places, scope = "London" }: {
     <>
       <p>Flood: shares of the area&apos;s land by Environment Agency band, not of its buildings. Highest: the highest band covering at least 1% of the land.</p>
       <p data-testid="flood-area-caveat">Environment Agency: these bands show the likelihood of flooding for an area, not for a specific property. <a href={FLOOD_CHECK_URL} target="_blank" rel="noreferrer">Check one address</a>.</p>
-      {known?.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {known?.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
       {known?.attribution && <p>{known.attribution}</p>}
       {figures ? (
         <>
           <p>Noise: modelled whole-day average (Lden) at {figures.dwellings.toLocaleString("en-GB")} recorded homes, road or rail; no aircraft noise.{scope === "London" && <> London: {Math.round(LONDON_NOISE.value.any55Share * 100)}% of homes over 55 dB ({LONDON_NOISE.source}).</>}</p>
-          {figures.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {figures.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
           {figures.attribution && <p>{figures.attribution}</p>}
         </>
       ) : noise === "unavailable" && <p>Noise: no strategic noise figures for this area yet. <Link href="/guide/noise">Why?</Link></p>}
@@ -1192,7 +1212,7 @@ function healthHead(health: AreaHealthResponse | null, gp: StandoutTile | null):
 }
 
 /** Summer nights, GP and air, numbers with the region in words (no strips: the tiles carry them). */
-export function healthRows(health: AreaHealthResponse | null, missing = false, scope = "London"): KeyRow[] {
+export function healthRows(health: AreaHealthResponse | null, missing = false, scope = "London", airCoverage: CoverageReason | null = null): KeyRow[] {
   if (missing) return [{ term: "Air NO₂ / PM2.5", value: NO_DATA, valueTestId: "air" }, { term: "Summer nights", value: NO_DATA }];
   if (!health?.available) return [];
   const { heat, gp, air } = health;
@@ -1211,7 +1231,7 @@ export function healthRows(health: AreaHealthResponse | null, missing = false, s
     // The LAEI grid: no row at all (not "No modelled value here") while air is off (`laeiAir` withheld or airEnabled false).
     airShown(health) && {
       term: "Air NO₂ / PM2.5", testId: "air-quality", valueTestId: "air",
-      value: air ? `${air.no2} / ${air.pm25 ?? "—"} µg/m³${air.regionPercentile !== null ? ` · cleaner than ${regionShare(100 - air.regionPercentile)}% of ${scope}` : ""}` : "No modelled value here",
+      value: air ? `${air.no2} / ${air.pm25 ?? "—"} µg/m³${air.regionPercentile !== null ? ` · cleaner than ${regionShare(100 - air.regionPercentile)}% of ${scope}` : ""}` : airCoverage ? LONDON_ONLY_LABEL : "No modelled value here",
     },
   ];
   return rows.filter(isRow);
@@ -1381,7 +1401,7 @@ function MetricSources({ metrics, extra }: { metrics: MetricDefinition[]; extra?
         <div key={metric.id} className="area-card__source" data-testid={`metric-sources-${metric.id}`}>
           <p><strong>{metric.label}.</strong> {metric.description}</p>
           {!isPlaceholderMetric(metric) && <p>{metric.provenance.sourceName} · {metric.freshness}</p>}
-          {metric.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {metric.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
           <p><Link href={metric.methodologyPath}>How this is worked out</Link></p>
         </div>
       ))}
@@ -1409,7 +1429,7 @@ function PriceNotes({ summary, market }: { summary: AreaSummary; market: AreaMar
       {ready?.basis?.widened && <p data-testid="price-widened">Sales by type are widened to {ready.basis.name} (at least {ready.basis.minimumSales} sales).</p>}
       <p>Recent sales: standard sales from the last 18 months, nearest first.</p>
       {ready?.attribution && <p data-testid="market-sources">{ready.attribution}</p>}
-      {ready?.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {ready?.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

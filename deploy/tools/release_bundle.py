@@ -104,6 +104,11 @@ BEGIN
     UNION SELECT rel, unnest(added);
     IF to_regproc('public.rebuild_area_rank') IS NOT NULL THEN PERFORM rebuild_area_rank(); END IF;
     IF to_regproc('public.rebuild_area_good_value') IS NOT NULL THEN PERFORM rebuild_area_good_value(); END IF;
+    -- Inside an etl.py run (PGOPTIONS -c close_knit.stage_only=on) the run activates once at its end.
+    IF coalesce(current_setting('close_knit.stage_only', true), '') IN ('on', 'true', '1') THEN
+        RAISE NOTICE 'staged % (+ %, - %); not activated: close_knit.stage_only is on', rel, added, dropped;
+        RETURN;
+    END IF;
     PERFORM activate_product_release(rel);
     RAISE NOTICE 'activated % (+ %, - %)', rel, added, dropped;
 END

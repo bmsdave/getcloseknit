@@ -4,6 +4,7 @@ import json
 import os
 import time
 from datetime import date
+from pathlib import Path
 import unittest
 import unittest.mock
 from types import SimpleNamespace
@@ -292,3 +293,109 @@ class UsageHttpTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TrafficTests(unittest.TestCase):
+    """live, team or tech, so the dashboards can show live use only (docs/product-analytics.md "Traffic")."""
+
+    def test_clients_are_told_apart_by_name_and_the_team_header(self):
+        for client in ("ck-check", "CK-board", None):
+            self.assertEqual(usage.traffic(client, "1"), "team", client)
+        # Our check scripts, by the names they send.
+        for client in ("ck-smoke", "board-shots", "release-check", "doc-check", "recheck", "check"):
+            self.assertEqual(usage.traffic(client), "team", client)
+        # claude-code is people using the plugin: live unless the call carries the team header.
+        self.assertEqual(usage.traffic("claude-code"), "live")
+        self.assertEqual(usage.traffic("claude-code", "1"), "team")
+        self.assertEqual(usage.traffic("claude-code", "0"), "live")
+        # MCP client names seen on prod in October 2026, and directory scanners.
+        for client in ("FaceabotProbe", "BrickBlueBot", "rokmcp-probe", "agent-collector", "sentinel-probe",
+                       "directory-kit-check", "python-httpx", "probe", "glama-inspector", "smithery-scan",
+                       "LobeHub", "cursor.directory", "mcp-registry"):
+            self.assertEqual(usage.traffic(client), "tech", client)
+        for client in ("claude-ai", "chatgpt", "openai-mcp", "cursor", "mcp-browser", None):
+            self.assertEqual(usage.traffic(client), "live", client)
+        self.assertEqual(usage.traffic("claude-ai", "1"), "team")
+        self.assertEqual(usage.traffic("claude-ai", "0"), "live")
+
+    def test_a_script_or_uptime_agent_without_a_client_name_is_tech(self):
+        for agent in ("curl/8.5.0", "Python-urllib/3.12", "python-requests/2.32", "Go-http-client/2.0",
+                      "Mozilla/5.0+(compatible; UptimeRobot/2.0)"):
+            self.assertEqual(usage.request_traffic({"user-agent": agent}), "tech", agent)
+        self.assertEqual(usage.request_traffic({"user-agent": "curl/8.5.0", "x-close-knit-team": "1"}), "team")
+        self.assertEqual(usage.request_traffic({"user-agent": BROWSER}), "live")
+        self.assertEqual(usage.traffic("claude-ai", None, "python-httpx/0.27"), "live", "a named client's agent is its SDK")
+
+    def test_reports_and_lists_take_a_traffic_filter_that_defaults_to_live(self):
+        self.assertEqual(usage.parse_traffic("live"), ("live",))
+        self.assertEqual(usage.parse_traffic("team,tech,team"), ("team", "tech"))
+        self.assertEqual(usage.parse_traffic("all"), usage.TRAFFIC)
+        for text in ("", "people", "live,bots"):
+            with self.assertRaises(Exception):
+                usage.parse_traffic(text)
+        for sql in usage.REPORT_SQL.values():
+            filtered = usage.traffic_filtered(sql)
+            self.assertEqual(filtered.count("FROM product_event"), filtered.count(usage.LIVE_SQL), filtered)
+
+        class Recording:
+            def __init__(self):
+                self.params = []
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+            def execute(self, sql, params=None):
+                self.params.append(params)
+                return []
+
+        connection = Recording()
+        usage.report(lambda: connection)
+        self.assertEqual({json.dumps(params) for params in connection.params}, {'{"traffic": ["live"]}'})
+
+    def test_live_tool_calls_carry_no_traffic_prop(self):
+        started = time.monotonic()
+        self.assertIsNone(usage.tool_call_props("find_areas", started)["traffic"])
+        self.assertEqual(usage.tool_call_props("find_areas", started, traffic_kind="tech")["traffic"], "tech")
+        self.assertIsNone(usage.tool_call_props("find_areas", started, traffic_kind="made-up")["traffic"])
+
+    def test_a_team_browser_batch_is_marked_and_names_its_visitor(self):
+        batch = {"visitor": VISITOR, "team": True, "events": [{"name": "page_view", "props": {"path": "/"}}]}
+        rows = usage.clean_batch(batch)
+        self.assertEqual(json.loads(rows[0][5]), {"path": "/", "traffic": "team"})
+        self.assertEqual(usage.team_visitor(batch), VISITOR)
+        for payload in ({**batch, "team": "yes"}, {**batch, "visitor": "me@example.org"}, None):
+            self.assertIsNone(usage.team_visitor(payload))
+        page = usage.clean_batch({"events": [{"name": "page_view", "props": {"path": "/", "traffic": "team"}}]})
+        self.assertEqual(json.loads(page[0][5]), {"path": "/"}, "a page cannot mark itself")
+
+    def test_the_team_header_marks_a_batch_and_automation_is_tech(self):
+        batch = {"visitor": VISITOR, "events": [{"name": "page_view", "props": {"path": "/"}}]}
+        self.assertEqual(json.loads(usage.clean_batch(batch, "1")[0][5])["traffic"], "team")
+        self.assertEqual(usage.team_visitor(batch, "1"), VISITOR)
+        self.assertIsNone(usage.team_visitor(batch, "0"))
+        automated = {**batch, "automated": True}
+        self.assertEqual(json.loads(usage.clean_batch(automated)[0][5])["traffic"], "tech")
+        self.assertEqual(json.loads(usage.clean_batch({**automated, "team": True})[0][5])["traffic"], "team")
+        self.assertNotIn("traffic", json.loads(usage.clean_batch({**batch, "automated": "yes"})[0][5]))
+
+    def test_the_mcp_request_reads_the_team_header(self):
+        def kind(headers, client=None):
+            context = SimpleNamespace(request_context=SimpleNamespace(request=SimpleNamespace(headers=headers)))
+            return mcp_server.request_traffic(context, client)
+
+        self.assertEqual(kind({"x-close-knit-team": "1"}, "claude-ai"), "team")
+        self.assertEqual(kind({}, "claude-ai"), "live")
+        self.assertEqual(kind({}, "claude-code"), "live")
+        self.assertEqual(kind({"x-close-knit-team": "1"}, "claude-code"), "team")
+        self.assertEqual(kind({}, "rokmcp-probe"), "tech")
+        self.assertEqual(kind({"user-agent": "Python-urllib/3.12"}), "tech")
+        self.assertEqual(mcp_server.request_traffic(None, "ck-check"), "team")
+
+    def test_the_backfill_uses_the_same_patterns(self):
+        sql = (Path(__file__).resolve().parents[2] / "deploy" / "migrations" / "136-analytics-traffic.sql").read_text()
+        self.assertIn(f"~* '{usage.TECH_CLIENT.pattern}'", sql)
+        # Before the launch claude-code was the team's own sessions; 137 makes later ones live again.
+        self.assertIn(f"~* '{usage.TEAM_CLIENT.pattern.replace('^(', '^(claude-code|')}'", sql)

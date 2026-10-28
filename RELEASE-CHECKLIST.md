@@ -122,6 +122,43 @@ A flag that is on but whose table was never applied degrades (the feature reads 
 To spot-check, run e.g. `SELECT to_regclass('property_epc_home')`, which must not be NULL while
 `CLOSE_KNIT_EPC_ADDRESSES` is on.
 
+## Monthly Price Paid refresh (one command)
+
+The monthly HM Land Registry refresh is one command. Do not run its steps (spine, index, sales, England bundle) one
+by one against production: in October `etl_sales.py release` activated its own release at once, so for an hour the
+live map had no price outside London and the release had 157 of its ~376k artifacts.
+
+    # $DATA/hmlr/pp-complete.csv is the new month's file; PRICE_END and AE_PPM_END are its last full month
+    CLOSE_KNIT_ETL_DB=<db-url> ETL_PRICE_END=<YYYY-MM> AE_PPM_END=<YYYY-MM> \
+      ETL_RELEASE_BUILD="docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T api python -m area_api.release_build" \
+      .ae-venv/bin/python deploy/tools/etl.py refresh prices        # --dry-run prints the plan
+
+It runs `etl_manifest.REFRESH["prices"]` in order: `prices.link`, `prices.london-linked`, address spine, £/m² index,
+sales (extract, emit, load, release), England aggregate and sectors, England prices bundle
+(`bundles/prices/load.sql.gz`). Every step runs stage only (`CLOSE_KNIT_STAGE_ONLY=1` and
+`PGOPTIONS=-c close_knit.stage_only=on`: `activate_product_release` refuses, migration 134), and London's rebuilds
+replace London's rows only (migration 133). Then, once: compose one release from the staged ones, check the coverage
+guard, `release_build --tiers 0,1 --release <id>`, activate. Then start tiers 2,3 in the background (below).
+
+- **Coverage guard.** Activation (any caller: ETL, bundle, `stage_release.py`, a rollback) refuses when a key layer
+  (typical price, £/m², crime, schools, `area_price_band` and every metric loaded in two regions or more) loses more
+  than 2% of a region's areas against the active release; the numbers are in the release's
+  `validation_record.coverage_guard`. For a drop you have checked and accept, re-run with
+  `CLOSE_KNIT_COVERAGE_DROP_THRESHOLD_PERCENT=<n>` (psql: `PGOPTIONS='-c close_knit.coverage_drop_threshold_percent=<n>'`).
+- **A step or the build failed.** Nothing was activated; the releases stay staged. Fix it, then
+  `etl.py refresh prices --from <step>` or, when only the build or the guard stopped it, `etl.py activate`.
+- **Check after.** `deploy/preflight.sh` FAILs (and `/health` degrades with `price-coverage-low` or
+  `release-artifacts-missing`) when an English region has a typical price for under 95% of its LSOAs or the active
+  release has fewer artifacts than its tier-0/1 build left.
+- **Rollback.** Re-activating the previous release (`SELECT activate_product_release('<previous id>')`) does not
+  restore the shared tables: `metric_value` (£/m², typical price), `area_price_band`, `area_price_year`,
+  `area_price_growth`, `area_market_depth`, the zone and postcode-sector tables, `sale`, `sale_pin` and the per-home
+  tables hold one copy, not one per release. To roll back the data: restore the pre-refresh snapshot (before you
+  start: `deploy/tools/db-snapshot.sh /srv/backups/pre-refresh-<YYYY-MM>.dump <db-url>`; to put it back:
+  `deploy/tools/db-restore.sh /srv/backups/pre-refresh-<YYYY-MM>.dump -f docker-compose.prod.yml`), or rebuild the
+  missing rows by applying the England bundle again (`gunzip -c ~/data/england-2026-10/bundles/prices/load.sql.gz |
+  psql "$DB" -v ON_ERROR_STOP=1`, `deploy/tools/etl_england_prices.py bundle`), then `etl.py activate`.
+
 ## Rebuilding a data release (order matters)
 
 After **every** activation below (`stage_release.py`, an ETL, a bundle, a rollback), build what the release derives
@@ -136,9 +173,18 @@ map in the background:
 The API no longer warms anything itself: without the build, the first visitor of each school region, standouts
 region or layer pays the cold build once (then every worker reads it). `deploy/ship.sh` runs it on each deploy.
 
+Steps 2 to 4 with the England prices bundle are the monthly Price Paid refresh: run them as `etl.py refresh prices`
+("Monthly Price Paid refresh" above), which stages each and activates once, after the build. Run one by hand only
+to debug it, against a database that is not serving.
+
 1. Crime: `AE_WORK=… python3 deploy/tools/ziprange.py WINDOW <YYYY-MM>` then
    `deploy/tools/etl_crime_release.py <YYYY-MM> <db-url>`.
-2. Sales extract: `deploy/tools/etl_sales.py extract` (needs `$AE_DATA/hmlr/pp-complete.csv`).
+2. Address spine, then sales extract. `deploy/tools/etl_address_spine.py build` rebuilds
+   `$AE_DATA/address-history.sqlite` (address search and per-home history; keep the previous file and check
+   `etl_address_spine.py compare <new> <previous>`: every earlier address and txn id must come back), and
+   `etl_address_spine.py load <db-url> [--dry-run]` replaces `address_transaction`, upserts `address` and
+   activates a release that swaps `src-hmlr-pp-complete-*`. Then `deploy/tools/etl_sales.py extract`
+   (needs `$AE_DATA/hmlr/pp-complete.csv`); `emit` keeps only sales already in the spine.
 3. £/m² index: `deploy/tools/etl_price_release.py <YYYY-MM> <db-url>`. After activating
    the new index it reruns every index-dependent rebuild in the `etl_sales.py` load order
    (stock values, growth, market depth, pins, blocks, bands, property sale bands, zone

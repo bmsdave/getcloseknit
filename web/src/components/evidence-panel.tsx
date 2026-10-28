@@ -107,7 +107,15 @@ export interface DataHealth {
   status: "ready" | "degraded" | "not-ready" | "unknown";
   code: string;
   productReleaseId: string | null;
+  /** The problem in words for people ("Sales data last updated Sep 2026"); null or absent: the generic line. */
+  notice?: string | null;
+  /** Diagnostics (source ids, dates): behind "Show freshness details" only. */
   unavailableReasons: string[];
+}
+
+/** The warning's line: the API's words for people, never its diagnostic reasons. */
+export function freshnessNotice(health: Pick<DataHealth, "notice">): string {
+  return health.notice || "Some figures may be out of date";
 }
 
 /** The area card's verdict, tags and tiles and its sections (as on /area): one view at every height. */
@@ -643,10 +651,9 @@ export function QualityNote({ summary, isCrime }: { summary: AreaSummary; isCrim
 export function FreshnessWarning({ health }: { health: DataHealth | null }) {
   const [open, setOpen] = useState(false);
   if (health === null || health.status === "ready" || health.status === "unknown") return null;
-  const reason = health.unavailableReasons[0] ?? `Data health code: ${health.code}`;
   return (
     <div data-testid="freshness-warning" className="freshness-warning" role="alert">
-      <p>{reason}</p>
+      <p>{freshnessNotice(health)}</p>
       <button
         type="button"
         data-testid="freshness-warning-toggle"
@@ -656,9 +663,10 @@ export function FreshnessWarning({ health }: { health: DataHealth | null }) {
         {open ? "Hide freshness details" : "Show freshness details"}
       </button>
       {open && (
-        <p data-testid="freshness-details">
-          Code {health.code} · release {health.productReleaseId ?? "none loaded"}
-        </p>
+        <div data-testid="freshness-details">
+          {health.unavailableReasons.map((reason) => <p key={reason}>{reason}</p>)}
+          <p>Code {health.code} · release {health.productReleaseId ?? "none loaded"}</p>
+        </div>
       )}
     </div>
   );

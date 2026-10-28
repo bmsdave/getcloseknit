@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { KnitIcon } from "@/components/knit/knit-icon";
+import { londonOnlyWords, type CoverageReason } from "@/lib/coverage-reason";
 import { homesWord, loadHomesNear, nearDistance, type NearPostcode } from "@/lib/homes-near";
 import type { DataMode } from "@/lib/map-state";
 import { postcodeHomesPath } from "@/lib/property-profile";
@@ -24,9 +25,10 @@ async function HomesNearLoaded({ point, mode, areaHref }: { point: Point; mode: 
 /**
  * "Homes near this school", near the top of the school page. The nearest postcodes with
  * recorded homes, each a link to its homes (never the school's own postcode when only the school is
- * there). Null rows: the read failed, said in one muted line; the area link stays as the way on.
+ * there). Null rows: the read failed, said in one muted line; "london-only": per-home data stops at London, said so
+ * (never "no homes"); the area link stays as the way on.
  */
-export function HomesNear({ rows, areaHref }: { rows: NearPostcode[] | null | "loading"; areaHref: string | null }) {
+export function HomesNear({ rows, areaHref }: { rows: NearPostcode[] | CoverageReason | null | "loading"; areaHref: string | null }) {
   return (
     <section className="sc-section sc-near" id="homes-near" data-testid="school-homes-near" aria-labelledby="sc-homes-near">
       <h2 className="sc-h2" id="sc-homes-near">
@@ -37,6 +39,8 @@ export function HomesNear({ rows, areaHref }: { rows: NearPostcode[] | null | "l
         <p className="sc-unknown" role="status" aria-busy="true">Finding homes near…</p>
       ) : rows === null ? (
         <p className="sc-unknown" role="status">Couldn&apos;t load homes near. Try again later.</p>
+      ) : rows === "london-only" ? (
+        <p className="sc-unknown" data-testid="per-home-london-only">{londonOnlyWords("Individual homes")}</p>
       ) : rows.length === 0 ? (
         <p className="sc-unknown">No recorded homes within 800 m.</p>
       ) : (

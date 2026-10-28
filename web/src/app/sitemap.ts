@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { connection } from "next/server";
 
 import { availableRankings } from "@/lib/area-pages";
+import { loadChangelog } from "@/lib/changelog-files";
 import { loadAreaPages } from "@/lib/area-pages-data";
 import { fetchApi } from "@/lib/deployment";
 import { evidenceServiceUrl } from "@/lib/evidence-service";
@@ -28,6 +29,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const origin = (await siteOrigin()) ?? "";
   const [loaded, schools] = await Promise.all([loadAreaPages(), schoolUrns()]);
   const areas = loaded?.index.data.areas ?? [];
-  return sitemapPaths(areas, availableRankings(loaded?.index ?? null), schools).slice(0, SITEMAP_LIMIT)
+  return sitemapPaths(areas, availableRankings(loaded?.index ?? null), schools, [], loadChangelog().map((entry) => entry.slug)).slice(0, SITEMAP_LIMIT)
     .map((path) => ({ url: `${origin}${path}` }));
 }

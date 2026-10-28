@@ -10,6 +10,7 @@ import { isDescriptiveLayer, type MapLayerId, type MetricDefinition, type Metric
 import { customLayerId, describeFormula, type CustomCriterion } from "./custom-criteria";
 import { CUSTOM_PRESETS, type CustomPreset } from "./custom-presets";
 import type { LegendScaleMode } from "./legend-scale";
+import { chunkRegion, type MapCoverage } from "./map-coverage";
 import { MERGED_LAYERS } from "./map-state";
 import { DETAIL_AREA_LAYER, DETAIL_LAYER_IDS, WILDLIFE_SPECIES } from "./nature-layers";
 import { LONDON_REGION } from "./scope-name";
@@ -375,6 +376,30 @@ export function londonOnlyLayers(metrics: Iterable<Pick<MetricDefinition, "id" |
   }
   if (only.has(DETAIL_AREA_LAYER)) DETAIL_LAYER_IDS.forEach((id) => only.add(id));
   return only;
+}
+
+/**
+ * The regions (E12 codes) a metric has values in, from the release's catalog (`coverage`); null when it names none
+ * (demo, a placeholder, or England-wide without region rows): then every piece is asked for.
+ */
+export function metricRegions(metric: Pick<MetricDefinition, "coverage">): Set<string> | null {
+  const regions = (metric.coverage ?? []).filter((scope) => scope.scopeId.startsWith(REGION_SCOPE));
+  return regions.length ? new Set(regions.map((scope) => scope.scopeId.slice(REGION_SCOPE.length))) : null;
+}
+
+/**
+ * The pieces a metric has values in: one in a region outside the metric's (London's HMOs over Leeds, or the home
+ * counties around a London start) is never asked for, so a London-only layer outside London sends no request and
+ * the map says "London only" (CoverageNotice). A piece whose region is unknown is kept.
+ */
+export function piecesWithValues<T extends { chunk: string | null }>(pieces: readonly T[],
+  metric: Pick<MetricDefinition, "coverage"> | null | undefined, coverage: MapCoverage | null | undefined): T[] {
+  const regions = metric ? metricRegions(metric) : null;
+  if (!regions || !coverage) return [...pieces];
+  return pieces.filter((piece) => {
+    const region = chunkRegion(coverage, piece.chunk);
+    return region === null || regions.has(region);
+  });
 }
 
 /** The flagged layers the release's metrics leave out; none while the list is unknown (demo, or still loading). */

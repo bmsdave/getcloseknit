@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
   const upstream = await fetchEvidence<unknown>("/api/v1/feedback", request, {
     method: "POST",
     body,
-    headers: { "content-type": "application/json", "user-agent": request.headers.get("user-agent") ?? "" },
+    headers: { "content-type": "application/json", "user-agent": request.headers.get("user-agent") ?? "",
+      ...(request.headers.get("x-close-knit-team") === "1" ? { "x-close-knit-team": "1" } : {}) },
   });
   return new Response(null, { status: upstream.status, headers: HEADERS });
 }

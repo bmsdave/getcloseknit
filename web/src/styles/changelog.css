@@ -1,0 +1,100 @@
+/* /changelog and /changelog/<slug> (board KHt56r65): a timeline of weekly cards, the number of the week as one
+   satin bar, and Share. Tokens only, so Day and Night follow globals.css. */
+
+.changelog-eyebrow { margin: 0; color: var(--muted); font: 800 var(--fs-2xs)/1.2 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.changelog-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin: 32px 0 0; }
+.changelog-head > div { display: grid; gap: 6px; }
+.changelog-head h1 { margin: 0; font: 800 clamp(2rem, 5.2vw, 2.75rem)/1.05 var(--font-display); letter-spacing: -0.035em; }
+.changelog-head__lead { margin: 0; color: var(--muted); font-size: var(--fs-lg); }
+
+.changelog-chip {
+  display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+  background: var(--chip); color: var(--ink); font-weight: 700; font-size: var(--fs-sm); text-decoration: none;
+}
+.changelog-chip:hover { text-decoration: underline; text-underline-offset: 3px; }
+.changelog-chip:focus-visible, .changelog-share a:focus-visible, .changelog-share button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.changelog-date { margin: 0; font-size: var(--fs-sm); font-weight: 800; }
+.changelog-date__week { color: var(--muted); font-weight: 500; }
+
+/* The timeline: a date column with a dot, a card per week. */
+.changelog-list { display: grid; gap: 28px; margin: 40px 0 0; padding: 0; list-style: none; }
+.changelog-list__item { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; }
+.changelog-list__when { display: flex; align-items: flex-start; gap: 10px; padding-top: 6px; }
+.changelog-list__when .dot { flex: none; margin-top: 2px; }
+.changelog-list__when .changelog-date { display: grid; gap: 2px; }
+.changelog-list__when .changelog-date__sep { display: none; }
+
+.changelog-card {
+  display: grid; gap: 20px; padding: 26px 28px; border-radius: var(--radius-lg); background: var(--panel-solid);
+  box-shadow: 0 1px 2px rgba(20, 30, 50, .06);
+}
+.changelog-card h2 { margin: 0; font: 800 var(--fs-2xl)/1.1 var(--font-display); letter-spacing: -0.03em; }
+.changelog-card h2 a { color: var(--ink); text-decoration: none; }
+.changelog-card h2 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.changelog-card__body { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 28px; }
+.changelog-card__body > .changelog-bullets { flex: 999 1 420px; min-width: 0; }
+.changelog-card__body > .changelog-number { flex: 1 1 280px; max-width: 340px; background: var(--chip); }
+.changelog-card__more { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+.changelog-bullets { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.changelog-bullets li { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 12px; align-items: start; font-size: var(--fs-md); line-height: 1.45; }
+.changelog-bullets__dot { margin-top: 5px; }
+
+.changelog-number { display: grid; gap: 10px; padding: 18px 20px; border-radius: var(--radius-lg); background: var(--panel-solid); box-sizing: border-box; }
+.changelog-number__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 0; }
+.changelog-number__figure strong { font: 800 3.25rem/1 var(--font-display); letter-spacing: -0.04em; }
+.changelog-number__figure span { font-size: var(--fs-md); font-weight: 650; }
+.changelog-number__bar { display: block; width: 100%; height: auto; }
+.changelog-number__legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; margin: 0; padding: 0; list-style: none; }
+.changelog-number__legend li { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--muted); font-size: var(--fs-2xs); }
+.changelog-number__legend svg { flex: none; }
+.changelog-number__legend span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.changelog-number__legend b { color: var(--ink); }
+.changelog-number__source { margin: 0; color: var(--muted); font-size: var(--fs-2xs); }
+
+.changelog-next { display: flex; gap: 6px; margin: 0; padding: 12px 14px; border-radius: var(--radius-md); background: var(--chip); }
+
+/* One entry: the article, then Share beside it (below it on a phone). */
+.changelog-entry__layout { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px; margin-top: 16px; }
+.changelog-entry__article { flex: 999 1 560px; min-width: 0; max-width: 720px; display: grid; gap: 22px; }
+.changelog-entry__article h1 { margin: -14px 0 0; font: 800 clamp(2rem, 5.2vw, 3rem)/1.05 var(--font-display); letter-spacing: -0.035em; text-wrap: balance; }
+.changelog-entry__article .changelog-bullets li { font-size: var(--fs-lg); }
+.changelog-entry__aside { flex: 1 1 280px; max-width: 340px; display: grid; gap: 14px; }
+.changelog-back { justify-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; }
+.changelog-back__icon { width: 18px; height: 18px; }
+
+.changelog-try { display: grid; gap: 10px; }
+.changelog-try ul { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+
+.changelog-pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.changelog-pager a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+.changelog-share { display: grid; gap: 14px; padding: 20px; border-radius: var(--radius-lg); background: var(--panel-solid); }
+.changelog-share__copy { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 48px; font-size: var(--fs-sm); }
+.changelog-share__icon { width: 18px; height: 18px; }
+.changelog-share__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.changelog-share__row > * {
+  display: flex; align-items: center; justify-content: center; min-height: 44px; border: 0; border-radius: var(--radius-md);
+  background: var(--chip); color: var(--ink); font: inherit; font-weight: 700; font-size: var(--fs-sm); text-decoration: none; cursor: pointer;
+}
+.changelog-share__row button[aria-expanded="true"] { box-shadow: inset 0 0 0 2px var(--muted); }
+.changelog-share__mastodon { display: grid; gap: 6px; padding: 12px; border-radius: var(--radius-md); background: var(--chip); }
+.changelog-share__mastodon label { font-size: var(--fs-xs); font-weight: 650; }
+.changelog-share__mastodon > div { display: flex; gap: 6px; }
+.changelog-share__mastodon input { flex: 1; min-width: 0; }
+.changelog-share__mastodon button { min-height: 44px; padding: 0 14px; border: 0; border-radius: var(--radius-md); background: var(--panel-solid); color: var(--ink); font: inherit; font-weight: 700; font-size: var(--fs-sm); cursor: pointer; }
+.changelog-share__mastodon p { margin: 0; color: var(--danger, var(--ink)); font-size: var(--fs-xs); }
+.changelog-share__status p { margin: 0; font-size: var(--fs-xs); overflow-wrap: anywhere; }
+.changelog-entry__rss { justify-self: start; }
+
+@media (max-width: 640px) {
+  .changelog-list__item { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .changelog-list__when { padding-top: 0; }
+  .changelog-list__when .changelog-date { display: block; }
+  .changelog-list__when .changelog-date__sep { display: inline; }
+  .changelog-card { padding: 20px 18px; }
+  .changelog-card__body > .changelog-number { max-width: none; }
+  .changelog-entry__aside { max-width: none; }
+}

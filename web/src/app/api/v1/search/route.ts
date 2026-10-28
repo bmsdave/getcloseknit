@@ -10,6 +10,7 @@ import {
   searchWithPostcodeFallback,
   sectorResults,
 } from "@/lib/postcode-search";
+import { postcodeSlug } from "@/lib/postcode-page";
 import { readSectorList, sectorQuery } from "@/lib/sector";
 import { demoSectorList } from "@/lib/sector-fixture";
 import { searchPreviewStations } from "@/lib/zones";
@@ -25,6 +26,8 @@ interface UpstreamSearchResult {
   street?: StreetMatch | null;
   /** scope=all: a school's URN, a station's or a named park's id. */
   urn?: string;
+  /** An independent school: no school page, so it opens the map at its LSOA. */
+  independent?: boolean;
   stationId?: string;
   placeId?: string;
 }
@@ -78,7 +81,7 @@ async function upstreamSectors(code: string, request: NextRequest): Promise<Sear
 }
 
 function toSearchResult(result: UpstreamSearchResult): SearchResult {
-  // A school opens its own page; a station or park opens the map there (its LSOA, by geographyId).
+  // A state school opens its own page; an independent school, a station or a park opens the map there (its LSOA).
   const own = result.urn ?? result.stationId ?? result.placeId;
   return {
     id: own ? `${result.kind}:${own}` : result.addressId ?? result.geographyId,
@@ -89,7 +92,9 @@ function toSearchResult(result: UpstreamSearchResult): SearchResult {
     uprn: result.uprn,
     addressId: result.addressId ?? null,
     center: result.center,
-    ...(result.kind === "school" && result.urn ? { href: `/school/${result.urn}` } : {}),
+    ...(result.kind === "school" && result.urn && !result.independent ? { href: `/school/${result.urn}` } : {}),
+    // A full postcode with no recorded home: its own page, not the LSOA it sits in.
+    ...(result.kind === "postcode" ? { href: `/postcode/${postcodeSlug(result.label)}` } : {}),
     ...(result.street ? { street: result.street } : {}),
   };
 }

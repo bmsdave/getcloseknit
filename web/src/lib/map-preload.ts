@@ -7,12 +7,13 @@
  * never a wrong map. The server does not know the screen: a piece is named only when a phone's view holds it too,
  * and a pack (one request for every piece) only when a phone and a laptop see the same pieces.
  */
-import type { Carrier } from "./contracts";
+import type { Carrier, MetricCoverage } from "./contracts";
 import {
   londonPiece, NEIGHBOURHOOD_ZOOM, pieceBoxesPath, piecePackPath, piecesKey, viewPackPaths, viewPieces, type Bbox, type MapCoverage,
 } from "./map-coverage";
 import { MAPLIBRE_WORKER_URL } from "./map-core";
 import { isLayerAvailableInMode, LONDON_BOUNDS, MIN_MAP_ZOOM, valuePackPath, type MapState } from "./map-state";
+import { piecesWithValues } from "./map-topics";
 import { isDetailLayer } from "./nature-layers";
 import { withRelease } from "./release-url";
 
@@ -21,6 +22,8 @@ export interface CatalogueLayer {
   carrier: Carrier;
   defaultPeriod: string;
   periods: readonly string[];
+  /** Where it has values (the catalog's coverage): no preload of a piece outside its regions. */
+  coverage?: MetricCoverage[];
 }
 
 /** Whether a camera opens on London (the London map's one piece loads first). */
@@ -77,6 +80,7 @@ export function mapPreloads(state: MapState, options: {
   const phone = inView(PHONE);
   const version = coverage.productReleaseId;
   for (const entry of phone) urls.push(pieceBoxesPath(entry, state.release, version));
-  if (phone.length && piecesKey(phone) === piecesKey(inView(LAPTOP))) urls.push(...viewPackPaths(base, phone, version));
+  const valued = piecesWithValues(phone, layer, coverage);
+  if (phone.length && piecesKey(phone) === piecesKey(inView(LAPTOP))) urls.push(...viewPackPaths(base, valued, version));
   return urls;
 }

@@ -7,6 +7,7 @@ import { SatinBar } from "@/components/knit/satin";
 import type { GeographyId } from "@/lib/contracts";
 import { naturePath } from "@/lib/section-seed";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 export interface AreaNature {
   available: boolean;
@@ -120,7 +121,7 @@ export function NatureNotes({ nature, scope = "London" }: { nature: AreaNature |
       <p>Wildlife: species people recorded within 1 km (birds, mammals, amphibians). Records follow where people look, so a short list can mean few observers, not few animals.</p>
       {nature.sources.map((source) => (
         <div key={source.id}>
-          {source.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {source.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
           <p>{source.attribution}</p>
         </div>
       ))}

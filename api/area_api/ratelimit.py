@@ -60,10 +60,13 @@ Configuration (env): CLOSE_KNIT_RATE_<CLASS>="200/minute,600/hour,1000/day"
 (periods second, minute, hour, day). Legacy CLOSE_KNIT_RATE_LIMIT and
 CLOSE_KNIT_TILE_RATE_LIMIT replace the shortest window of default and bulk.
 CLOSE_KNIT_INTERNAL_KEY (shared with the web container) turns the render class on.
-Buckets live in process memory (LRU, MAX_TRACKED_BUCKETS), one set per uvicorn worker:
-with WEB_CONCURRENCY=N workers (api/Dockerfile) each grants 1/N of every allowance,
-rounded up, so all of them together grant what is configured. Not render: a render's
-reads reach several workers and each charges it once, so its allowance stays whole.
+With one uvicorn worker, buckets and render ids live in process memory (LRU, MAX_TRACKED_BUCKETS).
+With WEB_CONCURRENCY=N > 1 workers (api/Dockerfile) every worker of the container keeps them in one
+SQLite file (SharedBuckets: CLOSE_KNIT_RATE_STORE, default /dev/shm), so a client gets the configured
+allowance once whichever workers its connections reach: a burst is refused at the configured minute,
+and one person's My match runs are not refused early because their connections landed on one worker.
+CLOSE_KNIT_RATE_STORE=memory (or a file that cannot be opened) keeps them per worker instead, each
+granting 1/N of every hour and day allowance, rounded up, and every shorter window whole.
 /health is never limited. Over the limit: 429 with Retry-After (the longest wait)
 and X-RateLimit-* headers of the tightest window.
 """
@@ -72,7 +75,10 @@ import hmac
 import ipaddress
 import json
 import os
+import logging
 import re
+import sqlite3
+import tempfile
 import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
@@ -82,8 +88,16 @@ from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from . import assistant_ranges, feature_flags
 
+log = logging.getLogger(__name__)
+
 RATE_PATTERN = re.compile(r"^(\d+)/(second|minute|hour|day)$")
 PERIODS = {"second": 1.0, "minute": 60.0, "hour": 3600.0, "day": 86400.0}
+# Per-worker buckets (no shared store) split the allowance of windows this long or longer (module notes).
+SPLIT_FROM_SECONDS = 3600.0
+STORE_ENV = "CLOSE_KNIT_RATE_STORE"
+STORE_FILE = "close-knit-ratelimit.sqlite3"
+# A shared store drops buckets that refilled and render ids that expired every this many charges.
+SWEEP_EVERY = 2000
 EXEMPT_PATHS = ("/health",)
 DEFAULT_LIMITS = {
     "default": "120/minute,2000/hour,10000/day",
@@ -182,9 +196,10 @@ def workers(env: Mapping[str, str]) -> int:
         return 1
 
 
-def limits_from_env(env: Mapping[str, str]) -> dict[str, tuple[Rate, ...]]:
+def limits_from_env(env: Mapping[str, str], shared: bool = False) -> dict[str, tuple[Rate, ...]]:
+    """Each class's windows; per-worker buckets (`shared` False) split the hour and day allowances."""
     limits = {}
-    share = workers(env)
+    share = 1 if shared else workers(env)
     for name, default in DEFAULT_LIMITS.items():
         configured = env.get(f"CLOSE_KNIT_RATE_{name.upper()}")
         rates = parse_rates(configured or default)
@@ -192,7 +207,8 @@ def limits_from_env(env: Mapping[str, str]) -> dict[str, tuple[Rate, ...]]:
         if legacy and not configured:  # the old single rate becomes the shortest window
             rates = tuple(sorted((parse_rate(legacy, ""), *rates[1:]), key=lambda rate: rate.period_seconds))
         if share > 1 and name != "render":
-            rates = tuple(Rate(-(-rate.requests // share), rate.period_seconds) for rate in rates)
+            rates = tuple(Rate(-(-rate.requests // share), rate.period_seconds)
+                          if rate.period_seconds >= SPLIT_FROM_SECONDS else rate for rate in rates)
         limits[name] = rates
     return limits
 
@@ -374,6 +390,141 @@ class RecentIds:
             self.seen.popitem(last=False)
 
 
+class SharedBuckets:
+    """TokenBuckets and RecentIds in one SQLite file that every uvicorn worker of a container opens, so a
+    client's allowance and a render's ids are the same whichever worker a request reaches. Each charge is one
+    write transaction (BEGIN IMMEDIATE serialises the workers). Wall-clock time, shared by the processes.
+    A bucket idle for its whole period is full again, so its row is dropped (sweep). If the file fails
+    (locked past `timeout`, disk error) the charge falls back to this worker's own buckets and says so in
+    the log, so the API keeps answering."""
+
+    def __init__(self, path: str, clock: Callable[[], float] = time.time, timeout: float = 1.0) -> None:
+        self.path, self.clock, self.timeout = path, clock, timeout
+        self.local = TokenBuckets(clock=clock)
+        self.local_ids = RecentIds()
+        self._connection: sqlite3.Connection | None = None
+        self._pid = 0
+        self._charges = 0
+
+    def _db(self) -> sqlite3.Connection:
+        if self._connection is None or self._pid != os.getpid():  # one connection per worker process
+            connection = sqlite3.connect(self.path, timeout=self.timeout, isolation_level=None,
+                                         check_same_thread=False)
+            connection.execute("PRAGMA synchronous=OFF")
+            self._create(connection)
+            self._connection, self._pid = connection, os.getpid()
+        return self._connection
+
+    def _create(self, connection: sqlite3.Connection) -> None:
+        """WAL and the tables. Workers start together, and switching the journal mode is refused at once
+        (no busy wait) while another opens the file, so it is retried for up to `timeout`."""
+        deadline = time.monotonic() + self.timeout
+        while True:
+            try:
+                connection.execute("PRAGMA journal_mode=WAL")
+                connection.execute("BEGIN IMMEDIATE")
+                connection.execute("CREATE TABLE IF NOT EXISTS bucket (key TEXT PRIMARY KEY, tokens REAL NOT NULL, "
+                                   "updated REAL NOT NULL, expires REAL NOT NULL) WITHOUT ROWID")
+                connection.execute("CREATE TABLE IF NOT EXISTS seen (key TEXT PRIMARY KEY, stamp REAL NOT NULL) "
+                                   "WITHOUT ROWID")
+                connection.execute("COMMIT")
+                return
+            except sqlite3.OperationalError:
+                if connection.in_transaction:
+                    connection.execute("ROLLBACK")
+                if time.monotonic() >= deadline:
+                    raise
+                time.sleep(0.01)
+
+    def open(self) -> "SharedBuckets":
+        """Open (and create) the file now; raises sqlite3.Error when it cannot be used."""
+        self._db()
+        return self
+
+    def charge(self, windows: list[tuple[str, Rate]], cost: int = 1) -> Decision:
+        """Take `cost` from every window, or from none (as TokenBuckets.charge)."""
+        try:
+            return self._charge(windows, cost)
+        except sqlite3.Error as error:
+            log.warning("rate limit store %s failed (%s): this worker's own buckets answer", self.path, error)
+            return self.local.charge(windows, cost)
+
+    def _charge(self, windows: list[tuple[str, Rate]], cost: int) -> Decision:
+        now = self.clock()
+        keys = [f"{key}|{rate.requests}/{rate.period_seconds:g}" for key, rate in windows]
+        db = self._db()
+        db.execute("BEGIN IMMEDIATE")
+        try:
+            stored = dict(((row[0], (row[1], row[2])) for row in db.execute(
+                f"SELECT key, tokens, updated FROM bucket WHERE key IN ({','.join('?' * len(keys))})", keys)))
+            tokens = []
+            for name, (_, rate) in zip(keys, windows):
+                level, updated = stored.get(name, (float(rate.requests), now))
+                tokens.append(min(float(rate.requests), level + max(0.0, now - updated) * rate.per_second))
+            short = [(rate, (cost - level) / rate.per_second)
+                     for (_, rate), level in zip(windows, tokens) if level < cost]
+            if short:
+                db.execute("COMMIT")
+                rate, wait = max(short, key=lambda item: item[1])
+                return Decision(False, rate.requests, 0, wait)
+            db.executemany("INSERT OR REPLACE INTO bucket (key, tokens, updated, expires) VALUES (?, ?, ?, ?)",
+                           [(name, level - cost, now, now + rate.period_seconds)
+                            for name, (_, rate), level in zip(keys, windows, tokens)])
+            self._charges += 1
+            if self._charges % SWEEP_EVERY == 0:
+                db.execute("DELETE FROM bucket WHERE expires < ?", (now,))
+                db.execute("DELETE FROM seen WHERE stamp < ?", (now - RENDER_ID_TTL,))
+            db.execute("COMMIT")
+        except BaseException:
+            if db.in_transaction:
+                db.execute("ROLLBACK")
+            raise
+        index = min(range(len(windows)), key=lambda i: tokens[i] - cost)
+        return Decision(True, windows[index][1].requests, int(tokens[index] - cost), 0.0)
+
+    def take(self, key: str, rate: Rate) -> tuple[bool, int, float]:
+        decision = self.charge([(key, rate)])
+        return decision.allowed, decision.remaining, decision.wait
+
+    # Render ids (the RecentIds interface).
+    def fresh(self, key: str, now: float) -> bool:
+        try:
+            row = self._db().execute("SELECT stamp FROM seen WHERE key = ?", (key,)).fetchone()
+        except sqlite3.Error as error:
+            log.warning("rate limit store %s failed (%s): this worker's own render ids answer", self.path, error)
+            return self.local_ids.fresh(key, now)
+        return row is not None and now - row[0] < RENDER_ID_TTL
+
+    def add(self, key: str, now: float) -> None:
+        try:
+            self._db().execute("INSERT OR REPLACE INTO seen (key, stamp) VALUES (?, ?)", (key, now))
+        except sqlite3.Error as error:
+            log.warning("rate limit store %s failed (%s): this worker's own render ids answer", self.path, error)
+            self.local_ids.add(key, now)
+
+
+def store_path(env: Mapping[str, str]) -> str | None:
+    """The shared store's file, or None for per-worker buckets: one worker, or CLOSE_KNIT_RATE_STORE=memory."""
+    configured = env.get(STORE_ENV, "").strip()
+    if configured.lower() == "memory" or workers(env) == 1:
+        return None
+    if configured:
+        return configured
+    folder = "/dev/shm" if os.path.isdir("/dev/shm") and os.access("/dev/shm", os.W_OK) else tempfile.gettempdir()
+    return os.path.join(folder, STORE_FILE)
+
+
+def shared_store(env: Mapping[str, str]) -> SharedBuckets | None:
+    path = store_path(env)
+    if path is None:
+        return None
+    try:
+        return SharedBuckets(path).open()
+    except sqlite3.Error as error:
+        log.warning("rate limit store %s cannot be opened (%s): each worker keeps its own buckets", path, error)
+        return None
+
+
 def _digest(value: bytes) -> bytes:
     return hashlib.sha256(value).digest()
 
@@ -400,20 +551,22 @@ class RateLimiter:
     """Configuration + buckets; attributes are read per request so tests can swap them."""
     limits: dict[str, tuple[Rate, ...]]
     trust_proxy: bool
-    buckets: TokenBuckets = field(default_factory=TokenBuckets)
+    buckets: "TokenBuckets | SharedBuckets" = field(default_factory=TokenBuckets)
     # CLOSE_KNIT_INTERNAL_KEY, shared with the web server; None turns the render class off.
     internal_key: bytes | None = None
-    renders: RecentIds = field(default_factory=RecentIds)
+    renders: "RecentIds | SharedBuckets" = field(default_factory=RecentIds)
     # Assistant egress ranges whose MCP sessions get their own buckets (module docstring).
     assistant_ranges: tuple[Network, ...] = ()
 
     @classmethod
     def from_env(cls) -> "RateLimiter":
         key = os.environ.get("CLOSE_KNIT_INTERNAL_KEY", "").strip()
-        return cls(limits=limits_from_env(os.environ),
+        store = shared_store(os.environ)
+        shared = {"buckets": store, "renders": store} if store else {}
+        return cls(limits=limits_from_env(os.environ, shared=store is not None),
                    trust_proxy=os.environ.get("CLOSE_KNIT_TRUST_PROXY") == "1",
                    internal_key=key.encode() if key else None,
-                   assistant_ranges=assistant_ranges_from_env(os.environ))
+                   assistant_ranges=assistant_ranges_from_env(os.environ), **shared)
 
     def reset(self) -> None:
         """Forget every bucket and render id (tests: each starts with a full allowance)."""

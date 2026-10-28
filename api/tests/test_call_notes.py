@@ -23,9 +23,9 @@ class FakeNotesConnection:
     def execute(self, sql, params=()):
         marker = sql.split("\n", 1)[0]
         if marker == "-- call_notes:insert":
-            call_id, session, client, tool, ok, code, intent = params
+            call_id, session, client, tool, ok, code, intent, traffic = params
             self.rows[call_id] = {"session": session, "client": client, "tool": tool, "ok": ok, "code": code,
-                                  "intent": intent, "rating": None}
+                                  "intent": intent, "traffic": traffic, "rating": None}
             return []
         if marker == "-- call_notes:rate":
             rating, good, bad, fix, call_id = params
@@ -113,6 +113,7 @@ class McpCallNotesTests(McpHttpTests):
         call_id = first["callId"]
         self.assertEqual(self.db.rows[call_id]["intent"], "Flat to rent in Hackney, near E8")
         self.assertEqual(self.db.rows[call_id]["tool"], "search_areas")
+        self.assertEqual(self.db.rows[call_id]["traffic"], "tech", "the test client is named test")
 
         second = self._call("search_areas", {"q": "Dalston", "rate_previous": {
             "call_id": call_id, "rating": 2, "bad": "Only boroughs came back", "fix": "Return wards too"}})

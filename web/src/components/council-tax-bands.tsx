@@ -10,6 +10,7 @@ import { scopeName } from "@/lib/scope-name";
 
 import { BarList, ChartFrame, type BarRow } from "./charts";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 /**
  * Homes by council tax band A-H (VOA), the most common band and a typical
@@ -33,7 +34,7 @@ export function CouncilTaxBandsView({ body }: { body: AreaCouncilTaxResponse | n
       <ChartFrame title="Council tax bands" help="council-tax-bands"
         sources={<>
           {body.sources.map((source) => <p key={source.release}>{source.attribution}</p>)}
-          {body.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {body.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
         </>}>
         <p className="market-basis">
           Most homes: <strong>Band {value.mostCommon}</strong>

@@ -71,6 +71,26 @@ BOT = re.compile(r"bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|t
                  re.IGNORECASE)
 
 GO_PORTALS = ("rightmove", "zoopla", "onthemarket", "openrent")
+
+# Whose use an event is, kept as props.traffic so the dashboards can show live use only (missing = live):
+# "team" is Close Knit's own checks and visits (header X-Close-Knit-Team: 1, an MCP client named ck-* or one
+# of the names our check scripts send, a browser that opened the site with ?team=1), "tech" is scanners,
+# directory reviewers, probes and scripts (told by their MCP client name or a script's user agent, or a
+# browser driven by automation), and "live" is everyone else (left out of props). claude-code is people using
+# our plugin, so it is live unless the call carries the team header. Our scripts and tests name their MCP
+# client ck-<what>. Migration 136 applies the same patterns to older rows (a test keeps them equal).
+TRAFFIC = ("live", "team", "tech")
+TEAM_HEADER = "x-close-knit-team"
+TEAM_CLIENT = re.compile(r"^ck-|^(board-shots|release-check|doc-check|recheck|check)$", re.IGNORECASE)
+TECH_CLIENT = re.compile(r"probe|bot|scan|crawl|spider|collector|sentinel|inspector|monitor|check|test|smoke|"
+                         r"health|curl|wget|python|httpx|postman|insomnia|glama|smithery|lobehub|directory|"
+                         r"registry|audit|validat|uptime", re.IGNORECASE)
+# A request that names no MCP client: these user agents are scripts and uptime checks, never a person.
+TECH_AGENT = re.compile(r"^(curl|wget|python-urllib|python-requests|go-http-client)/|uptimerobot|pingdom|"
+                        r"statuscake|betteruptime|uptime-kuma", re.IGNORECASE)
+MARK_TEAM_SQL = """-- usage:mark-team
+UPDATE product_event SET props = props || '{"traffic": "team"}'
+WHERE visitor_id = %s AND coalesce(props->>'traffic', 'live') <> 'team'"""
 GO_SOURCES = ("mcp", "api", "web")
 
 INSERT_SQL = """-- usage:insert
@@ -84,6 +104,50 @@ _last_purge = 0.0
 
 def is_bot(user_agent: str | None) -> bool:
     return not user_agent or bool(BOT.search(user_agent))
+
+
+def traffic(client: str | None = None, team_header: str | None = None, user_agent: str | None = None) -> str:
+    """live, team or tech for a server-side event (see TRAFFIC)."""
+    if _team_header(team_header) or (client and TEAM_CLIENT.search(client)):
+        return "team"
+    if (client and TECH_CLIENT.search(client)) or (not client and user_agent and TECH_AGENT.search(user_agent)):
+        return "tech"
+    return "live"
+
+
+def _team_header(value: str | None) -> bool:
+    return (value or "").strip() == "1"
+
+
+def request_traffic(headers: Mapping[str, str]) -> str:
+    """live, team or tech for an HTTP request that names no MCP client: the team header, then the user agent."""
+    return traffic(None, headers.get(TEAM_HEADER), headers.get("user-agent"))
+
+
+def traffic_prop(kind: str) -> str | None:
+    """The props.traffic value for a kind: None for live, which stays out of props."""
+    return kind if kind in ("team", "tech") else None
+
+
+def parse_traffic(text: str) -> tuple[str, ...]:
+    """--traffic for the reports and lists: comma-separated kinds or "all"; live only unless asked."""
+    kinds = TRAFFIC if text.strip() == "all" else tuple(dict.fromkeys(k.strip() for k in text.split(",") if k.strip()))
+    if not kinds or any(kind not in TRAFFIC for kind in kinds):
+        raise argparse.ArgumentTypeError(f"traffic is a comma-separated list of {', '.join(TRAFFIC)}, or all")
+    return kinds
+
+
+def team_visitor(payload: Any, team_header: str | None = None) -> str | None:
+    """The browser id of a team batch (?team=1 on the site, or the team header), whose past events become team too."""
+    if not isinstance(payload, Mapping) or (payload.get("team") is not True and not _team_header(team_header)):
+        return None
+    visitor = payload.get("visitor")
+    return visitor if isinstance(visitor, str) and VISITOR.match(visitor) else None
+
+
+def mark_team(connect: Callable[[], Any], visitor: str) -> None:
+    with connect() as connection:
+        connection.execute(MARK_TEAM_SQL, (visitor,))
 
 
 def session_tag(raw: str | None) -> str | None:
@@ -164,8 +228,9 @@ def _coarse(value: Any, key: str) -> float | None:
     return round(value, 2)
 
 
-def clean_batch(payload: Any) -> list[tuple]:
-    """Rows for INSERT_SQL from a page's batch; unknown events and props are dropped, never an error."""
+def clean_batch(payload: Any, team_header: str | None = None) -> list[tuple]:
+    """Rows for INSERT_SQL from a page's batch; unknown events and props are dropped, never an error. A team
+    browser (?team=1, or the team header) is team; a browser driven by automation (navigator.webdriver) is tech."""
     if not isinstance(payload, Mapping):
         return []
     visitor = payload.get("visitor")
@@ -173,13 +238,17 @@ def clean_batch(payload: Any) -> list[tuple]:
     session = payload.get("session")
     session = session if isinstance(session, str) and SESSION.match(session) else None
     device = payload.get("device") if payload.get("device") in DEVICES else None
+    if payload.get("team") is True or _team_header(team_header):
+        team = {"traffic": "team"}
+    else:
+        team = {"traffic": "tech"} if payload.get("automated") is True else {}
     events = payload.get("events")
     rows = []
     for event in events[:MAX_BATCH] if isinstance(events, list) else []:
         name = event.get("name") if isinstance(event, Mapping) else None
         if name not in WEB_EVENTS:
             continue
-        props = clean_props(name, event.get("props"), WEB_EVENTS[name])
+        props = {**clean_props(name, event.get("props"), WEB_EVENTS[name]), **team}
         rows.append(("web", name, visitor, session, device, json.dumps(props)))
     return rows
 
@@ -211,10 +280,11 @@ def record(connect: Callable[[], Any] | None, channel: str, name: str, props: Ma
 
 
 def tool_call_props(tool: str, started: float, result: Any = None, error_code: str | None = None,
-                    client: str | None = None) -> dict[str, Any]:
+                    client: str | None = None, traffic_kind: str = "live") -> dict[str, Any]:
     confidence = result.get("confidence") if isinstance(result, Mapping) else None
     return {"tool": tool, "ok": error_code is None, "code": error_code, "ms": round((time.monotonic() - started) * 1000),
-            "confidence": confidence if isinstance(confidence, str) else None, "client": _clean_value(client)}
+            "confidence": confidence if isinstance(confidence, str) else None, "client": _clean_value(client),
+            "traffic": traffic_prop(traffic_kind)}
 
 
 # ---- /go: counted click-outs to the portals ------------------------------------------------------------
@@ -366,9 +436,21 @@ def _now() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def report(connect: Callable[[], Any]) -> list[tuple[str, list[dict]]]:
+LIVE_SQL = "coalesce(props->>'traffic', 'live') = ANY(%(traffic)s)"
+
+
+def traffic_filtered(sql: str) -> str:
+    """A report query narrowed to the asked traffic (live by default); a product_event read without it fails here."""
+    sql = " ".join(sql.split()).replace("FROM product_event WHERE ", f"FROM product_event WHERE {LIVE_SQL} AND ")
+    assert sql.count("FROM product_event") == sql.count(LIVE_SQL), f"product_event read without the traffic filter: {sql}"
+    return sql
+
+
+def report(connect: Callable[[], Any], traffic_kinds: tuple[str, ...] = ("live",)) -> list[tuple[str, list[dict]]]:
+    """Every REPORT_SQL table over the given traffic: live people only unless asked."""
     with connect() as connection:
-        return [(title, [dict(row) for row in connection.execute(sql)]) for title, sql in REPORT_SQL.items()]
+        return [(title, [dict(row) for row in connection.execute(traffic_filtered(sql), {"traffic": list(traffic_kinds)})])
+                for title, sql in REPORT_SQL.items()]
 
 
 def purge(connect: Callable[[], Any]) -> int:
@@ -390,7 +472,9 @@ def _format_table(rows: list[dict]) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="python -m area_api.usage", description=__doc__.splitlines()[0])
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("report", help="active people, funnel, click-outs, retention, search and MCP use")
+    reporting = commands.add_parser("report", help="active people, funnel, click-outs, retention, search and MCP use")
+    reporting.add_argument("--traffic", type=parse_traffic, default=("live",),
+                           help="live (default), team, tech, a comma-separated mix, or all")
     commands.add_parser("purge", help=f"delete events older than {RETENTION_DAYS} days")
     args = parser.parse_args(argv)
 
@@ -400,7 +484,8 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "purge":
             print(f"purged {purge(evidence_connection)}")
             return 0
-        for title, rows in report(evidence_connection):
+        print(f"traffic: {', '.join(args.traffic)}")
+        for title, rows in report(evidence_connection, args.traffic):
             print(f"\n{title}\n{_format_table(rows)}")
         return 0
     finally:

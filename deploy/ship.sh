@@ -91,10 +91,11 @@ ssh "$target" "cd /srv/close-knit/deploy && \
     || echo "ship: the map's other pieces did not start building" >&2
 # The price layer's fixed scale is computed by the web app from the API's numbers (release_artifact): once per web
 # process and release, so the first visitor after a deploy does not wait for it (it took 10 s, perf/layer-load).
+# Every warm-up sends the team header, so any usage it touches counts as ours (area_api.usage.traffic).
 ssh "$target" 'cd /srv/close-knit/deploy && . ./.env && base="$CLOSE_KNIT_PUBLIC_URL";
     auth=""; [ "${CLOSE_KNIT_ACCESS:-public}" = private ] && auth="-u $CLOSE_KNIT_ACCESS_USER:$CLOSE_KNIT_ACCESS_PASSWORD";
-    release="$(curl -fsS $auth "$base/api/v1/map/coverage" | python3 -c "import json,sys; print(json.load(sys.stdin).get(\"productReleaseId\") or \"\")")";
-    curl -fsS -o /dev/null --max-time 120 $auth "$base/api/v1/price-scale?mode=real&release=$release"' \
+    release="$(curl -fsS $auth -H "x-close-knit-team: 1" "$base/api/v1/map/coverage" | python3 -c "import json,sys; print(json.load(sys.stdin).get(\"productReleaseId\") or \"\")")";
+    curl -fsS -o /dev/null --max-time 120 $auth -H "x-close-knit-team: 1" "$base/api/v1/price-scale?mode=real&release=$release"' \
     || echo "ship: the price scale did not warm" >&2
 # Warm the extension's card and results line (a King's Cross point): the first card after a restart
 # read the per-release caches and its area cold (11 s); afterwards an area takes well under a second.
@@ -103,7 +104,7 @@ warm_post() {
     ssh "$target" 'cd /srv/close-knit/deploy && . ./.env && base="$CLOSE_KNIT_PUBLIC_URL";
         auth=""; [ "${CLOSE_KNIT_ACCESS:-public}" = private ] && auth="-u $CLOSE_KNIT_ACCESS_USER:$CLOSE_KNIT_ACCESS_PASSWORD";
         curl -fsS -o /dev/null --max-time 60 $auth -H "content-type: application/json" \
-            -H "x-close-knit-analytics: off" --data-binary @- "$base'"$1"'"' <<<"$2"
+            -H "x-close-knit-analytics: off" -H "x-close-knit-team: 1" --data-binary @- "$base'"$1"'"' <<<"$2"
 }
 listing='"listingId":"warmup","url":"https://www.rightmove.co.uk/properties/warmup","lat":51.5308,"lng":-0.1238'
 warm_post /api/v1/listing-card "{\"v\":1,\"portal\":\"rightmove\",$listing,\"askingPrice\":650000,\"bedrooms\":2}" \

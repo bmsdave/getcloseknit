@@ -6,7 +6,10 @@ Price Paid transaction with floor area and 2021 LSOA/MSOA/borough, written by
 without it takes the categories from $AE_WORK/ppd-london.sqlite, `etl_sales.py
 extract`), applies the `price_index.qualifies` gates, computes the rolling
 12-month median per LSOA with MSOA/borough fallback for every month, and swaps
-it into a new product release in one transaction. After activation it reruns
+it into a new product release in one transaction, London's areas only (England's
+rows come from the England prices bundle; migration 133); the release is
+activated unless CLOSE_KNIT_STAGE_ONLY is set (an etl.py run activates once at
+its end, release_guard.py). Then it reruns
 every rebuild that depends on the index (stock values, bands, zone analytics,
 good value, growth, market depth, pins, blocks) in the `etl_sales.py` load
 order, so no derived value is left adjusted by the previous release's index
@@ -27,6 +30,7 @@ import sys
 from datetime import datetime, timezone
 
 import price_index as pi
+import release_guard
 
 DATA = os.environ.get("AE_DATA", os.path.expanduser("~/data"))
 WORK = os.environ.get("AE_WORK", os.path.join(DATA, "aework", "sales"))
@@ -152,15 +156,22 @@ def rerun_index_rebuilds(cur) -> dict[str, int | None]:
     return results
 
 
+# London's areas only (migration 133's outside_london_area is England's, from the England prices bundle): the
+# index is built from London's per-home sales, so every English area would get a null value.
+GEOGRAPHY_SQL = """SELECT g.id, g.kind::text AS kind, g.official_code, g.parent_id FROM area_geography g
+WHERE g.kind IN ('lsoa', 'msoa', 'lad')
+  AND NOT EXISTS (SELECT 1 FROM outside_london_area o WHERE o.area_id = g.id)"""
+DELETE_SQL = """DELETE FROM metric_value v WHERE v.metric_id = %s
+  AND NOT EXISTS (SELECT 1 FROM outside_london_area o WHERE o.area_id = v.geography_id)"""
+
+
 def main(argv: list[str]) -> None:
     import psycopg
     from psycopg.rows import dict_row
 
     end, url = argv[1], argv[2]
     with psycopg.connect(url, row_factory=dict_row) as conn, conn.cursor() as cur:
-        geography = list(cur.execute(
-            "SELECT id, kind::text AS kind, official_code, parent_id FROM area_geography"
-            " WHERE kind IN ('lsoa', 'msoa', 'lad')"))
+        geography = list(cur.execute(GEOGRAPHY_SQL))
         rows, latest, record = build(end, geography)
         ordered = sorted(latest)
         london_median = ordered[len(ordered) // 2] if ordered else None
@@ -184,7 +195,7 @@ def main(argv: list[str]) -> None:
              ETL_VERSION,
              ["Standard market sales only (PPD category A); repossessions, buy-to-let and company sales are excluded.",
               "Floor area comes from the dwelling's latest EPC, not necessarily one lodged at the sale."]))
-        cur.execute("DELETE FROM metric_value WHERE metric_id = %s", (METRIC,))
+        cur.execute(DELETE_SQL, (METRIC,))
         buffer = io.StringIO()
         csv.writer(buffer).writerows(row + [source_id] for row in rows)
         buffer.seek(0)
@@ -223,14 +234,15 @@ def main(argv: list[str]) -> None:
             """INSERT INTO product_release_member (release_id, source_release_id)
                SELECT %s, source_release_id FROM product_release_member WHERE release_id = %s
                UNION SELECT %s, %s""", (release_id, active, release_id, source_id))
-        cur.execute("SELECT activate_product_release(%s)", (release_id,))
+        # Inside an etl.py run (CLOSE_KNIT_STAGE_ONLY) this only stages: the refresh activates once at the end.
+        live = release_guard.activate(cur, release_id)
         # A new index moves every value derived from it (#186): rerun the index-dependent
         # rebuilds in the etl_sales.py load order — stock values -> stock-value layer, pins and
         # blocks; bands -> typical-price layer -> good value; zone index; growth; market depth —
         # so nothing on the site is still adjusted by the previous release's index. (This
-        # supersedes the growth+market_depth-only rebuild from #163.)
+        # supersedes the growth+market_depth-only rebuild from #163.) Each replaces London's rows only.
         rerun_index_rebuilds(cur)
-        print(f"activated {release_id} with {source_id}")
+        print(f"{'activated' if live else 'staged'} {release_id} with {source_id}")
 
 
 if __name__ == "__main__":

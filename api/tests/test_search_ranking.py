@@ -48,7 +48,8 @@ class SqliteSearch:
         db.create_function("ST_Y", 1, lambda g: 51.5)
         db.executescript("""
             CREATE TABLE area_geography (id text, kind text, official_code text, name text, parent_id text, geometry text);
-            CREATE TABLE area_label (geography_id text, friendly_name text, postcode_district text);""")
+            CREATE TABLE area_label (geography_id text, friendly_name text, postcode_district text);
+            CREATE TABLE area_population (geography_id text, population integer);""")
         for gid, kind, name, friendly, district in AREAS:
             db.execute("INSERT INTO area_geography VALUES (?,?,?,?,NULL,'g')", (gid, kind, gid.split(":")[2], name))
             db.execute("INSERT INTO area_label VALUES (?,?,?)", (gid, friendly, district))
@@ -110,6 +111,71 @@ class AreaSearchRankingTests(unittest.TestCase):
 
     def test_full_borough_name_still_first(self):
         self.assertEqual(ids(search("Kensington and Chelsea", 1)), ["uk:lad:E09000020"])
+
+
+# England (G-E17): (id, kind, ONS name, friendly name, district, parent).
+ENGLAND = [
+    ("uk:lad:E06000014", B, "York", "York", None, None),
+    *[(f"uk:msoa:E020027{i:02d}", M, f"York 0{i:02d}", n, d, "uk:lad:E06000014")
+      for i, (n, d) in enumerate([("Clifton & Rawcliffe", "YO30"), ("Heworth", "YO31"), ("Acomb", "YO24")], 1)],
+    ("uk:lad:E08000022", B, "North Tyneside", "North Tyneside", None, None),
+    ("uk:msoa:E02001752", M, "North Tyneside 015", "New York", "NE29", "uk:lad:E08000022"),
+    *[(f"uk:lsoa:E0100848{i}", L, f"North Tyneside 015{'ABCD'[i]}", "New York", "NE29", "uk:msoa:E02001752")
+      for i in range(4)],
+    ("uk:lad:E06000023", B, "Bristol, City of", "Bristol, City of", None, None),
+    ("uk:msoa:E02003043", M, "Bristol 032", "Clifton East", "BS8", "uk:lad:E06000023"),
+    ("uk:msoa:E02003041", M, "Bristol 030", "Clifton Village", "BS8", "uk:lad:E06000023"),
+    ("uk:lad:E08000006", B, "Salford", "Salford", None, None),
+    ("uk:msoa:E02001161", M, "Salford 002", "Clifton", "M27", "uk:lad:E08000006"),
+    ("uk:msoa:E02001164", M, "Salford 005", "Clifton Green & Pendlebury East", "M27", "uk:lad:E08000006"),
+    *[(f"uk:lsoa:E0100560{i}", L, f"Salford 002{'ABCD'[i]}", "Clifton", "M27", "uk:msoa:E02001161") for i in range(4)],
+]
+# Mid-2024 MSOA populations (ONS): Bristol's two Clifton MSOAs hold more people than Salford's.
+POPULATION = {"uk:msoa:E02003043": 9366, "uk:msoa:E02003041": 6385, "uk:msoa:E02001161": 6017,
+              "uk:msoa:E02001164": 7338, "uk:msoa:E02002701": 9369}
+
+
+class EnglandSearch(SqliteSearch):
+    def __init__(self):
+        super().__init__()
+        for gid, kind, name, friendly, district, parent in ENGLAND:
+            self.db.execute("INSERT INTO area_geography VALUES (?,?,?,?,?,'g')", (gid, kind, gid.split(":")[2], name, parent))
+            self.db.execute("INSERT INTO area_label VALUES (?,?,?)", (gid, friendly, district))
+        self.db.executemany("INSERT INTO area_population VALUES (?,?)", POPULATION.items())
+
+    def execute(self, sql, params=()):
+        if sql.startswith("-- evidence:street-table"):
+            return [{"t": False}]
+        return super().execute(sql, params)
+
+
+def england_search(q, limit=8):
+    connection = EnglandSearch()
+    return ids(evidence.EvidenceReader(connect=lambda: connection).search_areas(q, limit=limit)["results"])
+
+
+class EnglandPlaceSearchTests(unittest.TestCase):
+    def test_a_lad_name_lists_its_own_neighbourhoods_before_namesakes_elsewhere(self):
+        found = england_search("York")
+        self.assertEqual(found[:4], ["uk:lad:E06000014", "uk:msoa:E02002703", "uk:msoa:E02002702", "uk:msoa:E02002701"])
+        self.assertLess(found.index("uk:msoa:E02002701"), found.index("uk:msoa:E02001752"), "New York · NE29 after")
+
+    def test_a_town_after_the_name_keeps_to_that_lad(self):
+        self.assertEqual(england_search("Clifton Bristol"), ["uk:msoa:E02003043", "uk:msoa:E02003041"])
+        self.assertEqual(england_search("Clifton York"), ["uk:msoa:E02002701"])
+        self.assertEqual(england_search("Clifton Nowhere"), [])
+
+    def test_a_plain_name_still_finds_every_namesake(self):
+        self.assertEqual(len(england_search("Clifton", 25)), 9)
+
+    def test_a_plain_name_ranks_namesakes_by_people_not_an_exact_small_one_first(self):
+        found = england_search("Clifton")
+        # Bristol's Clifton East and Village (15.8k people), York's Clifton & Rawcliffe (9.4k), then Salford's exact
+        # "Clifton · M27" (6k); "Clifton Green & Pendlebury East" is another place and comes after them.
+        self.assertEqual(found[:5], ["uk:msoa:E02003043", "uk:msoa:E02003041", "uk:msoa:E02002701",
+                                     "uk:msoa:E02001161", "uk:msoa:E02001164"])
+        # One town's LSOAs never crowd out the other towns: they come after every MSOA.
+        self.assertTrue(all(gid.startswith("uk:lsoa:") for gid in found[5:]), found)
 
 
 if __name__ == "__main__":

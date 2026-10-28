@@ -24,9 +24,12 @@ VARS = {
     "BUNDLES": "~/data/england-2026-10/bundles",
     "LOCK": "~/data/england-2026-10/release.lock",
     "CRIME_END": "2026-08",
-    "PRICE_END": "2026-06",
+    "PRICE_END": "2026-08",
     "KIDS": "~/data/kids/2026-10",
     "OSM_PBF": "~/data/england-2026-10/transport/osm/england-261020.osm.pbf",
+    # What builds a staged release's artifacts before it goes live (run from api/ with CLOSE_KNIT_DATABASE_URL=${DB});
+    # on the host: ETL_RELEASE_BUILD="docker compose -f ... exec -T api python -m area_api.release_build".
+    "RELEASE_BUILD": "${PY} -m area_api.release_build",
 }
 
 PER_HOME = "per-home data stays London-only (owner decision; prod disk)"
@@ -116,17 +119,22 @@ STEPS: tuple[Step, ...] = (
     S("prices.epc-london", "${PY} epc_bulk.py london-csv", scope="london", why=PER_HOME, needs=("EPC",)),
     S("prices.london-linked", "AE_WORK=${E}/prices ${PY} etl_england_prices.py london-linked", ("prices.link",),
       scope="london", why=PER_HOME),
+    S("prices.address-spine", "${PY} etl_address_spine.py build && ${PY} etl_address_spine.py load ${DB}",
+      ("core.geography",), scope="london", why=PER_HOME, lock=True,
+      needs=("${DATA}/hmlr/pp-complete.csv", "${DATA}/epc-london-floor.sqlite",
+             "${DATA}/boundaries/onspd-london-2025.csv", "${DATA}/boundaries/onspd-london-grid.csv")),
     S("prices.sales", "AE_WORK=${W}/sales ${PY} etl_sales.py extract && AE_WORK=${W}/sales ${PY} etl_sales.py emit && "
       "AE_WORK=${W}/sales ${PY} etl_sales.py load ${DB} && AE_WORK=${W}/sales ${PY} etl_sales.py release ${DB}",
-      ("prices.epc-london", "core.cpih"), scope="london", why=PER_HOME, lock=True,
-      needs=("${DATA}/hmlr/pp-complete.csv", "${DATA}/address-history.sqlite")),
+      ("prices.address-spine", "prices.epc-london", "core.cpih", "prices.price-index"), scope="london",
+      why=PER_HOME, lock=True, needs=("${DATA}/hmlr/pp-complete.csv", "${DATA}/address-history.sqlite")),
     S("prices.property", "${PY} etl_property.py && ${PSQL} -v ON_ERROR_STOP=1 -f property-load.sql",
       ("prices.epc-london",), scope="london", why=PER_HOME, needs=("${DATA}/address-history.sqlite",),
       manual="property-load.sql needs its \\copy paths set to $AE_DATA first"),
     S("prices.epc-per-home", "${PY} etl_epc.py extract && ${PY} etl_epc.py load ${DB}", ("prices.sales",),
       scope="london", why=PER_HOME, needs=("EPC",)),
+    # The index before the sales: the sales load reruns every index-dependent rebuild on the new index.
     S("prices.price-index", "AE_WORK=${W}/sales ${PY} etl_price_release.py ${PRICE_END} ${DB}",
-      ("prices.london-linked", "prices.sales"), scope="london", why=PER_HOME, lock=True),
+      ("prices.london-linked", "prices.address-spine"), scope="london", why=PER_HOME, lock=True),
     S("prices.aggregate", "AE_WORK=${E}/prices ${PY} etl_england_prices.py aggregate ${DB} && "
       "AE_WORK=${E}/prices ${PY} etl_england_prices.py diff ${DB}", ("prices.link", "core.cpih", "people.streets")),
     S("prices.sectors", "AE_WORK=${E}/prices ${PY} etl_england_prices.py sectors ${DB}", ("prices.postcodes",)),
@@ -134,7 +142,7 @@ STEPS: tuple[Step, ...] = (
     S("prices.bundle", "AE_WORK=${E}/prices ${PY} etl_england_prices.py bundle ${DB} && "
       "gunzip -c ${BUNDLES}/prices/load.sql.gz | ${PSQL} -v ON_ERROR_STOP=1",
       ("prices.aggregate", "prices.sectors", "prices.hpi", "prices.rents", "prices.rent-trend", "prices.council-tax",
-       "prices.price-index"), lock=True, bundle="${BUNDLES}/prices/load.sql.gz"),
+       "prices.price-index", "prices.sales"), lock=True, bundle="${BUNDLES}/prices/load.sql.gz"),
     S("prices.ownership", "AE_WORK=${W}/ownership ${PY} etl_ownership.py load ${DB}", ("people.postcodes",),
       scope="london", why="titles are placed in Greater London only so far (flag CLOSE_KNIT_OWNERSHIP)",
       lock=True, needs=("${W}/ownership",), manual="needs the owner's HM Land Registry CCOD/OCOD files"),
@@ -279,6 +287,14 @@ STEPS: tuple[Step, ...] = (
 )
 
 THEMES = ("core", "people", "crime", "prices", "schools", "places", "environment", "civic", "transport")
+
+# A refresh (etl.py refresh <name>): these steps in this order, each stage only, then one activation of the
+# release they compose, after release_build has built it (release_guard.finish). "prices" is the monthly HM Land
+# Registry Price Paid refresh: London's per-home build (spine, £/m² index, sales), then England's area bundle.
+REFRESH = {
+    "prices": ("prices.link", "prices.london-linked", "prices.address-spine", "prices.price-index", "prices.sales",
+               "prices.aggregate", "prices.sectors", "prices.bundle"),
+}
 
 # Map metrics whose London cells the London diff (london_snapshot.py) checks, per theme.
 THEME_METRICS = {

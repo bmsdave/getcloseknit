@@ -2,7 +2,10 @@
   "mcpServers": {
     "close-knit": {
       "type": "http",
-      "url": "https://getcloseknit.com/mcp"
+      "url": "https://getcloseknit.com/mcp",
+      "headers": {
+        "X-Close-Knit-Team": "${CLOSE_KNIT_TEAM:-0}"
+      }
     }
   }
 }

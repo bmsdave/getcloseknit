@@ -27,6 +27,7 @@ import {
   type ParentViewQuestion, type ResultsSlot, type SchoolCard, type SchoolInspection, type SchoolDemand, type SchoolDestination, type SchoolKpi,
   type SchoolMeasure, type SectionId, type TopBadge, scopeName,
 } from "@/lib/school-card";
+import { londonOnlyWords, outsideLondon } from "@/lib/coverage-reason";
 
 import { OFSTED_COLOUR, OFSTED_LABEL, type OfstedMark } from "@/lib/school-icons";
 
@@ -230,7 +231,7 @@ function CompareRow({ id, label, value, year = null, measure = null }: { id: str
   const text = (figure: number) => compareText(figure, measure!.unit);
   const scope = measure?.scope ?? "London";
   const spoken = `${label}${year ? ` (${year})` : ""}: ${shown}${measure
-    ? `; ${scope} median ${text(measure.london.median)}${measure.borough ? `, ${measure.borough.name} median ${text(measure.borough.median)}` : ""}; ${scope}'s middle 80% ${text(measure.london.p10)} to ${text(measure.london.p90)}`
+    ? `; typical ${scope} school ${text(measure.london.median)}${measure.borough ? `, typical ${measure.borough.name} school ${text(measure.borough.median)}` : ""}; ${scope} schools' middle 80% ${text(measure.london.p10)} to ${text(measure.london.p90)}`
     : ""}`;
   return (
     <div className="sc-cmp" role="group" aria-label={spoken} data-testid="school-compare" data-measure={id} data-tone={tone ?? undefined}>
@@ -238,8 +239,9 @@ function CompareRow({ id, label, value, year = null, measure = null }: { id: str
       <span className="sc-cmp__value" data-testid="school-compare-value">{shown}</span>
       {measure && <CompareTrack measure={measure} tone={tone} />}
       {measure && (
+        // The middle school's figure, never the region's rate (a pooled rate differs: most schools offer every first choice).
         <span className="sc-cmp__ref" data-testid="school-compare-ref" aria-hidden="true">
-          {scope} {text(measure.london.median)}{measure.borough && <> · {measure.borough.name} {text(measure.borough.median)}</>}
+          Typical school: {scope} {text(measure.london.median)}{measure.borough && <> · {measure.borough.name} {text(measure.borough.median)}</>}
         </span>
       )}
     </div>
@@ -976,7 +978,9 @@ function GettingIn({ card, distance }: { card: SchoolCard; distance: FromArea | 
           </div>
         );
       })}
-      {offered.length === 0 && demand.length > 0 && <p className="sc-unknown" data-testid="school-no-distance">No last distance offered published</p>}
+      {/* Councils' last distances are London's alone (council admissions, FLAGS.md CLOSE_KNIT_ENGLAND). */}
+      {offered.length === 0 && demand.length > 0 && <p className="sc-unknown" data-testid="school-no-distance">
+        {outsideLondon(card.rankScope?.code) ? londonOnlyWords("Last distance offered") : "No last distance offered published"}</p>}
       {offered.map((group) => <LastOfferedChart key={group.key} group={group} titled={offered.length > 1} you={you} />)}
       {distance && (offered.length > 0
         ? <YouVerdict distance={distance} latest={offered[0].rows[0]} />

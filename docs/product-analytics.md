@@ -149,6 +149,56 @@ first action. They are not analytics: people choose to send them, so they are st
 kept 12 months. Read it on the **Close Knit · Feedback** dashboard or with
 `deploy/tools/feedback.sh web list`. Design: [the spec](superpowers/specs/2026-10-14-user-feedback-design.md).
 
+## Traffic: live, team, tech
+
+Every usage row is one of three kinds (`area_api.usage.traffic`), kept as `props.traffic` on
+`product_event` (missing = live) and as a `traffic` column on `mcp_call_note` (migration 131),
+`mcp_feedback`, `profile_analytics_event` and `site_feedback` (migration 136). Rows are marked, never
+deleted.
+
+- **team**: Close Knit's own checks and visits.
+  - Any request with the header `X-Close-Knit-Team: 1`: MCP, `/api/v2/tools`, the extension routes,
+    `/go`, and a browser's usage batches and feedback (the web BFF passes the header on).
+    `deploy/preflight.sh` and the `ship.sh` warm-ups send it.
+  - An MCP client named `ck-<what>` (use this prefix in every script), or one of the names our
+    check scripts sent: `board-shots`, `release-check`, `doc-check`, `recheck`, `check`
+    (`usage.TEAM_CLIENT`).
+  - `claude-code` is people using the plugin, so it is **live** unless the call carries the header.
+    Your own Claude Code: `export CLOSE_KNIT_TEAM=1` before starting it (the plugin's `.mcp.json`
+    sends it as the header), or add the server yourself with
+    `claude mcp add --transport http --scope user close-knit-team https://getcloseknit.com/mcp --header "X-Close-Knit-Team: 1"`.
+    Before the launch claude-code was the preview's own sessions and stays team (migration 137
+    restored the later ones to live).
+  - **Your own browser:** open any page once with `?team=1`, e.g. `https://getcloseknit.com/?team=1`.
+    It is remembered in localStorage until `?team=0`, every batch then says `team: true`, and that
+    browser's earlier events are re-marked team. Do it once per browser and profile, including the
+    Chrome profile Claude in Chrome drives.
+- **tech**: scanners, directory reviewers, probes and scripts. An MCP client name matching
+  `usage.TECH_CLIENT` (probe, bot, scan, collector, sentinel, check, test, httpx, glama, smithery,
+  lobehub, directory, registry, audit, uptime…); a request naming no MCP client whose user agent is a
+  script or uptime checker (curl, wget, Python-urllib, python-requests, Go-http-client, UptimeRobot…,
+  `usage.TECH_AGENT`; the agent is read, never stored); and a browser driven by automation
+  (`navigator.webdriver`: Playwright, Puppeteer, Selenium). Web crawlers and headless browsers are
+  still dropped at ingest.
+- **live**: everyone else.
+
+**Default view is live only; team and tech take an explicit filter.**
+
+- Grafana: every dashboard has a **Traffic** box (Live / Team / Tech), Live only by default; every
+  query on a usage table goes through it (`deploy/tools/grafana_dashboards.py` fails on one that does
+  not).
+- Reports and lists: `deploy/tools/usage.sh report`, `feedback.sh list`, `feedback.sh web list` and
+  `python -m area_api.call_notes list` count live only; add `--traffic team`, `--traffic team,tech`
+  or `--traffic all`.
+- Ad-hoc SQL as `close_knit_analytics`: filter yourself with
+  `coalesce(props->>'traffic', 'live') = 'live'` on `product_event`, `traffic = 'live'` elsewhere.
+
+Older rows: migration 131 classified MCP and agent API rows by client name. Migration 136 marks every
+row from before the public launch (the moment Caddy ran with `CLOSE_KNIT_ACCESS=public`) as non-live:
+web rows were behind the preview login, so team; MCP and API rows team for our client names and tech
+otherwise. After the launch rows kept their kind, re-checked with the patterns above, and a browser
+id already seen in the preview counts as team.
+
 ## Agent call notes
 
 Behind `CLOSE_KNIT_MCP_REQUEST_NOTES` (FLAGS.md). Every `/mcp` tool except `send_feedback` takes two

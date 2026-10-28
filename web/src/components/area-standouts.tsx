@@ -3,6 +3,7 @@
 import { useEffect, useState, type MouseEvent } from "react";
 
 import type { GeographyId } from "@/lib/contracts";
+import { LONDON_ONLY_LABEL } from "@/lib/coverage-reason";
 import type { DataMode } from "@/lib/map-state";
 import { fetchSectionJson } from "@/lib/section-fetch";
 import { readStandouts, standoutsPath, stripPosition, stripWords, visibleTiles, type AreaStandouts, type TileView } from "@/lib/standouts";
@@ -93,7 +94,7 @@ export function AreaVerdict({ standouts, personal = [], prefix = "", onGo, href 
  * The 12 fixed tiles, the same on every area in one order, so pages compare at a glance: 4×3 on a
  * desktop, two columns and the first six on a phone (all 12 are in the page; "Show all 12" only
  * unfolds them). Each is a title row and a mini London strip; a tile without data says "No data here"
- * and keeps its place.
+ * ("London only" when its source reaches London alone, DESIGN.md §6) and keeps its place.
  */
 export function AreaTiles({ standouts, prefix = "", onGo, href, limit }: {
   standouts: { tiles: readonly TileView[]; withheld?: readonly string[]; rankScope?: RankScope | null } | null | "unknown"; prefix?: string; onGo?: Go;
@@ -155,7 +156,7 @@ function StandoutTileCard({ tile, href, onGo, scope }: { tile: TileView; href: s
         <KnitIcon name={TILE_ICON[tile.id] ?? "dot"} colour="var(--muted)" className="standout-tile__icon" />
         <span className="standout-tile__label">{tile.label}</span>
         <span className="standout-tile__value">
-          {tile.available ? tile.display : "No data here"}
+          {tile.available ? tile.display : tile.coverage ? LONDON_ONLY_LABEL : "No data here"}
           {trend && (
             <span className="standout-tile__trend" title={trend.title}>
               <KnitIcon name={trend.up ? "rise" : "fall"} colour="currentColor" className="standout-tile__arrow" />
@@ -178,7 +179,8 @@ export function LondonStrip({ tile, scope = "London" }: { tile: TileView; scope?
   const position = tile.available ? stripPosition(tile) : null;
   const tone = tile.extreme === "pro" ? "var(--pro)" : tile.extreme === "con" ? "var(--con)" : "var(--ink)";
   return (
-    <span className="london-strip" role="img" aria-label={position === null ? `No ${scope} rank` : stripWords(tile, scope)} data-testid="london-strip">
+    <span className="london-strip" role="img" data-testid="london-strip"
+      aria-label={position !== null ? stripWords(tile, scope) : tile.coverage ? LONDON_ONLY_LABEL : `No ${scope} rank`}>
       <span className="london-strip__track" />
       <span className="london-strip__middle" title={`${scope}'s middle`} />
       {position !== null && (

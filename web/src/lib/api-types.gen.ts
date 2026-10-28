@@ -1209,7 +1209,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Postcode sectors whose code starts with ?q= ('W5', 'W5-1'; at most 20), or every sector without q (?homes=1: only those with recorded homes): [{code, slug, name}] */
+        /** Postcode sectors whose code starts with ?q= ('W5', 'W5-1'; at most 20), or every sector without q (?homes=1: only those with recorded homes): [{code, slug, name}], with center [lon, lat] (a point inside the sector) for a q search */
         get: operations["searchSectors"];
         put?: never;
         post?: never;
@@ -2180,6 +2180,8 @@ export interface components {
             schemaVersion: "area-recent-sales.v1";
             total: number;
             sales: unknown[];
+            /** @description Why there is nothing here: per-home data is London's alone and this is elsewhere; null inside it */
+            coverage?: "london-only" | null;
         };
         AreaResponse: {
             /** @constant */
@@ -2664,6 +2666,8 @@ export interface components {
             radiusMetres: number;
             postcodes: components["schemas"]["HomesNearPostcode"][];
             caveats: string[];
+            /** @description Why there is nothing here: per-home data is London's alone and this is elsewhere; null inside it */
+            coverage?: "london-only" | null;
         };
         IndependentSchool: {
             urn: string;
@@ -4233,13 +4237,15 @@ export interface components {
             results: components["schemas"]["SearchResult"][];
         };
         SearchResult: {
-            /** @description What the row is; a school, station or place (named park) comes only with scope=all, its geographyId the LSOA its point is in */
-            kind?: ("lad" | "msoa" | "lsoa" | "address" | "street" | "school" | "station" | "place") | null;
+            /** @description What the row is; a school, station or place (named park) comes only with scope=all, its geographyId the LSOA its point is in; a postcode (a full postcode with no recorded home) is labelled with the postcode, its geographyId the LSOA it is in */
+            kind?: ("lad" | "msoa" | "lsoa" | "postcode" | "address" | "street" | "school" | "station" | "place") | null;
             geographyId: components["schemas"]["GeographyId"];
             label: string;
             secondaryLabel: string;
             /** @description A school's URN (kind school) */
             urn?: string | null;
+            /** @description An independent school (kind school, GIAS): it has no school page, so it opens the map there */
+            independent?: boolean | null;
             /** @description A station's id (kind station) */
             stationId?: string | null;
             /** @description A named park's OSM id (kind place) */

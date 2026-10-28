@@ -147,6 +147,12 @@ class RecentSalesTests(unittest.TestCase):
         self.assertIn("ORDER BY distance_metres", sql)
         self.assertEqual(params, {"area": MSOA, "limit": 10, "offset": 10})
 
+    def test_outside_london_says_why_there_are_no_sales(self):
+        with mock.patch.object(market.regions, "area_regions_on", return_value={LSOA: "E12000002"}):
+            self.assertEqual(market.recent_sales(reader(FakeConnection()), LSOA)["coverage"], "london-only")
+        with mock.patch.object(market.regions, "area_regions_on", return_value={LSOA: "E12000007"}):
+            self.assertIsNone(market.recent_sales(reader(FakeConnection()), LSOA)["coverage"])
+
     def test_newest_first_and_bad_paging(self):
         connection = FakeConnection()
         market.recent_sales(reader(connection), LSOA, sort="newest")

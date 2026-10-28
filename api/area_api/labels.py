@@ -8,7 +8,7 @@ from typing import Any, Callable, Mapping
 
 from . import regions
 from .scope import Scope, current as current_scope
-from .evidence import EvidenceReader, _active_release, _check_cancelled
+from .evidence import EvidenceReader, _active_release, _check_cancelled, plain_place_name
 
 # With the regions (migration 123's rows): their names zoomed out, before the LADs' (DESIGN.md §6, England map).
 MAP_LABELS_SQL = """-- labels:map
@@ -50,7 +50,9 @@ def _load(connection: Any, cancel: Callable[[], bool] | None) -> list[dict]:
     _check_cancelled(cancel)
     return [{
         "type": "Feature",
-        "properties": {"kind": row["kind"], "code": row["code"], "label": row["label"],
-                       "name": row["name"], "rank": index},
+        # A borough's label is its name ("Bristol", never ONS's "Bristol, City of").
+        "properties": {"kind": row["kind"], "code": row["code"],
+                       "label": plain_place_name(row["label"]) if row["kind"] == "borough" else row["label"],
+                       "name": plain_place_name(row["name"]) if row["kind"] == "borough" else row["name"], "rank": index},
         "geometry": {"type": "Point", "coordinates": [row["lon"], row["lat"]]},
     } for index, row in enumerate(connection.execute(MAP_LABELS_SQL))]

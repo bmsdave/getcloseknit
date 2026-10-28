@@ -19,7 +19,7 @@ from pydantic import Field
 
 from . import (civic, custom_criteria, envelope, evidence, feature_flags, market_depth, match_model,
                repository, search_text, share_links, usage)
-from . import kinds, listing_costs
+from . import guidance, kinds, listing_costs
 from .listing_costs import SDLT_IN_FORCE_ON
 from .matching import DEFAULT_DIRECTION, MAX_ZONES, build_match_pack, limit_id, validate_match_request
 from .toolspec import StrictInput, ToolContext, ToolSpec
@@ -263,15 +263,16 @@ class FindAreasInput(StrictInput):
     near_stations: list[StationZoneInput] = Field(default_factory=list, max_length=MAX_ZONES, description=(
         "Live within walking distance of these stations (e.g. on the user's commute line)."))
     boroughs: list[str] = Field(default_factory=list, max_length=MAX_ZONES, description=(
-        "Live in these boroughs (uk:lad:E09…, from search_places). Stations + boroughs ≤ 3."))
+        "Live in these local authorities (uk:lad:…, from search_places; London's are its boroughs, E09…). "
+        "Stations + local authorities ≤ 3."))
     only_in_zones: bool = Field(default=True, description=(
         "With stations/boroughs given: True = only areas inside them (a must Where criterion); False = ranked "
         "first in the order, the fit falling with distance outside (zone_soft_metres)."))
     zone_soft_metres: int = Field(default=match_model.DEFAULT_SOFT_METRES, ge=100, le=5000, description=(
         "Outside the zones the fit falls to 0 over this distance (when only_in_zones is False)."))
     exclude_area_ids: list[str] = Field(default_factory=list, max_length=100, description=(
-        "Areas the user already rejected — LSOA, MSOA or borough geography ids (boroughs and MSOAs "
-        "expand to their LSOAs) — so they are not suggested again."))
+        "Areas the user already rejected — LSOA, MSOA or local authority geography ids (local authorities "
+        "and MSOAs expand to their LSOAs) — so they are not suggested again."))
     include_over_budget: bool = Field(default=False, description="Keep areas whose typical home looks over budget.")
     places: list[PlaceInput] = Field(default_factory=list, max_length=8, description=(
         "Where the household goes — work, a gym, a particular school, friends (pinned: latitude/longitude "
@@ -358,14 +359,17 @@ class WatchSpecInput(StrictInput):
     frequency: Literal["daily", "weekly"] = Field(default="daily", description="How often the scheduled check runs.")
 
 
-def build_profile(args: FindAreasInput) -> dict:
+def build_profile(args: FindAreasInput, station_names: Mapping[str, str | None] | None = None) -> dict:
     """The preference-profile.v2 document the website and `match_areas` understand: one ordered
-    list of criteria, by importance and then as given; a must is a filter."""
+    list of criteria, by importance and then as given; a must is a filter. A station zone carries its
+    name when known, so the shared search says "East Didsbury", never its osm id."""
     if len({item.factor for item in args.priorities}) != len(args.priorities):
         raise evidence.MalformedQuery("each priority factor may appear once")
     if not args.priorities and not args.ranges and not args.places and not args.custom:
         raise evidence.MalformedQuery("give at least one priority, range, place or custom criterion")
-    zones = [{"kind": "station", "stationId": item.station_id, "maxWalkMinutes": item.max_walk_minutes}
+    names = station_names or {}
+    zones = [{"kind": "station", "stationId": item.station_id, "maxWalkMinutes": item.max_walk_minutes,
+              **({"label": names[item.station_id][:80]} if names.get(item.station_id) else {})}
              for item in args.near_stations]
     zones += [{"kind": "borough", "id": borough} for borough in args.boroughs]
     if len(zones) > MAX_ZONES:
@@ -530,9 +534,9 @@ RENT_FIRST_CAVEAT = ("Compares the asking rent with the borough's average privat
 
 
 def _find_areas(context: ToolContext, args: FindAreasInput) -> dict:
-    _validate_find_references(context, args)
+    station_names = _validate_find_references(context, args)
     excluded_lsoas = _expand_excluded(context, args.exclude_area_ids)
-    return _shortlist(context, build_profile(args), top_n=args.top_n, include_over_budget=args.include_over_budget,
+    return _shortlist(context, build_profile(args, station_names), top_n=args.top_n, include_over_budget=args.include_over_budget,
                       only_in_zones=args.only_in_zones, schema_version="tool-find-areas.v1",
                       caveats=_find_caveats(args.market), excluded_lsoas=excluded_lsoas)
 
@@ -550,9 +554,9 @@ def _expand_excluded(context: ToolContext, exclude_ids: list[str]) -> frozenset:
     return frozenset(expanded)
 
 
-def _validate_find_references(context: ToolContext, args: FindAreasInput) -> None:
+def _validate_find_references(context: ToolContext, args: FindAreasInput) -> Mapping[str, str | None]:
     """Unknown range layers, station ids and borough ids fail fast with a typed
-    invalid-query error naming the id, the way unknown custom presets do (#217)."""
+    invalid-query error naming the id, the way unknown custom presets do (#217). The stations' names."""
     layers = [item.layer for item in args.ranges]
     if layers:
         published = {metric["id"] for metric in
@@ -578,6 +582,8 @@ def _validate_find_references(context: ToolContext, args: FindAreasInput) -> Non
         for borough_id in borough_ids:
             if borough_id not in known_boroughs:
                 raise evidence.MalformedQuery(f"unknown borough '{borough_id}': see search_places")
+        return known_stations
+    return {}
 
 
 def _shortlist(context: ToolContext, profile: dict, *, top_n: int, include_over_budget: bool, only_in_zones: bool,
@@ -628,7 +634,7 @@ def _shortlist(context: ToolContext, profile: dict, *, top_n: int, include_over_
         budget_note = _over_budget_note(market, bedrooms, max_budget, price, rents)
     places = _places(context, [result["geographyId"] for result, _ in candidates])
     chosen = _one_per_neighbourhood(candidates, places, top_n)
-    areas = [_area_entry(index + 1, result, estimate, places, profile)
+    areas = [_area_entry(index + 1, result, estimate, places, profile, pack["criteria"])
              for index, (result, estimate) in enumerate(chosen)]
     emptied = None if areas else _emptied_by(pack, in_zones_only=in_zones_only,
                                               include_over_budget=include_over_budget, estimate_for=estimate_for)
@@ -651,7 +657,8 @@ def _shortlist(context: ToolContext, profile: dict, *, top_n: int, include_over_
         evidence=components,
         sources=release_sources(context, _shortlist_releases(pack, chosen), catalogue),
         caveats=caveats + ([budget_note] if budget_note else []) + _emptied_caveats(emptied, bedrooms)
-        + _place_caveats(components) + _school_rule_caveats(profile) + _custom_caveats(profile) + _quick_caveats(profile))
+        + _place_caveats(components) + _not_scored_caveats(areas) + _school_rule_caveats(profile)
+        + _custom_caveats(profile) + _quick_caveats(profile))
 
 
 def _over_budget_note(market: str, bedrooms: int | None, max_budget: int,
@@ -944,8 +951,34 @@ def _one_per_neighbourhood(candidates: list, places: Mapping[str, dict], top_n: 
     return chosen
 
 
+def _criterion_name(criterion: Mapping[str, Any]) -> str:
+    """A ranked criterion in a word or two: the layer of a range ("crime"), else its kind or id."""
+    if criterion["kind"] == "range":
+        return str(criterion.get("layer") or criterion["id"])
+    return {"budget": "budget", "custom": "custom criterion"}.get(criterion["kind"], str(criterion["id"]))
+
+
+def not_scored(result: Mapping[str, Any], criteria: list[Mapping[str, Any]]) -> list[dict]:
+    """The ranked criteria an area has no data for (no crime is published for Greater Manchester): each counts
+    as half a fit (match_model.MISSING_FIT), so the area's row says so instead of ranking it silently."""
+    scored = {component["factorId"] for component in result["components"]}
+    return [{"criterionId": item["id"], "name": _criterion_name(item), "reason": "no-data",
+             "text": f"not scored: {_criterion_name(item)} (no data)"}
+            for item in criteria if not item["must"] and item["id"] not in scored]
+
+
+def _not_scored_caveats(areas: list[Mapping[str, Any]]) -> list[str]:
+    missing: dict[str, list[str]] = {}
+    for area in areas:
+        for item in area["notScored"]:
+            missing.setdefault(item["name"], []).append(area.get("title") or area["name"] or area["geographyId"])
+    return [f"Not scored: {name} (no data) for {len(names)} of {len(areas)} areas ({', '.join(names[:3])}"
+            f"{', …' if len(names) > 3 else ''}); it counts as half a fit there, so say so."
+            for name, names in missing.items()]
+
+
 def _area_entry(rank: int, result: Mapping[str, Any], estimate: dict, places: Mapping[str, dict],
-                profile: Mapping[str, Any]) -> dict:
+                profile: Mapping[str, Any], criteria: list[Mapping[str, Any]] = ()) -> dict:
     area_id = result["geographyId"]
     place = places.get(area_id, {})
     return {
@@ -957,6 +990,7 @@ def _area_entry(rank: int, result: Mapping[str, Any], estimate: dict, places: Ma
         "factors": [{key: component.get(key) for key in ("factorId", "rawValue", "unit", "fit", "fitKind", "must",
                                                          "priority", "scale")}
                     for component in result["components"]],
+        "notScored": not_scored(result, list(criteria)),
         **estimate,
         "links": share_links.area_links(area_id, profile),
     }
@@ -1027,6 +1061,11 @@ def _get_area_overview(context: ToolContext, args: AreaOverviewInput) -> dict:
     deprivation = _deprivation(context, args.area_id)
     home = _home(context, args.area_id)
     is_lsoa = args.area_id.startswith("uk:lsoa:")
+    # The region its percentiles and comparisons are within; the London-only sources (LAEI air, TfL zones) are
+    # named for a London area only.
+    region = (located or {}).get("rankScope") or (home or {}).get("rankScope") or {}
+    region_name = region.get("name") or "London"
+    in_london = region_name == "London"
     value = {
         "geographyId": args.area_id, "name": pack["name"], "title": place.get("title"),
         "borough": place.get("borough"),
@@ -1067,7 +1106,7 @@ def _get_area_overview(context: ToolContext, args: AreaOverviewInput) -> dict:
                     "are ISI-inspected), outside the state counts" if (pack.get("schools") or {}).get("independent")
                     else "") + ".",
                  *_crime_caveats(pack),
-                 *_block_caveats(hpi, council_tax, home, deprivation),
+                 *_block_caveats(hpi, council_tax, home, deprivation, region_name),
                  *([] if is_lsoa else [
                      "schools and gettingAround are measured from one centre point of this "
                      f"{'borough' if args.area_id.startswith('uk:lad:') else 'neighbourhood (MSOA)'}, not across "
@@ -1081,12 +1120,16 @@ def _get_area_overview(context: ToolContext, args: AreaOverviewInput) -> dict:
                  "the same figure find_areas uses; market.resale is the 36-month median.",
                  "location: land in a conservation area, the ULEZ and the Congestion Charge zone, and "
                  "planning applications (proposals, not permissions) in the last 24 months.",
-                 "health: " + ("modelled NO2 and PM2.5 at the area's homes (GLA LAEI), " if feature_flags.air_quality() else "")
-                 + "summer heat on its land and registered patients per FTE GP at practices "
+                 "health: " + ("modelled NO2 and PM2.5 at the area's homes (GLA LAEI), "
+                               if feature_flags.air_quality() and in_london else "")
+                 + ("summer heat on its land and " if in_london else "")
+                 + "registered patients per FTE GP at practices "
                  + ("within 1 km; " if is_lsoa else "inside the area; ")
-                 + "London percentiles, never anyone's health.",
-                 "gettingAround: the nearest stations (TfL zone and lines) and park from the area's centre "
-                 "(OpenStreetMap, TfL open data); walk minutes are straight-line at 80 m a minute."])
+                 + f"percentiles within {region_name}, never anyone's health.",
+                 "gettingAround: the nearest stations "
+                 + ("(TfL zone and lines) and park from the area's centre (OpenStreetMap, TfL open data)"
+                    if in_london else "and park from the area's centre (OpenStreetMap)")
+                 + "; walk minutes are straight-line at 80 m a minute."])
 
 
 def _get_flood_risk(context: ToolContext, args: FloodRiskInput) -> dict:
@@ -1246,12 +1289,12 @@ def _crime_caveats(pack: Mapping[str, Any]) -> list[str]:
     return [f"crime: {note}"] if note else []
 
 
-def _block_caveats(hpi, council_tax, home, deprivation) -> list[str]:
+def _block_caveats(hpi, council_tax, home, deprivation, region_name: str = "London") -> list[str]:
     """One line per optional block present, so an agent reads each figure for what it is."""
     caveats = ["market.growth and priceTrend are the area's own £/m² index of recorded sales"
                + ("; hpi is the borough's official UK House Price Index (HM Land Registry): average price by type "
-                  "and change over 1, 5 and 10 years next to London's, mix-adjusted, borough-wide, with the latest "
-                  "months provisional. Quote hpi for how prices moved." if hpi else ", not the official index.")]
+                  f"and change over 1, 5 and 10 years next to {region_name}'s (regionChange), mix-adjusted, "
+                  "borough-wide, with the latest months provisional. Quote hpi for how prices moved." if hpi else ", not the official index.")]
     if council_tax:
         caveats.append("councilTax: homes by 1991 band (VOA) and the middle home's band at the borough's Band D "
                        "for the year, parish precepts included, discounts and exemptions excluded; an area "
@@ -1814,6 +1857,13 @@ def _osm_place_source() -> dict:
             "attribution": osm["attribution"]}
 
 
+def coverage_words() -> str:
+    """Where the tools answer, for their descriptions (servers read flags at start): the scope the
+    server's instructions name (guidance.served_scope)."""
+    served = guidance.served_scope()
+    return f"in {served.covers}" if served.level == "region" else f"in {served.covers} (London in depth)"
+
+
 def _spec(name: str, description: str, model, handler, version: str) -> ToolSpec:
     return ToolSpec(name, description, model, handler, version, ("home-search",))
 
@@ -1824,16 +1874,18 @@ TOOLS = [
           "Station lookup forgives spelling (Kings Cross, St James Park, Elephant and Castle) and knows "
           "London codes and nicknames (KX, TCR, LST, E&C, ally pally). Returns "
           "stations (osm:…, with TfL modes, lines and zone; twin stations such as Hammersmith are listed "
-          "apart) for find_areas.near_stations, boroughs (uk:lad:…) for find_areas.boroughs, "
+          "apart) for find_areas.near_stations, local authorities (uk:lad:…; London's boroughs) for find_areas.boroughs, "
           "areas and addresses for get_area_overview and assess_listing.",
           SearchPlacesInput, _search_places, "tool-search-places.v1"),
     _spec("find_areas",
-          "Shortlist London neighbourhoods for a household: budget, bedrooms, weighted priorities "
+          f"Shortlist neighbourhoods {coverage_words()} for a household: budget, bedrooms, weighted priorities "
           "(crime, station access, price level, official deprivation decile, noise, disorder, energy rating, "
-          "leasehold share) and optional stations/boroughs to "
+          "leasehold share) and optional stations or local authorities to "
           "live near. Returns ranked areas with score, factor values, a ballpark price for the bedroom "
-          "count and budget fit, postcode districts and website links. Pass rejected areas in "
-          "exclude_area_ids when refining after the user's feedback (LSOA, MSOA or borough ids). "
+          "count and budget fit, postcode districts and website links. A ranked criterion an area has no data "
+          "for (no crime is published for Greater Manchester) counts as half a fit and is named in that area's "
+          "notScored: say so. Pass rejected areas in "
+          "exclude_area_ids when refining after the user's feedback (LSOA, MSOA or local authority ids). "
           "The first tool for 'where should we live?'; rank_areas_by_metric sorts by one metric only, "
           "match_areas scores a ready preference-profile.v2, search_areas only turns names into ids.",
           FindAreasInput, _find_areas, "tool-find-areas.v1"),
@@ -1858,12 +1910,14 @@ TOOLS = [
           SimilarAreasInput, _find_similar_areas, "tool-find-similar-areas.v1"),
     _spec("get_area_overview",
           "One neighbourhood in detail for a decision: local market (sales, turnover, leasehold share, "
-          "£/m² medians, growth), the borough's official UK HPI (hpi: average price by type, 1/5/10-year "
-          "change vs London: quote this for how prices moved), £/m² price trend, crime with its offence mix "
+          "£/m² medians, growth), the local authority's official UK HPI (hpi: average price by type, 1/5/10-year "
+          "change vs its region: quote this for how prices moved), £/m² price trend, crime with its offence mix "
           "(topTypes, a busy-centre note), road/rail noise, nearby state schools with their standing Ofsted "
           "grade plus independent schools (schools.independent), planning rules (home: conservation, Article 4, "
           "listed buildings, broadband), council tax bands and a typical bill (councilTax), the IMD decile "
-          "(deprivation), a ballpark price for a bedroom count and website links.",
+          "(deprivation), a ballpark price for a bedroom count and website links. Comparisons are with the area's "
+          "region (regionChange, regionPercentile: London's areas among London's); londonChange and "
+          "londonPercentile are deprecated aliases holding the same values.",
           AreaOverviewInput, _get_area_overview, "tool-area-overview.v1"),
     _spec("get_flood_risk",
           "Flood bands for an area's land (rivers/sea, surface water) and, with a UPRN, that home's "
@@ -1881,8 +1935,8 @@ TOOLS = [
           ListingLinksInput, _get_listing_search_links, "tool-listing-search-links.v1"),
     _spec("assess_listing",
           "Check one listing the user found against local evidence: asking price vs the neighbourhood's "
-          "recorded £/m² (with floor area or a bedroom-based ballpark), turnover, growth, the borough's "
-          "official HPI, costs (stamp duty on the asking price, the borough's council tax by band), crime "
+          "recorded £/m² (with floor area or a bedroom-based ballpark), turnover, growth, the local authority's "
+          "official HPI, costs (stamp duty on the asking price, the council tax by band), crime "
           "with its offence mix, noise, schools (state and independent counts), planning rules (home: "
           "conservation, Article 4, listed buildings), listed buildings recorded at or near the postcode "
           "(listedNearby), the IMD decile, and the questions to ask the agent (lease, service charge, EWS1, "
@@ -1899,9 +1953,10 @@ TOOLS = [
           "definition. Use the names as given: no brand names or value words ('good', 'cheap') in what you tell the user.",
           NoPresetArguments, _list_custom_presets, "tool-custom-presets.v1"),
     _spec("evaluate_custom_criterion",
-          "Evaluate a criterion from places on the map for every London neighbourhood ('where are more cafés than "
-          "kebab shops', 'most gyms in the area'), counting the places inside each neighbourhood's boundary: a "
-          "preset_id or the user's own criterion (sets of OSM tag matchers and a formula). Returns the best and worst areas with place counts and London percentiles, the legend "
+          f"Evaluate a criterion from places on the map for every neighbourhood {coverage_words()} ('where are more "
+          "cafés than kebab shops', 'most gyms in the area'), counting the places inside each neighbourhood's boundary: "
+          "a preset_id or the user's own criterion (sets of OSM tag matchers and a formula). Returns the best and worst "
+          "areas with place counts and percentiles within each area's region, the legend "
           "and a map link that shows it as a layer. Places, never people: religion or who lives there is refused.",
           EvaluateCustomInput, _evaluate_custom_criterion, "tool-evaluate-custom-criterion.v1"),
     _spec("build_watch_spec",

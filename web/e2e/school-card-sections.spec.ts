@@ -36,8 +36,8 @@ test("a secondary: every section open in a parent's order, each figure against L
   const pupils = section(card, "pupils");
   const fsm = pupils.locator('[data-testid="school-compare"][data-measure="fsm6Percent"]');
   await expect(fsm.getByTestId("school-compare-value")).toHaveText("38.4%");
-  await expect(fsm.getByTestId("school-compare-ref")).toHaveText("London 35.4%");
-  await expect(fsm).toHaveAttribute("aria-label", /London median 35\.4%; London's middle 80% 13\.8% to 56\.7%/);
+  await expect(fsm.getByTestId("school-compare-ref")).toHaveText("Typical school: London 35.4%");
+  await expect(fsm).toHaveAttribute("aria-label", /typical London school 35\.4%; London schools' middle 80% 13\.8% to 56\.7%/);
   await expect(fsm).not.toHaveAttribute("data-tone");
   // Colour only where lower is clearly better: absence better than London's median.
   await expect(pupils.locator('[data-measure="overallAbsencePercent"]')).toHaveAttribute("data-tone", "good");
@@ -107,7 +107,7 @@ test("a primary: no Destinations section; a section without data says why", asyn
   await expect(card.getByTestId("school-tags").locator("li")).toHaveText(["Community school", "ages 3–11", "Mixed", "Westminster", "SW1A 2AA"]);
   // A borough with 10+ schools: its median and its tick.
   const fsm = section(card, "pupils").locator('[data-measure="fsm6Percent"]');
-  await expect(fsm.getByTestId("school-compare-ref")).toHaveText("London 28.3% · Westminster 40.1%");
+  await expect(fsm.getByTestId("school-compare-ref")).toHaveText("Typical school: London 28.3% · Westminster 40.1%");
   await expect(fsm.locator("text")).toHaveText(["W", "L"]);
   const parentView = section(card, "parent-view");
   await expect(parentView).toHaveAttribute("data-empty", "");

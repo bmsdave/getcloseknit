@@ -1871,7 +1871,8 @@ paths:
   /api/v1/sectors:
     get:
       summary: 'Postcode sectors whose code starts with ?q= (''W5'', ''W5-1''; at most 20), or every sector without q (?homes=1:
-        only those with recorded homes): [{code, slug, name}]'
+        only those with recorded homes): [{code, slug, name}], with center [lon, lat] (a point inside the sector) for a q
+        search'
       operationId: searchSectors
       parameters:
       - name: q
@@ -3499,6 +3500,11 @@ components:
         sales:
           items: {}
           type: array
+        coverage:
+          anyOf:
+          - {type: string, const: london-only}
+          - {type: 'null'}
+          description: 'Why there is nothing here: per-home data is London''s alone and this is elsewhere; null inside it'
       type: object
       required: [schemaVersion, total, sales]
     AreaResponse:
@@ -4409,6 +4415,11 @@ components:
         caveats:
           items: {type: string}
           type: array
+        coverage:
+          anyOf:
+          - {type: string, const: london-only}
+          - {type: 'null'}
+          description: 'Why there is nothing here: per-home data is London''s alone and this is elsewhere; null inside it'
       type: object
       required: [schemaVersion, productReleaseId, point, radiusMetres, postcodes, caveats]
     IndependentSchool:
@@ -7680,10 +7691,11 @@ components:
         kind:
           anyOf:
           - type: string
-            enum: [lad, msoa, lsoa, address, street, school, station, place]
+            enum: [lad, msoa, lsoa, postcode, address, street, school, station, place]
           - {type: 'null'}
           description: What the row is; a school, station or place (named park) comes only with scope=all, its geographyId
-            the LSOA its point is in
+            the LSOA its point is in; a postcode (a full postcode with no recorded home) is labelled with the postcode, its
+            geographyId the LSOA it is in
         geographyId: {$ref: '#/components/schemas/GeographyId'}
         label: {type: string}
         secondaryLabel: {type: string}
@@ -7692,6 +7704,11 @@ components:
           - {type: string}
           - {type: 'null'}
           description: A school's URN (kind school)
+        independent:
+          anyOf:
+          - {type: boolean}
+          - {type: 'null'}
+          description: 'An independent school (kind school, GIAS): it has no school page, so it opens the map there'
         stationId:
           anyOf:
           - {type: string}

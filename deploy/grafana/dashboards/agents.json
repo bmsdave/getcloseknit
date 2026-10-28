@@ -15,7 +15,42 @@
     "to": "now"
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "traffic",
+        "label": "Traffic",
+        "type": "custom",
+        "multi": true,
+        "includeAll": false,
+        "description": "Live = people and their assistants; Team = our own checks and visits; Tech = scanners and scripts.",
+        "query": "Live : live, Team : team, Tech : tech",
+        "current": {
+          "text": [
+            "Live"
+          ],
+          "value": [
+            "live"
+          ]
+        },
+        "options": [
+          {
+            "text": "Live",
+            "value": "live",
+            "selected": true
+          },
+          {
+            "text": "Team",
+            "value": "team",
+            "selected": false
+          },
+          {
+            "text": "Tech",
+            "value": "tech",
+            "selected": false
+          }
+        ]
+      }
+    ]
   },
   "annotations": {
     "list": []
@@ -68,7 +103,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT session_id) FROM product_event WHERE channel = 'mcp' AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(DISTINCT session_id) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND channel = 'mcp' AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -113,7 +148,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(*) FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(*) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -158,7 +193,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE)::float / nullif(count(*), 0) FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE)::float / nullif(count(*), 0) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -205,7 +240,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(DISTINCT coalesce(session_id, id::text)) FROM product_event WHERE name = 'portal_click' AND channel <> 'web' AND occurred_at >= now() - interval '7 days'"
+          "rawSql": "SELECT count(DISTINCT coalesce(session_id, id::text)) FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'portal_click' AND channel <> 'web' AND occurred_at >= now() - interval '7 days'"
         }
       ],
       "fieldConfig": {
@@ -250,7 +285,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT count(*) FROM mcp_feedback WHERE created_at >= now() - interval '30 days'"
+          "rawSql": "SELECT count(*) FROM mcp_feedback WHERE traffic IN ($traffic) AND created_at >= now() - interval '30 days'"
         }
       ],
       "fieldConfig": {
@@ -295,7 +330,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY rating) FROM mcp_feedback WHERE rating IS NOT NULL AND created_at >= now() - interval '90 days'"
+          "rawSql": "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY rating) FROM mcp_feedback WHERE traffic IN ($traffic) AND rating IS NOT NULL AND created_at >= now() - interval '90 days'"
         }
       ],
       "fieldConfig": {
@@ -340,7 +375,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "time_series",
-          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), props->>'tool' AS metric, count(*) AS value FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY 1"
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), props->>'tool' AS metric, count(*) AS value FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -390,7 +425,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "time_series",
-          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), count(DISTINCT session_id) FILTER (WHERE name = 'tool_call' AND channel = 'mcp') AS \"conversations\", count(DISTINCT coalesce(session_id, id::text)) FILTER (WHERE name = 'portal_click' AND channel <> 'web') AS \"clicked out\" FROM product_event WHERE $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
+          "rawSql": "SELECT $__timeGroupAlias(occurred_at, 1d), count(DISTINCT session_id) FILTER (WHERE name = 'tool_call' AND channel = 'mcp') AS \"conversations\", count(DISTINCT coalesce(session_id, id::text)) FILTER (WHERE name = 'portal_click' AND channel <> 'web') AS \"clicked out\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY 1"
         }
       ],
       "fieldConfig": {
@@ -440,7 +475,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT props->>'tool' AS tool, count(*) AS calls, count(DISTINCT session_id) AS conversations, count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE) AS errors, count(*) FILTER (WHERE props->>'confidence' = 'none') AS \"empty answers\", round(percentile_cont(0.5) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"median ms\", round(percentile_cont(0.95) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"p95 ms\" FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY calls DESC"
+          "rawSql": "SELECT props->>'tool' AS tool, count(*) AS calls, count(DISTINCT session_id) AS conversations, count(*) FILTER (WHERE (props->>'ok')::boolean IS FALSE) AS errors, count(*) FILTER (WHERE props->>'confidence' = 'none') AS \"empty answers\", round(percentile_cont(0.5) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"median ms\", round(percentile_cont(0.95) WITHIN GROUP (ORDER BY (props->>'ms')::int)) AS \"p95 ms\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1 ORDER BY calls DESC"
         }
       ],
       "fieldConfig": {
@@ -477,7 +512,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT channel, coalesce(props->>'client', 'unknown') AS client, count(DISTINCT session_id) AS conversations, count(*) AS calls FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY calls DESC"
+          "rawSql": "SELECT channel, coalesce(props->>'client', 'unknown') AS client, count(DISTINCT session_id) AS conversations, count(*) AS calls FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY calls DESC"
         }
       ],
       "fieldConfig": {
@@ -514,7 +549,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT props->>'tool' AS tool, props->>'code' AS code, count(*) AS times, max(occurred_at) AS \"last\" FROM product_event WHERE name = 'tool_call' AND channel IN ('mcp', 'api') AND (props->>'ok')::boolean IS FALSE AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
+          "rawSql": "SELECT props->>'tool' AS tool, props->>'code' AS code, count(*) AS times, max(occurred_at) AS \"last\" FROM product_event WHERE coalesce(props->>'traffic', 'live') IN ($traffic) AND name = 'tool_call' AND channel IN ('mcp', 'api') AND (props->>'ok')::boolean IS FALSE AND $__timeFilter(occurred_at) GROUP BY 1, 2 ORDER BY times DESC LIMIT 20"
         }
       ],
       "fieldConfig": {
@@ -551,7 +586,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT created_at AS \"when\", kind, rating, array_to_string(tools, ', ') AS tools, client, message FROM mcp_feedback WHERE $__timeFilter(created_at) ORDER BY created_at DESC LIMIT 50"
+          "rawSql": "SELECT created_at AS \"when\", kind, rating, array_to_string(tools, ', ') AS tools, client, message FROM mcp_feedback WHERE traffic IN ($traffic) AND $__timeFilter(created_at) ORDER BY created_at DESC LIMIT 50"
         }
       ],
       "fieldConfig": {
@@ -588,7 +623,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT created_at AS \"when\", tool, client, ok, intent, rating, bad, fix, good FROM mcp_call_note WHERE $__timeFilter(created_at) AND (intent IS NOT NULL OR rating IS NOT NULL) ORDER BY created_at DESC LIMIT 100"
+          "rawSql": "SELECT created_at AS \"when\", tool, client, ok, intent, rating, bad, fix, good FROM mcp_call_note WHERE traffic IN ($traffic) AND $__timeFilter(created_at) AND (intent IS NOT NULL OR rating IS NOT NULL) ORDER BY created_at DESC LIMIT 100"
         }
       ],
       "fieldConfig": {
@@ -625,7 +660,7 @@
           "editorMode": "code",
           "rawQuery": true,
           "format": "table",
-          "rawSql": "SELECT tool, count(rating) AS rated, count(*) AS calls, round(avg(rating), 1) AS \"avg rating\", count(*) FILTER (WHERE rating <= 2) AS \"rated 1-2\" FROM mcp_call_note WHERE $__timeFilter(created_at) GROUP BY 1 ORDER BY calls DESC"
+          "rawSql": "SELECT tool, count(rating) AS rated, count(*) AS calls, round(avg(rating), 1) AS \"avg rating\", count(*) FILTER (WHERE rating <= 2) AS \"rated 1-2\" FROM mcp_call_note WHERE traffic IN ($traffic) AND $__timeFilter(created_at) GROUP BY 1 ORDER BY calls DESC"
         }
       ],
       "fieldConfig": {

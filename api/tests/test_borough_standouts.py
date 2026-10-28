@@ -69,6 +69,20 @@ class BoroughTileTests(unittest.TestCase):
         self.assertEqual(first["gp"]["display"], "300 m median")
         self.assertIsNone(first["nightlife"]["standing"])
 
+    def test_noise_is_its_own_share_when_loaded_as_its_green_and_quiet_section(self):
+        """G-E19: the Noise tile reads the area's own area_noise share (the section's figure), not its typical
+        neighbourhood's; without its own row, the middle of its neighbourhoods as before."""
+        data = _data()
+        data["ownNoise"] = {borough: 0.5 - index / 100 for index, borough in enumerate(BOROUGHS)}
+        first = {t["id"]: t for t in b.build_tiles(data, BOROUGHS[0])}
+        self.assertEqual((first["noise"]["value"], first["noise"]["display"], first["noise"]["detail"]), (50.0, "50% over 55 dB", None))
+        self.assertEqual(first["noise"]["extreme"], "con")
+        del data["ownNoise"][BOROUGHS[0]]
+        fallback = {t["id"]: t for t in b.build_tiles(data, BOROUGHS[0])}
+        self.assertEqual((fallback["noise"]["display"], fallback["noise"]["detail"]), ("10% over 55 dB", "typical neighbourhood"))
+        self.assertEqual(b.for_carrier({**data, "msoaOwnNoise": {"uk:msoa:E02000001": 0.4}}, "msoa")["ownNoise"],
+                         {"uk:msoa:E02000001": 0.4})
+
     def test_cycling_is_the_boroughs_own_lanes_when_loaded(self):
         # r3 #40: the borough's own km of lanes inside it, never one typical neighbourhood's "within 1 km".
         data = _data()
@@ -142,8 +156,22 @@ class BoroughTagTests(unittest.TestCase):
     def test_verdict_reads_for_a_borough(self):
         data = _data()
         tags = b.pick_tags(b.build_tiles(data, BOROUGHS[-1]), data, BOROUGHS[-1])
-        line = standouts.verdict(tags, b.VERDICT)
+        line = standouts.verdict(tags, b._localised(b.VERDICT, "London"), "London")
         self.assertIn("more crime than most boroughs", line)
+
+    def test_outside_london_the_words_are_councils_never_boroughs(self):
+        # G-E15: a North West council's tags, verdict and caveats never say "borough".
+        data = _data()
+        tags = b.pick_tags(b.build_tiles(data, BOROUGHS[0]), data, BOROUGHS[0], place="North West")
+        self.assertTrue(tags)
+        self.assertTrue(all("borough" not in tag["text"] for tag in tags), tags)
+        self.assertIn("Safer than 98% of North West councils", [tag["text"] for tag in tags])
+        worst = b.pick_tags(b.build_tiles(data, BOROUGHS[-1]), data, BOROUGHS[-1], place="North West")
+        line = standouts.verdict(worst, b._localised(b.VERDICT, "North West"), "North West")
+        self.assertIn("more crime than most councils", line)
+        caveats = [line.format(place="North West", **b.local_words("North West")) for line in b.CAVEATS]
+        self.assertTrue(all("borough" not in line for line in caveats), caveats)
+        self.assertIn("compares the council with North West's other councils", caveats[1])
 
     def test_no_income_or_social_housing_tag(self):
         data = _data()

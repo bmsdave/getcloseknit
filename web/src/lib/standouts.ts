@@ -7,6 +7,7 @@
  * make a tile or a tag.
  */
 import type { GeographyId } from "./contracts";
+import type { CoverageReason } from "./coverage-reason";
 import type { DataMode } from "./map-state";
 import { regionShare } from "./evidence-format";
 import type { RankScope } from "./scope-name";
@@ -38,6 +39,8 @@ export interface StandoutTile {
   detail: string | null;
   trend: { percent: number; years: number } | null;
   period: string | null;
+  /** Why there is no value: "london-only" when the source reaches London alone (the tile says "London only"). */
+  coverage?: CoverageReason | null;
 }
 
 /** What AreaTiles draws: a standouts tile, or any tile of its shape (the area layers', lib/area-layers.ts). */

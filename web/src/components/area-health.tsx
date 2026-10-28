@@ -6,6 +6,7 @@ import { healthPath, readAreaHealth, type AreaHealthResponse } from "@/lib/area-
 import type { GeographyId } from "@/lib/contracts";
 import type { DataMode } from "@/lib/map-state";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 /**
  * The area's health payload: null while loading, "unknown" when it is not served
@@ -31,7 +32,7 @@ export function HealthNotes({ health }: { health: AreaHealthResponse | null | "u
           </li>
         ))}
       </ul>
-      {value.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {value.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

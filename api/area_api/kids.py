@@ -16,7 +16,7 @@ from __future__ import annotations
 from collections.abc import Callable, Mapping
 from typing import Any
 
-from . import evidence, schools
+from . import coverage, evidence, regions, schools
 
 SCHEMA_VERSION = "area-kids.v1"
 NURSERY_RADIUS_METRES = 1000
@@ -79,8 +79,9 @@ def _nursery(row: Mapping[str, Any]) -> dict:
 
 
 def kids_payload(area_id: str, release_id: str, row: Mapping[str, Any] | None,
-                 nearest: list[Mapping[str, Any]], sources: list[Mapping[str, Any]]) -> dict:
-    """The area-kids.v1 payload; every figure null when the area has no row."""
+                 nearest: list[Mapping[str, Any]], sources: list[Mapping[str, Any]], region: str | None = None) -> dict:
+    """The area-kids.v1 payload; every figure null when the area has no row. Cycling is null outside TfL's London
+    (`region`), whatever an older rebuild stored there (0 km)."""
     if row is None:
         return {"schemaVersion": SCHEMA_VERSION, "productReleaseId": release_id, "geographyId": area_id,
                 "available": False, "nurseries": None, "roadSafety": None, "cycling": None, "sources": []}
@@ -111,7 +112,7 @@ def kids_payload(area_id: str, release_id: str, row: Mapping[str, Any] | None,
             "regionPercentile": row["casualty_percentile"],
         },
         # TfL's lanes are London-only (migration 110 leaves them null elsewhere): no figure, not "0 km".
-        "cycling": None if row["protected_km"] is None else {
+        "cycling": None if row["protected_km"] is None or coverage.reason(region, coverage.TFL_REGIONS) else {
             "radiusMetres": LANE_RADIUS_METRES,
             "protectedKm": row["protected_km"],
             "cyclewayKm": row["cycleway_km"],
@@ -138,7 +139,8 @@ def area_kids(reader: evidence.EvidenceReader, area_id: str,
         nearest = (list(connection.execute(NEAREST_NURSERIES_SQL, (area_id, NURSERY_RADIUS_METRES, NEAREST_NURSERIES)))
                    if row else [])
         sources = list(connection.execute(KIDS_SOURCES_SQL, (list(row["source_release_ids"]),))) if row else []
-        return kids_payload(area_id, release_id, row, nearest, sources)
+        region = regions.area_regions_on(connection).get(area_id) if row else None
+        return kids_payload(area_id, release_id, row, nearest, sources, region)
 
 
 def cycle_lane_tile(reader: evidence.EvidenceReader, z: int, x: int, y: int,

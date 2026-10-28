@@ -11,7 +11,7 @@ import {
   ensureAreaTileSource, type AreaTiles,
 } from "@/lib/area-tiles";
 import { percentileStops, type LegendScaleMode, type LegendStop } from "@/lib/legend-scale";
-import { AREA_LABEL_LAYER_IDS, AREA_LABEL_SOURCE_ID, areaLabelLayers, areaLabelSource } from "@/lib/map-area-labels";
+import { AREA_LABEL_LAYER_IDS, yieldBasemapPlaceLabels, AREA_LABEL_SOURCE_ID, areaLabelLayers, areaLabelSource } from "@/lib/map-area-labels";
 import { COLLISION_AREA_FADE, COLLISION_HANDOVER_ZOOM, COLLISION_HIT_LAYER, COLLISION_MARKER_LAYER } from "@/lib/map-collisions";
 import { GREEN_VEIL_LAYER_FIRST, STREET_LAYERS } from "@/lib/map-landmarks";
 import { hairlineLayer, LAD_EDGE_LAYER, ladEdgeLayer } from "@/lib/area-edges";
@@ -507,6 +507,7 @@ function ensureAreaLabels(map: MapLibreMap) {
     });
   }
   if (map.getLayer(AREA_LABEL_LAYER_IDS[0])) return;
+  yieldBasemapPlaceLabels(map);
   // Under the Show markers already on the map (collision bursts, school caps): they stay on top of every label.
   for (const layer of areaLabelLayers(AREA_LABEL_SOURCE_ID, resolvedUiTheme())) map.addLayer(layer, firstMarkerLayer(map));
 }

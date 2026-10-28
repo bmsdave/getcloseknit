@@ -7,7 +7,7 @@
  * It is not product analytics: it carries no visitor or session id, and "Analytics off" doesn't stop
  * it, because the person chose to send it.
  */
-import { deviceClass, pagePath } from "./usage";
+import { deviceClass, pagePath, teamBrowser } from "./usage";
 
 export type FeedbackSurface = "area_card" | "shortlist" | "site";
 export type Vote = 1 | -1;
@@ -21,7 +21,8 @@ const ENDPOINT = "/api/v1/feedback";
 /** Send one review with the kind of page and device; true when it was kept. */
 export async function sendFeedback(payload: FeedbackPayload): Promise<boolean> {
   try {
-    const body = JSON.stringify({ ...payload, path: pagePath(window.location.pathname), device: deviceClass(window.innerWidth) });
+    const body = JSON.stringify({ ...payload, path: pagePath(window.location.pathname), device: deviceClass(window.innerWidth),
+      ...(teamBrowser() ? { team: true } : {}) });
     const response = await fetch(ENDPOINT, { method: "POST", body, keepalive: true, headers: { "content-type": "application/json" } });
     return response.ok;
   } catch {

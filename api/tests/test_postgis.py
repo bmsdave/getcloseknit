@@ -9,7 +9,7 @@ import os
 import unittest
 from unittest import mock
 
-from area_api import area_pages, coverage, homes_near, regions, repository, scope
+from area_api import area_pages, coverage, homes_near, regions, repository, safety, scope
 from area_api.evidence import AreaNotFound, EvidenceReader, MalformedQuery, PeriodNotFound
 from area_api.percentiles import competition_percentiles
 from area_api.tools import call_tool
@@ -83,6 +83,16 @@ class AreaSummaryTests(PostgisTestCase):
             self.reader.get_area("uk:lsoa:E01999999", "crime", "2026-06")
         with self.assertRaises(PeriodNotFound):
             self.reader.get_area(CAMDEN_001A, "crime", "2020-01")
+
+
+class SafetyTests(PostgisTestCase):
+    def test_neighbourhood_and_msoa_read_their_neighbourhoods_types(self):
+        """G-E02: the member query sums a neighbourhood's own rows; an MSOA without a crime series says so (no 400)."""
+        lsoa = safety.area_safety(self.reader, CAMDEN_001A)
+        self.assertTrue(lsoa["available"])
+        self.assertEqual([(row["category"], row["offences"]) for row in lsoa["types"]],
+                         [("Violence and sexual offences", 9), ("anti-social-behaviour", 5), ("Shoplifting", 4)])
+        self.assertFalse(safety.area_safety(self.reader, "uk:msoa:E02000166")["available"])
 
 
 class ValuePackTests(PostgisTestCase):
@@ -460,6 +470,8 @@ class CoverageTests(PostgisTestCase):
                                " WHERE id = 'fixture-2026-06'")
             connection.execute("INSERT INTO product_release_member SELECT 'fixture-recover', source_release_id"
                                " FROM product_release_member WHERE release_id = 'fixture-2026-06'")
+            # The coverage guard (migration 134) refuses this drop unless it is accepted for the run.
+            connection.execute("SELECT set_config('close_knit.coverage_drop_threshold_percent', '100', true)")
             connection.execute("SELECT activate_product_release('fixture-recover')")
             crime = connection.execute(
                 "SELECT release_id, scope_id, with_value, total FROM metric_coverage WHERE metric_id = 'crime'"

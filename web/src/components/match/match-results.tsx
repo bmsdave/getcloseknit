@@ -30,7 +30,7 @@ interface MatchResultsProps {
   release: string;
 }
 
-const MARK_ICON: Record<Mark, string | null> = { in: null, edge: null, out: "cross" };
+const MARK_ICON: Record<Mark, string | null> = { in: null, edge: null, out: "cross", none: null };
 
 /**
  * The ten areas the search puts first, or the ten least like it: one switch, the map pins the
@@ -144,7 +144,7 @@ function WhyLine({ parts }: { parts: WhyPart[] }) {
           {index > 0 && " · "}
           {part.mark === "edge" && <b aria-hidden="true">≈ </b>}
           {MARK_ICON[part.mark] && <KnitIcon name={MARK_ICON[part.mark]!} colour="currentColor" className="knit-inline" style={{ width: 11, height: 11 }} />}
-          <span className="sr-only">{part.mark === "edge" ? "on the edge: " : part.mark === "out" ? "out: " : ""}</span>
+          <span className="sr-only">{part.mark === "edge" ? "on the edge: " : part.mark === "out" ? "out: " : part.mark === "none" ? "not scored: " : ""}</span>
           {part.text}
         </span>
       ))}

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
+from . import coverage
 from .evidence import MalformedQuery, _active_release, _check_cancelled
 from .property_profile import POSTCODE_HOME_LIMIT
 
@@ -103,6 +104,8 @@ def homes_near(connect: Callable[[], Any], latitude: Any, longitude: Any, limit:
         "radiusMetres": RADIUS_METRES,
         "postcodes": [{"postcode": row["postcode"], "geographyId": row["geography_id"],
                        "homes": int(row["homes"]), "metres": int(row["metres"])} for row in rows],
+        # Outside London no list, and the reason, so a page says "London only", not "no homes".
+        "coverage": None if _in_london(lat, lon) else coverage.LONDON_ONLY,
         "caveats": [
             "Postcodes with recorded homes (HM Land Registry sales, OS UPRNs) whose homes' middle is within "
             f"{RADIUS_METRES} m in a straight line; not a walking distance or a catchment.",

@@ -54,7 +54,7 @@ export const SCHOOLS_101: readonly Schools101Card[] = [
   },
   {
     id: "key-dates", topic: "Key dates", title: "Apply in autumn, hear in spring",
-    text: "Secondary: apply by 31 October, offers 1 March. Primary: by 15 January, offers 16 April. One form to your council, six choices in London.",
+    text: "Secondary: apply by 31 October, offers 1 March. Primary: by 15 January, offers 16 April. One form to your council, three to six choices (six in London).",
   },
   {
     id: "guide-how", topic: "How we rank", title: "What a top list means here",

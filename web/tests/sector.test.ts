@@ -232,6 +232,13 @@ test("a confirmed sector leads the search box, as its page; an unconfirmed one i
   assert.deepEqual(options, rows);
 });
 
+test("a sector search row sits at its own point, never [0, 0] (G-E21)", () => {
+  const [item] = readSectorList([{ code: "LS6 3", slug: "LS6-3", name: "Headingley", center: [-1.58, 53.82] }]);
+  assert.deepEqual(item.center, [-1.58, 53.82]);
+  assert.deepEqual(sectorResults("LS6 3", [item])[0].center, [-1.58, 53.82]);
+  assert.equal(readSectorList([{ code: "LS6 3", slug: "LS6-3", name: null, center: ["x", 1] }])[0].center, undefined);
+});
+
 test("sitemap: one page per postcode sector", () => {
   const paths = sitemapPaths([], [], [], ["W5 1", "SW1A 2"]);
   assert.ok(paths.includes("/sector/W5-1") && paths.includes("/sector/SW1A-2"));

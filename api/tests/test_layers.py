@@ -99,7 +99,7 @@ class LayersTest(unittest.TestCase):
         crime = by_id["crime"]
         # The same shape as a standouts tile, so AreaTiles renders it; the web fills section and topic.
         self.assertEqual(set(crime), {"id", "label", "section", "topic", "available", "value", "display", "standing",
-                                      "regionPercentile", "extreme", "detail", "trend", "period"})
+                                      "regionPercentile", "extreme", "detail", "trend", "period", "coverage"})
         self.assertEqual(crime["label"], "Crime")
         self.assertIsNone(crime["section"])
         self.assertIsNone(crime["topic"])

@@ -231,6 +231,7 @@ class StreetSearchTests(unittest.TestCase):
         self.assertEqual(result["label"], "NW5 9XY")
         self.assertEqual(result["secondaryLabel"], "Camden 001A · Camden")
         self.assertEqual(result["geographyId"], LSOA)
+        self.assertEqual(result["kind"], "postcode", "a postcode row, not its LSOA's (G-E21)")
 
 
 TOWER_LSOA = "uk:lsoa:E01000005"  # same borough as the fixture LSOA; stands in for E01032782

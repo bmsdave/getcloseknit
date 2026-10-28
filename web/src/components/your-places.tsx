@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { nearestLine, placesByPriority, routablePlaces, type AreaCommute } from "@/lib/commute";
 import type { GeographyId, PreferenceProfile } from "@/lib/contracts";
+import { londonOnlyWords } from "@/lib/coverage-reason";
 
 import { KeyNumbers, SectionFrame, type KeyRow } from "./area-section-frame";
 import { usePageTailor } from "./page-tailor";
@@ -24,10 +25,15 @@ export function nearestRows(profile: PreferenceProfile, commute: AreaCommute | n
  * The household's pinned addresses, door to door (added for them, ▸), #1 first. Once the times are in, a place with
  * no time in its own mode still has its row (another mode's time, or "no time yet"): the #1 place is never left out.
  */
-export function tripRows(profile: PreferenceProfile, commute: AreaCommute | null): KeyRow[] {
-  if (!commute) return [];
+export function tripRows(profile: PreferenceProfile, commute: AreaCommute | null, geographyId?: GeographyId): KeyRow[] {
   const routable = new Set(routablePlaces(profile.places).map((place) => place.id));
-  return placesByPriority(profile).filter((place) => routable.has(place.id)).map((place) => {
+  const places = placesByPriority(profile).filter((place) => routable.has(place.id));
+  // Times are a neighbourhood's (LSOA's): a wider area's page says so rather than drop the place (G-E14).
+  if (geographyId && !geographyId.startsWith("uk:lsoa:")) {
+    return places.map((place) => ({ term: place.label, value: "Times per neighbourhood", mine: true, testId: "trip-row" }));
+  }
+  if (!commute) return [];
+  return places.map((place) => {
     const routed = commute.places.find((entry) => entry.placeId === place.id);
     const own = routed?.modes[place.mode]?.minutes ?? undefined;  // null = untimed (over the cap, outside London)
     const other = own === undefined ? (["transit", "cycle", "walk", "car"] as const).find((mode) => routed?.modes[mode]?.minutes != null) : undefined;
@@ -39,7 +45,9 @@ export function tripRows(profile: PreferenceProfile, commute: AreaCommute | null
     // No hub near the place: the minutes My match scores it with (the row's 12′), said as an estimate.
     const estimate = routed?.estimate ? " · estimate" : "";
     const value = own !== undefined ? `${Math.round(own)} min${changes}${estimate}`
-      : other ? `${Math.round(routed!.modes[other]!.minutes!)} min ${MODE_WORDS[other]}${estimate}` : "No time yet";
+      : other ? `${Math.round(routed!.modes[other]!.minutes!)} min ${MODE_WORDS[other]}${estimate}`
+      // The routing (TfL timetables) is London's alone: My match's minutes there are marked est. (G-E14).
+      : routed?.reason ? londonOnlyWords("Door to door") : "No time yet";
     return { term: place.label, value, mine: true, testId: "trip-row" };
   });
 }
@@ -50,7 +58,7 @@ const MODE_WORDS = { transit: "by public transport", cycle: "by bike", walk: "on
 export function YourPlaces({ geographyId }: { geographyId: GeographyId }) {
   const { profile } = useTailor();
   const { commute } = usePageTailor(geographyId, profile);
-  const rows = [...tripRows(profile, commute), ...nearestRows(profile, commute)];
+  const rows = [...tripRows(profile, commute, geographyId), ...nearestRows(profile, commute)];
   const pinned = (profile.places ?? []).length;
   return (
     <SectionFrame id="your-places" title="Your places" icon="pin"

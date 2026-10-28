@@ -54,3 +54,26 @@ test("homes side by side: recorded facts and area statistics, never an estimate 
   assert.ok(!labels.some((label) => /estimate|worth|value/i.test(label)));
   assert.ok(table.rows.every((row) => row.cells[1].text === "—"));
 });
+
+test("England places: ?areas= and old borough ids open, a region frame, level words, a Safety reason (G-E20)", () => {
+  assert.deepEqual(parseCompareQuery({ areas: "uk:msoa:E02000562,uk:borough:E08000003" }).ids,
+    ["uk:msoa:E02000562", "uk:lad:E08000003"]);
+  assert.deepEqual(parseCompareQuery({ ids: "uk:lsoa:E01000001", areas: "uk:lsoa:E01000002" }).ids, ["uk:lsoa:E01000001"]);
+  const tile = (available: boolean) => ({
+    id: "safety" as const, label: "Safety", section: "safety" as const, topic: "safety", available, value: available ? 50 : null,
+    display: available ? "More crime than 53%" : null, standing: available ? 47 : null, regionPercentile: null, extreme: null,
+    detail: null, trend: null, period: null,
+  });
+  const standouts = (region: string, available: boolean) => ({
+    schemaVersion: "area-standouts.v1" as const, geographyId: "uk:msoa:E02000562" as GeographyId, verdict: "", tags: [],
+    tiles: [tile(available)], caveats: [], rankScope: { code: "E12000002", name: region },
+  });
+  const table = placesTable([
+    { id: "uk:msoa:E02000562" as GeographyId, profile: null, standouts: standouts("London", true) },
+    { id: "uk:msoa:E02001089" as GeographyId, profile: null, standouts: standouts("North West", false) },
+    { id: "uk:lad:E08000003" as GeographyId, profile: null },
+  ]);
+  assert.deepEqual(table.columns.map((column) => column.tag), ["Neighbourhood · London", "Neighbourhood · North West", "Council"]);
+  const safety = table.rows.find((row) => row.label === "Safety");
+  assert.deepEqual(safety?.cells.map((cell) => cell.text), ["More crime than 53%", "No crime data", "—"]);
+});

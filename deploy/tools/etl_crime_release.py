@@ -39,6 +39,7 @@ from datetime import datetime, timezone
 import area_coverage as coverage
 import crime_rates as cr
 import release_bundle as rb
+import release_guard
 
 WORK = os.environ.get("AE_WORK", "/tmp/aedata")
 DATA = os.environ.get("AE_DATA", os.path.expanduser("~/data"))
@@ -528,8 +529,8 @@ def main(argv: list[str]) -> None:
                WHERE release_id = %s AND source_release_id <> %s
                UNION SELECT %s, %s""",
             (release_id, active, old["source_release_id"] if old else "", release_id, source_id))
-        cur.execute("SELECT activate_product_release(%s)", (release_id,))
-        print(f"activated {release_id} with {source_id}: {len(values)} values, "
+        live = release_guard.activate(cur, release_id)  # stage only inside an etl.py run
+        print(f"{'activated' if live else 'staged'} {release_id} with {source_id}: {len(values)} values, "
               f"{len(breakdown)} breakdown rows, {len(utility)} utilities")
 
 

@@ -11,7 +11,7 @@ import type { DataMode } from "./map-state";
 import { REAL_PILOT_RELEASE } from "./map-state";
 import { clientHeaders, evidenceServiceUrl, SHARED_EVIDENCE_TTL_MS } from "./evidence-service";
 import { currentRender, renderHeaders } from "./server-render";
-import type { AddressHistory, AreaEvidencePack, AreaSummary, Carrier, EvidenceEnvelope, GeographyId, SectorListItem, SectorValue } from "./contracts";
+import type { AddressHistory, AreaEvidencePack, AreaSummary, Carrier, EvidenceEnvelope, GeographyId, MetricCoverage, SectorListItem, SectorValue } from "./contracts";
 import { isCoverage, type MapCoverage } from "./map-coverage";
 import { coversEngland, isScope, LONDON_SCOPE, type ServedScope } from "./scope";
 import type { CatalogueLayer } from "./map-preload";
@@ -71,10 +71,12 @@ export function parseMetricsRelease(payload: unknown): ServedRelease | null {
   const price = metrics.find((metric) => metric.id === PRICE_METRIC);
   const defaultPeriod = typeof price?.defaultPeriod === "string" && price.defaultPeriod ? price.defaultPeriod : null;
   const layers: Record<string, CatalogueLayer> = {};
-  for (const metric of metrics as { id?: unknown; carrier?: unknown; defaultPeriod?: unknown; periods?: unknown }[]) {
+  for (const metric of metrics as { id?: unknown; carrier?: unknown; defaultPeriod?: unknown; periods?: unknown; coverage?: unknown }[]) {
     if (typeof metric.id !== "string" || typeof metric.carrier !== "string" || typeof metric.defaultPeriod !== "string") continue;
     const periods = Array.isArray(metric.periods) ? metric.periods.filter((period): period is string => typeof period === "string") : [];
-    layers[metric.id] = { carrier: metric.carrier as Carrier, defaultPeriod: metric.defaultPeriod, periods };
+    const coverage = Array.isArray(metric.coverage)
+      ? metric.coverage.filter((scope): scope is MetricCoverage => typeof (scope as MetricCoverage | null)?.scopeId === "string") : undefined;
+    layers[metric.id] = { carrier: metric.carrier as Carrier, defaultPeriod: metric.defaultPeriod, periods, ...(coverage ? { coverage } : {}) };
   }
   return { productReleaseId: record.productReleaseId, defaultPeriod, layers };
 }

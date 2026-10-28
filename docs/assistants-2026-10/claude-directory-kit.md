@@ -57,8 +57,8 @@
 |---|---|---|
 | Имя сервера | `close-knit` (registry `com.getcloseknit/close-knit`) | `api/area_api/mcp_server.py`, `server.json` |
 | Title | `Close Knit` | там же |
-| Описание сервера | London neighbourhoods and homes: crime, schools, prices, rents, commute, green space, sourced. | там же |
-| Версия | 2.0.4 | там же |
+| Описание сервера | Neighbourhoods and homes in England, London in depth: crime, schools, prices, rents, sourced. | там же |
+| Версия | 2.0.6 | там же |
 | Иконка | `https://getcloseknit.com/icon.png` (PNG 512×512, скруглённая плитка, `web/public/icon.png`) + `https://getcloseknit.com/icon.svg` (128×128 viewBox) | `ICONS` |
 | Сайт | `https://getcloseknit.com` (публичный, `CLOSE_KNIT_ACCESS=public`) | `WEBSITE_URL` |
 | Репо для пользователей | `https://github.com/bmsdave/close-knit-mcp` (публичный, MIT; `.mcp.json`, `skills/find-a-home/SKILL.md`, README, Gemini-расширение) | `REPOSITORY` |
@@ -92,7 +92,7 @@ Close Knit helps you decide where to live in London, with evidence you can check
 
 **Use cases (шаг 4):**
 ```
-1. Shortlist London neighbourhoods for a budget, bedrooms, commute and priorities such as safety or schools.
+1. Shortlist neighbourhoods in England (London in depth) for a budget, bedrooms, commute and priorities such as safety or schools.
 2. Get a cited overview of one area: prices and trends, crime, schools, noise, flood risk, council tax, transport.
 3. Check whether a listing's asking price is in line with recorded local sales.
 4. See the recorded sale history of an address and its street.
@@ -136,7 +136,7 @@ We ran every tool through a scripted MCP client against the live server and as a
 
 | Tool | One line |
 |---|---|
-| `find_areas` | Shortlist London neighbourhoods for a budget, bedrooms, priorities and places, with reasons and a map link. |
+| `find_areas` | Shortlist neighbourhoods in England (London in depth) for a budget, bedrooms, priorities and places, with reasons and a map link. |
 | `open_shared_search` | Reopen a search shared from the Close Knit site (a #profile link) and re-run it. |
 | `find_similar_areas` | Find neighbourhoods like one the user liked, optionally only cheaper ones. |
 | `get_area_overview` | One area in detail: local market, official HPI, crime, noise, schools, planning, council tax, transport. |
@@ -146,7 +146,7 @@ We ran every tool through a scripted MCP client against the live server and as a
 | `get_area_metric` | One metric for one area and month, with regional and England percentiles. |
 | `rank_areas_by_metric` | Rank areas (all, or one region) by one metric and return the top N. |
 | `get_address_history` | Recorded sale prices for one address from HM Land Registry. |
-| `get_home_prices` | One London home's recorded sales and the price range of similar homes in its area today. |
+| `get_home_prices` | One home's recorded sales and the price range of similar homes in its area today. |
 | `match_areas` | Score every area against an ordered list of criteria (the engine behind find_areas). |
 | `get_market_depth` | Sales, turnover, leasehold share and £/m² medians for one neighbourhood. |
 | `get_nearby_sales_summary` | Sale counts and median £/m² in the same building and on the same street as an address. |
@@ -157,7 +157,7 @@ We ran every tool through a scripted MCP client against the live server and as a
 | `get_rent_levels` | Median monthly rent by bedroom count for areas. |
 | `get_listing_search_links` | Pre-filtered Rightmove, Zoopla, OnTheMarket and OpenRent searches for shortlisted areas. |
 | `list_custom_presets` | Ready-made criteria built from places on OpenStreetMap, such as cafés vs kebab shops. |
-| `evaluate_custom_criterion` | Score every London neighbourhood on a criterion built from places on the map. |
+| `evaluate_custom_criterion` | Score every neighbourhood on a criterion built from places on the map. |
 | `build_watch_spec` | Turn a finished search into a watch spec and a prompt for a scheduled task. |
 | `send_feedback` | Send product feedback to the Close Knit team after the user approves the text. |
 

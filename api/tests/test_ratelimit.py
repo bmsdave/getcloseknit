@@ -46,6 +46,109 @@ def scope(address, forwarded=None):
     return {"client": (address, 1234), "headers": headers}
 
 
+def _charge_in_process(path, count, queue):  # a uvicorn worker of its own (SharedBucketTests)
+    store = ratelimit.SharedBuckets(path)
+    queue.put(sum(store.charge([("default:1.2.3.4", Rate(120, 86400.0))]).allowed for _ in range(count)))
+
+
+class SharedBucketTests(unittest.TestCase):
+    """WEB_CONCURRENCY workers share one allowance per client through a SQLite file."""
+
+    def setUp(self):
+        import tempfile
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        self.path = os.path.join(folder.name, "limits.sqlite3")
+        self.clock = FakeClock()
+
+    def worker(self):
+        return ratelimit.SharedBuckets(self.path, clock=self.clock).open()
+
+    def test_a_burst_spread_over_three_workers_is_refused_at_the_configured_minute(self):
+        # Regression: with per-worker minute windows, 240 requests spread over 3 workers all passed.
+        workers = [self.worker() for _ in range(3)]
+        minute = [("default:203.0.113.9", Rate(120, 60.0))]
+        allowed = [workers[index % 3].charge(minute).allowed for index in range(240)]
+        self.assertEqual(sum(allowed), 120)
+        refused = workers[0].charge(minute)
+        self.assertFalse(refused.allowed)
+        self.assertAlmostEqual(refused.wait, 0.5)  # one token back at 2 a second: Retry-After 1
+        self.clock.now += 0.5
+        self.assertTrue(workers[1].charge(minute).allowed, "the refill is shared too")
+
+    def test_my_match_gets_the_whole_minute_across_workers(self):
+        # One person re-scoring My match (cost 10) gets 12 runs a minute whichever worker answers, not 4.
+        workers = [self.worker() for _ in range(3)]
+        windows = [("default:198.51.100.7", rate) for rate in limits_from_env({}, shared=True)["default"]]
+        runs = [workers[index % 3].charge(windows, cost=10) for index in range(13)]
+        self.assertEqual([run.allowed for run in runs], [True] * 12 + [False])
+        self.assertEqual(runs[0].limit, 120)
+        self.assertEqual(runs[0].remaining, 110)
+
+    def test_a_refusal_takes_nothing_from_any_window(self):
+        store = self.worker()
+        windows = [("k", Rate(5, 60.0)), ("k", Rate(100, 86400.0))]
+        self.assertTrue(store.charge(windows, cost=5).allowed)
+        self.assertFalse(store.charge(windows).allowed)
+        self.clock.now += 60
+        self.assertEqual(store.charge(windows, cost=5).remaining, 0)
+        # The day lost only the 10 it granted (and refilled 0.07): 89 left after one more.
+        self.assertEqual(self.worker().charge([("k", Rate(100, 86400.0))]).remaining, 89)
+
+    def test_render_ids_are_shared_and_expire(self):
+        first, second = self.worker(), self.worker()
+        first.add("1.2.3.4|render-1", self.clock.now)
+        self.assertTrue(second.fresh("1.2.3.4|render-1", self.clock.now + 1))
+        self.assertFalse(second.fresh("1.2.3.4|render-1", self.clock.now + RENDER_ID_TTL))
+        self.assertFalse(second.fresh("1.2.3.4|other", self.clock.now))
+
+    def test_idle_full_buckets_are_swept(self):
+        store = self.worker()
+        store.charge([("old", Rate(10, 60.0))])
+        self.clock.now += 61
+        with mock.patch.object(ratelimit, "SWEEP_EVERY", 1):
+            store.charge([("new", Rate(10, 60.0))])
+        keys = [row[0] for row in store._db().execute("SELECT key FROM bucket")]
+        self.assertEqual(keys, ["new|10/60"])
+
+    def test_processes_share_one_allowance(self):
+        import multiprocessing
+        context = multiprocessing.get_context("spawn")  # as uvicorn starts its workers
+        queue = context.Queue()
+        processes = [context.Process(target=_charge_in_process, args=(self.path, 100, queue)) for _ in range(3)]
+        for process in processes:
+            process.start()
+        allowed = sum(queue.get(timeout=60) for _ in processes)
+        for process in processes:
+            process.join(timeout=60)
+        self.assertEqual(allowed, 120)
+
+    def test_a_broken_store_falls_back_to_the_workers_own_buckets(self):
+        store = self.worker()
+        store._db().close()  # every statement now raises sqlite3.ProgrammingError
+        with self.assertLogs("area_api.ratelimit", "WARNING"):
+            self.assertTrue(store.charge([("k", Rate(1, 60.0))]).allowed)
+        with self.assertLogs("area_api.ratelimit", "WARNING"):
+            self.assertFalse(store.charge([("k", Rate(1, 60.0))]).allowed)
+
+    def test_the_store_is_used_only_with_several_workers(self):
+        self.assertIsNone(ratelimit.store_path({}))
+        self.assertIsNone(ratelimit.store_path({"WEB_CONCURRENCY": "3", "CLOSE_KNIT_RATE_STORE": "memory"}))
+        self.assertEqual(ratelimit.store_path({"WEB_CONCURRENCY": "3", "CLOSE_KNIT_RATE_STORE": self.path}), self.path)
+        self.assertTrue(ratelimit.store_path({"WEB_CONCURRENCY": "3"}).endswith(ratelimit.STORE_FILE))
+        env = {"WEB_CONCURRENCY": "3", "CLOSE_KNIT_RATE_STORE": self.path}
+        with mock.patch.dict(os.environ, env):
+            limiter = RateLimiter.from_env()
+        self.assertIsInstance(limiter.buckets, ratelimit.SharedBuckets)
+        self.assertIs(limiter.renders, limiter.buckets)
+        self.assertEqual(limiter.limits, limits_from_env({}))
+        unusable = {"WEB_CONCURRENCY": "3", "CLOSE_KNIT_RATE_STORE": os.path.dirname(self.path)}  # a folder
+        with mock.patch.dict(os.environ, unusable), self.assertLogs("area_api.ratelimit", "WARNING"):
+            limiter = RateLimiter.from_env()
+        self.assertIsInstance(limiter.buckets, TokenBuckets)
+        self.assertEqual(limiter.limits, limits_from_env({"WEB_CONCURRENCY": "3"}), "per-worker buckets split")
+
+
 class BucketTests(unittest.TestCase):
     def test_rates_parse_and_reject_nonsense(self):
         self.assertEqual(parse_rate("120/minute", "1/second"), Rate(120, 60.0))
@@ -65,11 +168,16 @@ class BucketTests(unittest.TestCase):
         explicit = limits_from_env({"CLOSE_KNIT_RATE_LIMIT": "90/minute", "CLOSE_KNIT_RATE_DEFAULT": "10/minute"})
         self.assertEqual(explicit["default"], (Rate(10, 60),), "the class variable wins over the legacy one")
 
-    def test_workers_share_each_allowance_except_renders(self):
-        shared = limits_from_env({"WEB_CONCURRENCY": "3"})
-        self.assertEqual(shared["hizoom"], (Rate(67, 60), Rate(200, 3600), Rate(334, 86400)))  # rounded up
-        self.assertEqual(shared["report"], (Rate(2, 60), Rate(7, 86400)))
-        self.assertEqual(shared["render"], limits_from_env({})["render"], "each worker a render reaches charges it")
+    def test_per_worker_buckets_split_long_allowances_except_renders(self):
+        # Without the shared store (CLOSE_KNIT_RATE_STORE=memory): hours and days split, rounded up; a minute
+        # stays whole, since one person's burst lands on one worker.
+        split = limits_from_env({"WEB_CONCURRENCY": "3"})
+        self.assertEqual(split["hizoom"], (Rate(200, 60), Rate(200, 3600), Rate(334, 86400)))
+        self.assertEqual(split["report"], (Rate(5, 60), Rate(7, 86400)))
+        self.assertEqual(split["default"][0], Rate(120, 60))
+        self.assertEqual(split["render"], limits_from_env({})["render"], "each worker a render reaches charges it")
+        # The shared store holds one set of buckets for every worker: each allowance is the configured one.
+        self.assertEqual(limits_from_env({"WEB_CONCURRENCY": "3"}, shared=True), limits_from_env({}))
         self.assertEqual(limits_from_env({"WEB_CONCURRENCY": "1"}), limits_from_env({}))
         self.assertEqual(limits_from_env({"WEB_CONCURRENCY": "lots"}), limits_from_env({}))
 

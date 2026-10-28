@@ -64,8 +64,8 @@ def get_objections() -> ObjectionStore:
     return _objections
 
 
-def _tool_context(cancel: Callable[[], bool] | None = None) -> ToolContext:
-    return ToolContext(reader=get_reader(), cancel=cancel)
+def _tool_context(cancel: Callable[[], bool] | None = None, traffic: str = "live") -> ToolContext:
+    return ToolContext(reader=get_reader(), cancel=cancel, traffic=traffic)
 
 
 mcp_mount = McpMount()
@@ -135,15 +135,18 @@ async def post_usage(request: Request) -> Response:
         payload = await request.json()
     except ValueError:
         payload = None
-    rows = usage.clean_batch(payload)
+    team_header = request.headers.get(usage.TEAM_HEADER)
+    rows = usage.clean_batch(payload, team_header)
     if rows and not usage.is_bot(request.headers.get("user-agent")):
-        asyncio.get_running_loop().run_in_executor(None, _store_usage, rows)
+        asyncio.get_running_loop().run_in_executor(None, _store_usage, rows, usage.team_visitor(payload, team_header))
     return Response(status_code=204, headers=private_response_headers())
 
 
-def _store_usage(rows: list[tuple]) -> None:
+def _store_usage(rows: list[tuple], team_visitor: str | None = None) -> None:
     try:
         usage.store(_connect, rows)
+        if team_visitor:
+            usage.mark_team(_connect, team_visitor)
     except Exception:  # noqa: BLE001 - usage must never fail a page
         logger.warning("usage batch of %s events not stored", len(rows), exc_info=True)
 
@@ -154,7 +157,7 @@ async def post_feedback(request: Request) -> Response:
     feedback this site asks for, 503 when it could not be stored so the form can say so."""
     headers = private_response_headers()
     try:
-        row = site_feedback.clean(await request.json())
+        row = site_feedback.clean(await request.json(), request.headers.get(usage.TEAM_HEADER))
     except ValueError:  # not JSON, or site_feedback.InvalidFeedback
         return JSONResponse({"error": "invalid-feedback"}, status_code=422, headers=headers)
     if not usage.is_bot(request.headers.get("user-agent")):
@@ -180,7 +183,8 @@ def go_to_portal(portal: str, request: Request) -> Response:
         session = params.get("s") if usage.SESSION.match(params.get("s") or "") else None
         source = params.get("from")
         usage.record(_connect, source if source in usage.GO_SOURCES else "mcp", "portal_click",
-                     usage.go_props(portal, params), session)
+                     {**usage.go_props(portal, params), "traffic": usage.traffic_prop(usage.request_traffic(request.headers))},
+                     session)
     return RedirectResponse(target, status_code=302, headers=private_response_headers())
 
 
@@ -922,7 +926,8 @@ async def get_lens_values(preset: str, request: Request, response: Response, car
 
 @app.get("/api/v1/sectors",
          summary="Postcode sectors whose code starts with ?q= ('W5', 'W5-1'; at most 20), or every "
-                 "sector without q (?homes=1: only those with recorded homes): [{code, slug, name}]",
+                 "sector without q (?homes=1: only those with recorded homes): [{code, slug, name}], with "
+                 "center [lon, lat] (a point inside the sector) for a q search",
          **operation("searchSectors"))
 async def search_sectors(request: Request, q: str = "", homes: bool = False) -> list:
     from . import zones_sector
@@ -1214,9 +1219,8 @@ async def download_places(request: Request) -> FileResponse:
                   "default all of England, London alone with the flag off), filtered in the database",
           **operation("createMatches"))
 @request_body(models.MatchRequest)
-def matches(profile: dict, response: Response, sort: Literal["score", "best-value"] = "score",
-            homeType: str | None = None, served: Scope = Depends(get_scope)) -> dict:
-    response.headers.update(private_response_headers())
+def matches(profile: dict, sort: Literal["score", "best-value"] = "score",
+            homeType: str | None = None, served: Scope = Depends(get_scope)) -> Response:
     _validate_profile(profile)
     rows = load_match_evidence(profile, served)
     if not rows:
@@ -1227,7 +1231,9 @@ def matches(profile: dict, response: Response, sort: Literal["score", "best-valu
     pack = build_match_pack(profile, rows, sort=sort, value_rows=value_rows,
                             region_of=regions.area_regions(get_reader()._connect), **_match_zones(profile))
     _with_titles(pack["values"])
-    return pack
+    # Rendered here, not by FastAPI: its jsonable_encoder walk over every area's components took about 1 s of an
+    # England pack (33,754 areas, 22 MB) before the bytes were written.
+    return AliasedJSONResponse(pack, headers=private_response_headers())
 
 
 @app.post("/api/v1/portal-links", **operation("createPortalLinks"))
@@ -1380,7 +1386,8 @@ def listing_card_route(request: listing_card.ListingCardRequest, http: Request, 
     card = _flagged_home_blocks(card, request)
     if not usage.is_bot(http.headers.get("user-agent")) and http.headers.get("x-close-knit-analytics") != "off":
         usage.record(_connect, "api", "extension_card", {"portal": request.portal, "market": request.market,
-                                                          "status": card["status"], "personalised": profile is not None})
+                                                          "status": card["status"], "personalised": profile is not None,
+                                                          "traffic": usage.traffic_prop(usage.request_traffic(http.headers))})
     return card
 
 
@@ -1422,7 +1429,8 @@ def listing_badges_route(request: listing_badges.ListingBadgesRequest, http: Req
     if not usage.is_bot(http.headers.get("user-agent")) and http.headers.get("x-close-knit-analytics") != "off":
         usage.record(_connect, "api", "extension_badges", {
             "portal": request.portal, "items": len(request.items), "personalised": profile is not None,
-            "scored": sum(1 for item in result["items"] if item["score"] is not None)})
+            "scored": sum(1 for item in result["items"] if item["score"] is not None),
+            "traffic": usage.traffic_prop(usage.request_traffic(http.headers))})
     return result
 
 
@@ -1448,9 +1456,10 @@ async def call_agent_tool(tool_name: str, arguments: dict, request: Request, res
     if tool_name in PRIVATE_TOOLS:
         response.headers.update(private_response_headers())
     started, result, code = time.monotonic(), None, "internal-error"
+    kind = usage.request_traffic(request.headers)
     try:
         result = await _run_evidence(
-            request, lambda cancel: call_tool(tool_name, _tool_context(cancel), arguments))
+            request, lambda cancel: call_tool(tool_name, _tool_context(cancel, kind), arguments))
         code = None
         return result
     except HTTPException as error:
@@ -1459,7 +1468,8 @@ async def call_agent_tool(tool_name: str, arguments: dict, request: Request, res
     finally:
         if tool_name in TOOLS:
             asyncio.get_running_loop().run_in_executor(
-                None, usage.record, _connect, "api", "tool_call", usage.tool_call_props(tool_name, started, result, code))
+                None, usage.record, _connect, "api", "tool_call",
+                usage.tool_call_props(tool_name, started, result, code, traffic_kind=kind))
 
 
 def _scoped(area_id: str, call: Callable[[Callable[[], bool]], dict]) -> Callable[[Callable[[], bool]], dict]:

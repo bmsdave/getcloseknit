@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 
 import type { GeographyId } from "@/lib/contracts";
+import { londonOnlyWords } from "@/lib/coverage-reason";
 import type { DataMode } from "@/lib/map-state";
 import {
   PROPERTY_TYPE_LABELS,
@@ -40,6 +41,7 @@ import { UkHpi } from "./uk-hpi";
 import { CouncilTaxBandsBlock } from "./council-tax-bands";
 import { Ownership } from "./ownership";
 import { ShortLets } from "./short-lets";
+import { SourceNote } from "@/components/source-note";
 
 type Load<T> = { status: "loading" } | { status: "ready"; value: T } | { status: "unavailable" };
 
@@ -92,7 +94,7 @@ function MarketSources({ market }: { market: AreaMarketResponse }) {
       <summary>Sources &amp; method</summary>
       <div className="chart-sources__body">
         {market.attribution && <p>{market.attribution}</p>}
-        {market.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+        {market.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
       </div>
     </details>
   );
@@ -485,7 +487,7 @@ function RecentSales({ geographyId, mode, folded = false }: { geographyId: Geogr
     // Closed by default: the count in the summary, the rows one tap away.
     return (
       <details className="area-disclosure market-recent" data-testid="market-recent">
-        <summary>Recent sales{list.status === "ready" ? ` (${list.value.total.toLocaleString("en-GB")})` : ""}</summary>
+        <summary>Recent sales{list.status === "ready" && !list.value.coverage ? ` (${list.value.total.toLocaleString("en-GB")})` : ""}</summary>
         {list.status === "unavailable" && <span className="market-note">Unknown for this area.</span>}
         {list.status === "ready" && (
           <RecentSalesTable list={list.value} sort={sort} onSort={(next) => { setSort(next); setPage(1); }} onPage={setPage}
@@ -525,6 +527,8 @@ export function RecentSalesTable({ list, sort, onSort, onPage, collapsed = false
   const pages = Math.max(1, Math.ceil(list.total / (list.pageSize || RECENT_PAGE_SIZE)));
   const sales = collapsed ? list.sales.slice(0, RECENT_PREVIEW_ROWS) : list.sales;
   const more = collapsed && list.total > sales.length;
+  // Each sale is per-home data, London's alone: elsewhere one line says so, never "No sales recorded".
+  if (list.coverage) return <p className="market-note" data-testid="per-home-london-only">{londonOnlyWords("Individual homes")}</p>;
   return (
     <>
       {note && (

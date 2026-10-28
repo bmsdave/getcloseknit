@@ -175,3 +175,18 @@ test("v4 Task 12: peek tiles are the first four, link to the full page and carry
   assert.match(tags, /href="\/area\/lsoa\/E01000001#/);
   assert.doesNotMatch(tags, /href="#/);
 });
+
+// G-E05/G-E06 (England journeys 2026-10-27): a tile whose source stops at London says "London only", never "0.0 km"
+// or "No data here"; a plain gap keeps "No data here".
+test("G-E05: a tile outside its source's coverage says London only", () => {
+  const read = fixtureStandouts("uk:lsoa:E01000001" as GeographyId)!;
+  const tiles = read.tiles.map((tile) => tile.id === "cycling"
+    ? { ...tile, available: false, value: null, display: null, standing: null, extreme: null, coverage: "london-only" as const }
+    : tile.id === "safety" ? { ...tile, available: false, value: null, display: null, standing: null, extreme: null } : tile);
+  const html = renderToStaticMarkup(createElement(AreaTiles, { standouts: { ...read, tiles } }));
+  const tileHtml = (id: string) => html.split(`data-testid="area-tile-${id}"`)[1].split("</a>")[0];
+  assert.match(tileHtml("cycling"), />London only</);
+  assert.match(tileHtml("cycling"), /aria-label="London only"/);
+  assert.doesNotMatch(tileHtml("cycling"), /km lanes|No data here/);
+  assert.match(tileHtml("safety"), /No data here/);
+});

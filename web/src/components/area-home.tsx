@@ -6,6 +6,7 @@ import { type AreaHomeResponse, homePath, readAreaHome } from "@/lib/area-home";
 import type { GeographyId } from "@/lib/contracts";
 import type { DataMode } from "@/lib/map-state";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 /**
  * The area's Home payload: null while loading, "unknown" when it is not served (demo mode has no
@@ -25,7 +26,7 @@ export function HomeSources({ home }: { home: AreaHomeResponse | null | "unknown
   return (
     <>
       {value.sources.map((source) => <p key={source.release}>{source.attribution}</p>)}
-      {value.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {value.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

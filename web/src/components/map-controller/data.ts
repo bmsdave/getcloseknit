@@ -15,6 +15,7 @@ import {
 import { cameraBbox, isLondonStart } from "@/lib/map-preload";
 import { isLayerAvailableInMode, valuePackPath, type DataMode } from "@/lib/map-state";
 import { changeBasePeriod } from "@/lib/map-trend";
+import { piecesWithValues } from "@/lib/map-topics";
 import { isDetailLayer } from "@/lib/nature-layers";
 import { politeFetch } from "@/lib/polite-fetch";
 import { valuePackCache } from "@/lib/timeline-playback";
@@ -90,8 +91,9 @@ export function mergePacks(packs: readonly (ValuePack | null)[], props: Pick<Are
   };
 }
 
-export async function fetchValuePack(controller: MapController, props: AreaMapProps, pieces: readonly ViewPiece[]): Promise<ValuePack | null> {
+export async function fetchValuePack(controller: MapController, props: AreaMapProps, wanted: readonly ViewPiece[]): Promise<ValuePack | null> {
   if (props.metric.id === "personal-match" || isCustomLayerId(props.metric.id) || isDetailLayer(props.metric.id)) return null;
+  const pieces = piecesWithValues(wanted, props.metric, controller.coverage);
   if (!isLayerAvailableInMode(props.metric.id, props.mode)) {
     return {
       schemaVersion: "area-value-pack.v1",
@@ -125,7 +127,8 @@ export async function fetchValuePack(controller: MapController, props: AreaMapPr
 }
 
 /** The value pack for period − window, or null when the metric has no data that far back. */
-export async function fetchChangeBase(controller: MapController, props: AreaMapProps, pieces: readonly ViewPiece[]): Promise<ValuePack | null> {
+export async function fetchChangeBase(controller: MapController, props: AreaMapProps, wanted: readonly ViewPiece[]): Promise<ValuePack | null> {
+  const pieces = piecesWithValues(wanted, props.metric, controller.coverage);
   const period = changeBasePeriod(props.period, props.changeWindow, props.metric.periods);
   if (period === null || !isLayerAvailableInMode(props.metric.id, props.mode)) return null;
   controller.baseFetchController?.abort();
@@ -189,7 +192,7 @@ export function prefetchStartPieces(coverage: MapCoverage, props: AreaMapProps, 
     cameraBbox(latitude, longitude, zoom, element.clientWidth, element.clientHeight), zoom);
   for (const entry of pieces) prefetchPieceBoxes(entry, props.release, coverage.productReleaseId);
   const base = layerPackBase(props);
-  if (base) valuePackCache.prefetch(viewPackPaths(base, pieces, coverage.productReleaseId));
+  if (base) valuePackCache.prefetch(viewPackPaths(base, piecesWithValues(pieces, props.metric, coverage), coverage.productReleaseId));
 }
 
 /**

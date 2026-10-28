@@ -169,29 +169,74 @@ ORDER BY period"""
 _NAME_KEY = search_text.NAME_KEY_SQL.format(column="g.name")
 _FRIENDLY_KEY = search_text.NAME_KEY_SQL.format(column="coalesce(l.friendly_name, '')")
 
+# The LAD an area is in (itself, its MSOA's or its LSOA's), as a name key: "York" ranks York's own
+# neighbourhoods above New York · NE29, and "Clifton Bristol" keeps to Bristol's Clifton.
+_LAD_NAME = ("CASE WHEN g.kind::text = 'lad' THEN g.name WHEN p.kind::text = 'lad' THEN p.name "
+             "WHEN gp.kind::text = 'lad' THEN gp.name END")
+_LAD_KEY = search_text.NAME_KEY_SQL.format(column=f"coalesce({_LAD_NAME}, '')")
+
+# A LAD named so and its own areas first (tiers 1-3). Tier 4 is a place's own name: exact, a part of it
+# ("Clifton East", "Clifton Village") or the first of a joined name ("Clifton & Maidenway", "Ham, Beacon Park &
+# Pennycross"), never another name that starts the same ("Ham Hill"). Inside it each town's MSOAs come first, the
+# towns ordered by the people in their matching MSOAs (area_population), so a bare "Clifton" lists Nottingham's
+# and Bristol's before a small namesake. LSOAs come after the MSOAs (tiers 2-3, 4-5): one town's never crowd out
+# the others.
+PLACE_PARTS = ("north", "south", "east", "west", "central", "centre", "village", "town")
 SEARCH_SQL = ("""-- evidence:search
+WITH hit AS (
 SELECT g.id, g.kind::text AS kind, g.official_code, g.name, """ + kinds.PARENT_SQL + """ AS parent_id,
   l.friendly_name, l.postcode_district,
   ST_X(ST_Centroid(g.geometry)) AS center_lon,
-  ST_Y(ST_Centroid(g.geometry)) AS center_lat
+  ST_Y(ST_Centroid(g.geometry)) AS center_lat,
+  """ + _FRIENDLY_KEY + """ AS friendly_key, """ + _NAME_KEY + """ AS name_key, """ + _LAD_KEY + """ AS lad_key,
+  pop.population, length(coalesce(l.friendly_name, g.name)) AS name_length
 FROM area_geography g
 LEFT JOIN area_label l ON l.geography_id = g.id
+LEFT JOIN area_geography p ON p.id = g.parent_id
+LEFT JOIN area_geography gp ON gp.id = p.parent_id
+LEFT JOIN area_population pop ON pop.geography_id = g.id
 WHERE g.kind::text IN """ + kinds.SQL_LIST + """ AND ((""" + _NAME_KEY + " || ' ' || " + _FRIENDLY_KEY + """) ILIKE %s ESCAPE '\\'
   OR g.official_code ILIKE %s ESCAPE '\\' OR g.id = %s)
-ORDER BY
-  CASE
-    WHEN g.id = %s THEN 0
-    WHEN """ + _FRIENDLY_KEY + """ = %s OR """ + _NAME_KEY + """ = %s THEN 1
-    WHEN (' ' || """ + _FRIENDLY_KEY + """ || ' ') ILIKE %s ESCAPE '\\'
-      OR (g.kind::text = 'lad' AND """ + _NAME_KEY + """ ILIKE %s ESCAPE '\\') THEN 2
-    WHEN """ + _FRIENDLY_KEY + """ ILIKE %s ESCAPE '\\' OR """ + _NAME_KEY + """ ILIKE %s ESCAPE '\\' THEN 3
-    WHEN (' ' || """ + _FRIENDLY_KEY + """) ILIKE %s ESCAPE '\\' THEN 4
-    ELSE 5
-  END,
-  CASE WHEN g.kind::text = 'lad' THEN 0 ELSE 1 END,
-  length(coalesce(l.friendly_name, g.name)), l.friendly_name,
-  CASE WHEN g.kind::text = 'msoa' THEN 0 ELSE 1 END, g.name
+  AND (%s::text IS NULL OR """ + _LAD_KEY + """ LIKE %s ESCAPE '\\')
+), ranked AS (
+SELECT hit.*, CASE
+    WHEN id = %s THEN 0
+    WHEN kind = 'lad' AND (friendly_key = %s OR name_key = %s) THEN 1
+    WHEN ((' ' || friendly_key || ' ') LIKE %s ESCAPE '\\' AND lad_key IN (%s, %s, %s))
+      OR (kind = 'lad' AND name_key LIKE %s ESCAPE '\\') THEN 2
+    WHEN kind = 'msoa' AND lad_key IN (%s, %s, %s) THEN 3
+    WHEN friendly_key = %s OR name_key = %s OR friendly_key IN (""" + ", ".join(["%s"] * len(PLACE_PARTS)) + """)
+      OR friendly_key LIKE %s ESCAPE '\\' OR lower(coalesce(friendly_name, '')) LIKE %s ESCAPE '\\' THEN 4
+    WHEN (' ' || friendly_key || ' ') LIKE %s ESCAPE '\\' THEN 5
+    WHEN friendly_key LIKE %s ESCAPE '\\' OR name_key LIKE %s ESCAPE '\\' THEN 6
+    WHEN (' ' || friendly_key) LIKE %s ESCAPE '\\' THEN 7
+    ELSE 8
+  END AS tier
+FROM hit
+)
+SELECT * FROM ranked
+ORDER BY CASE WHEN tier = 3 THEN 2 WHEN tier = 5 THEN 4 ELSE tier END,
+  CASE WHEN kind = 'lad' THEN 0 WHEN tier BETWEEN 2 AND 5 AND kind <> 'msoa' THEN 2 ELSE 1 END,
+  tier,
+  CASE WHEN tier = 4 THEN sum(CASE WHEN kind = 'msoa' THEN population END) OVER (PARTITION BY tier, lad_key) END DESC NULLS LAST,
+  CASE WHEN tier = 4 THEN lad_key END,
+  name_length, friendly_name,
+  CASE WHEN kind = 'msoa' THEN 0 ELSE 1 END, name
 LIMIT %s""")
+
+
+def _search_params(needle: str, key: str, bound: int, place: str | None = None) -> tuple:
+    """SEARCH_SQL's parameters for a name key, optionally kept to the LADs whose name starts with `place`."""
+    word = like_escape(key)
+    named = (key, f"{key} city of", f"{key} county of")  # ONS's "Bristol, City of", "Herefordshire, County of"
+    return (f"%{word}%", f"%{like_escape(needle)}%", needle,
+            place, f"{like_escape(place)}%" if place else None,
+            needle, key, key,
+            f"% {word} %", *named, f"{word} %",
+            *named,
+            key, key, *(f"{key} {part}" for part in PLACE_PARTS), f"{word} and %", f"{word},%",
+            f"% {word} %", f"{word}%", f"{word}%", f"% {word}%",
+            bound)
 
 # A bare postcode district ("N1", "E14") is the areas labelled with it, never single homes (#229).
 DISTRICT_AREAS_SQL = """-- evidence:district-areas
@@ -236,6 +281,14 @@ JOIN product_release_member member ON member.release_id = active.release_id
 JOIN address a ON a.source_release_id = member.source_release_id
 WHERE a.geography_id = ANY(%s)
 GROUP BY a.geography_id, split_part(a.postcode, ' ', 1)"""
+
+# Outside London there are no address rows (per-home data is London only): an LSOA's postcode districts come
+# from its live postcodes in the ONS Postcode Directory, as the site's portal links (portal_zones) do.
+AREA_POSTCODE_OUTCODES_SQL = """-- evidence:area-postcode-outcodes
+SELECT 'uk:lsoa:' || p.lsoa_code AS geography_id, split_part(p.postcode, ' ', 1) AS outcode, COUNT(*) AS addresses
+FROM postcode_civic p
+WHERE p.lsoa_code = ANY(%s) AND p.terminated IS NULL
+GROUP BY 1, 2"""
 
 AREA_AT_SQL = """-- evidence:area-at
 SELECT g.id
@@ -911,15 +964,9 @@ class EvidenceReader:
                 results = [_search_result(row) for row in district_rows]
                 addresses = []
             else:
-                pattern = f"%{like_escape(key)}%"
-                word = like_escape(key)
-                rows = list(connection.execute(SEARCH_SQL, (
-                    pattern, f"%{like_escape(needle)}%", needle, needle,
-                    # Rank an exact, whole-word or prefix hit on the place's own name above a
-                    # mid-word substring (e.g. "Ham" in "Dagenham"); see #203.
-                    key, key,
-                    f"% {word} %", f"{word} %", f"{word}%", f"{word}%", f"% {word}%",
-                    bound)))
+                rows = list(connection.execute(SEARCH_SQL, _search_params(needle, key, bound)))
+                if not rows:
+                    rows = _search_in_place(connection, key, bound)
                 results = [_search_result(row) for row in rows]
                 remainder = bound - len(results)
                 addresses = []
@@ -963,9 +1010,16 @@ class EvidenceReader:
             wordy = len(needle) >= 3
             school_rows = list(connection.execute(
                 schools.scoped(schools.SCHOOL_SEARCH_SQL), (f"%{escaped}%", SITE_KIND_LIMIT))) if wordy else []
+            # Independent schools (GIAS, migration 067) too, once the table is there: state and independent by name.
+            independent = list(connection.execute(schools.scoped(schools.INDEPENDENT_SEARCH_SQL), (
+                f"%{_like_escape(normalise_query(needle))}%", SITE_KIND_LIMIT))) \
+                if wordy and list(connection.execute(schools.INDEPENDENT_TABLE_SQL))[0]["t"] else []
+            school_hits = sorted([_school_hit(row) for row in school_rows]
+                                 + [_independent_hit(row) for row in independent],
+                                 key=lambda hit: hit["label"])[:SITE_KIND_LIMIT]
             parks = list(connection.execute(
                 PARK_SEARCH_SQL, (f"%{escaped}%", f"{escaped}%", SITE_KIND_LIMIT))) if wordy else []
-            rows = ([_school_hit(row) for row in school_rows]
+            rows = (school_hits
                     + [_station_hit(station) for station in stations]
                     + [_park_hit(row) for row in parks])
             _check_cancelled(cancel)
@@ -1225,7 +1279,8 @@ class EvidenceReader:
 
     def area_lookup(self, area_ids: list[str], cancel: Callable[[], bool] | None = None) -> dict:
         """Name, borough, centre and postcode districts (busiest first) of each known area id;
-        unknown ids are left out. Outcodes come from recorded addresses, so only LSOAs carry them."""
+        unknown ids are left out. Outcodes come from recorded addresses, else (outside London) the live
+        postcodes of the ONS Postcode Directory, so only LSOAs carry them."""
         _check_cancelled(cancel)
         for area_id in area_ids:
             _validate_geography_id(area_id)
@@ -1243,6 +1298,11 @@ class EvidenceReader:
                 rows = sorted(connection.execute(AREA_OUTCODES_SQL, (lsoas,)),
                               key=lambda row: (-row["addresses"], row["outcode"]))
                 for row in rows:
+                    places[row["geography_id"]]["outcodes"].append(row["outcode"])
+            bare = [area_id.split(":")[-1] for area_id in lsoas if not places[area_id]["outcodes"]]
+            if bare and current_scope().level == "nation":  # London answers from its addresses, as before
+                for row in sorted(connection.execute(AREA_POSTCODE_OUTCODES_SQL, (bare,)),
+                                  key=lambda row: (-row["addresses"], row["outcode"])):
                     places[row["geography_id"]]["outcodes"].append(row["outcode"])
             return {"schemaVersion": "area-lookup.v1", "productReleaseId": release_id, "places": places}
 
@@ -2158,8 +2218,18 @@ def _at_period(rows: list[dict], period: str) -> dict | None:
     return None
 
 
+_INVERTED = re.compile(r"^(.+), (?:City|County) of$")
+
+
+def plain_place_name(name: str | None) -> str | None:
+    """A place's name as people say it: ONS lists a few local authorities inverted ("Bristol, City of",
+    "Herefordshire, County of"); shown as "Bristol". Other names pass through."""
+    return _INVERTED.sub(r"\1", name.strip()) if name and name.strip() else None
+
+
 def friendly_title(friendly_name: str | None, district: str | None) -> str | None:
     """The area title the web shows: "Alperton East · NW10" (a borough: its name)."""
+    friendly_name = plain_place_name(friendly_name)
     if not friendly_name:
         return None
     return f"{friendly_name} · {district}" if district else friendly_name
@@ -2168,7 +2238,7 @@ def friendly_title(friendly_name: str | None, district: str | None) -> str | Non
 def display_name(row: Mapping[str, Any]) -> str | None:
     """The one name the site and agents show for an area: its friendly title
     ("Alperton East · HA0"), else the official name ("Brent 026D"), never a bare code."""
-    return friendly_title(row.get("friendly_name"), row.get("postcode_district")) or row.get("name") or None
+    return friendly_title(row.get("friendly_name"), row.get("postcode_district")) or plain_place_name(row.get("name"))
 
 
 def _friendly(row: Mapping[str, Any]) -> dict:
@@ -2179,11 +2249,13 @@ def _friendly(row: Mapping[str, Any]) -> dict:
 
 
 def _result_kind(row: Mapping[str, Any]) -> str:
-    """A search row's kind: a street, a home (address), else its area's level (lad, msoa, lsoa)."""
+    """A search row's kind: a street, a home (address), a postcode, else its area's level (lad, msoa, lsoa)."""
     if row.get("street"):
         return "street"
     if row.get("addressId"):
         return "address"
+    if row.get("kind") == "postcode":
+        return "postcode"
     return kinds.kind_of(row["geographyId"])
 
 
@@ -2202,6 +2274,12 @@ def _school_hit(row: Mapping[str, Any]) -> dict:
             "urn": row["urn"], "uprn": None, "center": [float(row["longitude"]), float(row["latitude"])]}
 
 
+def _independent_hit(row: Mapping[str, Any]) -> dict:
+    """An independent school: no school page of its own (no Ofsted grades or results), so it opens the map there."""
+    return {"kind": "school", "label": row["name"], "secondaryLabel": "Independent", "urn": row["urn"],
+            "independent": True, "uprn": None, "center": [float(row["longitude"]), float(row["latitude"])]}
+
+
 def _station_hit(station: Mapping[str, Any]) -> dict:
     """A zones.station_result() as a site search row: the lines name the station's services
     (twins such as Hammersmith tell apart by them), the modes when TfL lists no line."""
@@ -2216,6 +2294,11 @@ def _park_hit(row: Mapping[str, Any]) -> dict:
             "placeId": row["id"], "uprn": None, "center": [row["center_lon"], row["center_lat"]]}
 
 
+def _lad_word(official_code: str | None) -> str:
+    """What a local authority is called: London's (E09) are boroughs, the rest of England's councils."""
+    return "borough" if (official_code or "").startswith("E09") else "council"
+
+
 def _search_result(row: Mapping[str, Any]) -> dict:
     title = friendly_title(row.get("friendly_name"), row.get("postcode_district"))
     friendly = title is not None and title != row["name"]
@@ -2223,12 +2306,29 @@ def _search_result(row: Mapping[str, Any]) -> dict:
         "geographyId": row["id"],
         "label": title if friendly else row["name"],
         "secondaryLabel": (f"{row['name']} · {row['official_code']}" if friendly
-                           # the label keeps saying borough (the id's word) for a LAD, as before step R1
-                           else f"{row['official_code']} · {'borough' if row['kind'] == kinds.LAD else row['kind']}"),
+                           # a LAD is a borough in London (E09), a council elsewhere
+                           else f"{row['official_code']} · {_lad_word(row['official_code']) if row['kind'] == kinds.LAD else row['kind']}"),
         **_friendly(row),
         "uprn": None,
         "center": [row["center_lon"], row["center_lat"]],
     }
+
+
+PLACE_QUERY_WORDS = 5
+
+
+def _search_in_place(connection: Any, key: str, bound: int) -> list:
+    """A name with its town after it ("Clifton Bristol", "Headingley Leeds"): the name's areas inside the LADs
+    whose name starts with the town's words; [] when no split finds any."""
+    words = key.split()
+    if len(words) > PLACE_QUERY_WORDS or any(char.isdigit() for char in key):
+        return []  # an address ("10 Valley Road, Tufnell Park") goes to the home and street search
+    for cut in range(len(words) - 1, 0, -1):
+        head, place = " ".join(words[:cut]), " ".join(words[cut:])
+        rows = list(connection.execute(SEARCH_SQL, _search_params(head, head, bound, place)))
+        if rows:
+            return rows
+    return []
 
 
 def _loose_address(text: str) -> str:
@@ -2325,12 +2425,13 @@ STREET_POSTCODES = 6
 
 
 def _postcode_area(connection: Any, needle: str) -> list[dict]:
-    """A full London postcode with no recorded home: one row for its LSOA, labelled with the postcode."""
+    """A full postcode with no recorded home: one row (kind postcode) for its LSOA, labelled with the postcode."""
     match = POSTCODE_NEEDLE.match(needle.upper())
     if not match:
         return []
     rows = list(connection.execute(POSTCODE_AREA_SQL, (f"{match[1]} {match[2]}",)))
     return [{
+        "kind": "postcode",
         "geographyId": row["geography_id"],
         "label": row["postcode"],
         "secondaryLabel": " · ".join(part for part in (row["name"], row["borough_name"]) if part),

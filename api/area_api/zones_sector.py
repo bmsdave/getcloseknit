@@ -75,7 +75,9 @@ WHERE prefix IS NOT NULL
 ORDER BY prefix, release_date DESC, id DESC"""
 
 SEARCH_SQL = """-- sector:search
-SELECT s.code, s.slug, s.name FROM postcode_sector s
+SELECT s.code, s.slug, s.name,
+  ST_X(ST_PointOnSurface(s.geometry)) AS center_lon, ST_Y(ST_PointOnSurface(s.geometry)) AS center_lat
+FROM postcode_sector s
 WHERE s.code LIKE %s/*scope:s.borough_id*/
 ORDER BY s.district = %s DESC, length(s.district), s.code LIMIT """ + str(SEARCH_LIMIT)
 
@@ -218,7 +220,7 @@ def sector(connect: Callable[[], Any], slug: str, cancel: Callable[[], bool] | N
 
 def search(connect: Callable[[], Any], q: str = "", cancel: Callable[[], bool] | None = None,
            homes: bool = False) -> list[dict]:
-    """[{code, slug, name}]: sectors whose code starts with q ('W5', 'w5-1'), at most 20, the
+    """[{code, slug, name, center}]: sectors whose code starts with q ('W5', 'w5-1'), at most 20, the
     district's own first; with no q every sector (for the sitemap), or with `homes` only those with
     recorded homes (the per-address sitemap shards)."""
     evidence._check_cancelled(cancel)
@@ -228,4 +230,12 @@ def search(connect: Callable[[], Any], q: str = "", cancel: Callable[[], bool] |
             return [dict(row) for row in connection.execute(WITH_HOMES_SQL if homes else scoped(ALL_SQL))]
         if not re.fullmatch(r"[A-Z0-9 ]{1,8}", prefix):
             return []
-        return [dict(row) for row in connection.execute(scoped(SEARCH_SQL), (prefix + "%", prefix))]
+        return [_search_row(row) for row in connection.execute(scoped(SEARCH_SQL), (prefix + "%", prefix))]
+
+
+def _search_row(row: Any) -> dict:
+    """{code, slug, name, center}: center [lon, lat] a point inside the sector (the search row's map spot), or null."""
+    found = {key: row[key] for key in ("code", "slug", "name")}
+    lon, lat = row.get("center_lon"), row.get("center_lat")
+    found["center"] = [round(lon, 5), round(lat, 5)] if lon is not None and lat is not None else None
+    return found

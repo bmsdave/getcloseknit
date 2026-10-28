@@ -16,6 +16,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Callable
 
 from .feedback import scrub
+from .usage import parse_traffic
 
 RETENTION_DAYS = 365
 MAX_MESSAGE = 2000
@@ -37,15 +38,15 @@ SURFACES: dict[str, dict] = {
 }
 
 UPSERT_SQL = """-- site_feedback:upsert
-INSERT INTO site_feedback (client_id, kind, surface, target, area, vote, rating, tags, message, path, device)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO site_feedback (client_id, kind, surface, target, area, vote, rating, tags, message, path, device, traffic)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (client_id) DO UPDATE SET vote = EXCLUDED.vote, rating = EXCLUDED.rating, tags = EXCLUDED.tags,
     message = EXCLUDED.message, updated_at = now()"""
 PURGE_SQL = """-- site_feedback:purge
 WITH gone AS (DELETE FROM site_feedback WHERE created_at < %s RETURNING 1) SELECT count(*) AS purged FROM gone"""
 LIST_SQL = """-- site_feedback:list
-SELECT id, kind, surface, target, area, vote, rating, tags, message, path, device, created_at, updated_at
-FROM site_feedback WHERE created_at >= %s ORDER BY created_at"""
+SELECT id, kind, surface, target, area, vote, rating, tags, message, path, device, traffic, created_at, updated_at
+FROM site_feedback WHERE created_at >= %s AND traffic = ANY(%s) ORDER BY created_at"""
 
 
 class InvalidFeedback(ValueError):
@@ -78,9 +79,10 @@ def _message(value: Any) -> str | None:
     return text or None
 
 
-def clean(payload: Any) -> tuple:
-    """One row (client_id, kind, surface, target, area, vote, rating, tags, message, path, device),
-    or InvalidFeedback. Unknown reasons are dropped; anything else unknown is refused."""
+def clean(payload: Any, team_header: str | None = None) -> tuple:
+    """One row (client_id, kind, surface, target, area, vote, rating, tags, message, path, device, traffic),
+    or InvalidFeedback. Unknown reasons are dropped; anything else unknown is refused. traffic is team for
+    a team browser (?team=1 sends team: true) or the team header, else live (area_api.usage.traffic)."""
     if not isinstance(payload, dict):
         raise InvalidFeedback("feedback must be an object")
     try:
@@ -115,8 +117,9 @@ def clean(payload: Any) -> tuple:
     path = payload.get("path")
     path = path[:MAX_PATH] if isinstance(path, str) else None
     device = payload.get("device") if payload.get("device") in DEVICES else None
+    traffic = "team" if payload.get("team") is True or (team_header or "").strip() == "1" else "live"
     return (client_id, kind, payload["surface"], target, area, vote, rating, tags,
-            _message(payload.get("message")), path, device)
+            _message(payload.get("message")), path, device, traffic)
 
 
 def store(connect: Callable[[], Any], row: tuple) -> None:
@@ -126,9 +129,9 @@ def store(connect: Callable[[], Any], row: tuple) -> None:
         connection.execute(UPSERT_SQL, row)
 
 
-def recent(connect: Callable[[], Any], days: int = 30) -> list[dict]:
+def recent(connect: Callable[[], Any], days: int = 30, traffic: tuple[str, ...] = ("live",)) -> list[dict]:
     with connect() as connection:
-        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days),))]
+        return [dict(row) for row in connection.execute(LIST_SQL, (_now() - timedelta(days=days), list(traffic)))]
 
 
 def purge(connect: Callable[[], Any]) -> int:
@@ -142,6 +145,8 @@ def main(argv: list[str] | None = None) -> int:
     listing = commands.add_parser("list", help="feedback from the last N days, oldest first")
     listing.add_argument("--days", type=int, default=30)
     listing.add_argument("--json", action="store_true")
+    listing.add_argument("--traffic", type=parse_traffic, default=("live",),
+                         help="live (default), team, tech, a comma-separated mix, or all")
     commands.add_parser("purge", help=f"delete items older than {RETENTION_DAYS} days")
     args = parser.parse_args(argv)
 
@@ -150,7 +155,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "purge":
         print(f"purged {purge(evidence_connection)}")
         return 0
-    items = recent(evidence_connection, args.days)
+    items = recent(evidence_connection, args.days, args.traffic)
     for item in items:
         if args.json:
             print(json.dumps({**item, "created_at": item["created_at"].isoformat(),

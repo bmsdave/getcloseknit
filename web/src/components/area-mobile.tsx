@@ -6,6 +6,7 @@ import { type AreaMobileResponse, mobilePath, mobileRow, readAreaMobile } from "
 import type { GeographyId } from "@/lib/contracts";
 import type { DataMode } from "@/lib/map-state";
 import { useSectionJson } from "./section-seed";
+import { SourceNote } from "@/components/source-note";
 
 type Mobile = AreaMobileResponse | null | "unknown";
 
@@ -35,7 +36,7 @@ export function MobileSourceLines({ mobile }: { mobile: Mobile }) {
   return (
     <>
       {value.sources.map((source) => <p key={source.release}>{source.attribution}</p>)}
-      {value.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+      {value.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
     </>
   );
 }

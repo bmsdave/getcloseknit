@@ -100,6 +100,11 @@ class AreaKidsReaderTests(unittest.TestCase):
                                               "regionPercentile": 80})
         self.assertEqual([source["id"] for source in payload["sources"]], SOURCES)
 
+    def test_cycling_is_null_outside_tfls_london_never_0_km(self):
+        row = {**seeded().area_kids[AREA], "protected_km": 0, "cycleway_km": 0}
+        self.assertIsNone(kids.kids_payload(AREA, "r1", row, [], [], "E12000002")["cycling"])
+        self.assertEqual(kids.kids_payload(AREA, "r1", row, [], [], "E12000007")["cycling"]["protectedKm"], 0)
+
     def test_an_area_without_a_row_is_unavailable_not_zero(self):
         connection = seeded()
         connection.area_kids.clear()

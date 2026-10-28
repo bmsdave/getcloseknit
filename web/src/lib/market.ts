@@ -4,6 +4,7 @@
  * readers, wording and the chart geometry MarketSection draws. Missing values
  * stay null and read "unknown", never 0.
  */
+import type { CoverageReason } from "./coverage-reason";
 import type { Carrier, GeographyId } from "./contracts";
 import { isFixtureSourceVersion } from "./fixtures";
 import type { DataMode } from "./map-state";
@@ -95,6 +96,8 @@ export interface RecentSalesResponse {
   total: number;
   sales: RecentSale[];
   sourceVersion: string | null;
+  /** "london-only": each sale is per-home data, London's alone, and this area is elsewhere (no list, not "none"). */
+  coverage?: CoverageReason | null;
 }
 
 export function marketPath(id: GeographyId): string {

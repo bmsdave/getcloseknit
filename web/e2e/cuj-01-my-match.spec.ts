@@ -8,6 +8,25 @@ import { PROFILE_KEY, SEEDED_SEARCH, typeBudget } from "./wizard";
 const list = (page: Page) => page.getByTestId("match-list");
 const item = (page: Page, id: string) => page.locator(`[data-testid="match-item"][data-id="${id}"]`);
 
+/**
+ * The list has stopped moving: its rows at the same place on two reads in a row and no slide playing. A chip's
+ * pack lands after its rank (the count and the peek above the rows change height), so boxes read before it went
+ * stale under load and the drag dropped short (about 1 run in 3).
+ */
+async function settled(page: Page): Promise<void> {
+  await expect(list(page).getByTestId("areas-left")).toBeVisible();
+  let last = "";
+  await expect.poll(async () => {
+    const now = await list(page).evaluate((root) => JSON.stringify([
+      [...root.querySelectorAll("[data-testid='match-item']")].map((row) => Math.round(row.getBoundingClientRect().top)),
+      root.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length,
+    ]));
+    const still = now === last && now.endsWith(",0]");
+    last = now;
+    return still;
+  }, { intervals: [100] }).toBe(true);
+}
+
 /** The ids of the list's criteria in order (Musts first). */
 async function order(page: Page): Promise<string[]> {
   return page.getByTestId("match-item").evaluateAll((rows) => rows.map((row) => row.getAttribute("data-id") ?? ""));
@@ -145,14 +164,24 @@ test("drag ≡ reorders the ranked list (Task 21d)", async ({ page, isMobile }) 
   await typeBudget(page, "650k");
   await list(page).getByTestId("chip-safer-streets").click();
   await list(page).getByTestId("chip-good-schools").click();
+  // The pack scored with all three: the rows move no more once it lands.
+  const scored = page.waitForResponse((response) => response.url().includes("/api/v1/matches")
+    && (response.request().postData() ?? "").includes("noise"));
   await list(page).getByTestId("chip-quiet-streets").click();
   await expect(item(page, "range:noise").getByTestId("match-item-rank")).toHaveText("#3");
+  await scored;
+  await settled(page);
   const handle = item(page, "range:noise").locator(".match-item__handle");
   const target = await item(page, "range:crime").boundingBox();
   const from = await handle.boundingBox();
-  await page.mouse.move(from!.x + from!.width / 2, from!.y + from!.height / 2);
+  const x = from!.x + from!.width / 2;
+  await page.mouse.move(x, from!.y + from!.height / 2);
   await page.mouse.down();
-  await page.mouse.move(from!.x + from!.width / 2, target!.y + 4, { steps: 8 });
+  await page.mouse.move(x, target!.y + 4, { steps: 8 });
+  // The rows the lifted one passed slide out of its way (180 ms); one more move once they rest reads the drop slot
+  // from where they are, not from mid-slide.
+  await page.waitForTimeout(250);
+  await page.mouse.move(x, target!.y + 3);
   await page.mouse.up();
   await expect(item(page, "range:noise").getByTestId("match-item-rank")).toHaveText("#1");
   await expect(page.getByTestId("map-toast-text")).toHaveText("Quiet streets now #1 · top 10 re-sorted");

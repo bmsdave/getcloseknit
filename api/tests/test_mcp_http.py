@@ -63,6 +63,14 @@ class McpHttpTests(unittest.TestCase):
         self._rpc("notifications/initialized", id=None)
         return session
 
+    def test_a_browser_opening_the_address_lands_on_the_agents_page(self):
+        page = self.client.get("/mcp", headers={"accept": "text/html,application/xhtml+xml"}, follow_redirects=False)
+        self.assertEqual(page.status_code, 302)
+        self.assertEqual(page.headers["location"], "/agents")
+        client = self.client.get("/mcp", headers={"accept": "application/json, text/event-stream"},
+                                 follow_redirects=False)
+        self.assertNotEqual(client.status_code, 302, "an MCP client's GET still reaches the transport")
+
     def test_tools_list_exposes_registry_with_flat_schemas(self):
         result = self._rpc("tools/list").json()["result"]
 

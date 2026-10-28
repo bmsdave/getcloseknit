@@ -42,11 +42,16 @@ export function compareHref(kind: CompareKind, ids: readonly string[]): string {
   return `/compare?kind=${kind}${clean.length ? `&ids=${clean.map(encodeURIComponent).join(",")}` : ""}`;
 }
 
-/** ?kind=…&ids=a,b from the page's search params (Places when the kind is missing or unknown). */
+/**
+ * ?kind=…&ids=a,b from the page's search params (Places when the kind is missing or unknown). ?areas= (the brief's
+ * word) is read as ids, and an old uk:borough: id as its uk:lad: one.
+ */
 export function parseCompareQuery(params: Record<string, string | string[] | undefined>): { kind: CompareKind; ids: string[] } {
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
   const kind = isCompareKind(first(params.kind)) ? first(params.kind) as CompareKind : "places";
-  return { kind, ids: cleanCompareIds(kind, first(params.ids).split(",").map((id) => id.trim()).filter(Boolean)) };
+  const given = first(params.ids) || first(params.areas);
+  const ids = given.split(",").map((id) => id.trim().replace(/^uk:borough:/, "uk:lad:")).filter(Boolean);
+  return { kind, ids: cleanCompareIds(kind, ids) };
 }
 
 export interface CompareColumn {
@@ -83,6 +88,7 @@ type Better = "low" | "high" | null;
 interface Value { text: string; value: number | null }
 
 const NONE: Value = { text: "—", value: null };
+export const NO_CRIME_DATA = "No crime data";
 
 /**
  * One row: the best cell (lowest or highest) when at least two values differ; bars when asked for. A longer
@@ -122,7 +128,15 @@ function known(rows: CompareRow[]): CompareRow[] {
 
 // ---- Places ------------------------------------------------------------------------------------
 
-const CARRIER_TAGS: Record<string, string> = { lsoa: "Area", msoa: "District", lad: "Borough" };
+// "District" is a postcode district's word: an MSOA is a neighbourhood, a LAD outside London a council.
+const CARRIER_TAGS: Record<string, string> = { lsoa: "Area", msoa: "Neighbourhood", lad: "Borough" };
+
+/** The column's level, then the region its ranks are within ("Neighbourhood · North West"): the rows' frame. */
+function placeTag(id: GeographyId, region: string | null | undefined): string {
+  const [, carrier, code] = id.split(":");
+  const level = carrier === "lad" && !code.startsWith("E09") ? "Council" : CARRIER_TAGS[carrier] ?? "Area";
+  return region ? `${level} · ${region}` : level;
+}
 
 export interface PlaceColumnInput {
   id: GeographyId;
@@ -171,7 +185,8 @@ export function placesTable(inputs: readonly PlaceColumnInput[]): CompareTable {
   const columns = inputs.map((input) => {
     const carrier = input.id.split(":")[1];
     const code = input.id.split(":")[2];
-    return { id: input.id, name: input.name || areaDisplayName(input.profile) || code, tag: CARRIER_TAGS[carrier] ?? "Area", href: `/area/${carrier}/${code}`, outcode: input.outcode ?? null };
+    const region = input.standouts?.rankScope?.name ?? input.profile?.rankScope?.name;
+    return { id: input.id, name: input.name || areaDisplayName(input.profile) || code, tag: placeTag(input.id, region), href: `/area/${carrier}/${code}`, outcode: input.outcode ?? null };
   });
   const ranks = inputs.map((input) => input.profile?.regionRanks ?? null);
   // The area page's own tile words ("Safer than 62%", "14 within 1.5 km", "38% over 55 dB"), so Compare and the
@@ -189,8 +204,12 @@ export function placesTable(inputs: readonly PlaceColumnInput[]): CompareTable {
   const rows = [
     { ...compareRow("Price", "low", true, inputs.map((input, index) =>
       cell(index, "price", metric(input.profile, "price-per-square-metre"), (n) => `${perUnit(n)}/m²`))), note: PRICE_TILE_SOURCE },
-    tileRow("Safety", "safety", inputs, "low", (input, index) =>
-      cell(index, "safety", metric(input.profile, "crime"), (n) => `${n.toFixed(1)} / 1,000`)),
+    tileRow("Safety", "safety", inputs, "low", (input, index) => {
+      const shown = cell(index, "safety", metric(input.profile, "crime"), (n) => `${n.toFixed(1)} / 1,000`);
+      // A Safety tile with no value: the police publish no crime data there (Greater Manchester), never a blank.
+      const tile = input.standouts?.tiles.find((entry) => entry.id === "safety");
+      return shown.value === null && tile && !tile.available ? { text: NO_CRIME_DATA, value: null } : shown;
+    }),
     // "26 within 1.5 km" beats "20 within 1.5 km": ranked by the count it shows, not the schools standing
     // (a London rank of school results, which can call the area with fewer schools better).
     tileRow("Schools", "schools", inputs, "high", (_input, index) => cell(index, "schools", schoolCount(inputs[index]), String), false),

@@ -415,6 +415,7 @@ export function AreaMap(props: AreaMapProps) {
     const controller = controllerReference.current;
     if (!mapReady || !controller || !props.zoomTo) return;
     controller.pendingFit = props.zoomTo.id;
+    controller.fitZoom = props.zoomTo.zoom ?? null;
     fitPendingArea(controller);
   }, [mapReady, props.zoomTo]);
 
@@ -495,7 +496,10 @@ function createMap(
     if (props.selected && !props.zoomTo) controller.fittedWiderArea = props.selected;
     // A link naming an area but no position waits for its fit: moves before it (load, layout) leave
     // the address without a position, so the default camera never lands there first.
-    if (props.zoomTo) controller.pendingFit = props.zoomTo.id;
+    if (props.zoomTo) {
+      controller.pendingFit = props.zoomTo.id;
+      controller.fitZoom = props.zoomTo.zoom ?? null;
+    }
   } catch {
     events.onFailure(MAP_UNAVAILABLE);
     return;
@@ -558,6 +562,7 @@ function registerMapEvents(controller: MapController, setStatus: (status: string
   map.on("movestart", (event) => {
     if (event.originalEvent) {
       controller.pendingFit = null;
+      controller.fitZoom = null;
       controller.distantFit = null;
     }
   });

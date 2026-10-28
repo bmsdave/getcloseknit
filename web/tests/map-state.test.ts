@@ -3,7 +3,8 @@ import test from "node:test";
 
 import {
   adoptSavedState, applyEnvDefaults, initialPitch, isDemoAllowed, LONDON_BOUNDS, MIN_LINK_ZOOM, MIN_MAP_ZOOM, parseMapState,
-  preserveDiagnosticsQuery, serializeMapState, shouldFitSelectedArea, homeFromQuery, withHomeQuery,
+  preserveDiagnosticsQuery, serializeMapState, selectedFitZoom, shouldFitSelectedArea, homeFromQuery, linkedLayer, withHomeQuery,
+  unknownLayerNotice,
 } from "../src/lib/map-state";
 import type { MapState } from "../src/lib/map-state";
 
@@ -145,8 +146,18 @@ test("a selected area without a map position asks the map to fit that area", () 
 });
 
 test("an explicit map position wins over fitting the selected area", () => {
-  for (const position of ["lat=51.55", "lng=-0.28", "zoom=13", "lat=51.55&lng=-0.28&zoom=13"]) {
+  for (const position of ["lat=51.55", "lng=-0.28", "lat=51.55&lng=-0.28&zoom=13"]) {
     assert.equal(shouldFitSelectedArea(new URLSearchParams(`selected=uk:lsoa:E01000477&${position}`)), false, position);
+    assert.equal(selectedFitZoom(new URLSearchParams(`selected=uk:lsoa:E01000477&${position}`)), null, position);
+  }
+});
+
+test("a zoom alone still opens on the selected area, centred at that zoom (G-E08)", () => {
+  // ?selected=uk:msoa:E02002373&z=12 stayed on London: the zoom counted as a position.
+  for (const [query, zoom] of [["z=12", 12], ["zoom=13.5", 13.5], ["z=3", 5], ["zoom=abc", null], ["", null]] as const) {
+    const parameters = new URLSearchParams(`selected=uk:msoa:E02002373${query ? `&${query}` : ""}`);
+    assert.equal(shouldFitSelectedArea(parameters), true, query);
+    assert.equal(selectedFitZoom(parameters), zoom, query);
   }
 });
 
@@ -186,4 +197,26 @@ test("the chosen home round-trips through the map address and is dropped when cl
   // Only the address id, or only the UPRN, is still a home; anything else is ignored.
   assert.deepEqual(homeFromQuery("address=uk%3Aaddr%3Aabc"), { uprn: null, addressId: "uk:addr:abc" });
   assert.equal(homeFromQuery("uprn=12ab&address=javascript%3Aalert(1)"), null);
+});
+
+test("hand-written layer names open their layer; an unknown one says so; ?z= is the zoom (G-E27, G-E08)", () => {
+  assert.equal(parseMapState(new URLSearchParams("layer=schools")).layer, "good-schools-nearby");
+  assert.equal(parseMapState(new URLSearchParams("layer=hmo")).layer, "hmo-per-1000");
+  assert.equal(parseMapState(new URLSearchParams("layer=commute")).layer, "price-per-square-metre");
+  assert.equal(unknownLayerNotice("?layer=hmo"), null);
+  assert.equal(unknownLayerNotice("?layer=crime"), null);
+  assert.equal(unknownLayerNotice("?layer=custom:nightlife"), null);
+  assert.equal(unknownLayerNotice(""), null);
+  assert.match(unknownLayerNotice("?layer=commute") ?? "", /No map layer called “commute”: showing Price per m²/);
+  assert.equal(parseMapState(new URLSearchParams("z=12.5")).zoom, 12.5);
+  assert.equal(parseMapState(new URLSearchParams("zoom=9&z=12")).zoom, 9, "zoom wins");
+  assert.equal(selectedFitZoom(new URLSearchParams("selected=uk:msoa:E02002373&z=12")), 12);
+});
+
+test("a link's short layer name is its layer, so its evidence asks for the layer's own month (HMO 404)", () => {
+  // ?layer=hmo asked /areas/…?metric=hmo-per-1000&period=2026-06 (the price month): a 404.
+  assert.equal(linkedLayer("?layer=hmo&selected=uk:msoa:E02001089"), "hmo-per-1000");
+  assert.equal(linkedLayer("?layer=hmo-per-1000"), "hmo-per-1000");
+  assert.equal(linkedLayer("?layer=commute"), null);
+  assert.equal(linkedLayer(""), null);
 });

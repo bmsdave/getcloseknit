@@ -59,9 +59,15 @@ test("the borough's Areas list sorts by its strips, keeps the sort in the addres
   // Tiles lead to the borough's own sections; the tags say "of boroughs".
   await expect(page.getByTestId("area-tile-price")).toHaveAttribute("href", "#price");
   for (const text of await page.getByTestId("area-tags").getByRole("link").allTextContents()) expect(text).not.toMatch(/of London$/);
-  // Income and social renting are described rows, never tags.
+  // Income and social renting are rows (no tags until CLOSE_KNIT_PEOPLE_STANDOUTS), beside the region's typical
+  // neighbourhood, not labelled as the region's own figure (G-E16); no outdated "never ranked" copy.
   await expect(page.getByTestId("people-key-numbers")).toContainText("Household income");
+  await expect(page.getByTestId("people-key-numbers")).toContainText("typical London neighbourhood");
+  await expect(page.locator("#people")).not.toContainText("never ranked");
   await expect(page.getByTestId("area-tags")).not.toContainText(/income|social/i);
+  // G-E23: one £/m² in Price: the row repeats the headline's figure.
+  const headline = (await page.getByTestId("section-headline-price").textContent())!.replace("/m²", " per m²");
+  await expect(page.getByTestId("price-key-numbers")).toContainText(`Per m²${headline}`);
 });
 
 test("a lowercase code or postcode moves permanently to its page", async ({ request }) => {
@@ -108,7 +114,7 @@ test("home, postcode, school and 404 pages have their own title, canonical, prev
   expect(JSON.stringify(home)).not.toMatch(/price/i);
 
   await page.goto("/postcode/SW1A-1AB");
-  await expect(page).toHaveTitle(/^SW1A 1AB · St James's · SW1A · Close Knit$/);
+  await expect(page).toHaveTitle(/^SW1A 1AB · St James's · Close Knit$/);
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", await page.title());
   await expect(page.locator('meta[property="og:image"]').first()).toHaveAttribute("content", /opengraph-image/);
   expect((await ld()).map((entry) => entry["@type"])).toContain("Place");

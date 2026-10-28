@@ -91,6 +91,13 @@ test("round 2 #44: Getting around says the minutes My match scores, an estimate 
       modes: { transit: { minutes: 12, range: [12, 12] }, walk: { minutes: 32, range: [32, 32] } } },
   ] } as AreaCommute;
   assert.deepEqual(tripRows(profile, commute).map((row) => [row.term, row.value]), [["Highbury & Islington", "12 min · estimate"]]);
+  // G-E14: a wider area's page (MSOA, LAD) has no times of its own: it says so, never drops the place.
+  assert.deepEqual(tripRows(profile, null, "uk:msoa:E02001089" as GeographyId).map((row) => [row.term, row.value]),
+    [["Highbury & Islington", "Times per neighbourhood"]]);
+  // An area outside London's routing: the place stays, said as London only (My match marks its minutes est.).
+  const outside = { ...commute, places: [{ ...commute.places[0], estimate: undefined, reason: "outside-coverage" as const,
+    modes: { transit: { minutes: null, range: null } } }] } as AreaCommute;
+  assert.deepEqual(tripRows(profile, outside).map((row) => row.value), ["Door to door: London only"]);
 });
 
 test("round 2 #29/#34: chips come first for a shared search too, and the editor never moves in the tree", () => {

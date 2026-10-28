@@ -5,9 +5,10 @@ import json
 import logging
 import os
 import threading
+from collections import OrderedDict
 from typing import Any, Callable, Iterator, Mapping
 
-from . import feature_flags, kinds, personal_places, quick_criteria, regions
+from . import feature_flags, kinds, personal_places, quick_criteria, regions, release_store
 from .scope import Scope, current as current_scope
 from .privacy import analytics_event
 
@@ -248,36 +249,88 @@ def match_sources(profile: Mapping[str, Any]) -> dict:
     return sources
 
 
+# Every area's rows of one My match factor or range layer (and the budget's ballpark or rent rows) are the same
+# for every request of a release and scope: built once per release into release_artifact (by the first request
+# that asks) and held by each worker as tuples (an England table ~7 MB; as dicts it was 22 MB), MATCH_INPUTS_HELD
+# tables at most, least recently used dropped. A request then reads only its own places and criteria from the
+# database (England: ~0.5 s locally, ~3.5 s on prod, of reading every area's rows) and makes the dicts afresh.
+MATCH_INPUTS_HELD = 24
+_match_inputs: "OrderedDict[tuple, tuple[tuple[str, ...], list[tuple]]]" = OrderedDict()
+_match_inputs_lock = threading.Lock()
+
+
+def _table(rows: Any) -> tuple[tuple[str, ...], list[tuple]]:
+    """Rows as (columns, value tuples); repeated strings (factor, unit, quality, release ids) held once."""
+    rows = [dict(row) for row in rows]
+    columns = tuple(rows[0]) if rows else ()
+    if any(tuple(row) != columns for row in rows):
+        raise ValueError("match input rows must share their columns")
+    strings: dict[str, str] = {}
+    return columns, [tuple(strings.setdefault(value, value) if isinstance(value, str) else value
+                           for value in row.values()) for row in rows]
+
+
+def match_input(connection: Any, release_id: str | None, kind: str, name: str, served: Scope,
+                load: Callable[[], Any]) -> list[dict]:
+    """The rows `load` reads for (kind, name) in the scope, kept per release; read afresh without a release."""
+    if not release_id:
+        return [dict(row) for row in load()]
+    key = ("match-input", kind, name, served.id, served.regions)
+    with _match_inputs_lock:
+        table = _match_inputs.get((release_id, *key))
+        if table is not None:
+            _match_inputs.move_to_end((release_id, *key))
+    if table is None:
+        table = release_store.cached(connection, release_id, key, lambda: _table(load()))
+        with _match_inputs_lock:
+            _match_inputs[(release_id, *key)] = table
+            while len(_match_inputs) > MATCH_INPUTS_HELD:
+                _match_inputs.popitem(last=False)
+    columns, values = table
+    return [dict(zip(columns, row)) for row in values]
+
+
+def forget_match_inputs() -> None:
+    """Tests: drop every held table."""
+    with _match_inputs_lock:
+        _match_inputs.clear()
+
+
 def load_match_evidence(profile: Mapping[str, Any], served: Scope | None = None) -> list[dict]:
     """Every match evidence row the profile reads, for the LSOAs of the request's scope (London with
-    CLOSE_KNIT_ENGLAND off; with it on the regions asked for, else all of England), filtered in the database."""
+    CLOSE_KNIT_ENGLAND off; with it on the regions asked for, else all of England), filtered in the database;
+    each factor's and layer's rows kept per release (match_input)."""
     sources = match_sources(profile)
     factors = sources["factors"]
     scope = served or current_scope()
     scoped_sql = evidence_sql(scope)
     with _pool().connection() as connection:
-        rows = list(connection.execute(scoped_sql, (factors,))) if factors else []
-        if sources["places"]:
-            release = list(connection.execute("SELECT release_id FROM active_product_release"))
-            if release:
-                rows += personal_places.place_rows(connection, release[0]["release_id"], sources["places"], scope)
-        if sources["custom"]:
+        active = list(connection.execute("SELECT release_id FROM active_product_release"))
+        release_id = active[0]["release_id"] if active else None
+
+        def factor_rows(factor: str) -> list[dict]:
+            return match_input(connection, release_id, "factor", factor, scope,
+                               lambda: connection.execute(scoped_sql, ([factor],)))
+
+        rows = [row for factor in dict.fromkeys(factors) for row in factor_rows(factor)]
+        if sources["places"] and release_id:
+            rows += personal_places.place_rows(connection, release_id, sources["places"], scope)
+        if sources["custom"] and release_id:
             from . import custom_criteria
-            release = list(connection.execute("SELECT release_id FROM active_product_release"))
-            if release:
-                rows += custom_criteria.rows(connection, release[0]["release_id"], sources["custom"], scope)
-        if sources["ranges"]:
-            rows += range_rows(connection, sources["ranges"], scope)
+            rows += custom_criteria.rows(connection, release_id, sources["custom"], scope)
+        for item in sources["ranges"]:
+            rows += match_input(connection, release_id, "range", item["layer"], scope,
+                                lambda item=item: range_rows(connection, [item], scope))
         if any(factor in quick_criteria.QUICK_FACTORS for factor in factors):
-            release = list(connection.execute("SELECT release_id FROM active_product_release"))
-            rows += quick_criteria.match_rows(connection, release[0]["release_id"] if release else "", factors, scope)
+            rows += quick_criteria.match_rows(connection, release_id or "", factors, scope)
+        bedrooms = profile.get("bedrooms", 2)
         if sources["budget"] and profile.get("market", "buy") == "buy" \
                 and not any(row["factor_id"] == "affordability" for row in rows):
-            levels = [row for row in rows if row["factor_id"] == "market-level"] \
-                or list(connection.execute(scoped_sql, (["market-level"],)))
-            rows += [ballpark_price_row(row, profile.get("bedrooms", 2)) for row in levels]
+            rows += match_input(connection, release_id, "ballpark", str(bedrooms), scope, lambda: [
+                ballpark_price_row(row, bedrooms) for row in factor_rows("market-level")])
         if sources["budget"] and profile.get("market", "buy") == "rent":
-            rows += rent_rows(connection, profile.get("bedrooms", 2), served=scope)
+            rows += match_input(connection, release_id, "rent", str(bedrooms), scope,
+                                lambda: rent_rows(connection, bedrooms, served=scope))
         event = analytics_event(profile)
         if event:
             _store_analytics(connection, event)
@@ -488,7 +541,7 @@ def expand_area_ids(connection: Any, area_ids: list[str]) -> tuple[set[str], set
 # find_areas validates its station and borough ids up front (#217): unknown ids fail
 # with a typed invalid-query error instead of silently matching nothing.
 KNOWN_STATIONS_SQL = """-- evidence:known-stations
-SELECT s.id
+SELECT s.id, s.name
 FROM station s
 JOIN product_release_member member ON member.source_release_id = s.source_release_id
 WHERE member.release_id = (SELECT release_id FROM active_product_release)
@@ -501,10 +554,10 @@ WHERE g.kind = 'lad' AND g.id = ANY(%s)"""
 
 
 def known_zone_references(connection: Any, station_ids: list[str],
-                          borough_ids: list[str]) -> tuple[set[str], set[str]]:
-    """Station and borough ids the active release knows; anything else is unknown."""
-    known_stations = {row["id"] for row in connection.execute(KNOWN_STATIONS_SQL, (sorted(station_ids),))} \
-        if station_ids else set()
+                          borough_ids: list[str]) -> tuple[dict[str, str | None], set[str]]:
+    """Station ids the active release knows, with their names, and borough ids; anything else is unknown."""
+    known_stations = {row["id"]: row.get("name") for row in connection.execute(KNOWN_STATIONS_SQL, (sorted(station_ids),))} \
+        if station_ids else {}
     known_boroughs = {row["id"] for row in connection.execute(KNOWN_BOROUGHS_SQL, (sorted(borough_ids),))} \
         if borough_ids else set()
     return known_stations, known_boroughs
@@ -648,9 +701,37 @@ def _pool():
             kwargs={"row_factory": dict_row,
                     "options": f"-c statement_timeout={_statement_timeout_ms()} "
                                "-c plan_cache_mode=force_custom_plan -c jit=off"},
+            configure=_read_as_active if _AS_ACTIVE else None,
             open=True,
         )
     return _POOL
+
+
+_AS_ACTIVE: str | None = None
+
+
+def read_as_active(release_id: str) -> None:
+    """For release_build --release only, before the pool opens: every connection of this process reads
+    `release_id` as the active release, so a staged release is built before it goes live. A session's temporary
+    view shadows the table (pg_temp comes first in the search path); the real active release is its previous."""
+    global _AS_ACTIVE
+    if _POOL is not None:
+        raise RuntimeError("read_as_active must run before the pool opens")
+    _AS_ACTIVE = release_id
+
+
+AS_ACTIVE_SQL = """-- release-build:as-active
+CREATE TEMP VIEW active_product_release AS
+SELECT true AS singleton, {release}::text AS release_id, real.release_id AS previous_release_id, now() AS updated_at
+FROM public.active_product_release real
+RIGHT JOIN (SELECT 1) one ON true"""
+
+
+def _read_as_active(connection: Any) -> None:
+    from psycopg import sql
+
+    connection.execute(sql.SQL(AS_ACTIVE_SQL).format(release=sql.Literal(_AS_ACTIVE)))
+    connection.commit()
 
 
 def close_pool() -> None:
@@ -690,6 +771,12 @@ FROM active_product_release active
 JOIN product_release_member member ON member.release_id = active.release_id
 JOIN source_release source ON source.id = member.source_release_id"""
 
+# The checks deploy/preflight.sh runs too (migration 134): England's typical-price coverage per region, and the
+# active release's tier-0/1 artifacts against what its build left.
+READINESS_DATA_SQL = """-- health:data
+SELECT check_name, ok, detail FROM release_data_health()"""
+DATA_CHECK_CODES = {"typical-price-coverage": "price-coverage-low", "release-artifacts": "release-artifacts-missing"}
+
 READY_CODE = "ready"
 BLOCKING_CODES = ("refresh-failed", "missing-tile-asset")
 SOURCE_FRESHNESS_PATH = __file__.rsplit("/", 1)[0] + "/fixtures/source-freshness.json"
@@ -713,8 +800,16 @@ def assess_readiness(state: Mapping[str, Any]) -> dict:
         check = _empty_check(state, code)
         return _report("not-ready", code, None, [check], [check])
     checks = [_refresh_check(state), _assets_check(state),
-              _freshness_check(state), _coverage_check(state)]
+              _freshness_check(state), _coverage_check(state), *_data_checks(state)]
     return _combine(active, checks)
+
+
+def _data_checks(state: Mapping[str, Any]) -> list[dict]:
+    """release_data_health()'s rows as checks; a failing one degrades the report (not 503: the release serves)."""
+    return [{"check": row["check_name"], "ok": bool(row["ok"]),
+             "code": READY_CODE if row["ok"] else DATA_CHECK_CODES.get(row["check_name"], "data-check-failed"),
+             "detail": row["detail"]}
+            for row in state.get("dataChecks") or []]
 
 
 def load_readiness(
@@ -730,6 +825,7 @@ def load_readiness(
     with connect() as connection:
         rows = list(connection.execute(READINESS_SQL))
         sources = list(connection.execute(READINESS_SOURCES_SQL)) if rows else []
+        data_checks = list(connection.execute(READINESS_DATA_SQL)) if rows else []
     if not rows:
         return assess_readiness({"activeReleaseId": None, "lastRun": last_run})
     row = rows[0]
@@ -744,6 +840,7 @@ def load_readiness(
         "rejectedRows": rejected_rows,
         "quarantinedJoins": list(quarantined_joins),
         "lastRun": last_run,
+        "dataChecks": data_checks,
     })
 
 
@@ -864,8 +961,11 @@ def _combine(active: str, checks: list) -> dict:
 
 
 def _report(status: str, code: str, active: Any, checks: list, failing: list) -> dict:
+    """unavailableReasons are diagnostics (ids, dates); notice is the first failing check's words for people
+    ("Sales data last updated Sep 2026"), null when none has any: the page shows it and keeps the ids behind details."""
+    notice = next((check["notice"] for check in failing if check.get("notice")), None)
     return {"status": status, "code": code, "productReleaseId": active,
-            "checks": checks,
+            "checks": checks, "notice": notice,
             "unavailableReasons": [check["detail"] for check in failing]}
 
 
@@ -914,7 +1014,7 @@ def _freshness_check(state: Mapping[str, Any]) -> dict:
         return {"check": "source-freshness", "ok": True, "code": READY_CODE,
                 "detail": "all sources are within expected cadence"}
     return {"check": "source-freshness", "ok": False, "code": "stale-source",
-            "detail": _stale_detail(stale[0])}
+            "detail": _stale_detail(stale[0]), "notice": _stale_notice(stale[0])}
 
 
 def _coverage_check(state: Mapping[str, Any]) -> dict:
@@ -944,6 +1044,13 @@ def _stale_detail(source: Mapping[str, Any]) -> str:
             f"{source.get('staleAfterDays')}-day expected cadence")
 
 
+def _stale_notice(source: Mapping[str, Any]) -> str:
+    """'Sales data last updated Sep 2026': the source's topic (source-freshness.json) and the month it was retrieved."""
+    topic = _window_for(source.get("release") or source.get("sourceId") or "").get("topic") or "Some data"
+    retrieved = _as_date(source.get("retrievedAt"))
+    return f"{topic} last updated {retrieved:%b %Y}" if retrieved else f"{topic} may be out of date"
+
+
 _source_windows: dict | None = None
 
 
@@ -957,11 +1064,14 @@ def _freshness_windows() -> dict:
 
 def stale_after_days_for(release_id: str) -> int:
     """The freshness window of a source release: the longest matching prefix in source-freshness.json."""
-    windows = _freshness_windows()
-    matches = [w for w in windows["windows"] if release_id.startswith(w["prefix"])]
-    if not matches:
-        return int(windows["defaultStaleAfterDays"])
-    return int(max(matches, key=lambda w: len(w["prefix"]))["staleAfterDays"])
+    window = _window_for(release_id)
+    return int(window.get("staleAfterDays") or _freshness_windows()["defaultStaleAfterDays"])
+
+
+def _window_for(release_id: str) -> Mapping[str, Any]:
+    """The longest source-freshness.json window whose prefix the release id starts with; {} for none."""
+    matches = [w for w in _freshness_windows()["windows"] if release_id.startswith(w["prefix"])]
+    return max(matches, key=lambda w: len(w["prefix"])) if matches else {}
 
 
 def _source_state(source: Mapping[str, Any], stale_after_days: Any) -> dict:

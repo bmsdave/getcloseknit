@@ -327,7 +327,7 @@ def sales_files() -> list[str]:
 # --- aggregate ---------------------------------------------------------------------------------
 
 OUT = os.path.join(WORK, "out")
-PPM_END = os.environ.get("AE_PPM_END", "2026-06")            # London's vintage: src-hmlr-pp-category-a-2026-06
+PPM_END = os.environ.get("AE_PPM_END", "2026-08")            # London's vintage: src-hmlr-pp-category-a-2026-08
 PPM_FIRST = "2006-06"                                           # etl_price_release.FIRST_PERIOD
 # Disk: monthly £/m² from this month (the typical-price restatement window starts in January three years
 # before the latest month); before it one value a year at the latest month's anniversaries (the growth lags).
@@ -730,7 +730,9 @@ def stage_bundle(url: str) -> None:
                     f"SELECT {', '.join(METRIC_COLUMNS)} FROM metric_value WHERE metric_id = {rb.literal(metric)} "
                     f"AND source_release_id = {rb.literal(source)}")
         out.write(rb.stage_sql("prices-england", [ids["ppm"], ids["sales"], ids["epc"], *national.values()],
-                               ["src-hmlr-pp-category-a-", *(spec["prefix"] for spec in NATIONAL.values())]) + "\n")
+                               # LIKE patterns: the second drops an earlier England sales build, never London's
+                               ["src-hmlr-pp-category-a-", "src-hmlr-pp-sales-%-england",
+                                *(spec["prefix"] for spec in NATIONAL.values())]) + "\n")
         out.write("COMMIT;\n")
     os.replace(path + ".tmp", path)
     with open(os.path.join(BUNDLE, "counts.tsv"), "w") as handle:

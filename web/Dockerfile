@@ -15,6 +15,8 @@ WORKDIR /app
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
 COPY --from=build --chown=node:node /app/public ./public
+# The changelog entries are read at run time (lib/changelog-files.ts).
+COPY --from=build --chown=node:node /app/content ./content
 # The entry: server.js on a loopback port, one read per page template, then the public port (scripts/warm-start.mjs).
 COPY --from=build --chown=node:node /app/scripts/warm-start.mjs /app/scripts/warm-up.mjs ./
 USER node

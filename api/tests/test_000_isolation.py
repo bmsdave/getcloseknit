@@ -1,9 +1,9 @@
 """conftest.py's per-test resets for plain unittest runs (gate.sh runs `python -m unittest discover`, which never
 reads conftest.py). Discovery imports this module first (sorted names), so every TestCase run afterwards starts with
-an empty area -> region map and a fresh rate limiter, as under pytest. No tests here."""
+an empty area -> region map, no held match inputs and a fresh rate limiter, as under pytest. No tests here."""
 import unittest
 
-from area_api import regions
+from area_api import regions, repository
 
 try:
     import area_api.app as app_module
@@ -15,6 +15,7 @@ _run = unittest.TestCase.run
 
 def _isolated_run(self, result=None):
     regions.set_for_tests({})
+    repository.forget_match_inputs()
     if app_module is not None:
         app_module.rate_limiter.reset()
     try:

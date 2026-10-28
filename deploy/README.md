@@ -117,8 +117,10 @@ cd /srv/close-knit/deploy && sed -i '/^CLOSE_KNIT_INTERNAL_KEY=/d' .env && echo 
 `/health` is not limited (it is cached for 10 s). MCP batches are refused and
 `tools/call` is charged by tool name, like `/api/v2/tools/{name}`. Legacy
 `CLOSE_KNIT_RATE_LIMIT` / `CLOSE_KNIT_TILE_RATE_LIMIT` still set the minute
-window of default / bulk. Buckets live in the API process: run uvicorn with one
-worker (the image does), or each worker grants the full allowance. Queries
+window of default / bulk. With several uvicorn workers (`WEB_CONCURRENCY`, 3 in
+the image) every worker keeps the buckets in one SQLite file in `/dev/shm`
+(`CLOSE_KNIT_RATE_STORE` moves it; `memory` keeps them per worker, splitting the
+hour and day allowances), so a client gets the configured allowance once. Queries
 stop after `CLOSE_KNIT_DB_STATEMENT_TIMEOUT_MS` (20 s) with 503 `query-timeout`.
 With England loaded the cold metric catalogue needs migration 115's
 `metric_value_metric_release_period_idx` (preflight checks it); with it the

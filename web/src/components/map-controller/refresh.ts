@@ -1,12 +1,11 @@
 /** One refresh of the area colours: the pieces in view, their packs and boxes, then one paint for all of them. */
-import { carrierOfId } from "@/lib/contracts";
 import { paintBoxes, pieceAreas } from "@/lib/area-boxes";
 import { effectiveScaleMode } from "@/lib/legend-scale";
 import { chunkRegion, lsoaPieces, setViewScope, WIDE_ZOOM, type ViewPiece } from "@/lib/map-coverage";
 import { matchValuePack } from "@/lib/matching";
 import { areaRegion, noDataEntries, setViewCoverage, viewCoverage } from "@/lib/no-data";
 
-import { fitDistantArea, fitPendingArea } from "./camera";
+import { fitMissedArea, fitPendingArea } from "./camera";
 import type { MapController } from "./controller";
 import { areaBoxes, areaTilesOf, coverageOf, coverageVersion, currentPieces, fetchChangeBase, fetchValuePack, mapBbox, sameAreas } from "./data";
 import { diagnosticsEnabled, installDiagnostics, recordRefreshTiming } from "./diagnostics";
@@ -113,11 +112,11 @@ async function paintPieces(
   // A zoomTo waiting for its box gets this one load: found or not, it is spent, so a later
   // layer switch never flies back to it. A wider area fits by its own box.
   fitPendingArea(controller);
-  // Not among the pieces in view (a link to Cornwall opens on London): its own box, from its evidence. A wider
-  // area (another carrier) is fitted by its own box instead (fitWiderArea).
+  // Not among the pieces in view (a link to Cornwall, or an MSOA in Leeds on an LSOA layer, opens on London):
+  // its own box, from its evidence (fitMissedArea).
   const missed = controller.pendingFit;
   controller.pendingFit = null;
-  if (missed && carrierOfId(missed) === props.metric.carrier) fitDistantArea(controller, missed, props);
+  if (missed) fitMissedArea(controller, missed, props);
   paintView(controller, view);
   if (performance.getEntriesByName(LENS_SWAP_START, "mark").length) {
     performance.measure(LENS_SWAP, LENS_SWAP_START);

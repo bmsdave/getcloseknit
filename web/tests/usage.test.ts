@@ -7,7 +7,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { HomesHere } from "../src/components/homes-here";
 import type { GeographyId } from "../src/lib/contracts";
 import { DEFAULT_PROFILE } from "../src/lib/fixtures";
-import { analyticsMode, coarseView, deviceClass, isEuTimeZone, pagePath, sharedKind, trafficSource } from "../src/lib/usage";
+import { analyticsMode, automatedBrowser, coarseView, deviceClass, isEuTimeZone, pagePath, sharedKind, TEAM_STORAGE_KEY, teamBrowser, trafficSource } from "../src/lib/usage";
 import { layerUsage, zoneUsage } from "../src/lib/usage-layers";
 import { CUSTOM_PRESETS } from "../src/lib/custom-presets";
 
@@ -107,4 +107,32 @@ test("a drawn zone is kept as its corner count and coarse centre, a station zone
   assert.deepEqual(drawn, { action: "add", kind: "polygon", zones: 1, corners: 3, lat: 51.51, lng: -0.09 });
   assert.equal(zoneUsage("remove", { kind: "station", stationId: "940GZZLUHAI", maxWalkMinutes: 10, label: "Highbury & Islington" }, 0).place,
     "Highbury & Islington");
+});
+
+test("?team=1 marks this browser as the team's until ?team=0", () => {
+  const store = new Map<string, string>();
+  const localStorage = { getItem: (key: string) => store.get(key) ?? null, setItem: (key: string, value: string) => void store.set(key, value),
+    removeItem: (key: string) => void store.delete(key) };
+  const previous = (globalThis as { window?: unknown }).window;
+  (globalThis as { window?: unknown }).window = { localStorage };
+  try {
+    assert.equal(teamBrowser(""), false);
+    assert.equal(teamBrowser("?team=1&layer=crime"), true);
+    assert.equal(store.get(TEAM_STORAGE_KEY), "1");
+    assert.equal(teamBrowser("?layer=crime"), true, "remembered on later pages");
+    assert.equal(teamBrowser("?team=0"), false);
+    assert.equal(teamBrowser(""), false);
+  } finally {
+    (globalThis as { window?: unknown }).window = previous;
+  }
+});
+
+test("a browser driven by automation (navigator.webdriver) is told apart", () => {
+  assert.equal(automatedBrowser(), false);
+  Object.defineProperty(globalThis.navigator, "webdriver", { value: true, configurable: true });
+  try {
+    assert.equal(automatedBrowser(), true);
+  } finally {
+    delete (globalThis.navigator as { webdriver?: boolean }).webdriver;
+  }
 });

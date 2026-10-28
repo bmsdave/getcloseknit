@@ -104,7 +104,7 @@ export async function paintBoxes(values: readonly ValuePackEntry[], pieces: read
   const carrier = values[0]?.carrier ?? pieces?.[0]?.carrier ?? "lsoa";
   const loaded = pieces
     ? await Promise.all(pieces.map((entry) => pieceBoxes(entry, mode, release, version)))
-    : [mode === "demo" ? demoBoxes() : await fetchBoxes(withRelease(`/api/v1/areas/boxes?carrier=${encodeURIComponent(carrier)}`, release), carrier)];
+    : [mode === "demo" ? demoBoxes() : await fetchBoxes(allBoxesPath(carrier, release), carrier)];
   const held = new Set<AreaBox>();
   loaded.forEach((boxes, index) => {
     const region = pieces ? regionOf(pieces[index].chunk) : null;
@@ -144,6 +144,18 @@ export async function areaBox(id: GeographyId, mode: DataMode, release?: string 
 }
 
 /** Starts one piece's boxes now (the map's first view, at mount), alongside its value pack. */
+function allBoxesPath(carrier: Carrier, release?: string | null): string {
+  return withRelease(`/api/v1/areas/boxes?carrier=${encodeURIComponent(carrier)}`, release);
+}
+
+/**
+ * Every area's box of a level, asked for while My match is scored (G-E29): a match pack is painted over all its areas'
+ * boxes, so they no longer wait for the pack (~0.5 s after it on a shared search).
+ */
+export function prefetchAllBoxes(carrier: Carrier, release?: string | null): void {
+  fetchBoxes(allBoxesPath(carrier, release), carrier).catch(() => undefined);
+}
+
 export function prefetchPieceBoxes(entry: ViewPiece, release?: string | null, version: string | null = null): void {
   fetchBoxes(pieceBoxesPath(entry, release, version), entry.carrier).catch(() => undefined);
 }

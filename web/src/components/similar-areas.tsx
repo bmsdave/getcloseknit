@@ -11,6 +11,7 @@ import { similarAreasPath } from "@/lib/similar-areas";
 
 import { ChartFrame } from "./charts";
 import { HelpTip } from "./help-tip";
+import { SourceNote } from "@/components/source-note";
 
 type Load = SimilarAreasResponse | "loading" | "unavailable" | null;
 
@@ -74,7 +75,7 @@ function SimilarList({ result, hrefFor, onSelect }: {
       sources={(
         <>
           <p>Compared on {result.factors.map((factor) => formatFactorLabel(factor).toLowerCase()).join(", ")}.</p>
-          {result.caveats.map((caveat) => <p key={caveat}>{caveat}</p>)}
+          {result.caveats.map((caveat) => <SourceNote key={caveat} text={caveat} />)}
         </>
       )}
     >

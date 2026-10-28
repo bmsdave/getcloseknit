@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { type AreaBrief, briefApiPath } from "@/lib/brief-model";
 import type { GeographyId, MatchPack, PreferenceProfile } from "@/lib/contracts";
@@ -17,6 +17,7 @@ import type { DataMode } from "@/lib/map-state";
 export function useMatchBrief(profile: PreferenceProfile, pack: MatchPack | null, selected: GeographyId | null,
   mode: DataMode, enabled: boolean, page = 0, list: MatchList = "top"): AreaBrief | null {
   const [brief, setBrief] = useState<AreaBrief | null>(null);
+  const lastAsked = useRef(0);
   const liked = profile.marks?.liked ?? [];
   // The list's own ten (matchRows): the map pins and numbers the rows shown; Bottom 10 pins those ten.
   const areas = useMemo(() => (list === "bottom" ? bottomBriefAreasFor(pack, selected, profile) : briefAreasFor(pack, selected, liked, page, profile)),
@@ -36,12 +37,16 @@ export function useMatchBrief(profile: PreferenceProfile, pack: MatchPack | null
       return;
     }
     const controller = new AbortController();
+    // Edits in a row wait 200 ms and ask once; a brief after a quiet second (the first, or the pack's ten
+    // arriving) goes at once.
+    const quiet = Date.now() - lastAsked.current > 1000;
+    lastAsked.current = Date.now();
     const timer = window.setTimeout(() => {
       fetch(path, { signal: controller.signal, headers: { accept: "application/json" } })
         .then(async (response) => (response.ok ? (await response.json()) as AreaBrief : null))
         .then((body) => { if (!controller.signal.aborted) setBrief(body); })
         .catch(() => undefined);
-    }, 200);
+    }, quiet ? 0 : 200);
     return () => {
       window.clearTimeout(timer);
       controller.abort();

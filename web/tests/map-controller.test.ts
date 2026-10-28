@@ -3,7 +3,7 @@ import test from "node:test";
 
 import type { Map as MapLibreMap } from "maplibre-gl";
 
-import { fitPendingArea, fitWiderArea, motionDuration } from "../src/components/map-controller/camera";
+import { fitMissedArea, fitPendingArea, fitWiderArea, motionDuration } from "../src/components/map-controller/camera";
 import { controllerOf, createMapController, disposeMapController, type MapController } from "../src/components/map-controller/controller";
 import { areaBounds, areaTilesOf, coverageOf, layerPackBase, mergePacks, sameAreas, waitsForMonth } from "../src/components/map-controller/data";
 import { closeMapRung, mapEscapeRungs, peekLines, setHover } from "../src/components/map-controller/interactions";
@@ -233,6 +233,28 @@ test("camera: a pending fit waits for its box, then is spent; a wider area fits 
     assert.equal(controller.fittedWiderArea, LSOA_B);
   } finally {
     delete page.document;
+  }
+});
+
+test("camera: a link to an MSOA far from the view flies there on an LSOA layer too (G-E08)", () => {
+  const controller = controllerFor(fakeMap());
+  const page = globalThis as unknown as { fetch: unknown };
+  const saved = page.fetch;
+  page.fetch = () => new Promise(() => undefined);
+  try {
+    const msoa = "uk:msoa:E02002373" as GeographyId;
+    const props = { mode: "real" as const, release: "r", period: "2026-06", metric: { id: "hmo-per-1000", carrier: "lsoa" } };
+    fitMissedArea(controller, msoa, props);
+    assert.equal(controller.distantFit, msoa, "its evidence box is fetched");
+    assert.equal(controller.fittedWiderArea, msoa, "the wider-area outline never fits it again");
+    controller.distantFit = null;
+    fitMissedArea(controller, msoa, props);
+    assert.equal(controller.distantFit, null, "once per selection");
+    fitMissedArea(controller, LSOA_B, props);
+    assert.equal(controller.distantFit, LSOA_B, "an area of the layer's own carrier");
+    assert.notEqual(controller.fittedWiderArea, LSOA_B);
+  } finally {
+    page.fetch = saved;
   }
 });
 

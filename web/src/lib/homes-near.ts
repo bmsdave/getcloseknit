@@ -3,6 +3,7 @@
  * (GET /api/v1/homes/near, api/area_api/homes_near.py), each a link to its list of homes. Postcodes,
  * never addresses: the homes are one tap away, on their postcode's page.
  */
+import { LONDON_ONLY, type CoverageReason } from "./coverage-reason";
 import type { DataMode } from "./map-state";
 import { normalisePostcode } from "./postcode-page";
 
@@ -22,6 +23,8 @@ export interface HomesNearResponse {
   radiusMetres: number;
   postcodes: NearPostcode[];
   caveats: string[];
+  /** "london-only": per-home data is London's alone and the point is elsewhere (no list, not "none"). */
+  coverage?: CoverageReason | null;
 }
 
 export const HOMES_NEAR_LIMIT = 4;
@@ -31,10 +34,14 @@ export function homesNearPath(latitude: number, longitude: number, limit = HOMES
   return `/api/v1/homes/near?${query.toString()}`;
 }
 
-/** The rows the page can show: valid postcodes with at least one home, nearest first; anything else is dropped. */
-export function readHomesNear(payload: unknown): NearPostcode[] | null {
+/**
+ * The rows the page can show: valid postcodes with at least one home, nearest first; anything else is dropped.
+ * "london-only" outside London's per-home data.
+ */
+export function readHomesNear(payload: unknown): NearPostcode[] | CoverageReason | null {
   const body = payload as HomesNearResponse | null;
   if (!body || body.schemaVersion !== "homes-near.v1" || !Array.isArray(body.postcodes)) return null;
+  if (body.coverage === LONDON_ONLY) return LONDON_ONLY;
   return body.postcodes
     .filter((row) => normalisePostcode(row?.postcode ?? "") !== null && Number.isInteger(row.homes) && row.homes > 0 && Number.isFinite(row.metres))
     .sort((left, right) => left.metres - right.metres);
@@ -55,7 +62,7 @@ const DEMO_NEAR: NearPostcode[] = [
 ];
 
 /** Postcodes near a school: the API in real mode, the preview postcode in demo; null when the read failed. */
-export async function loadHomesNear(point: { latitude: number; longitude: number } | null, mode: DataMode): Promise<NearPostcode[] | null> {
+export async function loadHomesNear(point: { latitude: number; longitude: number } | null, mode: DataMode): Promise<NearPostcode[] | CoverageReason | null> {
   if (!point || !Number.isFinite(point.latitude) || !Number.isFinite(point.longitude)) return [];
   if (mode === "demo") return DEMO_NEAR;
   const { fetchApi } = await import("./deployment");
