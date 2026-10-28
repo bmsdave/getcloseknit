@@ -164,9 +164,10 @@ deleted.
     check scripts sent: `board-shots`, `release-check`, `doc-check`, `recheck`, `check`
     (`usage.TEAM_CLIENT`).
   - `claude-code` is people using the plugin, so it is **live** unless the call carries the header.
-    Your own Claude Code: `export CLOSE_KNIT_TEAM=1` before starting it (the plugin's `.mcp.json`
-    sends it as the header), or add the server yourself with
-    `claude mcp add --transport http --scope user close-knit-team https://getcloseknit.com/mcp --header "X-Close-Knit-Team: 1"`.
+    Your own Claude Code: add the server yourself with
+    `claude mcp add --transport http --scope user close-knit-team https://getcloseknit.com/mcp --header "X-Close-Knit-Team: 1"`
+    and use that one. The plugin's `.mcp.json` reads no environment variable: the Claude directory puts a
+    plugin that does on policy hold.
     Before the launch claude-code was the preview's own sessions and stays team (migration 137
     restored the later ones to live).
   - **Your own browser:** open any page once with `?team=1`, e.g. `https://getcloseknit.com/?team=1`.

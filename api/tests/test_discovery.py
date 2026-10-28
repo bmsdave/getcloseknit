@@ -38,6 +38,13 @@ class IconFileTests(unittest.TestCase):
         self.assertEqual((first["src"], first["sizes"]), ("https://getcloseknit.com/icon.png", ["512x512"]))
 
 
+class ClaudePluginDirectoryTests(unittest.TestCase):
+    def test_the_plugin_reads_no_environment_variable(self):
+        """The Claude directory holds a plugin whose .mcp.json reads the installer's environment."""
+        text = CLAUDE_PLUGIN_MCP.read_text(encoding="utf-8")
+        self.assertNotRegex(text, r"\$\{(?!user_config\.)", "use a fixed value or ${user_config.KEY}")
+
+
 class GeminiExtensionTests(unittest.TestCase):
     def test_manifest_points_at_the_public_mcp_and_the_find_a_home_skill(self):
         manifest = json.loads(GEMINI_EXTENSION.read_text(encoding="utf-8"))
